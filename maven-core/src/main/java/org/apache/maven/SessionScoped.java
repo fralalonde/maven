@@ -28,15 +28,14 @@ import java.lang.annotation.Target;
 import com.google.inject.ScopeAnnotation;
 
 /**
- * Indicates that annotated component should be instantiated before session execution starts
- * and discarded after session execution completes.
+ * Indicates that annotated component should be instantiated before session
+ * execution starts and discarded after session execution completes.
  *
  * @author Jason van Zyl
  * @since 3.2.0
  */
-@Target( { TYPE } )
-@Retention( RUNTIME )
+@Target({ TYPE })
+@Retention(RUNTIME)
 @ScopeAnnotation
-public @interface SessionScoped
-{
+public @interface SessionScoped {
 }

@@ -35,8 +35,7 @@ import org.apache.maven.artifact.versioning.OverConstrainedVersionException;
 /**
  * ResolutionNode
  */
-public class ResolutionNode
-{
+public class ResolutionNode {
     private Artifact artifact;
 
     private List<ResolutionNode> children;
@@ -53,8 +52,7 @@ public class ResolutionNode
 
     private List<Artifact> trail;
 
-    public ResolutionNode( Artifact artifact, List<ArtifactRepository> remoteRepositories )
-    {
+    public ResolutionNode(Artifact artifact, List<ArtifactRepository> remoteRepositories) {
         this.artifact = artifact;
         this.remoteRepositories = remoteRepositories;
         depth = 0;
@@ -62,50 +60,41 @@ public class ResolutionNode
         parent = null;
     }
 
-    public ResolutionNode( Artifact artifact, List<ArtifactRepository> remoteRepositories, ResolutionNode parent )
-    {
+    public ResolutionNode(Artifact artifact, List<ArtifactRepository> remoteRepositories, ResolutionNode parent) {
         this.artifact = artifact;
         this.remoteRepositories = remoteRepositories;
         depth = parent.depth + 1;
         parents = new ArrayList<>();
-        parents.addAll( parent.parents );
-        parents.add( parent.getKey() );
+        parents.addAll(parent.parents);
+        parents.add(parent.getKey());
         this.parent = parent;
     }
 
-    public Artifact getArtifact()
-    {
+    public Artifact getArtifact() {
         return artifact;
     }
 
-    public Object getKey()
-    {
+    public Object getKey() {
         return artifact.getDependencyConflictId();
     }
 
-    public void addDependencies( Set<Artifact> artifacts, List<ArtifactRepository> remoteRepositories,
-                                 ArtifactFilter filter )
-        throws CyclicDependencyException, OverConstrainedVersionException
-    {
-        if ( artifacts != null && !artifacts.isEmpty() )
-        {
-            children = new ArrayList<>( artifacts.size() );
+    public void addDependencies(Set<Artifact> artifacts, List<ArtifactRepository> remoteRepositories,
+            ArtifactFilter filter)
+            throws CyclicDependencyException, OverConstrainedVersionException {
+        if (artifacts != null && !artifacts.isEmpty()) {
+            children = new ArrayList<>(artifacts.size());
 
-            for ( Artifact a : artifacts )
-            {
-                if ( parents.contains( a.getDependencyConflictId() ) )
-                {
-                    a.setDependencyTrail( getDependencyTrail() );
+            for (Artifact a : artifacts) {
+                if (parents.contains(a.getDependencyConflictId())) {
+                    a.setDependencyTrail(getDependencyTrail());
 
-                    throw new CyclicDependencyException( "A dependency has introduced a cycle", a );
+                    throw new CyclicDependencyException("A dependency has introduced a cycle", a);
                 }
 
-                children.add( new ResolutionNode( a, remoteRepositories, this ) );
+                children.add(new ResolutionNode(a, remoteRepositories, this));
             }
-            children = Collections.unmodifiableList( children );
-        }
-        else
-        {
+            children = Collections.unmodifiableList(children);
+        } else {
             children = Collections.emptyList();
         }
         trail = null;
@@ -116,48 +105,39 @@ public class ResolutionNode
      * @throws OverConstrainedVersionException
      */
     public List<String> getDependencyTrail()
-        throws OverConstrainedVersionException
-    {
+            throws OverConstrainedVersionException {
         List<Artifact> trial = getTrail();
 
-        List<String> ret = new ArrayList<>( trial.size() );
+        List<String> ret = new ArrayList<>(trial.size());
 
-        for ( Artifact artifact : trial )
-        {
-            ret.add( artifact.getId() );
+        for (Artifact artifact : trial) {
+            ret.add(artifact.getId());
         }
 
         return ret;
     }
 
     private List<Artifact> getTrail()
-        throws OverConstrainedVersionException
-    {
-        if ( trail == null )
-        {
+            throws OverConstrainedVersionException {
+        if (trail == null) {
             List<Artifact> ids = new LinkedList<>();
             ResolutionNode node = this;
-            while ( node != null )
-            {
+            while (node != null) {
                 Artifact artifact = node.getArtifact();
-                if ( artifact.getVersion() == null )
-                {
+                if (artifact.getVersion() == null) {
                     // set the recommended version
                     ArtifactVersion selected = artifact.getSelectedVersion();
                     // MNG-2123: null is a valid response to getSelectedVersion, don't
                     // assume it won't ever be.
-                    if ( selected != null )
-                    {
-                        artifact.selectVersion( selected.toString() );
-                    }
-                    else
-                    {
-                        throw new OverConstrainedVersionException( "Unable to get a selected Version for "
-                            + artifact.getArtifactId(), artifact );
+                    if (selected != null) {
+                        artifact.selectVersion(selected.toString());
+                    } else {
+                        throw new OverConstrainedVersionException("Unable to get a selected Version for "
+                                + artifact.getArtifactId(), artifact);
                     }
                 }
 
-                ids.add( 0, artifact );
+                ids.add(0, artifact);
                 node = node.parent;
             }
             trail = ids;
@@ -165,75 +145,60 @@ public class ResolutionNode
         return trail;
     }
 
-    public boolean isResolved()
-    {
+    public boolean isResolved() {
         return children != null;
     }
 
     /**
      * Test whether the node is direct or transitive dependency.
      */
-    public boolean isChildOfRootNode()
-    {
+    public boolean isChildOfRootNode() {
         return parent != null && parent.parent == null;
     }
 
-    public Iterator<ResolutionNode> getChildrenIterator()
-    {
+    public Iterator<ResolutionNode> getChildrenIterator() {
         return children.iterator();
     }
 
-    public int getDepth()
-    {
+    public int getDepth() {
         return depth;
     }
 
-    public List<ArtifactRepository> getRemoteRepositories()
-    {
+    public List<ArtifactRepository> getRemoteRepositories() {
         return remoteRepositories;
     }
 
-    public boolean isActive()
-    {
+    public boolean isActive() {
         return active;
     }
 
-    public void enable()
-    {
+    public void enable() {
         active = true;
 
-        // TODO if it was null, we really need to go find them now... or is this taken care of by the ordering?
-        if ( children != null )
-        {
-            for ( ResolutionNode node : children )
-            {
+        // TODO if it was null, we really need to go find them now... or is this taken
+        // care of by the ordering?
+        if (children != null) {
+            for (ResolutionNode node : children) {
                 node.enable();
             }
         }
     }
 
-    public void disable()
-    {
+    public void disable() {
         active = false;
-        if ( children != null )
-        {
-            for ( ResolutionNode node : children )
-            {
+        if (children != null) {
+            for (ResolutionNode node : children) {
                 node.disable();
             }
         }
     }
 
-    public boolean filterTrail( ArtifactFilter filter )
-        throws OverConstrainedVersionException
-    {
+    public boolean filterTrail(ArtifactFilter filter)
+            throws OverConstrainedVersionException {
         boolean success = true;
-        if ( filter != null )
-        {
-            for ( Artifact artifact : getTrail() )
-            {
-                if ( !filter.include( artifact ) )
-                {
+        if (filter != null) {
+            for (Artifact artifact : getTrail()) {
+                if (!filter.include(artifact)) {
                     success = false;
                 }
             }
@@ -242,13 +207,11 @@ public class ResolutionNode
     }
 
     @Override
-    public String toString()
-    {
-        return artifact.toString() + " (" + depth + "; " + ( active ? "enabled" : "disabled" ) + ")";
+    public String toString() {
+        return artifact.toString() + " (" + depth + "; " + (active ? "enabled" : "disabled") + ")";
     }
 
-    public void setArtifact( Artifact artifact )
-    {
+    public void setArtifact(Artifact artifact) {
         this.artifact = artifact;
     }
 

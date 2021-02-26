@@ -44,101 +44,78 @@ import org.apache.maven.model.profile.activation.ProfileActivator;
 @Named
 @Singleton
 public class DefaultProfileSelector
-    implements ProfileSelector
-{
+        implements ProfileSelector {
 
     @Inject
     private List<ProfileActivator> activators = new ArrayList<>();
 
-    public DefaultProfileSelector addProfileActivator( ProfileActivator profileActivator )
-    {
-        if ( profileActivator != null )
-        {
-            activators.add( profileActivator );
+    public DefaultProfileSelector addProfileActivator(ProfileActivator profileActivator) {
+        if (profileActivator != null) {
+            activators.add(profileActivator);
         }
         return this;
     }
 
     @Override
-    public List<Profile> getActiveProfiles( Collection<Profile> profiles, ProfileActivationContext context,
-                                            ModelProblemCollector problems )
-    {
-        Collection<String> activatedIds = new HashSet<>( context.getActiveProfileIds() );
-        Collection<String> deactivatedIds = new HashSet<>( context.getInactiveProfileIds() );
+    public List<Profile> getActiveProfiles(Collection<Profile> profiles, ProfileActivationContext context,
+            ModelProblemCollector problems) {
+        Collection<String> activatedIds = new HashSet<>(context.getActiveProfileIds());
+        Collection<String> deactivatedIds = new HashSet<>(context.getInactiveProfileIds());
 
-        List<Profile> activeProfiles = new ArrayList<>( profiles.size() );
+        List<Profile> activeProfiles = new ArrayList<>(profiles.size());
         List<Profile> activePomProfilesByDefault = new ArrayList<>();
         boolean activatedPomProfileNotByDefault = false;
 
-        for ( Profile profile : profiles )
-        {
-            if ( !deactivatedIds.contains( profile.getId() ) )
-            {
-                if ( activatedIds.contains( profile.getId() ) || isActive( profile, context, problems ) )
-                {
-                    activeProfiles.add( profile );
+        for (Profile profile : profiles) {
+            if (!deactivatedIds.contains(profile.getId())) {
+                if (activatedIds.contains(profile.getId()) || isActive(profile, context, problems)) {
+                    activeProfiles.add(profile);
 
-                    if ( Profile.SOURCE_POM.equals( profile.getSource() ) )
-                    {
+                    if (Profile.SOURCE_POM.equals(profile.getSource())) {
                         activatedPomProfileNotByDefault = true;
                     }
-                }
-                else if ( isActiveByDefault( profile ) )
-                {
-                    if ( Profile.SOURCE_POM.equals( profile.getSource() ) )
-                    {
-                        activePomProfilesByDefault.add( profile );
-                    }
-                    else
-                    {
-                        activeProfiles.add( profile );
+                } else if (isActiveByDefault(profile)) {
+                    if (Profile.SOURCE_POM.equals(profile.getSource())) {
+                        activePomProfilesByDefault.add(profile);
+                    } else {
+                        activeProfiles.add(profile);
                     }
                 }
 
             }
         }
 
-        if ( !activatedPomProfileNotByDefault )
-        {
-            activeProfiles.addAll( activePomProfilesByDefault );
+        if (!activatedPomProfileNotByDefault) {
+            activeProfiles.addAll(activePomProfilesByDefault);
         }
 
         return activeProfiles;
     }
 
-    private boolean isActive( Profile profile, ProfileActivationContext context, ModelProblemCollector problems )
-    {
+    private boolean isActive(Profile profile, ProfileActivationContext context, ModelProblemCollector problems) {
         boolean isActive = false;
-        for ( ProfileActivator activator : activators )
-        {
-            if ( activator.presentInConfig( profile, context, problems ) )
-            {
+        for (ProfileActivator activator : activators) {
+            if (activator.presentInConfig(profile, context, problems)) {
                 isActive = true;
             }
         }
-        for ( ProfileActivator activator : activators )
-        {
-            try
-            {
-                if ( activator.presentInConfig( profile, context, problems ) )
-                {
-                    isActive &=  activator.isActive( profile, context, problems );
+        for (ProfileActivator activator : activators) {
+            try {
+                if (activator.presentInConfig(profile, context, problems)) {
+                    isActive &= activator.isActive(profile, context, problems);
                 }
-            }
-            catch ( RuntimeException e )
-            {
-                problems.add( new ModelProblemCollectorRequest( Severity.ERROR, Version.BASE )
-                        .setMessage( "Failed to determine activation for profile " + profile.getId() )
-                        .setLocation( profile.getLocation( "" ) )
-                        .setException( e ) );
+            } catch (RuntimeException e) {
+                problems.add(new ModelProblemCollectorRequest(Severity.ERROR, Version.BASE)
+                        .setMessage("Failed to determine activation for profile " + profile.getId())
+                        .setLocation(profile.getLocation(""))
+                        .setException(e));
                 return false;
             }
         }
         return isActive;
     }
 
-    private boolean isActiveByDefault( Profile profile )
-    {
+    private boolean isActiveByDefault(Profile profile) {
         Activation activation = profile.getActivation();
         return activation != null && activation.isActiveByDefault();
     }

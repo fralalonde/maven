@@ -28,15 +28,14 @@ import java.nio.file.Path;
  * @since 4.0.0
  */
 @FunctionalInterface
-public interface BuildPomXMLFilterListener
-{
+public interface BuildPomXMLFilterListener {
     /**
      * Captures the result of the XML transformation
      *
      * @param pomFile the original to being transformed
-     * @param b the byte array
-     * @param off the offset
-     * @param len the length
+     * @param b       the byte array
+     * @param off     the offset
+     * @param len     the length
      */
-    void write( Path pomFile, byte[] b, int off, int len );
+    void write(Path pomFile, byte[] b, int off, int len);
 }

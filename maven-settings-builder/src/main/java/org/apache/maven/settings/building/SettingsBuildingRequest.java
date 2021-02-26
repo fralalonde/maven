@@ -27,8 +27,7 @@ import java.util.Properties;
  *
  * @author Benjamin Bentmann
  */
-public interface SettingsBuildingRequest
-{
+public interface SettingsBuildingRequest {
 
     /**
      * Gets the global settings file.
@@ -38,13 +37,15 @@ public interface SettingsBuildingRequest
     File getGlobalSettingsFile();
 
     /**
-     * Sets the global settings file. A non-existent settings file is equivalent to empty settings. If both user
-     * settings and global settings are given, the user settings take precedence.
+     * Sets the global settings file. A non-existent settings file is equivalent to
+     * empty settings. If both user settings and global settings are given, the user
+     * settings take precedence.
      *
-     * @param globalSettingsFile The global settings file, may be {@code null} to disable global settings.
+     * @param globalSettingsFile The global settings file, may be {@code null} to
+     *                           disable global settings.
      * @return This request, never {@code null}.
      */
-    SettingsBuildingRequest setGlobalSettingsFile( File globalSettingsFile );
+    SettingsBuildingRequest setGlobalSettingsFile(File globalSettingsFile);
 
     /**
      * Gets the global settings source.
@@ -54,13 +55,14 @@ public interface SettingsBuildingRequest
     SettingsSource getGlobalSettingsSource();
 
     /**
-     * Sets the global settings source. If both user settings and a global settings are given, the user settings take
-     * precedence.
+     * Sets the global settings source. If both user settings and a global settings
+     * are given, the user settings take precedence.
      *
-     * @param globalSettingsSource The global settings source, may be {@code null} to disable global settings.
+     * @param globalSettingsSource The global settings source, may be {@code null}
+     *                             to disable global settings.
      * @return This request, never {@code null}.
      */
-    SettingsBuildingRequest setGlobalSettingsSource( SettingsSource globalSettingsSource );
+    SettingsBuildingRequest setGlobalSettingsSource(SettingsSource globalSettingsSource);
 
     /**
      * Gets the user settings file.
@@ -70,13 +72,15 @@ public interface SettingsBuildingRequest
     File getUserSettingsFile();
 
     /**
-     * Sets the user settings file. A non-existent settings file is equivalent to empty settings. If both a user
-     * settings file and a global settings file are given, the user settings take precedence.
+     * Sets the user settings file. A non-existent settings file is equivalent to
+     * empty settings. If both a user settings file and a global settings file are
+     * given, the user settings take precedence.
      *
-     * @param userSettingsFile The user settings file, may be {@code null} to disable user settings.
+     * @param userSettingsFile The user settings file, may be {@code null} to
+     *                         disable user settings.
      * @return This request, never {@code null}.
      */
-    SettingsBuildingRequest setUserSettingsFile( File userSettingsFile );
+    SettingsBuildingRequest setUserSettingsFile(File userSettingsFile);
 
     /**
      * Gets the user settings source.
@@ -86,46 +90,51 @@ public interface SettingsBuildingRequest
     SettingsSource getUserSettingsSource();
 
     /**
-     * Sets the user settings source. If both user settings and a global settings are given, the user settings take
-     * precedence.
+     * Sets the user settings source. If both user settings and a global settings
+     * are given, the user settings take precedence.
      *
-     * @param userSettingsSource The user settings source, may be {@code null} to disable user settings.
+     * @param userSettingsSource The user settings source, may be {@code null} to
+     *                           disable user settings.
      * @return This request, never {@code null}.
      */
-    SettingsBuildingRequest setUserSettingsSource( SettingsSource userSettingsSource );
+    SettingsBuildingRequest setUserSettingsSource(SettingsSource userSettingsSource);
 
     /**
-     * Gets the system properties to use for interpolation. The system properties are collected from the runtime
-     * environment like {@link System#getProperties()} and environment variables.
+     * Gets the system properties to use for interpolation. The system properties
+     * are collected from the runtime environment like
+     * {@link System#getProperties()} and environment variables.
      *
      * @return The system properties, never {@code null}.
      */
     Properties getSystemProperties();
 
     /**
-     * Sets the system properties to use for interpolation. The system properties are collected from the runtime
-     * environment like {@link System#getProperties()} and environment variables.
+     * Sets the system properties to use for interpolation. The system properties
+     * are collected from the runtime environment like
+     * {@link System#getProperties()} and environment variables.
      *
      * @param systemProperties The system properties, may be {@code null}.
      * @return This request, never {@code null}.
      */
-    SettingsBuildingRequest setSystemProperties( Properties systemProperties );
+    SettingsBuildingRequest setSystemProperties(Properties systemProperties);
 
     /**
-     * Gets the user properties to use for interpolation. The user properties have been configured directly by the user
-     * on his discretion, e.g. via the {@code -Dkey=value} parameter on the command line.
+     * Gets the user properties to use for interpolation. The user properties have
+     * been configured directly by the user on his discretion, e.g. via the
+     * {@code -Dkey=value} parameter on the command line.
      *
      * @return The user properties, never {@code null}.
      */
     Properties getUserProperties();
 
     /**
-     * Sets the user properties to use for interpolation. The user properties have been configured directly by the user
-     * on his discretion, e.g. via the {@code -Dkey=value} parameter on the command line.
+     * Sets the user properties to use for interpolation. The user properties have
+     * been configured directly by the user on his discretion, e.g. via the
+     * {@code -Dkey=value} parameter on the command line.
      *
      * @param userProperties The user properties, may be {@code null}.
      * @return This request, never {@code null}.
      */
-    SettingsBuildingRequest setUserProperties( Properties userProperties );
+    SettingsBuildingRequest setUserProperties(Properties userProperties);
 
 }

@@ -23,54 +23,61 @@ import java.io.File;
 import java.util.List;
 
 /**
- * Convenience interface for plugins to add or replace artifacts and resources on projects.
+ * Convenience interface for plugins to add or replace artifacts and resources
+ * on projects.
  */
-public interface MavenProjectHelper
-{
+public interface MavenProjectHelper {
     String ROLE = MavenProjectHelper.class.getName();
 
     /**
-     * See {@link #attachArtifact(MavenProject, String, String, java.io.File)}, but with type set to null.
-     * @param project project reference.
-     * @param artifactFile artifact file.
+     * See {@link #attachArtifact(MavenProject, String, String, java.io.File)}, but
+     * with type set to null.
+     * 
+     * @param project            project reference.
+     * @param artifactFile       artifact file.
      * @param artifactClassifier artifact classifier.
      */
-    void attachArtifact( MavenProject project, File artifactFile, String artifactClassifier );
+    void attachArtifact(MavenProject project, File artifactFile, String artifactClassifier);
 
     /**
-     * * See {@link #attachArtifact(MavenProject, String, String, java.io.File)}, but with classifier set to null.
-     * @param project project reference.
+     * * See {@link #attachArtifact(MavenProject, String, String, java.io.File)},
+     * but with classifier set to null.
+     * 
+     * @param project      project reference.
      * @param artifactType artifact type.
      * @param artifactFile artifact file.
      */
-    void attachArtifact( MavenProject project, String artifactType, File artifactFile );
+    void attachArtifact(MavenProject project, String artifactType, File artifactFile);
 
     /**
      * Add or replace an artifact to the current project.
-     * @param project the project reference.
-     * @param artifactType the type (e.g. jar) or null.
+     * 
+     * @param project            the project reference.
+     * @param artifactType       the type (e.g. jar) or null.
      * @param artifactClassifier the classifier or null.
-     * @param artifactFile the file for the artifact.
+     * @param artifactFile       the file for the artifact.
      */
-    void attachArtifact( MavenProject project, String artifactType, String artifactClassifier, File artifactFile );
+    void attachArtifact(MavenProject project, String artifactType, String artifactClassifier, File artifactFile);
 
     /**
      * Add a resource directory to the project.
-     * @param project project reference.
+     * 
+     * @param project           project reference.
      * @param resourceDirectory directory.
-     * @param includes include patterns.
-     * @param excludes exclude patterns.
+     * @param includes          include patterns.
+     * @param excludes          exclude patterns.
      */
-    void addResource( MavenProject project, String resourceDirectory, List<String> includes, List<String> excludes );
+    void addResource(MavenProject project, String resourceDirectory, List<String> includes, List<String> excludes);
 
     /**
      * Add a test resource directory to the project.
-     * @param project project reference.
+     * 
+     * @param project           project reference.
      * @param resourceDirectory directory.
-     * @param includes include patterns.
-     * @param excludes exclude patterns.
+     * @param includes          include patterns.
+     * @param excludes          exclude patterns.
      */
-    void addTestResource( MavenProject project, String resourceDirectory, List<String> includes,
-                          List<String> excludes );
+    void addTestResource(MavenProject project, String resourceDirectory, List<String> includes,
+            List<String> excludes);
 
 }

@@ -34,100 +34,83 @@ import org.eclipse.aether.artifact.ArtifactProperties;
  * @author Benjamin Bentmann
  */
 final class VersionsMetadata
-    extends MavenMetadata
-{
+        extends MavenMetadata {
 
     private final Artifact artifact;
 
-    VersionsMetadata( Artifact artifact, Date timestamp )
-    {
-        super( createRepositoryMetadata( artifact ), null, timestamp );
+    VersionsMetadata(Artifact artifact, Date timestamp) {
+        super(createRepositoryMetadata(artifact), null, timestamp);
         this.artifact = artifact;
     }
 
-    VersionsMetadata( Artifact artifact, File file, Date timestamp )
-    {
-        super( createRepositoryMetadata( artifact ), file, timestamp );
+    VersionsMetadata(Artifact artifact, File file, Date timestamp) {
+        super(createRepositoryMetadata(artifact), file, timestamp);
         this.artifact = artifact;
     }
 
-    private static Metadata createRepositoryMetadata( Artifact artifact )
-    {
+    private static Metadata createRepositoryMetadata(Artifact artifact) {
         Metadata metadata = new Metadata();
-        metadata.setGroupId( artifact.getGroupId() );
-        metadata.setArtifactId( artifact.getArtifactId() );
+        metadata.setGroupId(artifact.getGroupId());
+        metadata.setArtifactId(artifact.getArtifactId());
 
         Versioning versioning = new Versioning();
-        versioning.addVersion( artifact.getBaseVersion() );
-        if ( !artifact.isSnapshot() )
-        {
-            versioning.setRelease( artifact.getBaseVersion() );
+        versioning.addVersion(artifact.getBaseVersion());
+        if (!artifact.isSnapshot()) {
+            versioning.setRelease(artifact.getBaseVersion());
         }
-        if ( "maven-plugin".equals( artifact.getProperty( ArtifactProperties.TYPE, "" ) ) )
-        {
-            versioning.setLatest( artifact.getBaseVersion() );
+        if ("maven-plugin".equals(artifact.getProperty(ArtifactProperties.TYPE, ""))) {
+            versioning.setLatest(artifact.getBaseVersion());
         }
 
-        metadata.setVersioning( versioning );
+        metadata.setVersioning(versioning);
 
         return metadata;
     }
 
     @Override
-    protected void merge( Metadata recessive )
-    {
+    protected void merge(Metadata recessive) {
         Versioning versioning = metadata.getVersioning();
-        versioning.setLastUpdatedTimestamp( timestamp );
+        versioning.setLastUpdatedTimestamp(timestamp);
 
-        if ( recessive.getVersioning() != null )
-        {
-            if ( versioning.getLatest() == null )
-            {
-                versioning.setLatest( recessive.getVersioning().getLatest() );
+        if (recessive.getVersioning() != null) {
+            if (versioning.getLatest() == null) {
+                versioning.setLatest(recessive.getVersioning().getLatest());
             }
-            if ( versioning.getRelease() == null )
-            {
-                versioning.setRelease( recessive.getVersioning().getRelease() );
+            if (versioning.getRelease() == null) {
+                versioning.setRelease(recessive.getVersioning().getRelease());
             }
 
-            Collection<String> versions = new LinkedHashSet<>( recessive.getVersioning().getVersions() );
-            versions.addAll( versioning.getVersions() );
-            versioning.setVersions( new ArrayList<>( versions ) );
+            Collection<String> versions = new LinkedHashSet<>(recessive.getVersioning().getVersions());
+            versions.addAll(versioning.getVersions());
+            versioning.setVersions(new ArrayList<>(versions));
         }
     }
 
-    public Object getKey()
-    {
+    public Object getKey() {
         return getGroupId() + ':' + getArtifactId();
     }
 
-    public static Object getKey( Artifact artifact )
-    {
+    public static Object getKey(Artifact artifact) {
         return artifact.getGroupId() + ':' + artifact.getArtifactId();
     }
 
-    public MavenMetadata setFile( File file )
-    {
-        return new VersionsMetadata( artifact, file, timestamp );
+    public MavenMetadata setFile(File file) {
+        return new VersionsMetadata(artifact, file, timestamp);
     }
 
-    public String getGroupId()
-    {
+    public String getGroupId() {
         return artifact.getGroupId();
     }
 
-    public String getArtifactId()
-    {
+    public String getArtifactId() {
         return artifact.getArtifactId();
     }
 
-    public String getVersion()
-    {
+    public String getVersion() {
         return "";
     }
 
-    public Nature getNature()
-    {
+    public Nature getNature() {
         return artifact.isSnapshot() ? Nature.RELEASE_OR_SNAPSHOT : Nature.RELEASE;
     }
 

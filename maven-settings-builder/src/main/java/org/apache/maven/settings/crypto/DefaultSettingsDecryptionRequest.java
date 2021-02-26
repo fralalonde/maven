@@ -33,8 +33,7 @@ import org.apache.maven.settings.Settings;
  * @author Benjamin Bentmann
  */
 public class DefaultSettingsDecryptionRequest
-    implements SettingsDecryptionRequest
-{
+        implements SettingsDecryptionRequest {
 
     private List<Server> servers;
 
@@ -43,8 +42,7 @@ public class DefaultSettingsDecryptionRequest
     /**
      * Creates an empty request.
      */
-    public DefaultSettingsDecryptionRequest()
-    {
+    public DefaultSettingsDecryptionRequest() {
         // does nothing
     }
 
@@ -53,10 +51,9 @@ public class DefaultSettingsDecryptionRequest
      *
      * @param settings The settings to decrypt, must not be {@code null}.
      */
-    public DefaultSettingsDecryptionRequest( Settings settings )
-    {
-        setServers( settings.getServers() );
-        setProxies( settings.getProxies() );
+    public DefaultSettingsDecryptionRequest(Settings settings) {
+        setServers(settings.getServers());
+        setProxies(settings.getProxies());
     }
 
     /**
@@ -64,9 +61,8 @@ public class DefaultSettingsDecryptionRequest
      *
      * @param server The server to decrypt, must not be {@code null}.
      */
-    public DefaultSettingsDecryptionRequest( Server server )
-    {
-        this.servers = new ArrayList<>( Arrays.asList( server ) );
+    public DefaultSettingsDecryptionRequest(Server server) {
+        this.servers = new ArrayList<>(Arrays.asList(server));
     }
 
     /**
@@ -74,16 +70,13 @@ public class DefaultSettingsDecryptionRequest
      *
      * @param proxy The proxy to decrypt, must not be {@code null}.
      */
-    public DefaultSettingsDecryptionRequest( Proxy proxy )
-    {
-        this.proxies = new ArrayList<>( Arrays.asList( proxy ) );
+    public DefaultSettingsDecryptionRequest(Proxy proxy) {
+        this.proxies = new ArrayList<>(Arrays.asList(proxy));
     }
 
     @Override
-    public List<Server> getServers()
-    {
-        if ( servers == null )
-        {
+    public List<Server> getServers() {
+        if (servers == null) {
             servers = new ArrayList<>();
         }
 
@@ -91,18 +84,15 @@ public class DefaultSettingsDecryptionRequest
     }
 
     @Override
-    public DefaultSettingsDecryptionRequest setServers( List<Server> servers )
-    {
+    public DefaultSettingsDecryptionRequest setServers(List<Server> servers) {
         this.servers = servers;
 
         return this;
     }
 
     @Override
-    public List<Proxy> getProxies()
-    {
-        if ( proxies == null )
-        {
+    public List<Proxy> getProxies() {
+        if (proxies == null) {
             proxies = new ArrayList<>();
         }
 
@@ -110,8 +100,7 @@ public class DefaultSettingsDecryptionRequest
     }
 
     @Override
-    public DefaultSettingsDecryptionRequest setProxies( List<Proxy> proxies )
-    {
+    public DefaultSettingsDecryptionRequest setProxies(List<Proxy> proxies) {
         this.proxies = proxies;
 
         return this;

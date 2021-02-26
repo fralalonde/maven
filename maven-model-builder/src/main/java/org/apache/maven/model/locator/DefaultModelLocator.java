@@ -32,13 +32,11 @@ import javax.inject.Singleton;
 @Named
 @Singleton
 public class DefaultModelLocator
-    implements ModelLocator
-{
+        implements ModelLocator {
 
     @Override
-    public File locatePom( File projectDirectory )
-    {
-        return new File( projectDirectory, "pom.xml" );
+    public File locatePom(File projectDirectory) {
+        return new File(projectDirectory, "pom.xml");
     }
 
 }

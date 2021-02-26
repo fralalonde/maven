@@ -39,61 +39,54 @@ import static org.hamcrest.MatcherAssert.assertThat;
  *
  * @author Benjamin Bentmann
  */
-public class ExtensionDescriptorBuilderTest
-{
+public class ExtensionDescriptorBuilderTest {
 
     private ExtensionDescriptorBuilder builder;
 
     @BeforeEach
     public void setUp()
-        throws Exception
-    {
+            throws Exception {
         builder = new ExtensionDescriptorBuilder();
     }
 
     @AfterEach
     public void tearDown()
-        throws Exception
-    {
+            throws Exception {
         builder = null;
     }
 
-    private InputStream toStream( String xml )
-    {
-        return new ByteArrayInputStream( xml.getBytes( StandardCharsets.UTF_8 ) );
+    private InputStream toStream(String xml) {
+        return new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
     }
 
     @Test
     public void testEmptyDescriptor()
-        throws Exception
-    {
+            throws Exception {
         String xml = "<extension></extension>";
 
-        ExtensionDescriptor ed = builder.build( toStream( xml ) );
+        ExtensionDescriptor ed = builder.build(toStream(xml));
 
-        assertNotNull( ed );
-        assertNotNull( ed.getExportedPackages() );
-        assertThat( ed.getExportedPackages(), is( empty() ) );
-        assertNotNull( ed.getExportedArtifacts() );
-        assertThat( ed.getExportedArtifacts(), is( empty() ) );
+        assertNotNull(ed);
+        assertNotNull(ed.getExportedPackages());
+        assertThat(ed.getExportedPackages(), is(empty()));
+        assertNotNull(ed.getExportedArtifacts());
+        assertThat(ed.getExportedArtifacts(), is(empty()));
     }
 
     @Test
     public void testCompleteDescriptor()
-        throws Exception
-    {
-        String xml =
-            "<?xml version='1.0' encoding='UTF-8'?>" + "<extension>" + "<exportedPackages>"
+            throws Exception {
+        String xml = "<?xml version='1.0' encoding='UTF-8'?>" + "<extension>" + "<exportedPackages>"
                 + "<exportedPackage>a</exportedPackage>" + "<exportedPackage>b</exportedPackage>"
                 + "<exportedPackage>c</exportedPackage>" + "</exportedPackages>" + "<exportedArtifacts>"
                 + "<exportedArtifact>x</exportedArtifact>" + "<exportedArtifact>y</exportedArtifact>"
                 + "<exportedArtifact> z </exportedArtifact>" + "</exportedArtifacts>" + "</extension>";
 
-        ExtensionDescriptor ed = builder.build( toStream( xml ) );
+        ExtensionDescriptor ed = builder.build(toStream(xml));
 
-        assertNotNull( ed );
-        assertEquals( Arrays.asList( "a", "b", "c" ), ed.getExportedPackages() );
-        assertEquals( Arrays.asList( "x", "y", "z" ), ed.getExportedArtifacts() );
+        assertNotNull(ed);
+        assertEquals(Arrays.asList("a", "b", "c"), ed.getExportedPackages());
+        assertEquals(Arrays.asList("x", "y", "z"), ed.getExportedArtifacts());
     }
 
 }

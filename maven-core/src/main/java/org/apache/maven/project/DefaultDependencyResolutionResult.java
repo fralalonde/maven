@@ -32,8 +32,7 @@ import org.eclipse.aether.graph.DependencyNode;
  * @author Benjamin Bentmann
  */
 class DefaultDependencyResolutionResult
-    implements DependencyResolutionResult
-{
+        implements DependencyResolutionResult {
 
     private DependencyNode root;
 
@@ -47,68 +46,55 @@ class DefaultDependencyResolutionResult
 
     private Map<Dependency, List<Exception>> resolutionErrors = new IdentityHashMap<>();
 
-    public DependencyNode getDependencyGraph()
-    {
+    public DependencyNode getDependencyGraph() {
         return root;
     }
 
-    public void setDependencyGraph( DependencyNode root )
-    {
+    public void setDependencyGraph(DependencyNode root) {
         this.root = root;
     }
 
-    public List<Dependency> getDependencies()
-    {
+    public List<Dependency> getDependencies() {
         return dependencies;
     }
 
-    public List<Dependency> getResolvedDependencies()
-    {
+    public List<Dependency> getResolvedDependencies() {
         return resolvedDependencies;
     }
 
-    public void addResolvedDependency( Dependency dependency )
-    {
-        dependencies.add( dependency );
-        resolvedDependencies.add( dependency );
+    public void addResolvedDependency(Dependency dependency) {
+        dependencies.add(dependency);
+        resolvedDependencies.add(dependency);
     }
 
-    public List<Dependency> getUnresolvedDependencies()
-    {
+    public List<Dependency> getUnresolvedDependencies() {
         return unresolvedDependencies;
     }
 
-    public List<Exception> getCollectionErrors()
-    {
+    public List<Exception> getCollectionErrors() {
         return collectionErrors;
     }
 
-    public void setCollectionErrors( List<Exception> exceptions )
-    {
-        if ( exceptions != null )
-        {
+    public void setCollectionErrors(List<Exception> exceptions) {
+        if (exceptions != null) {
             this.collectionErrors = exceptions;
-        }
-        else
-        {
+        } else {
             this.collectionErrors = new ArrayList<>();
         }
     }
 
-    public List<Exception> getResolutionErrors( Dependency dependency )
-    {
-        List<Exception> errors = resolutionErrors.get( dependency );
-        return ( errors != null )
-                   ? Collections.unmodifiableList( errors )
-                   : Collections.<Exception>emptyList();
+    public List<Exception> getResolutionErrors(Dependency dependency) {
+        List<Exception> errors = resolutionErrors.get(dependency);
+        return (errors != null)
+                ? Collections.unmodifiableList(errors)
+                : Collections.<Exception>emptyList();
 
     }
 
-    public void setResolutionErrors( Dependency dependency, List<Exception> errors )
-    {
-        dependencies.add( dependency );
-        unresolvedDependencies.add( dependency );
-        resolutionErrors.put( dependency, errors );
+    public void setResolutionErrors(Dependency dependency, List<Exception> errors) {
+        dependencies.add(dependency);
+        unresolvedDependencies.add(dependency);
+        resolutionErrors.put(dependency, errors);
     }
 
 }

@@ -26,88 +26,73 @@ import java.nio.file.Paths;
 /**
  * @author Hans Dockter
  */
-public class PathAssembler
-{
+public class PathAssembler {
     public static final String MAVEN_USER_HOME_STRING = "MAVEN_USER_HOME";
 
     public static final String PROJECT_STRING = "PROJECT";
 
     private Path mavenUserHome;
 
-    public PathAssembler()
-    {
+    public PathAssembler() {
     }
 
-    public PathAssembler( Path mavenUserHome )
-    {
+    public PathAssembler(Path mavenUserHome) {
         this.mavenUserHome = mavenUserHome;
     }
 
     /**
-     * Determines the local locations for the distribution to use given the supplied configuration.
+     * Determines the local locations for the distribution to use given the supplied
+     * configuration.
      */
-    public LocalDistribution getDistribution( WrapperConfiguration configuration )
-    {
-        String baseName = getDistName( configuration.getDistribution() );
-        String rootDirName = removeExtension( baseName );
-        Path distDir = getBaseDir( configuration.getDistributionBase() )
-                        .resolve( configuration.getDistributionPath() )
-                        .resolve( rootDirName );
-        Path distZip = getBaseDir( configuration.getZipBase() )
-                        .resolve( configuration.getZipPath() )
-                        .resolve( rootDirName )
-                        .resolve( baseName );
-        return new LocalDistribution( distDir, distZip );
+    public LocalDistribution getDistribution(WrapperConfiguration configuration) {
+        String baseName = getDistName(configuration.getDistribution());
+        String rootDirName = removeExtension(baseName);
+        Path distDir = getBaseDir(configuration.getDistributionBase())
+                .resolve(configuration.getDistributionPath())
+                .resolve(rootDirName);
+        Path distZip = getBaseDir(configuration.getZipBase())
+                .resolve(configuration.getZipPath())
+                .resolve(rootDirName)
+                .resolve(baseName);
+        return new LocalDistribution(distDir, distZip);
     }
 
-    private String removeExtension( String name )
-    {
-        int p = name.lastIndexOf( "." );
-        if ( p < 0 )
-        {
+    private String removeExtension(String name) {
+        int p = name.lastIndexOf(".");
+        if (p < 0) {
             return name;
         }
-        return name.substring( 0, p );
+        return name.substring(0, p);
     }
 
-    private String getDistName( URI distUrl )
-    {
+    private String getDistName(URI distUrl) {
         String path = distUrl.getPath();
-        int p = path.lastIndexOf( "/" );
-        if ( p < 0 )
-        {
+        int p = path.lastIndexOf("/");
+        if (p < 0) {
             return path;
         }
-        return path.substring( p + 1 );
+        return path.substring(p + 1);
     }
 
-    private Path getBaseDir( String base )
-    {
-        if ( MAVEN_USER_HOME_STRING.equals( base ) )
-        {
+    private Path getBaseDir(String base) {
+        if (MAVEN_USER_HOME_STRING.equals(base)) {
             return mavenUserHome;
-        }
-        else if ( PROJECT_STRING.equals( base ) )
-        {
-            return Paths.get( System.getProperty( "user.dir" ) );
-        }
-        else
-        {
-            throw new IllegalArgumentException( "Base: " + base + " is unknown" );
+        } else if (PROJECT_STRING.equals(base)) {
+            return Paths.get(System.getProperty("user.dir"));
+        } else {
+            throw new IllegalArgumentException("Base: " + base + " is unknown");
         }
     }
 
     /**
      * The Local Distribution
      */
-    public class LocalDistribution
-    {
+    public class LocalDistribution {
         private final Path distZip;
 
         private final Path distDir;
 
-        public LocalDistribution( Path distDir, Path distZip )
-        {
+        public LocalDistribution(Path distDir, Path distZip) {
             this.distDir = distDir;
             this.distZip = distZip;
         }
@@ -115,16 +100,14 @@ public class PathAssembler
         /**
          * Returns the location to install the distribution into.
          */
-        public Path getDistributionDir()
-        {
+        public Path getDistributionDir() {
             return distDir;
         }
 
         /**
          * Returns the location to install the distribution ZIP file to.
          */
-        public Path getZipFile()
-        {
+        public Path getZipFile() {
             return distZip;
         }
     }

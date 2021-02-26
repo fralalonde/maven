@@ -32,24 +32,20 @@ import org.apache.maven.project.InvalidProjectVersionException;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  */
 public class InvalidDependencyVersionException
-    extends InvalidProjectVersionException
-{
+        extends InvalidProjectVersionException {
     private Dependency dependency;
 
-    public InvalidDependencyVersionException( String projectId, Dependency dependency, File pomFile,
-                                              InvalidVersionSpecificationException cause )
-    {
-        super( projectId, formatLocationInPom( dependency ), dependency.getVersion(), pomFile, cause );
+    public InvalidDependencyVersionException(String projectId, Dependency dependency, File pomFile,
+            InvalidVersionSpecificationException cause) {
+        super(projectId, formatLocationInPom(dependency), dependency.getVersion(), pomFile, cause);
         this.dependency = dependency;
     }
 
-    private static String formatLocationInPom( Dependency dependency )
-    {
-        return "Dependency: " + ArtifactUtils.versionlessKey( dependency.getGroupId(), dependency.getArtifactId() );
+    private static String formatLocationInPom(Dependency dependency) {
+        return "Dependency: " + ArtifactUtils.versionlessKey(dependency.getGroupId(), dependency.getArtifactId());
     }
 
-    public Dependency getDependency()
-    {
+    public Dependency getDependency() {
         return dependency;
     }
 }

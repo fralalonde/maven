@@ -28,46 +28,41 @@ import org.apache.maven.building.ProblemCollector;
 import org.apache.maven.building.ProblemCollectorFactory;
 import org.junit.jupiter.api.Test;
 
-public class ToolchainsBuildingExceptionTest
-{
+public class ToolchainsBuildingExceptionTest {
     private static final String LS = System.lineSeparator();
 
     @Test
-    public void testNoProblems()
-    {
-        ToolchainsBuildingException e = new ToolchainsBuildingException( Collections.<Problem>emptyList() );
-        assertEquals( "0 problems were encountered while building the effective toolchains" + LS, e.getMessage() );
+    public void testNoProblems() {
+        ToolchainsBuildingException e = new ToolchainsBuildingException(Collections.<Problem>emptyList());
+        assertEquals("0 problems were encountered while building the effective toolchains" + LS, e.getMessage());
     }
 
     @Test
-    public void testOneProblem()
-    {
-        ProblemCollector problemCollector = ProblemCollectorFactory.newInstance( null );
-        problemCollector.add( Problem.Severity.ERROR, "MESSAGE", 3, 5, new Exception() );
-        ToolchainsBuildingException e = new ToolchainsBuildingException( problemCollector.getProblems() );
-        assertEquals( "1 problem was encountered while building the effective toolchains" + LS +
-                      "[ERROR] MESSAGE @ line 3, column 5" + LS, e.getMessage() );
+    public void testOneProblem() {
+        ProblemCollector problemCollector = ProblemCollectorFactory.newInstance(null);
+        problemCollector.add(Problem.Severity.ERROR, "MESSAGE", 3, 5, new Exception());
+        ToolchainsBuildingException e = new ToolchainsBuildingException(problemCollector.getProblems());
+        assertEquals("1 problem was encountered while building the effective toolchains" + LS +
+                "[ERROR] MESSAGE @ line 3, column 5" + LS, e.getMessage());
     }
 
     @Test
-    public void testUnknownPositionAndSource()
-    {
-        ProblemCollector problemCollector = ProblemCollectorFactory.newInstance( null );
-        problemCollector.add( Problem.Severity.ERROR, "MESSAGE", -1, -1, new Exception() );
-        ToolchainsBuildingException e = new ToolchainsBuildingException( problemCollector.getProblems() );
-        assertEquals( "1 problem was encountered while building the effective toolchains" + LS +
-                      "[ERROR] MESSAGE" + LS, e.getMessage() );
+    public void testUnknownPositionAndSource() {
+        ProblemCollector problemCollector = ProblemCollectorFactory.newInstance(null);
+        problemCollector.add(Problem.Severity.ERROR, "MESSAGE", -1, -1, new Exception());
+        ToolchainsBuildingException e = new ToolchainsBuildingException(problemCollector.getProblems());
+        assertEquals("1 problem was encountered while building the effective toolchains" + LS +
+                "[ERROR] MESSAGE" + LS, e.getMessage());
     }
 
     @Test
-    public void testUnknownPosition()
-    {
-        ProblemCollector problemCollector = ProblemCollectorFactory.newInstance( null );
-        problemCollector.setSource( "SOURCE" );
-        problemCollector.add( Problem.Severity.ERROR, "MESSAGE", -1, -1, new Exception() );
-        ToolchainsBuildingException e = new ToolchainsBuildingException( problemCollector.getProblems() );
-        assertEquals( "1 problem was encountered while building the effective toolchains" + LS +
-                      "[ERROR] MESSAGE @ SOURCE" + LS, e.getMessage() );
+    public void testUnknownPosition() {
+        ProblemCollector problemCollector = ProblemCollectorFactory.newInstance(null);
+        problemCollector.setSource("SOURCE");
+        problemCollector.add(Problem.Severity.ERROR, "MESSAGE", -1, -1, new Exception());
+        ToolchainsBuildingException e = new ToolchainsBuildingException(problemCollector.getProblems());
+        assertEquals("1 problem was encountered while building the effective toolchains" + LS +
+                "[ERROR] MESSAGE @ SOURCE" + LS, e.getMessage());
     }
 
 }

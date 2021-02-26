@@ -32,23 +32,22 @@ import org.eclipse.aether.repository.RemoteRepository;
 /**
  * @author Jason van Zyl
  */
-public interface BuildPluginManager
-{
+public interface BuildPluginManager {
     // igorf: Way too many declared exceptions!
-    PluginDescriptor loadPlugin( Plugin plugin, List<RemoteRepository> repositories, RepositorySystemSession session )
-        throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
-        InvalidPluginDescriptorException;
+    PluginDescriptor loadPlugin(Plugin plugin, List<RemoteRepository> repositories, RepositorySystemSession session)
+            throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
+            InvalidPluginDescriptorException;
 
     // igorf: Way too many declared exceptions!
-    MojoDescriptor getMojoDescriptor( Plugin plugin, String goal, List<RemoteRepository> repositories,
-                                      RepositorySystemSession session )
-        throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
-        MojoNotFoundException, InvalidPluginDescriptorException;
+    MojoDescriptor getMojoDescriptor(Plugin plugin, String goal, List<RemoteRepository> repositories,
+            RepositorySystemSession session)
+            throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
+            MojoNotFoundException, InvalidPluginDescriptorException;
 
-    ClassRealm getPluginRealm( MavenSession session, PluginDescriptor pluginDescriptor )
-        throws PluginResolutionException, PluginManagerException;
+    ClassRealm getPluginRealm(MavenSession session, PluginDescriptor pluginDescriptor)
+            throws PluginResolutionException, PluginManagerException;
 
-    void executeMojo( MavenSession session, MojoExecution execution )
-        throws MojoFailureException, MojoExecutionException, PluginConfigurationException, PluginManagerException;
+    void executeMojo(MavenSession session, MojoExecution execution)
+            throws MojoFailureException, MojoExecutionException, PluginConfigurationException, PluginManagerException;
 
 }

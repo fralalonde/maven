@@ -29,20 +29,17 @@ import org.apache.maven.execution.MojoExecutionListener;
  */
 @Named
 public class MojoExecutionScopeCoreModule
-    extends MojoExecutionScopeModule
-{
+        extends MojoExecutionScopeModule {
 
     @Inject
-    public MojoExecutionScopeCoreModule()
-    {
-        super( new MojoExecutionScope() );
+    public MojoExecutionScopeCoreModule() {
+        super(new MojoExecutionScope());
     }
 
     @Override
-    protected void configure()
-    {
+    protected void configure() {
         super.configure();
-        bind( MojoExecutionListener.class ).toInstance( scope );
+        bind(MojoExecutionListener.class).toInstance(scope);
     }
 
 }

@@ -22,15 +22,13 @@ package org.apache.maven.artifact.repository;
 /**
  * Authentication
  */
-public class Authentication
-{
+public class Authentication {
 
     private String privateKey;
 
     private String passphrase;
 
-    public Authentication( String userName, String password )
-    {
+    public Authentication(String userName, String password) {
         this.username = userName;
         this.password = password;
     }
@@ -50,8 +48,7 @@ public class Authentication
      *
      * @return password of user
      */
-    public String getPassword()
-    {
+    public String getPassword() {
         return password;
     }
 
@@ -60,8 +57,7 @@ public class Authentication
      *
      * @param password password of the user
      */
-    public void setPassword( String password )
-    {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -70,8 +66,7 @@ public class Authentication
      *
      * @return username at repository
      */
-    public String getUsername()
-    {
+    public String getUsername() {
         return username;
     }
 
@@ -80,19 +75,18 @@ public class Authentication
      *
      * @param userName the username used to access repository
      */
-    public void setUsername( final String userName )
-    {
+    public void setUsername(final String userName) {
         this.username = userName;
     }
 
     /**
-     * Get the passphrase of the private key file. The passphrase is used only when host/protocol supports
-     * authentication via exchange of private/public keys and private key was used for authentication.
+     * Get the passphrase of the private key file. The passphrase is used only when
+     * host/protocol supports authentication via exchange of private/public keys and
+     * private key was used for authentication.
      *
      * @return passphrase of the private key file
      */
-    public String getPassphrase()
-    {
+    public String getPassphrase() {
         return passphrase;
     }
 
@@ -101,8 +95,7 @@ public class Authentication
      *
      * @param passphrase passphrase of the private key file
      */
-    public void setPassphrase( final String passphrase )
-    {
+    public void setPassphrase(final String passphrase) {
         this.passphrase = passphrase;
     }
 
@@ -111,8 +104,7 @@ public class Authentication
      *
      * @return absolute path to private key
      */
-    public String getPrivateKey()
-    {
+    public String getPrivateKey() {
         return privateKey;
     }
 
@@ -121,8 +113,7 @@ public class Authentication
      *
      * @param privateKey path to private key in local file system
      */
-    public void setPrivateKey( final String privateKey )
-    {
+    public void setPrivateKey(final String privateKey) {
         this.privateKey = privateKey;
     }
 

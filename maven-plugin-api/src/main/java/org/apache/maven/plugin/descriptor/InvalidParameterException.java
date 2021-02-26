@@ -23,15 +23,12 @@ package org.apache.maven.plugin.descriptor;
  * @author Jason van Zyl
  */
 public class InvalidParameterException
-    extends InvalidPluginDescriptorException
-{
-    public InvalidParameterException( String element, int i )
-    {
-        super( "The " + element + " element in parameter # " + i + " is invalid. It cannot be null." );
+        extends InvalidPluginDescriptorException {
+    public InvalidParameterException(String element, int i) {
+        super("The " + element + " element in parameter # " + i + " is invalid. It cannot be null.");
     }
 
-    public InvalidParameterException( String message, Throwable cause )
-    {
-        super( message, cause );
+    public InvalidParameterException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

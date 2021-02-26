@@ -34,31 +34,29 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Robert Scholte
  *
  */
-public class PluginParameterExceptionTest
-{
+public class PluginParameterExceptionTest {
 
     private final String LS = System.lineSeparator();
 
     @Test
-    public void testMissingRequiredStringArrayTypeParameter()
-    {
+    public void testMissingRequiredStringArrayTypeParameter() {
         MojoDescriptor mojoDescriptor = new MojoDescriptor();
-        mojoDescriptor.setGoal( "goal" );
+        mojoDescriptor.setGoal("goal");
         PluginDescriptor pluginDescriptor = new PluginDescriptor();
-        pluginDescriptor.setGoalPrefix( "goalPrefix" );
-        pluginDescriptor.setArtifactId( "artifactId" );
-        mojoDescriptor.setPluginDescriptor( pluginDescriptor );
+        pluginDescriptor.setGoalPrefix("goalPrefix");
+        pluginDescriptor.setArtifactId("artifactId");
+        mojoDescriptor.setPluginDescriptor(pluginDescriptor);
 
         Parameter parameter = new Parameter();
-        parameter.setType( "java.lang.String[]" );
-        parameter.setName( "toAddresses" );
+        parameter.setType("java.lang.String[]");
+        parameter.setName("toAddresses");
 
-        parameter.setRequired( true );
+        parameter.setRequired(true);
 
-        PluginParameterException exception =
-            new PluginParameterException( mojoDescriptor, Collections.singletonList( parameter ) );
+        PluginParameterException exception = new PluginParameterException(mojoDescriptor,
+                Collections.singletonList(parameter));
 
-        assertEquals( "One or more required plugin parameters are invalid/missing for 'goalPrefix:goal'" +
+        assertEquals("One or more required plugin parameters are invalid/missing for 'goalPrefix:goal'" +
                 LS + LS +
                 "[0] Inside the definition for plugin 'artifactId', specify the following:" +
                 LS + LS +
@@ -67,29 +65,28 @@ public class PluginParameterExceptionTest
                 "  <toAddresses>" + LS +
                 "    <item>VALUE</item>" + LS +
                 "  </toAddresses>" + LS +
-                "</configuration>." + LS, exception.buildDiagnosticMessage() );
+                "</configuration>." + LS, exception.buildDiagnosticMessage());
     }
 
     @Test
-    public void testMissingRequiredCollectionTypeParameter()
-    {
+    public void testMissingRequiredCollectionTypeParameter() {
         MojoDescriptor mojoDescriptor = new MojoDescriptor();
-        mojoDescriptor.setGoal( "goal" );
+        mojoDescriptor.setGoal("goal");
         PluginDescriptor pluginDescriptor = new PluginDescriptor();
-        pluginDescriptor.setGoalPrefix( "goalPrefix" );
-        pluginDescriptor.setArtifactId( "artifactId" );
-        mojoDescriptor.setPluginDescriptor( pluginDescriptor );
+        pluginDescriptor.setGoalPrefix("goalPrefix");
+        pluginDescriptor.setArtifactId("artifactId");
+        mojoDescriptor.setPluginDescriptor(pluginDescriptor);
 
         Parameter parameter = new Parameter();
-        parameter.setType( "java.util.List" );
-        parameter.setName( "toAddresses" );
+        parameter.setType("java.util.List");
+        parameter.setName("toAddresses");
 
-        parameter.setRequired( true );
+        parameter.setRequired(true);
 
-        PluginParameterException exception =
-            new PluginParameterException( mojoDescriptor, Collections.singletonList( parameter ) );
+        PluginParameterException exception = new PluginParameterException(mojoDescriptor,
+                Collections.singletonList(parameter));
 
-        assertEquals( "One or more required plugin parameters are invalid/missing for 'goalPrefix:goal'" +
+        assertEquals("One or more required plugin parameters are invalid/missing for 'goalPrefix:goal'" +
                 LS + LS +
                 "[0] Inside the definition for plugin 'artifactId', specify the following:" +
                 LS + LS +
@@ -98,29 +95,28 @@ public class PluginParameterExceptionTest
                 "  <toAddresses>" + LS +
                 "    <item>VALUE</item>" + LS +
                 "  </toAddresses>" + LS +
-                "</configuration>." + LS, exception.buildDiagnosticMessage() );
+                "</configuration>." + LS, exception.buildDiagnosticMessage());
     }
 
     @Test
-    public void testMissingRequiredMapTypeParameter()
-    {
+    public void testMissingRequiredMapTypeParameter() {
         MojoDescriptor mojoDescriptor = new MojoDescriptor();
-        mojoDescriptor.setGoal( "goal" );
+        mojoDescriptor.setGoal("goal");
         PluginDescriptor pluginDescriptor = new PluginDescriptor();
-        pluginDescriptor.setGoalPrefix( "goalPrefix" );
-        pluginDescriptor.setArtifactId( "artifactId" );
-        mojoDescriptor.setPluginDescriptor( pluginDescriptor );
+        pluginDescriptor.setGoalPrefix("goalPrefix");
+        pluginDescriptor.setArtifactId("artifactId");
+        mojoDescriptor.setPluginDescriptor(pluginDescriptor);
 
         Parameter parameter = new Parameter();
-        parameter.setType( "java.util.Map" );
-        parameter.setName( "toAddresses" );
+        parameter.setType("java.util.Map");
+        parameter.setName("toAddresses");
 
-        parameter.setRequired( true );
+        parameter.setRequired(true);
 
-        PluginParameterException exception =
-            new PluginParameterException( mojoDescriptor, Collections.singletonList( parameter ) );
+        PluginParameterException exception = new PluginParameterException(mojoDescriptor,
+                Collections.singletonList(parameter));
 
-        assertEquals( "One or more required plugin parameters are invalid/missing for 'goalPrefix:goal'" +
+        assertEquals("One or more required plugin parameters are invalid/missing for 'goalPrefix:goal'" +
                 LS + LS +
                 "[0] Inside the definition for plugin 'artifactId', specify the following:" +
                 LS + LS +
@@ -129,29 +125,28 @@ public class PluginParameterExceptionTest
                 "  <toAddresses>" + LS +
                 "    <KEY>VALUE</KEY>" + LS +
                 "  </toAddresses>" + LS +
-                "</configuration>." + LS, exception.buildDiagnosticMessage() );
+                "</configuration>." + LS, exception.buildDiagnosticMessage());
     }
 
     @Test
-    public void testMissingRequiredPropertiesTypeParameter()
-    {
+    public void testMissingRequiredPropertiesTypeParameter() {
         MojoDescriptor mojoDescriptor = new MojoDescriptor();
-        mojoDescriptor.setGoal( "goal" );
+        mojoDescriptor.setGoal("goal");
         PluginDescriptor pluginDescriptor = new PluginDescriptor();
-        pluginDescriptor.setGoalPrefix( "goalPrefix" );
-        pluginDescriptor.setArtifactId( "artifactId" );
-        mojoDescriptor.setPluginDescriptor( pluginDescriptor );
+        pluginDescriptor.setGoalPrefix("goalPrefix");
+        pluginDescriptor.setArtifactId("artifactId");
+        mojoDescriptor.setPluginDescriptor(pluginDescriptor);
 
         Parameter parameter = new Parameter();
-        parameter.setType( "java.util.Properties" );
-        parameter.setName( "toAddresses" );
+        parameter.setType("java.util.Properties");
+        parameter.setName("toAddresses");
 
-        parameter.setRequired( true );
+        parameter.setRequired(true);
 
-        PluginParameterException exception =
-            new PluginParameterException( mojoDescriptor, Collections.singletonList( parameter ) );
+        PluginParameterException exception = new PluginParameterException(mojoDescriptor,
+                Collections.singletonList(parameter));
 
-        assertEquals( "One or more required plugin parameters are invalid/missing for 'goalPrefix:goal'" +
+        assertEquals("One or more required plugin parameters are invalid/missing for 'goalPrefix:goal'" +
                 LS + LS +
                 "[0] Inside the definition for plugin 'artifactId', specify the following:" +
                 LS + LS +
@@ -163,7 +158,7 @@ public class PluginParameterExceptionTest
                 "      <value>VALUE</value>" + LS +
                 "    </property>" + LS +
                 "  </toAddresses>" + LS +
-                "</configuration>." + LS, exception.buildDiagnosticMessage() );
+                "</configuration>." + LS, exception.buildDiagnosticMessage());
     }
 
 }

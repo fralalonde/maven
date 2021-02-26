@@ -25,17 +25,15 @@ package org.apache.maven.lifecycle;
  * @author Benjamin Bentmann
  */
 public class NoGoalSpecifiedException
-    extends Exception
-{
+        extends Exception {
 
     /**
      * Creates a new exception.
      *
      * @param message The detail message, may be {@code null}.
      */
-    public NoGoalSpecifiedException( String message )
-    {
-        super( message );
+    public NoGoalSpecifiedException(String message) {
+        super(message);
     }
 
 }

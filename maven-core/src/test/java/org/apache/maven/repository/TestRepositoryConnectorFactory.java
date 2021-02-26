@@ -31,20 +31,17 @@ import org.eclipse.aether.transfer.NoRepositoryConnectorException;
 /**
  * @author Benjamin Bentmann
  */
-@Named( "test" )
+@Named("test")
 @Singleton
 public class TestRepositoryConnectorFactory
-    implements RepositoryConnectorFactory
-{
+        implements RepositoryConnectorFactory {
 
-    public RepositoryConnector newInstance( RepositorySystemSession session, RemoteRepository repository )
-        throws NoRepositoryConnectorException
-    {
-        return new TestRepositoryConnector( repository );
+    public RepositoryConnector newInstance(RepositorySystemSession session, RemoteRepository repository)
+            throws NoRepositoryConnectorException {
+        return new TestRepositoryConnector(repository);
     }
 
-    public float getPriority()
-    {
+    public float getPriority() {
         return 0;
     }
 

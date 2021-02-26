@@ -27,14 +27,12 @@ import org.apache.maven.project.MavenProject;
  *
  * @author Benjamin Bentmann
  */
-public interface ExecutionEvent
-{
+public interface ExecutionEvent {
 
     /**
      * The possible types of execution events.
      */
-    enum Type
-    {
+    enum Type {
         ProjectDiscoveryStarted,
         SessionStarted,
         SessionEnded,

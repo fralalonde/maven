@@ -25,10 +25,9 @@ import org.apache.maven.model.locator.ModelLocator;
 /**
  * ModelProcessor
  */
-@SuppressWarnings( "checkstyle:interfaceistype" )
+@SuppressWarnings("checkstyle:interfaceistype")
 public interface ModelProcessor
-    extends ModelLocator, ModelReader
-{
+        extends ModelLocator, ModelReader {
 
     String SOURCE = "org.apache.maven.model.building.source";
 

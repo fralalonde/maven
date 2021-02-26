@@ -23,24 +23,25 @@ import org.apache.maven.lifecycle.LifecycleExecutionException;
 
 /**
  * <p>
- * Extension point that allows build extensions observe and possibly veto project build execution.
+ * Extension point that allows build extensions observe and possibly veto
+ * project build execution.
  * </p>
- * <strong>Note:</strong> This interface is part of work in progress and can be changed or removed without notice.
+ * <strong>Note:</strong> This interface is part of work in progress and can be
+ * changed or removed without notice.
  *
  * @see ExecutionListener
  * @see MojoExecutionListener
  * @since 3.1.2
  */
-public interface ProjectExecutionListener
-{
-    void beforeProjectExecution( ProjectExecutionEvent event )
-        throws LifecycleExecutionException;
+public interface ProjectExecutionListener {
+    void beforeProjectExecution(ProjectExecutionEvent event)
+            throws LifecycleExecutionException;
 
-    void beforeProjectLifecycleExecution( ProjectExecutionEvent event )
-        throws LifecycleExecutionException;
+    void beforeProjectLifecycleExecution(ProjectExecutionEvent event)
+            throws LifecycleExecutionException;
 
-    void afterProjectExecutionSuccess( ProjectExecutionEvent event )
-        throws LifecycleExecutionException;
+    void afterProjectExecutionSuccess(ProjectExecutionEvent event)
+            throws LifecycleExecutionException;
 
-    void afterProjectExecutionFailure( ProjectExecutionEvent event );
+    void afterProjectExecutionFailure(ProjectExecutionEvent event);
 }

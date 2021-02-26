@@ -43,55 +43,40 @@ import javax.inject.Singleton;
 @Named
 @Singleton
 public class DefaultRuntimeInformation
-    implements RuntimeInformation
-{
+        implements RuntimeInformation {
 
     @Inject
     private Logger logger;
 
     private String mavenVersion;
 
-    public String getMavenVersion()
-    {
-        if ( mavenVersion == null )
-        {
+    public String getMavenVersion() {
+        if (mavenVersion == null) {
             Properties props = new Properties();
 
             String resource = "META-INF/maven/org.apache.maven/maven-core/pom.properties";
 
-            try ( InputStream is = DefaultRuntimeInformation.class.getResourceAsStream( "/" + resource ) )
-            {
-                if ( is != null )
-                {
-                    props.load( is );
-                }
-                else
-                {
+            try (InputStream is = DefaultRuntimeInformation.class.getResourceAsStream("/" + resource)) {
+                if (is != null) {
+                    props.load(is);
+                } else {
                     logger.warn(
-                        "Could not locate " + resource + " on classpath, Maven runtime information not available" );
+                            "Could not locate " + resource + " on classpath, Maven runtime information not available");
                 }
-            }
-            catch ( IOException e )
-            {
+            } catch (IOException e) {
                 String msg = "Could not parse " + resource + ", Maven runtime information not available";
-                if ( logger.isDebugEnabled() )
-                {
-                    logger.warn( msg, e );
-                }
-                else
-                {
-                    logger.warn( msg );
+                if (logger.isDebugEnabled()) {
+                    logger.warn(msg, e);
+                } else {
+                    logger.warn(msg);
                 }
             }
 
-            String version = props.getProperty( "version", "" ).trim();
+            String version = props.getProperty("version", "").trim();
 
-            if ( !version.startsWith( "${" ) )
-            {
+            if (!version.startsWith("${")) {
                 mavenVersion = version;
-            }
-            else
-            {
+            } else {
                 mavenVersion = "";
             }
         }
@@ -99,40 +84,32 @@ public class DefaultRuntimeInformation
         return mavenVersion;
     }
 
-    public boolean isMavenVersion( String versionRange )
-    {
+    public boolean isMavenVersion(String versionRange) {
         VersionScheme versionScheme = new GenericVersionScheme();
 
-        Validate.notBlank( versionRange, "versionRange can neither be null, empty nor blank" );
+        Validate.notBlank(versionRange, "versionRange can neither be null, empty nor blank");
 
         VersionConstraint constraint;
-        try
-        {
-            constraint = versionScheme.parseVersionConstraint( versionRange );
-        }
-        catch ( InvalidVersionSpecificationException e )
-        {
-            throw new IllegalArgumentException( e.getMessage(), e );
+        try {
+            constraint = versionScheme.parseVersionConstraint(versionRange);
+        } catch (InvalidVersionSpecificationException e) {
+            throw new IllegalArgumentException(e.getMessage(), e);
         }
 
         Version current;
-        try
-        {
+        try {
             String mavenVersion = getMavenVersion();
-            Validate.validState( StringUtils.isNotEmpty( mavenVersion ), "Could not determine current Maven version" );
+            Validate.validState(StringUtils.isNotEmpty(mavenVersion), "Could not determine current Maven version");
 
-            current = versionScheme.parseVersion( mavenVersion );
-        }
-        catch ( InvalidVersionSpecificationException e )
-        {
-            throw new IllegalStateException( "Could not parse current Maven version: " + e.getMessage(), e );
+            current = versionScheme.parseVersion(mavenVersion);
+        } catch (InvalidVersionSpecificationException e) {
+            throw new IllegalStateException("Could not parse current Maven version: " + e.getMessage(), e);
         }
 
-        if ( constraint.getRange() == null )
-        {
-            return constraint.getVersion().compareTo( current ) <= 0;
+        if (constraint.getRange() == null) {
+            return constraint.getVersion().compareTo(current) <= 0;
         }
-        return constraint.containsVersion( current );
+        return constraint.containsVersion(current);
     }
 
 }

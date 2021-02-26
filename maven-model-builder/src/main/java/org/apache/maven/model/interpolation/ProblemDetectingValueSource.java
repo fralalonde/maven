@@ -28,13 +28,13 @@ import org.apache.maven.model.building.ModelProblemCollectorRequest;
 import org.codehaus.plexus.interpolation.ValueSource;
 
 /**
- * Wraps another value source and intercepts interpolated expressions, checking for problems.
+ * Wraps another value source and intercepts interpolated expressions, checking
+ * for problems.
  *
  * @author Benjamin Bentmann
  */
 class ProblemDetectingValueSource
-    implements ValueSource
-{
+        implements ValueSource {
 
     private final ValueSource valueSource;
 
@@ -44,9 +44,8 @@ class ProblemDetectingValueSource
 
     private final ModelProblemCollector problems;
 
-    ProblemDetectingValueSource( ValueSource valueSource, String bannedPrefix, String newPrefix,
-                                        ModelProblemCollector problems )
-    {
+    ProblemDetectingValueSource(ValueSource valueSource, String bannedPrefix, String newPrefix,
+            ModelProblemCollector problems) {
         this.valueSource = valueSource;
         this.bannedPrefix = bannedPrefix;
         this.newPrefix = newPrefix;
@@ -54,32 +53,27 @@ class ProblemDetectingValueSource
     }
 
     @Override
-    public Object getValue( String expression )
-    {
-        Object value = valueSource.getValue( expression );
+    public Object getValue(String expression) {
+        Object value = valueSource.getValue(expression);
 
-        if ( value != null && expression.startsWith( bannedPrefix ) )
-        {
+        if (value != null && expression.startsWith(bannedPrefix)) {
             String msg = "The expression ${" + expression + "} is deprecated.";
-            if ( newPrefix != null && newPrefix.length() > 0 )
-            {
-                msg += " Please use ${" + newPrefix + expression.substring( bannedPrefix.length() ) + "} instead.";
+            if (newPrefix != null && newPrefix.length() > 0) {
+                msg += " Please use ${" + newPrefix + expression.substring(bannedPrefix.length()) + "} instead.";
             }
-            problems.add( new ModelProblemCollectorRequest( Severity.WARNING, Version.V20 ).setMessage( msg ) );
+            problems.add(new ModelProblemCollectorRequest(Severity.WARNING, Version.V20).setMessage(msg));
         }
 
         return value;
     }
 
     @Override
-    public List getFeedback()
-    {
+    public List getFeedback() {
         return valueSource.getFeedback();
     }
 
     @Override
-    public void clearFeedback()
-    {
+    public void clearFeedback() {
         valueSource.clearFeedback();
     }
 

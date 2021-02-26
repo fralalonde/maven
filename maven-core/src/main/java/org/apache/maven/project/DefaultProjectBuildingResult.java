@@ -31,8 +31,7 @@ import org.apache.maven.model.building.ModelProblem;
  * @author Benjamin Bentmann
  */
 class DefaultProjectBuildingResult
-    implements ProjectBuildingResult
-{
+        implements ProjectBuildingResult {
 
     private String projectId;
 
@@ -47,17 +46,19 @@ class DefaultProjectBuildingResult
     /**
      * Creates a new result with the specified contents.
      *
-     * @param project The project that was built, may be {@code null}.
-     * @param problems The problems that were encountered, may be {@code null}.
-     * @param dependencyResolutionResult The result of the resolution for the project dependencies, may be {@code null}.
+     * @param project                    The project that was built, may be
+     *                                   {@code null}.
+     * @param problems                   The problems that were encountered, may be
+     *                                   {@code null}.
+     * @param dependencyResolutionResult The result of the resolution for the
+     *                                   project dependencies, may be {@code null}.
      */
-    DefaultProjectBuildingResult( MavenProject project, List<ModelProblem> problems,
-                                  DependencyResolutionResult dependencyResolutionResult )
-    {
-        this.projectId =
-            ( project != null ) ? project.getGroupId() + ':' + project.getArtifactId() + ':' + project.getVersion()
-                            : "";
-        this.pomFile = ( project != null ) ? project.getFile() : null;
+    DefaultProjectBuildingResult(MavenProject project, List<ModelProblem> problems,
+            DependencyResolutionResult dependencyResolutionResult) {
+        this.projectId = (project != null)
+                ? project.getGroupId() + ':' + project.getArtifactId() + ':' + project.getVersion()
+                : "";
+        this.pomFile = (project != null) ? project.getFile() : null;
         this.project = project;
         this.problems = problems;
         this.dependencyResolutionResult = dependencyResolutionResult;
@@ -67,43 +68,37 @@ class DefaultProjectBuildingResult
      * Creates a new result with the specified contents.
      *
      * @param projectId The identifier of the project, may be {@code null}.
-     * @param pomFile The POM file from which the project was built, may be {@code null}.
-     * @param problems The problems that were encountered, may be {@code null}.
+     * @param pomFile   The POM file from which the project was built, may be
+     *                  {@code null}.
+     * @param problems  The problems that were encountered, may be {@code null}.
      */
-    DefaultProjectBuildingResult( String projectId, File pomFile, List<ModelProblem> problems )
-    {
-        this.projectId = ( projectId != null ) ? projectId : "";
+    DefaultProjectBuildingResult(String projectId, File pomFile, List<ModelProblem> problems) {
+        this.projectId = (projectId != null) ? projectId : "";
         this.pomFile = pomFile;
         this.problems = problems;
     }
 
-    public String getProjectId()
-    {
+    public String getProjectId() {
         return projectId;
     }
 
-    public File getPomFile()
-    {
+    public File getPomFile() {
         return pomFile;
     }
 
-    public MavenProject getProject()
-    {
+    public MavenProject getProject() {
         return project;
     }
 
-    public List<ModelProblem> getProblems()
-    {
-        if ( problems == null )
-        {
+    public List<ModelProblem> getProblems() {
+        if (problems == null) {
             problems = new ArrayList<>();
         }
 
         return problems;
     }
 
-    public DependencyResolutionResult getDependencyResolutionResult()
-    {
+    public DependencyResolutionResult getDependencyResolutionResult() {
         return dependencyResolutionResult;
     }
 

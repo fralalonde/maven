@@ -32,74 +32,67 @@ import static org.mockito.Mockito.verify;
 /**
  * @author Kristian Rosenvold
  */
-public class BuilderCommonTest
-{
-    private Logger logger = mock( Logger.class );
+public class BuilderCommonTest {
+    private Logger logger = mock(Logger.class);
 
     @Test
     public void testResolveBuildPlan()
-        throws Exception
-    {
+            throws Exception {
         MavenSession original = ProjectDependencyGraphStub.getMavenSession();
 
-        final TaskSegment taskSegment1 = new TaskSegment( false );
+        final TaskSegment taskSegment1 = new TaskSegment(false);
         final MavenSession session1 = original.clone();
-        session1.setCurrentProject( ProjectDependencyGraphStub.A );
+        session1.setCurrentProject(ProjectDependencyGraphStub.A);
 
         final BuilderCommon builderCommon = getBuilderCommon();
-        final MavenExecutionPlan plan =
-            builderCommon.resolveBuildPlan( session1, ProjectDependencyGraphStub.A, taskSegment1,
-                    new HashSet<>() );
-        assertEquals( LifecycleExecutionPlanCalculatorStub.getProjectAExceutionPlan().size(), plan.size() );
+        final MavenExecutionPlan plan = builderCommon.resolveBuildPlan(session1, ProjectDependencyGraphStub.A,
+                taskSegment1,
+                new HashSet<>());
+        assertEquals(LifecycleExecutionPlanCalculatorStub.getProjectAExceutionPlan().size(), plan.size());
     }
 
     @Test
     public void testDefaultBindingPluginsWarning()
-        throws Exception
-    {
+            throws Exception {
         MavenSession original = ProjectDependencyGraphStub.getMavenSession();
 
-        final TaskSegment taskSegment1 = new TaskSegment( false );
+        final TaskSegment taskSegment1 = new TaskSegment(false);
         final MavenSession session1 = original.clone();
-        session1.setCurrentProject( ProjectDependencyGraphStub.A );
+        session1.setCurrentProject(ProjectDependencyGraphStub.A);
 
-        getBuilderCommon().resolveBuildPlan( session1, ProjectDependencyGraphStub.A, taskSegment1, new HashSet<>() );
+        getBuilderCommon().resolveBuildPlan(session1, ProjectDependencyGraphStub.A, taskSegment1, new HashSet<>());
 
-        verify( logger ).warn("Version not locked for default bindings plugins ["
-            + "stub-plugin-initialize, "
-            + "stub-plugin-process-resources, "
-            + "stub-plugin-compile, "
-            + "stub-plugin-process-test-resources, "
-            + "stub-plugin-test-compile, "
-            + "stub-plugin-test, "
-            + "stub-plugin-package, "
-            + "stub-plugin-install], "
-            + "you should define versions in pluginManagement section of your pom.xml or parent");
+        verify(logger).warn("Version not locked for default bindings plugins ["
+                + "stub-plugin-initialize, "
+                + "stub-plugin-process-resources, "
+                + "stub-plugin-compile, "
+                + "stub-plugin-process-test-resources, "
+                + "stub-plugin-test-compile, "
+                + "stub-plugin-test, "
+                + "stub-plugin-package, "
+                + "stub-plugin-install], "
+                + "you should define versions in pluginManagement section of your pom.xml or parent");
     }
 
     @Test
     public void testHandleBuildError()
-        throws Exception
-    {
+            throws Exception {
     }
 
     @Test
     public void testAttachToThread()
-        throws Exception
-    {
+            throws Exception {
     }
 
     @Test
     public void testGetKey()
-        throws Exception
-    {
+            throws Exception {
     }
 
-    public BuilderCommon getBuilderCommon()
-    {
-        final LifecycleDebugLogger debugLogger = new LifecycleDebugLogger( logger );
-        return new BuilderCommon( debugLogger, new LifecycleExecutionPlanCalculatorStub(),
-                                  logger );
+    public BuilderCommon getBuilderCommon() {
+        final LifecycleDebugLogger debugLogger = new LifecycleDebugLogger(logger);
+        return new BuilderCommon(debugLogger, new LifecycleExecutionPlanCalculatorStub(),
+                logger);
     }
 
 }

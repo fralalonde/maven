@@ -28,55 +28,63 @@ import java.util.Map;
 import org.apache.maven.artifact.repository.metadata.Metadata;
 
 /**
- * Handles deserialization of metadata from some kind of textual format like XML.
+ * Handles deserialization of metadata from some kind of textual format like
+ * XML.
  *
  * @author Benjamin Bentmann
  */
-public interface MetadataReader
-{
+public interface MetadataReader {
 
     /**
-     * The key for the option to enable strict parsing. This option is of type {@link Boolean} and defaults to {@code
-     * true}. If {@code false}, unknown elements will be ignored instead of causing a failure.
+     * The key for the option to enable strict parsing. This option is of type
+     * {@link Boolean} and defaults to {@code
+     * true}. If {@code false}, unknown elements will be ignored instead of causing
+     * a failure.
      */
     String IS_STRICT = "org.apache.maven.artifact.repository.metadata.io.isStrict";
 
     /**
      * Reads the metadata from the specified file.
      *
-     * @param input The file to deserialize the metadata from, must not be {@code null}.
-     * @param options The options to use for deserialization, may be {@code null} to use the default values.
+     * @param input   The file to deserialize the metadata from, must not be
+     *                {@code null}.
+     * @param options The options to use for deserialization, may be {@code null} to
+     *                use the default values.
      * @return The deserialized metadata, never {@code null}.
-     * @throws IOException If the metadata could not be deserialized.
+     * @throws IOException            If the metadata could not be deserialized.
      * @throws MetadataParseException If the input format could not be parsed.
      */
-    Metadata read( File input, Map<String, ?> options )
-        throws IOException, MetadataParseException;
+    Metadata read(File input, Map<String, ?> options)
+            throws IOException, MetadataParseException;
 
     /**
-     * Reads the metadata from the specified character reader. The reader will be automatically closed before the method
-     * returns.
+     * Reads the metadata from the specified character reader. The reader will be
+     * automatically closed before the method returns.
      *
-     * @param input The reader to deserialize the metadata from, must not be {@code null}.
-     * @param options The options to use for deserialization, may be {@code null} to use the default values.
+     * @param input   The reader to deserialize the metadata from, must not be
+     *                {@code null}.
+     * @param options The options to use for deserialization, may be {@code null} to
+     *                use the default values.
      * @return The deserialized metadata, never {@code null}.
-     * @throws IOException If the metadata could not be deserialized.
+     * @throws IOException            If the metadata could not be deserialized.
      * @throws MetadataParseException If the input format could not be parsed.
      */
-    Metadata read( Reader input, Map<String, ?> options )
-        throws IOException, MetadataParseException;
+    Metadata read(Reader input, Map<String, ?> options)
+            throws IOException, MetadataParseException;
 
     /**
-     * Reads the metadata from the specified byte stream. The stream will be automatically closed before the method
-     * returns.
+     * Reads the metadata from the specified byte stream. The stream will be
+     * automatically closed before the method returns.
      *
-     * @param input The stream to deserialize the metadata from, must not be {@code null}.
-     * @param options The options to use for deserialization, may be {@code null} to use the default values.
+     * @param input   The stream to deserialize the metadata from, must not be
+     *                {@code null}.
+     * @param options The options to use for deserialization, may be {@code null} to
+     *                use the default values.
      * @return The deserialized metadata, never {@code null}.
-     * @throws IOException If the metadata could not be deserialized.
+     * @throws IOException            If the metadata could not be deserialized.
      * @throws MetadataParseException If the input format could not be parsed.
      */
-    Metadata read( InputStream input, Map<String, ?> options )
-        throws IOException, MetadataParseException;
+    Metadata read(InputStream input, Map<String, ?> options)
+            throws IOException, MetadataParseException;
 
 }

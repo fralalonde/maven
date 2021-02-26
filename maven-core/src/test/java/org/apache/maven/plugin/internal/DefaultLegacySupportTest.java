@@ -49,21 +49,17 @@ public class DefaultLegacySupportTest {
         defaultLegacySupport.setSession(m2);
         latch.countDown();
         thread.join();
-        assertNull( myRunnable.getSession());
+        assertNull(myRunnable.getSession());
     }
-
 
     class MyRunnable implements Runnable {
 
         private volatile MavenSession session;
 
         public void run() {
-            try
-            {
+            try {
                 latch.await();
-            }
-            catch (InterruptedException ignore)
-            {
+            } catch (InterruptedException ignore) {
                 // Test may fail if we get interrupted
             }
             session = defaultLegacySupport.getSession();

@@ -32,76 +32,66 @@ import org.codehaus.plexus.util.FileUtils;
 import org.junit.jupiter.api.Test;
 
 /**
- * Pseudo test to generate documentation fragment about supported CLI options. TODO such documentation generation code
- * should not be necessary as unit test but should be run during site generation (Velocity? Doxia macro?)
+ * Pseudo test to generate documentation fragment about supported CLI options.
+ * TODO such documentation generation code should not be necessary as unit test
+ * but should be run during site generation (Velocity? Doxia macro?)
  */
-public class CLIManagerDocumentationTest
-{
+public class CLIManagerDocumentationTest {
     private final static String LS = System.lineSeparator();
 
     private static class OptionComparator
-        implements Comparator<Option>
-    {
-        public int compare( Option opt1, Option opt2 )
-        {
-            return opt1.getOpt().compareToIgnoreCase( opt2.getOpt() );
+            implements Comparator<Option> {
+        public int compare(Option opt1, Option opt2) {
+            return opt1.getOpt().compareToIgnoreCase(opt2.getOpt());
         }
     }
 
     private static class CLIManagerExtension
-        extends CLIManager
-    {
-        public Collection<Option> getOptions()
-        {
-            List<Option> optList = new ArrayList<>( options.getOptions() );
-            Collections.sort( optList, new OptionComparator() );
+            extends CLIManager {
+        public Collection<Option> getOptions() {
+            List<Option> optList = new ArrayList<>(options.getOptions());
+            Collections.sort(optList, new OptionComparator());
             return optList;
         }
     }
 
-    public String getOptionsAsHtml()
-    {
-        StringBuilder sb = new StringBuilder( 512 );
+    public String getOptionsAsHtml() {
+        StringBuilder sb = new StringBuilder(512);
         boolean a = true;
-        sb.append( "<table border='1' class='zebra-striped'><tr class='a'><th><b>Options</b></th><th><b>Description</b></th></tr>" );
-        for ( Option option : new CLIManagerExtension().getOptions() )
-        {
+        sb.append(
+                "<table border='1' class='zebra-striped'><tr class='a'><th><b>Options</b></th><th><b>Description</b></th></tr>");
+        for (Option option : new CLIManagerExtension().getOptions()) {
             a = !a;
-            sb.append( "<tr class='" ).append( a ? 'a' : 'b' ).append( "'><td><code>-<a name='" );
-            sb.append( option.getOpt() );
-            sb.append( "'>" );
-            sb.append( option.getOpt() );
-            sb.append( "</a>,--<a name='" );
-            sb.append( option.getLongOpt() );
-            sb.append( "'>" );
-            sb.append( option.getLongOpt() );
-            sb.append( "</a>" );
-            if ( option.hasArg() )
-            {
-                if ( option.hasArgName() )
-                {
-                    sb.append( " &lt;" ).append( option.getArgName() ).append( "&gt;" );
-                }
-                else
-                {
-                    sb.append( ' ' );
+            sb.append("<tr class='").append(a ? 'a' : 'b').append("'><td><code>-<a name='");
+            sb.append(option.getOpt());
+            sb.append("'>");
+            sb.append(option.getOpt());
+            sb.append("</a>,--<a name='");
+            sb.append(option.getLongOpt());
+            sb.append("'>");
+            sb.append(option.getLongOpt());
+            sb.append("</a>");
+            if (option.hasArg()) {
+                if (option.hasArgName()) {
+                    sb.append(" &lt;").append(option.getArgName()).append("&gt;");
+                } else {
+                    sb.append(' ');
                 }
             }
-            sb.append( "</code></td><td>" );
-            sb.append( option.getDescription() );
-            sb.append( "</td></tr>" );
-            sb.append( LS );
+            sb.append("</code></td><td>");
+            sb.append(option.getDescription());
+            sb.append("</td></tr>");
+            sb.append(LS);
         }
-        sb.append( "</table>" );
+        sb.append("</table>");
         return sb.toString();
     }
 
     @Test
     public void testOptionsAsHtml()
-        throws IOException
-    {
-        File options = new File( "target/test-classes/options.html" );
-        FileUtils.fileWrite( options, "UTF-8", getOptionsAsHtml() );
+            throws IOException {
+        File options = new File("target/test-classes/options.html");
+        FileUtils.fileWrite(options, "UTF-8", getOptionsAsHtml());
     }
 
 }

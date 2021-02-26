@@ -30,56 +30,50 @@ import java.util.List;
 
 /**
  * <p>
- * Wraps individual MojoExecutions, containing information about completion status and scheduling.
+ * Wraps individual MojoExecutions, containing information about completion
+ * status and scheduling.
  * </p>
- * <strong>NOTE:</strong> This class is not part of any public api and can be changed or deleted without prior notice.
+ * <strong>NOTE:</strong> This class is not part of any public api and can be
+ * changed or deleted without prior notice.
  *
  * @since 3.0
  * @author Kristian Rosenvold
  */
-public class ExecutionPlanItem
-{
+public class ExecutionPlanItem {
     private final MojoExecution mojoExecution;
 
-    public ExecutionPlanItem( MojoExecution mojoExecution )
-    {
+    public ExecutionPlanItem(MojoExecution mojoExecution) {
         this.mojoExecution = mojoExecution;
     }
 
-    public static List<ExecutionPlanItem> createExecutionPlanItems( MavenProject mavenProject,
-                                                                    List<MojoExecution> executions )
-    {
-        BuilderCommon.attachToThread( mavenProject );
+    public static List<ExecutionPlanItem> createExecutionPlanItems(MavenProject mavenProject,
+            List<MojoExecution> executions) {
+        BuilderCommon.attachToThread(mavenProject);
 
         List<ExecutionPlanItem> result = new ArrayList<>();
-        for ( MojoExecution mojoExecution : executions )
-        {
-            result.add( new ExecutionPlanItem( mojoExecution ) );
+        for (MojoExecution mojoExecution : executions) {
+            result.add(new ExecutionPlanItem(mojoExecution));
         }
         return result;
     }
 
-    public MojoExecution getMojoExecution()
-    {
+    public MojoExecution getMojoExecution() {
         return mojoExecution;
     }
 
-    public String getLifecyclePhase()
-    {
+    public String getLifecyclePhase() {
         return mojoExecution.getLifecyclePhase();
     }
 
-    public Plugin getPlugin()
-    {
+    public Plugin getPlugin() {
         final MojoDescriptor mojoDescriptor = getMojoExecution().getMojoDescriptor();
         return mojoDescriptor.getPluginDescriptor().getPlugin();
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "ExecutionPlanItem{" + ", mojoExecution=" + mojoExecution + '}'
-            + super.toString();
+                + super.toString();
     }
 
 }

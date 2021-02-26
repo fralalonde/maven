@@ -27,8 +27,7 @@ import org.eclipse.aether.repository.ArtifactRepository;
  * @since 3.0
  * @author Benjamin Bentmann
  */
-public interface PluginPrefixResult
-{
+public interface PluginPrefixResult {
 
     /**
      * The resolved group id for the plugin.
@@ -47,8 +46,8 @@ public interface PluginPrefixResult
     /**
      * The repository from which the plugin prefix was resolved.
      *
-     * @return The repository from which the plugin prefix was resolved or {@code null} if the prefix was resolved from
-     *         the supplied POM.
+     * @return The repository from which the plugin prefix was resolved or
+     *         {@code null} if the prefix was resolved from the supplied POM.
      */
     ArtifactRepository getRepository();
 

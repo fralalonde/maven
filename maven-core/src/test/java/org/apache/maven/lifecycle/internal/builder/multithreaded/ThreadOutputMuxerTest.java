@@ -48,8 +48,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Kristian Rosenvold
  */
-public class ThreadOutputMuxerTest
-{
+public class ThreadOutputMuxerTest {
 
     final String paid = "Paid";
 
@@ -59,110 +58,98 @@ public class ThreadOutputMuxerTest
 
     @Test
     public void testSingleThreaded()
-        throws Exception
-    {
+            throws Exception {
         ProjectBuildList src = getProjectBuildList();
-        ProjectBuildList projectBuildList =
-            new ProjectBuildList( Arrays.asList( src.get( 0 ), src.get( 1 ), src.get( 2 ) ) );
+        ProjectBuildList projectBuildList = new ProjectBuildList(Arrays.asList(src.get(0), src.get(1), src.get(2)));
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        PrintStream systemOut = new PrintStream( byteArrayOutputStream );
-        ThreadOutputMuxer threadOutputMuxer = new ThreadOutputMuxer( projectBuildList, systemOut );
+        PrintStream systemOut = new PrintStream(byteArrayOutputStream);
+        ThreadOutputMuxer threadOutputMuxer = new ThreadOutputMuxer(projectBuildList, systemOut);
 
-        threadOutputMuxer.associateThreadWithProjectSegment( projectBuildList.get( 0 ) );
-        System.out.print( paid );  // No, this does not print to system.out. It's part of the test
-        assertEquals( paid.length(), byteArrayOutputStream.size() );
-        threadOutputMuxer.associateThreadWithProjectSegment( projectBuildList.get( 1 ) );
-        System.out.print( in );  // No, this does not print to system.out. It's part of the test
-        assertEquals( paid.length(), byteArrayOutputStream.size() );
-        threadOutputMuxer.associateThreadWithProjectSegment( projectBuildList.get( 2 ) );
-        System.out.print( full ); // No, this does not print to system.out. It's part of the test
-        assertEquals( paid.length(), byteArrayOutputStream.size() );
+        threadOutputMuxer.associateThreadWithProjectSegment(projectBuildList.get(0));
+        System.out.print(paid); // No, this does not print to system.out. It's part of the test
+        assertEquals(paid.length(), byteArrayOutputStream.size());
+        threadOutputMuxer.associateThreadWithProjectSegment(projectBuildList.get(1));
+        System.out.print(in); // No, this does not print to system.out. It's part of the test
+        assertEquals(paid.length(), byteArrayOutputStream.size());
+        threadOutputMuxer.associateThreadWithProjectSegment(projectBuildList.get(2));
+        System.out.print(full); // No, this does not print to system.out. It's part of the test
+        assertEquals(paid.length(), byteArrayOutputStream.size());
 
-        threadOutputMuxer.setThisModuleComplete( projectBuildList.get( 0 ) );
-        threadOutputMuxer.setThisModuleComplete( projectBuildList.get( 1 ) );
-        threadOutputMuxer.setThisModuleComplete( projectBuildList.get( 2 ) );
+        threadOutputMuxer.setThisModuleComplete(projectBuildList.get(0));
+        threadOutputMuxer.setThisModuleComplete(projectBuildList.get(1));
+        threadOutputMuxer.setThisModuleComplete(projectBuildList.get(2));
         threadOutputMuxer.close();
-        assertEquals( ( paid + in + full ).length(), byteArrayOutputStream.size() );
+        assertEquals((paid + in + full).length(), byteArrayOutputStream.size());
     }
 
     @Test
     public void testMultiThreaded()
-        throws Exception
-    {
+            throws Exception {
         ProjectBuildList projectBuildList = getProjectBuildList();
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        PrintStream systemOut = new PrintStream( byteArrayOutputStream );
-        final ThreadOutputMuxer threadOutputMuxer = new ThreadOutputMuxer( projectBuildList, systemOut );
+        PrintStream systemOut = new PrintStream(byteArrayOutputStream);
+        final ThreadOutputMuxer threadOutputMuxer = new ThreadOutputMuxer(projectBuildList, systemOut);
 
-        final List<String> stringList =
-            Arrays.asList( "Thinkin", "of", "a", "master", "plan", "Cuz", "ain’t", "nuthin", "but", "sweat", "inside",
-                           "my", "hand" );
+        final List<String> stringList = Arrays.asList("Thinkin", "of", "a", "master", "plan", "Cuz", "ain’t", "nuthin",
+                "but", "sweat", "inside",
+                "my", "hand");
         Iterator<String> lyrics = stringList.iterator();
 
-        ExecutorService executor = Executors.newFixedThreadPool( 10 );
-        CompletionService<ProjectSegment> service = new ExecutorCompletionService<>( executor );
+        ExecutorService executor = Executors.newFixedThreadPool(10);
+        CompletionService<ProjectSegment> service = new ExecutorCompletionService<>(executor);
 
         List<Future<ProjectSegment>> futures = new ArrayList<>();
-        for ( ProjectSegment projectBuild : projectBuildList )
-        {
-            final Future<ProjectSegment> buildFuture =
-                service.submit( new Outputter( threadOutputMuxer, projectBuild, lyrics.next() ) );
-            futures.add( buildFuture );
+        for (ProjectSegment projectBuild : projectBuildList) {
+            final Future<ProjectSegment> buildFuture = service
+                    .submit(new Outputter(threadOutputMuxer, projectBuild, lyrics.next()));
+            futures.add(buildFuture);
         }
 
-        for ( Future<ProjectSegment> future : futures )
-        {
+        for (Future<ProjectSegment> future : futures) {
             future.get();
         }
         int expectedLength = 0;
-        for ( int i = 0; i < projectBuildList.size(); i++ )
-        {
-            expectedLength += stringList.get( i ).length();
+        for (int i = 0; i < projectBuildList.size(); i++) {
+            expectedLength += stringList.get(i).length();
         }
 
         threadOutputMuxer.close();
         final byte[] bytes = byteArrayOutputStream.toByteArray();
-        String result = new String( bytes );
-        assertEquals( expectedLength, bytes.length, result );
-
+        String result = new String(bytes);
+        assertEquals(expectedLength, bytes.length, result);
 
     }
 
     class Outputter
-        implements Callable<ProjectSegment>
-    {
+            implements Callable<ProjectSegment> {
         private final ThreadOutputMuxer threadOutputMuxer;
 
         private final ProjectSegment item;
 
         private final String response;
 
-        Outputter( ThreadOutputMuxer threadOutputMuxer, ProjectSegment item, String response )
-        {
+        Outputter(ThreadOutputMuxer threadOutputMuxer, ProjectSegment item, String response) {
             this.threadOutputMuxer = threadOutputMuxer;
             this.item = item;
             this.response = response;
         }
 
         public ProjectSegment call()
-            throws Exception
-        {
-            threadOutputMuxer.associateThreadWithProjectSegment( item );
-            System.out.print( response );
-            threadOutputMuxer.setThisModuleComplete( item );
+                throws Exception {
+            threadOutputMuxer.associateThreadWithProjectSegment(item);
+            System.out.print(response);
+            threadOutputMuxer.setThisModuleComplete(item);
             return item;
         }
     }
 
-
     private ProjectBuildList getProjectBuildList()
-        throws InvalidPluginDescriptorException, PluginVersionResolutionException, PluginDescriptorParsingException,
-        NoPluginFoundForPrefixException, MojoNotFoundException, PluginNotFoundException, PluginResolutionException,
-        LifecyclePhaseNotFoundException, LifecycleNotFoundException
-    {
+            throws InvalidPluginDescriptorException, PluginVersionResolutionException, PluginDescriptorParsingException,
+            NoPluginFoundForPrefixException, MojoNotFoundException, PluginNotFoundException, PluginResolutionException,
+            LifecyclePhaseNotFoundException, LifecycleNotFoundException {
         final MavenSession session = ProjectDependencyGraphStub.getMavenSession();
-        return ProjectDependencyGraphStub.getProjectBuildList( session );
+        return ProjectDependencyGraphStub.getProjectBuildList(session);
     }
 }

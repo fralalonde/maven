@@ -27,28 +27,27 @@ import org.apache.maven.settings.validation.DefaultSettingsValidator;
 import org.apache.maven.settings.validation.SettingsValidator;
 
 /**
- * A factory to create settings builder instances when no dependency injection is available. <em>Note:</em> This class
- * is only meant as a utility for developers that want to employ the settings builder outside of the Maven build system,
- * Maven plugins should always acquire settings builder instances via dependency injection. Developers might want to
- * subclass this factory to provide custom implementations for some of the components used by the settings builder.
+ * A factory to create settings builder instances when no dependency injection
+ * is available. <em>Note:</em> This class is only meant as a utility for
+ * developers that want to employ the settings builder outside of the Maven
+ * build system, Maven plugins should always acquire settings builder instances
+ * via dependency injection. Developers might want to subclass this factory to
+ * provide custom implementations for some of the components used by the
+ * settings builder.
  *
  * @author Benjamin Bentmann
  */
-public class DefaultSettingsBuilderFactory
-{
+public class DefaultSettingsBuilderFactory {
 
-    protected SettingsReader newSettingsReader()
-    {
+    protected SettingsReader newSettingsReader() {
         return new DefaultSettingsReader();
     }
 
-    protected SettingsWriter newSettingsWriter()
-    {
+    protected SettingsWriter newSettingsWriter() {
         return new DefaultSettingsWriter();
     }
 
-    protected SettingsValidator newSettingsValidator()
-    {
+    protected SettingsValidator newSettingsValidator() {
         return new DefaultSettingsValidator();
     }
 
@@ -57,11 +56,10 @@ public class DefaultSettingsBuilderFactory
      *
      * @return The new settings builder instance, never {@code null}.
      */
-    public DefaultSettingsBuilder newInstance()
-    {
-        return new DefaultSettingsBuilder( newSettingsReader(),
-                                           newSettingsWriter(),
-                                           newSettingsValidator() );
+    public DefaultSettingsBuilder newInstance() {
+        return new DefaultSettingsBuilder(newSettingsReader(),
+                newSettingsWriter(),
+                newSettingsValidator());
     }
 
 }

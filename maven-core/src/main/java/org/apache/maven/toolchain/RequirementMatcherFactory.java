@@ -27,82 +27,64 @@ import org.apache.maven.artifact.versioning.VersionRange;
  *
  * @author mkleint
  */
-public final class RequirementMatcherFactory
-{
-    private RequirementMatcherFactory()
-    {
+public final class RequirementMatcherFactory {
+    private RequirementMatcherFactory() {
     }
 
-    public static RequirementMatcher createExactMatcher( String provideValue )
-    {
-        return new ExactMatcher( provideValue );
+    public static RequirementMatcher createExactMatcher(String provideValue) {
+        return new ExactMatcher(provideValue);
     }
 
-    public static RequirementMatcher createVersionMatcher( String provideValue )
-    {
-        return new VersionMatcher( provideValue );
+    public static RequirementMatcher createVersionMatcher(String provideValue) {
+        return new VersionMatcher(provideValue);
     }
 
     private static final class ExactMatcher
-        implements RequirementMatcher
-    {
+            implements RequirementMatcher {
 
         private String provides;
 
-        private ExactMatcher( String provides )
-        {
+        private ExactMatcher(String provides) {
             this.provides = provides;
         }
 
         @Override
-        public boolean matches( String requirement )
-        {
-            return provides.equalsIgnoreCase( requirement );
+        public boolean matches(String requirement) {
+            return provides.equalsIgnoreCase(requirement);
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return provides;
         }
     }
 
     private static final class VersionMatcher
-        implements RequirementMatcher
-    {
+            implements RequirementMatcher {
         DefaultArtifactVersion version;
 
-        private VersionMatcher( String version )
-        {
-            this.version = new DefaultArtifactVersion( version );
+        private VersionMatcher(String version) {
+            this.version = new DefaultArtifactVersion(version);
         }
 
         @Override
-        public boolean matches( String requirement )
-        {
-            try
-            {
-                VersionRange range = VersionRange.createFromVersionSpec( requirement );
-                if ( range.hasRestrictions() )
-                {
-                    return range.containsVersion( version );
+        public boolean matches(String requirement) {
+            try {
+                VersionRange range = VersionRange.createFromVersionSpec(requirement);
+                if (range.hasRestrictions()) {
+                    return range.containsVersion(version);
+                } else {
+                    return range.getRecommendedVersion().compareTo(version) == 0;
                 }
-                else
-                {
-                    return range.getRecommendedVersion().compareTo( version ) == 0;
-                }
-            }
-            catch ( InvalidVersionSpecificationException ex )
-            {
-                //TODO error reporting
+            } catch (InvalidVersionSpecificationException ex) {
+                // TODO error reporting
                 ex.printStackTrace();
                 return false;
             }
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return version.toString();
         }
     }

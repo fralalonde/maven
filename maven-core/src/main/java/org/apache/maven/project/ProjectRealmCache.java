@@ -25,37 +25,33 @@ import org.codehaus.plexus.classworlds.realm.ClassRealm;
 import org.eclipse.aether.graph.DependencyFilter;
 
 /**
- * Caches project class realms. <strong>Warning:</strong> This is an internal utility interface that is only public for
- * technical reasons, it is not part of the public API. In particular, this interface can be changed or deleted without
- * prior notice.
+ * Caches project class realms. <strong>Warning:</strong> This is an internal
+ * utility interface that is only public for technical reasons, it is not part
+ * of the public API. In particular, this interface can be changed or deleted
+ * without prior notice.
  *
  * @author Igor Fedorenko
  * @author Benjamin Bentmann
  */
-public interface ProjectRealmCache
-{
+public interface ProjectRealmCache {
 
     /**
      * A cache key.
      */
-    interface Key
-    {
+    interface Key {
         // marker interface for cache keys
     }
 
     /**
      * CacheRecord
      */
-    class CacheRecord
-    {
+    class CacheRecord {
 
-        public ClassRealm getRealm()
-        {
+        public ClassRealm getRealm() {
             return realm;
         }
 
-        public DependencyFilter getExtensionArtifactFilter()
-        {
+        public DependencyFilter getExtensionArtifactFilter() {
             return extensionArtifactFilter;
         }
 
@@ -63,30 +59,31 @@ public interface ProjectRealmCache
 
         private final DependencyFilter extensionArtifactFilter;
 
-        CacheRecord( ClassRealm realm, DependencyFilter extensionArtifactFilter )
-        {
+        CacheRecord(ClassRealm realm, DependencyFilter extensionArtifactFilter) {
             this.realm = realm;
             this.extensionArtifactFilter = extensionArtifactFilter;
         }
 
     }
 
-    Key createKey( List<? extends ClassRealm> extensionRealms );
+    Key createKey(List<? extends ClassRealm> extensionRealms);
 
-    CacheRecord get( Key key );
+    CacheRecord get(Key key);
 
-    CacheRecord put( Key key, ClassRealm projectRealm, DependencyFilter extensionArtifactFilter );
+    CacheRecord put(Key key, ClassRealm projectRealm, DependencyFilter extensionArtifactFilter);
 
     void flush();
 
     /**
-     * Registers the specified cache record for usage with the given project. Integrators can use the information
-     * collected from this method in combination with a custom cache implementation to dispose unused records from the
-     * cache.
+     * Registers the specified cache record for usage with the given project.
+     * Integrators can use the information collected from this method in combination
+     * with a custom cache implementation to dispose unused records from the cache.
      *
-     * @param project The project that employs the plugin realm, must not be {@code null}.
-     * @param record The cache record being used for the project, must not be {@code null}.
+     * @param project The project that employs the plugin realm, must not be
+     *                {@code null}.
+     * @param record  The cache record being used for the project, must not be
+     *                {@code null}.
      */
-    void register( MavenProject project, Key key, CacheRecord record );
+    void register(MavenProject project, Key key, CacheRecord record);
 
 }

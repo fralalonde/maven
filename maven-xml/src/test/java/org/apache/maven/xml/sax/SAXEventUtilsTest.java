@@ -24,17 +24,14 @@ import static org.hamcrest.CoreMatchers.is;
 
 import org.junit.jupiter.api.Test;
 
-public class SAXEventUtilsTest
-{
+public class SAXEventUtilsTest {
     @Test
-    public void replaceWithNamespace()
-    {
-        assertThat( SAXEventUtils.renameQName( "org:bar", "com" ), is( "org:com" ) );
+    public void replaceWithNamespace() {
+        assertThat(SAXEventUtils.renameQName("org:bar", "com"), is("org:com"));
     }
 
     @Test
-    public void replaceWithoutNamespace()
-    {
-        assertThat( SAXEventUtils.renameQName( "bar", "com" ), is( "com" ) );
+    public void replaceWithoutNamespace() {
+        assertThat(SAXEventUtils.renameQName("bar", "com"), is("com"));
     }
 }

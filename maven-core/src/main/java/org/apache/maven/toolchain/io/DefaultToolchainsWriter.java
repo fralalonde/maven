@@ -37,18 +37,15 @@ import java.util.Objects;
  */
 @Named
 @Singleton
-public class DefaultToolchainsWriter implements ToolchainsWriter
-{
+public class DefaultToolchainsWriter implements ToolchainsWriter {
 
     @Override
-    public void write( Writer output, Map<String, Object> options, PersistedToolchains toolchains ) throws IOException
-    {
-        Objects.requireNonNull( output, "output cannot be null" );
-        Objects.requireNonNull( toolchains, "toolchains cannot be null" );
+    public void write(Writer output, Map<String, Object> options, PersistedToolchains toolchains) throws IOException {
+        Objects.requireNonNull(output, "output cannot be null");
+        Objects.requireNonNull(toolchains, "toolchains cannot be null");
 
-        try ( Writer out = output )
-        {
-            new MavenToolchainsXpp3Writer().write( out, toolchains );
+        try (Writer out = output) {
+            new MavenToolchainsXpp3Writer().write(out, toolchains);
         }
     }
 }

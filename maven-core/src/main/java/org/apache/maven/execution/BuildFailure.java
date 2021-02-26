@@ -27,8 +27,7 @@ import org.apache.maven.project.MavenProject;
  * @author Benjamin Bentmann
  */
 public class BuildFailure
-    extends BuildSummary
-{
+        extends BuildSummary {
 
     /**
      * The cause of the build failure.
@@ -39,12 +38,11 @@ public class BuildFailure
      * Creates a new build summary for the specified project.
      *
      * @param project The project being summarized, must not be {@code null}.
-     * @param time The build time of the project in milliseconds.
-     * @param cause The cause of the build failure, may be {@code null}.
+     * @param time    The build time of the project in milliseconds.
+     * @param cause   The cause of the build failure, may be {@code null}.
      */
-    public BuildFailure( MavenProject project, long time, Throwable cause )
-    {
-        super( project, time );
+    public BuildFailure(MavenProject project, long time, Throwable cause) {
+        super(project, time);
         this.cause = cause;
     }
 
@@ -53,8 +51,7 @@ public class BuildFailure
      *
      * @return The cause of the build failure or {@code null} if unknown.
      */
-    public Throwable getCause()
-    {
+    public Throwable getCause() {
         return cause;
     }
 

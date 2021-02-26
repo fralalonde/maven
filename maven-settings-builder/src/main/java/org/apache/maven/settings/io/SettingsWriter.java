@@ -32,43 +32,48 @@ import org.apache.maven.settings.Settings;
  *
  * @author Benjamin Bentmann
  */
-public interface SettingsWriter
-{
+public interface SettingsWriter {
 
     /**
-     * Writes the supplied settings to the specified file. Any non-existing parent directories of the output file will
-     * be created automatically.
+     * Writes the supplied settings to the specified file. Any non-existing parent
+     * directories of the output file will be created automatically.
      *
-     * @param output The file to serialize the settings to, must not be {@code null}.
-     * @param options The options to use for serialization, may be {@code null} to use the default values.
+     * @param output   The file to serialize the settings to, must not be
+     *                 {@code null}.
+     * @param options  The options to use for serialization, may be {@code null} to
+     *                 use the default values.
      * @param settings The settings to serialize, must not be {@code null}.
      * @throws IOException If the settings could not be serialized.
      */
-    void write( File output, Map<String, Object> options, Settings settings )
-        throws IOException;
+    void write(File output, Map<String, Object> options, Settings settings)
+            throws IOException;
 
     /**
-     * Writes the supplied settings to the specified character writer. The writer will be automatically closed before
-     * the method returns.
+     * Writes the supplied settings to the specified character writer. The writer
+     * will be automatically closed before the method returns.
      *
-     * @param output The writer to serialize the settings to, must not be {@code null}.
-     * @param options The options to use for serialization, may be {@code null} to use the default values.
+     * @param output   The writer to serialize the settings to, must not be
+     *                 {@code null}.
+     * @param options  The options to use for serialization, may be {@code null} to
+     *                 use the default values.
      * @param settings The settings to serialize, must not be {@code null}.
      * @throws IOException If the settings could not be serialized.
      */
-    void write( Writer output, Map<String, Object> options, Settings settings )
-        throws IOException;
+    void write(Writer output, Map<String, Object> options, Settings settings)
+            throws IOException;
 
     /**
-     * Writes the supplied settings to the specified byte stream. The stream will be automatically closed before the
-     * method returns.
+     * Writes the supplied settings to the specified byte stream. The stream will be
+     * automatically closed before the method returns.
      *
-     * @param output The stream to serialize the settings to, must not be {@code null}.
-     * @param options The options to use for serialization, may be {@code null} to use the default values.
+     * @param output   The stream to serialize the settings to, must not be
+     *                 {@code null}.
+     * @param options  The options to use for serialization, may be {@code null} to
+     *                 use the default values.
      * @param settings The settings to serialize, must not be {@code null}.
      * @throws IOException If the settings could not be serialized.
      */
-    void write( OutputStream output, Map<String, Object> options, Settings settings )
-        throws IOException;
+    void write(OutputStream output, Map<String, Object> options, Settings settings)
+            throws IOException;
 
 }

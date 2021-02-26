@@ -35,31 +35,29 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Strategy to collect projects for building when the Maven invocation is not in a folder that contains a pom.xml.
+ * Strategy to collect projects for building when the Maven invocation is not in
+ * a folder that contains a pom.xml.
  */
-@Named( "PomlessCollectionStrategy" )
+@Named("PomlessCollectionStrategy")
 @Singleton
 public class PomlessCollectionStrategy
-    implements ProjectCollectionStrategy
-{
+        implements ProjectCollectionStrategy {
     private final ProjectBuilder projectBuilder;
 
     @Inject
-    public PomlessCollectionStrategy( ProjectBuilder projectBuilder )
-    {
+    public PomlessCollectionStrategy(ProjectBuilder projectBuilder) {
         this.projectBuilder = projectBuilder;
     }
 
     @Override
-    public List<MavenProject> collectProjects( final MavenExecutionRequest request )
-            throws ProjectBuildingException
-    {
+    public List<MavenProject> collectProjects(final MavenExecutionRequest request)
+            throws ProjectBuildingException {
         ProjectBuildingRequest buildingRequest = request.getProjectBuildingRequest();
-        ModelSource modelSource = new UrlModelSource( DefaultMaven.class.getResource( "project/standalone.xml" ) );
-        MavenProject project = projectBuilder.build( modelSource,  buildingRequest ).getProject();
-        project.setExecutionRoot( true );
-        request.setProjectPresent( false );
+        ModelSource modelSource = new UrlModelSource(DefaultMaven.class.getResource("project/standalone.xml"));
+        MavenProject project = projectBuilder.build(modelSource, buildingRequest).getProject();
+        project.setExecutionRoot(true);
+        request.setProjectPresent(false);
 
-        return Arrays.asList( project );
+        return Arrays.asList(project);
     }
 }

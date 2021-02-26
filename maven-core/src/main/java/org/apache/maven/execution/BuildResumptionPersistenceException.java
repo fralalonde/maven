@@ -20,13 +20,13 @@ package org.apache.maven.execution;
  */
 
 /**
- * This exception will be thrown when something fails while persisting build resumption data.
+ * This exception will be thrown when something fails while persisting build
+ * resumption data.
+ * 
  * @see BuildResumptionDataRepository#persistResumptionData
  */
-public class BuildResumptionPersistenceException extends Exception
-{
-    public BuildResumptionPersistenceException( String message, Throwable cause )
-    {
-        super( message, cause );
+public class BuildResumptionPersistenceException extends Exception {
+    public BuildResumptionPersistenceException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

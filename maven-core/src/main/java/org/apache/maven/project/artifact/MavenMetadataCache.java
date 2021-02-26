@@ -28,14 +28,13 @@ import org.apache.maven.artifact.metadata.ResolutionGroup;
 /**
  * MavenMetadataCache
  */
-public interface MavenMetadataCache
-{
+public interface MavenMetadataCache {
 
-    ResolutionGroup get( Artifact artifact, boolean resolveManagedVersions, ArtifactRepository localRepository,
-                         List<ArtifactRepository> remoteRepositories );
+    ResolutionGroup get(Artifact artifact, boolean resolveManagedVersions, ArtifactRepository localRepository,
+            List<ArtifactRepository> remoteRepositories);
 
-    void put( Artifact artifact, boolean resolveManagedVersions, ArtifactRepository localRepository,
-              List<ArtifactRepository> remoteRepositories, ResolutionGroup result );
+    void put(Artifact artifact, boolean resolveManagedVersions, ArtifactRepository localRepository,
+            List<ArtifactRepository> remoteRepositories, ResolutionGroup result);
 
     void flush();
 }

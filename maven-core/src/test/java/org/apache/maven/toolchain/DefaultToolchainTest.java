@@ -37,8 +37,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-public class DefaultToolchainTest
-{
+public class DefaultToolchainTest {
     @Mock
     private Logger logger;
 
@@ -46,105 +45,89 @@ public class DefaultToolchainTest
 
     @BeforeEach
     public void setUp()
-        throws Exception
-    {
-        MockitoAnnotations.initMocks( this );
+            throws Exception {
+        MockitoAnnotations.initMocks(this);
     }
 
-    private DefaultToolchain newDefaultToolchain( ToolchainModel model )
-    {
-        return new DefaultToolchain( model, logger )
-        {
+    private DefaultToolchain newDefaultToolchain(ToolchainModel model) {
+        return new DefaultToolchain(model, logger) {
             @Override
-            public String findTool( String toolName )
-            {
+            public String findTool(String toolName) {
                 return null;
             }
         };
     }
 
-    private DefaultToolchain newDefaultToolchain( ToolchainModel model, String type )
-    {
-        return new DefaultToolchain( model, type, logger )
-        {
+    private DefaultToolchain newDefaultToolchain(ToolchainModel model, String type) {
+        return new DefaultToolchain(model, type, logger) {
             @Override
-            public String findTool( String toolName )
-            {
+            public String findTool(String toolName) {
                 return null;
             }
         };
     }
 
     @Test
-    public void testGetModel()
-    {
+    public void testGetModel() {
         ToolchainModel model = new ToolchainModel();
-        DefaultToolchain toolchain = newDefaultToolchain( model );
-        assertEquals( model, toolchain.getModel() );
+        DefaultToolchain toolchain = newDefaultToolchain(model);
+        assertEquals(model, toolchain.getModel());
     }
 
     @Test
-    public void testGetType()
-    {
+    public void testGetType() {
         ToolchainModel model = new ToolchainModel();
-        DefaultToolchain toolchain = newDefaultToolchain( model, "TYPE" );
-        assertEquals( "TYPE", toolchain.getType() );
+        DefaultToolchain toolchain = newDefaultToolchain(model, "TYPE");
+        assertEquals("TYPE", toolchain.getType());
 
-        model.setType( "MODEL_TYPE" );
-        toolchain = newDefaultToolchain( model );
-        assertEquals( "MODEL_TYPE", toolchain.getType() );
+        model.setType("MODEL_TYPE");
+        toolchain = newDefaultToolchain(model);
+        assertEquals("MODEL_TYPE", toolchain.getType());
     }
 
     @Test
-    public void testGetLogger()
-    {
+    public void testGetLogger() {
         ToolchainModel model = new ToolchainModel();
-        DefaultToolchain toolchain = newDefaultToolchain( model );
-        assertEquals( logger, toolchain.getLog() );
+        DefaultToolchain toolchain = newDefaultToolchain(model);
+        assertEquals(logger, toolchain.getLog());
     }
 
     @Test
-    public void testMissingRequirementProperty()
-    {
+    public void testMissingRequirementProperty() {
         ToolchainModel model = new ToolchainModel();
-        model.setType( "TYPE" );
-        DefaultToolchain toolchain = newDefaultToolchain( model );
+        model.setType("TYPE");
+        DefaultToolchain toolchain = newDefaultToolchain(model);
 
-        assertFalse( toolchain.matchesRequirements( Collections.singletonMap( "name", "John Doe" ) ) );
-        verify( logger ).debug( "Toolchain type:TYPE{} is missing required property: name" );
+        assertFalse(toolchain.matchesRequirements(Collections.singletonMap("name", "John Doe")));
+        verify(logger).debug("Toolchain type:TYPE{} is missing required property: name");
     }
-
 
     @Test
-    public void testNonMatchingRequirementProperty()
-    {
+    public void testNonMatchingRequirementProperty() {
         ToolchainModel model = new ToolchainModel();
-        model.setType( "TYPE" );
-        DefaultToolchain toolchain = newDefaultToolchain( model );
-        toolchain.addProvideToken( "name", RequirementMatcherFactory.createExactMatcher( "Jane Doe" ) );
+        model.setType("TYPE");
+        DefaultToolchain toolchain = newDefaultToolchain(model);
+        toolchain.addProvideToken("name", RequirementMatcherFactory.createExactMatcher("Jane Doe"));
 
-        assertFalse( toolchain.matchesRequirements( Collections.singletonMap( "name", "John Doe" ) ) );
-        verify( logger ).debug( "Toolchain type:TYPE{name = Jane Doe} doesn't match required property: name" );
+        assertFalse(toolchain.matchesRequirements(Collections.singletonMap("name", "John Doe")));
+        verify(logger).debug("Toolchain type:TYPE{name = Jane Doe} doesn't match required property: name");
     }
-
 
     @Test
     public void testEquals()
-        throws Exception
-    {
-        try ( InputStream jdksIS = ToolchainModel.class.getResourceAsStream( "toolchains-jdks.xml" );
-              InputStream jdksExtraIS = ToolchainModel.class.getResourceAsStream( "toolchains-jdks-extra.xml" ) )
-        {
-            PersistedToolchains jdks = reader.read( jdksIS );
-            PersistedToolchains jdksExtra = reader.read( jdksExtraIS );
+            throws Exception {
+        try (InputStream jdksIS = ToolchainModel.class.getResourceAsStream("toolchains-jdks.xml");
+                InputStream jdksExtraIS = ToolchainModel.class.getResourceAsStream("toolchains-jdks-extra.xml")) {
+            PersistedToolchains jdks = reader.read(jdksIS);
+            PersistedToolchains jdksExtra = reader.read(jdksExtraIS);
 
-            DefaultToolchain tc1 = new DefaultJavaToolChain( jdks.getToolchains().get( 0 ), null );
-            DefaultToolchain tc2 = new DefaultJavaToolChain( jdksExtra.getToolchains().get( 0 ), null );
+            DefaultToolchain tc1 = new DefaultJavaToolChain(jdks.getToolchains().get(0), null);
+            DefaultToolchain tc2 = new DefaultJavaToolChain(jdksExtra.getToolchains().get(0), null);
 
-            assertEquals( tc1, tc1 );
-            assertNotEquals( tc1, tc2 );
-            assertNotEquals( tc2, tc1 );
-            assertEquals( tc2, tc2 );
+            assertEquals(tc1, tc1);
+            assertNotEquals(tc1, tc2);
+            assertNotEquals(tc2, tc1);
+            assertEquals(tc2, tc2);
         }
     }
 }

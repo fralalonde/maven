@@ -30,32 +30,28 @@ import org.slf4j.LoggerFactory;
  * @since 3.1.0
  */
 public class LogbackConfiguration
-    extends BaseSlf4jConfiguration
-{
+        extends BaseSlf4jConfiguration {
     @Override
-    public void setRootLoggerLevel( Level level )
-    {
+    public void setRootLoggerLevel(Level level) {
         ch.qos.logback.classic.Level value;
-        switch ( level )
-        {
-            case DEBUG:
-                value = ch.qos.logback.classic.Level.DEBUG;
-                break;
+        switch (level) {
+        case DEBUG:
+            value = ch.qos.logback.classic.Level.DEBUG;
+            break;
 
-            case INFO:
-                value = ch.qos.logback.classic.Level.INFO;
-                break;
+        case INFO:
+            value = ch.qos.logback.classic.Level.INFO;
+            break;
 
-            default:
-                value = ch.qos.logback.classic.Level.ERROR;
-                break;
+        default:
+            value = ch.qos.logback.classic.Level.ERROR;
+            break;
         }
-        ( (ch.qos.logback.classic.Logger) LoggerFactory.getLogger( Logger.ROOT_LOGGER_NAME ) ).setLevel( value );
+        ((ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME)).setLevel(value);
     }
 
     @Override
-    public void activate()
-    {
+    public void activate() {
         // no op
     }
 }

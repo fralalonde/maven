@@ -27,40 +27,34 @@ import org.apache.maven.artifact.Artifact;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  */
 public abstract class AbstractArtifactMetadata
-    implements ArtifactMetadata
-{
+        implements ArtifactMetadata {
     private static final String LS = System.lineSeparator();
 
     protected Artifact artifact;
 
-    protected AbstractArtifactMetadata( Artifact artifact )
-    {
+    protected AbstractArtifactMetadata(Artifact artifact) {
         this.artifact = artifact;
     }
 
-    public boolean storedInGroupDirectory()
-    {
+    public boolean storedInGroupDirectory() {
         return false;
     }
 
-    public String getGroupId()
-    {
+    public String getGroupId() {
         return artifact.getGroupId();
     }
 
-    public String getArtifactId()
-    {
+    public String getArtifactId() {
         return artifact.getArtifactId();
     }
 
-    public String extendedToString()
-    {
-        StringBuilder buffer = new StringBuilder( 256 );
+    public String extendedToString() {
+        StringBuilder buffer = new StringBuilder(256);
 
-        buffer.append( LS ).append( "Artifact Metadata" ).append( LS ).append( "--------------------------" );
-        buffer.append( LS ).append( "GroupId: " ).append( getGroupId() );
-        buffer.append( LS ).append( "ArtifactId: " ).append( getArtifactId() );
-        buffer.append( LS ).append( "Metadata Type: " ).append( getClass().getName() );
+        buffer.append(LS).append("Artifact Metadata").append(LS).append("--------------------------");
+        buffer.append(LS).append("GroupId: ").append(getGroupId());
+        buffer.append(LS).append("ArtifactId: ").append(getArtifactId());
+        buffer.append(LS).append("Metadata Type: ").append(getClass().getName());
 
         return buffer.toString();
     }

@@ -35,102 +35,87 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * Provides information about artifacts (identified by groupId:artifactId string key) and classpath elements exported by
- * Maven core itself or a Maven core extension.
+ * Provides information about artifacts (identified by groupId:artifactId string
+ * key) and classpath elements exported by Maven core itself or a Maven core
+ * extension.
  *
  * @since 3.3.0
  */
-public class CoreExtensionEntry
-{
+public class CoreExtensionEntry {
     private final ClassRealm realm;
 
     private final Set<String> artifacts;
 
     private final Set<String> packages;
 
-    public CoreExtensionEntry( ClassRealm realm, Collection<String> artifacts, Collection<String> packages )
-    {
+    public CoreExtensionEntry(ClassRealm realm, Collection<String> artifacts, Collection<String> packages) {
         this.realm = realm;
-        this.artifacts = Collections.unmodifiableSet( new HashSet<>( artifacts ) );
-        this.packages = Collections.unmodifiableSet( new HashSet<>( packages ) );
+        this.artifacts = Collections.unmodifiableSet(new HashSet<>(artifacts));
+        this.packages = Collections.unmodifiableSet(new HashSet<>(packages));
     }
 
     /**
      * Returns ClassLoader used to load extension classes.
      */
-    public ClassRealm getClassRealm()
-    {
+    public ClassRealm getClassRealm() {
         return realm;
     }
 
     /**
-     * Returns artifacts exported by the extension, identified by groupId:artifactId string key.
+     * Returns artifacts exported by the extension, identified by groupId:artifactId
+     * string key.
      */
-    public Set<String> getExportedArtifacts()
-    {
+    public Set<String> getExportedArtifacts() {
         return artifacts;
     }
 
     /**
      * Returns classpath elements exported by the extension.
      */
-    public Set<String> getExportedPackages()
-    {
+    public Set<String> getExportedPackages() {
         return packages;
     }
 
     private static final ExtensionDescriptorBuilder BUILDER = new ExtensionDescriptorBuilder();
 
-    public static CoreExtensionEntry discoverFrom( ClassRealm loader )
-    {
+    public static CoreExtensionEntry discoverFrom(ClassRealm loader) {
         Set<String> artifacts = new LinkedHashSet<>();
         Set<String> packages = new LinkedHashSet<>();
 
-        try
-        {
-            Enumeration<URL> urls = loader.getResources( BUILDER.getExtensionDescriptorLocation() );
-            while ( urls.hasMoreElements() )
-            {
+        try {
+            Enumeration<URL> urls = loader.getResources(BUILDER.getExtensionDescriptorLocation());
+            while (urls.hasMoreElements()) {
 
-                try ( InputStream is = urls.nextElement().openStream() )
-                {
-                    ExtensionDescriptor descriptor = BUILDER.build( is );
-                    artifacts.addAll( descriptor.getExportedArtifacts() );
-                    packages.addAll( descriptor.getExportedPackages() );
+                try (InputStream is = urls.nextElement().openStream()) {
+                    ExtensionDescriptor descriptor = BUILDER.build(is);
+                    artifacts.addAll(descriptor.getExportedArtifacts());
+                    packages.addAll(descriptor.getExportedPackages());
                 }
             }
-        }
-        catch ( IOException ignored )
-        {
+        } catch (IOException ignored) {
             // exports descriptors are entirely optional
         }
 
-        return new CoreExtensionEntry( loader, artifacts, packages );
+        return new CoreExtensionEntry(loader, artifacts, packages);
     }
 
-    public static CoreExtensionEntry discoverFrom( ClassRealm loader, Collection<File> classpath )
-    {
+    public static CoreExtensionEntry discoverFrom(ClassRealm loader, Collection<File> classpath) {
         Set<String> artifacts = new LinkedHashSet<>();
         Set<String> packages = new LinkedHashSet<>();
 
-        try
-        {
-            for ( File entry : classpath )
-            {
-                ExtensionDescriptor descriptor = BUILDER.build( entry );
-                if ( descriptor != null )
-                {
-                    artifacts.addAll( descriptor.getExportedArtifacts() );
-                    packages.addAll( descriptor.getExportedPackages() );
+        try {
+            for (File entry : classpath) {
+                ExtensionDescriptor descriptor = BUILDER.build(entry);
+                if (descriptor != null) {
+                    artifacts.addAll(descriptor.getExportedArtifacts());
+                    packages.addAll(descriptor.getExportedPackages());
                 }
             }
-        }
-        catch ( IOException ignored )
-        {
+        } catch (IOException ignored) {
             // exports descriptors are entirely optional
         }
 
-        return new CoreExtensionEntry( loader, artifacts, packages );
+        return new CoreExtensionEntry(loader, artifacts, packages);
     }
 
 }

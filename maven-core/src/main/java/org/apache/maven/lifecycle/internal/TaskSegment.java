@@ -24,48 +24,45 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Describes the required task segment as provided on the maven command line; i.e. "clean jetty:run install"
+ * Describes the required task segment as provided on the maven command line;
+ * i.e. "clean jetty:run install"
  *
- * <strong>NOTE:</strong> This class is not part of any public api and can be changed or deleted without prior notice.
+ * <strong>NOTE:</strong> This class is not part of any public api and can be
+ * changed or deleted without prior notice.
  *
  * @since 3.0
  * @author Benjamin Bentmann
  * @author Kristian Rosenvold (extracted class only)
  */
-public final class TaskSegment
-{
+public final class TaskSegment {
 
-    // Can be both "LifeCycleTask" (clean/install) and "GoalTask" (org.mortbay.jetty:maven-jetty-plugin:6.1.19:run)
+    // Can be both "LifeCycleTask" (clean/install) and "GoalTask"
+    // (org.mortbay.jetty:maven-jetty-plugin:6.1.19:run)
 
     private final List<Object> tasks;
 
     private final boolean aggregating;
 
-    public TaskSegment( boolean aggregating )
-    {
+    public TaskSegment(boolean aggregating) {
         this.aggregating = aggregating;
         tasks = new ArrayList<>();
     }
 
-    public TaskSegment( boolean aggregating, Object... tasks )
-    {
+    public TaskSegment(boolean aggregating, Object... tasks) {
         this.aggregating = aggregating;
-        this.tasks = new ArrayList<>( Arrays.asList( tasks ) );
+        this.tasks = new ArrayList<>(Arrays.asList(tasks));
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return getTasks().toString();
     }
 
-    public List<Object> getTasks()
-    {
+    public List<Object> getTasks() {
         return tasks;
     }
 
-    public boolean isAggregating()
-    {
+    public boolean isAggregating() {
         return aggregating;
     }
 

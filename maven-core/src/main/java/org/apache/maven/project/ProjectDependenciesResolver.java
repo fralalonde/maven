@@ -24,17 +24,18 @@ package org.apache.maven.project;
  *
  * @author Benjamin Bentmann
  */
-public interface ProjectDependenciesResolver
-{
+public interface ProjectDependenciesResolver {
 
     /**
      * Resolves the transitive dependencies of a project.
      *
-     * @param request The resolution request holding the parameters, must not be {@code null}.
+     * @param request The resolution request holding the parameters, must not be
+     *                {@code null}.
      * @return The resolution result, never {@code null}.
-     * @throws DependencyResolutionException If any project dependency could not be resolved.
+     * @throws DependencyResolutionException If any project dependency could not be
+     *                                       resolved.
      */
-    DependencyResolutionResult resolve( DependencyResolutionRequest request )
-        throws DependencyResolutionException;
+    DependencyResolutionResult resolve(DependencyResolutionRequest request)
+            throws DependencyResolutionException;
 
 }

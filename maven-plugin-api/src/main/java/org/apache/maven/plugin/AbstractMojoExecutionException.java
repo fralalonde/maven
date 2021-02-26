@@ -25,29 +25,24 @@ package org.apache.maven.plugin;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  */
 public abstract class AbstractMojoExecutionException
-    extends Exception
-{
+        extends Exception {
     protected Object source;
 
     protected String longMessage;
 
-    public AbstractMojoExecutionException( String message )
-    {
-        super( message );
+    public AbstractMojoExecutionException(String message) {
+        super(message);
     }
 
-    public AbstractMojoExecutionException( String message, Throwable cause )
-    {
-        super( message, cause );
+    public AbstractMojoExecutionException(String message, Throwable cause) {
+        super(message, cause);
     }
 
-    public String getLongMessage()
-    {
+    public String getLongMessage() {
         return longMessage;
     }
 
-    public Object getSource()
-    {
+    public Object getSource() {
         return source;
     }
 }

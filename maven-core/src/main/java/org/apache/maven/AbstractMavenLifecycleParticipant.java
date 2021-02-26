@@ -27,12 +27,12 @@ import org.apache.maven.execution.MavenSession;
  * All callback methods (will) follow beforeXXX/afterXXX naming pattern to
  * indicate at what lifecycle point it is being called.
  *
- * @see <a href="https://maven.apache.org/examples/maven-3-lifecycle-extensions.html">example</a>
+ * @see <a href=
+ *      "https://maven.apache.org/examples/maven-3-lifecycle-extensions.html">example</a>
  * @see <a href="https://issues.apache.org/jira/browse/MNG-4224">MNG-4224</a>
  * @since 3.0-alpha-3
  */
-public abstract class AbstractMavenLifecycleParticipant
-{
+public abstract class AbstractMavenLifecycleParticipant {
 
     /**
      * Invoked after all MavenProject instances have been created.
@@ -40,9 +40,8 @@ public abstract class AbstractMavenLifecycleParticipant
      * This callback is intended to allow extensions to manipulate MavenProjects
      * before they are sorted and actual build execution starts.
      */
-    public void afterProjectsRead( MavenSession session )
-        throws MavenExecutionException
-    {
+    public void afterProjectsRead(MavenSession session)
+            throws MavenExecutionException {
         // do nothing
     }
 
@@ -50,13 +49,12 @@ public abstract class AbstractMavenLifecycleParticipant
      * Invoked after MavenSession instance has been created.
      *
      * This callback is intended to allow extensions to inject execution properties,
-     * activate profiles and perform similar tasks that affect MavenProject
-     * instance construction.
+     * activate profiles and perform similar tasks that affect MavenProject instance
+     * construction.
      */
     // TODO This is too early for build extensions, so maybe just remove it?
-    public void afterSessionStart( MavenSession session )
-        throws MavenExecutionException
-    {
+    public void afterSessionStart(MavenSession session)
+            throws MavenExecutionException {
         // do nothing
     }
 
@@ -67,11 +65,11 @@ public abstract class AbstractMavenLifecycleParticipant
      * allocated external resources after the build. It is invoked on best-effort
      * basis and may be missed due to an Error or RuntimeException in Maven core
      * code.
+     * 
      * @since 3.2.1, MNG-5389
      */
-    public void afterSessionEnd( MavenSession session )
-        throws MavenExecutionException
-    {
+    public void afterSessionEnd(MavenSession session)
+            throws MavenExecutionException {
         // do nothing
     }
 }

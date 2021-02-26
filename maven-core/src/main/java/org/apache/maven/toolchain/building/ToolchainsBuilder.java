@@ -20,22 +20,24 @@ package org.apache.maven.toolchain.building;
  */
 
 /**
- * Builds the effective toolchains from a user toolchains file and/or a global toolchains file.
+ * Builds the effective toolchains from a user toolchains file and/or a global
+ * toolchains file.
  *
  * @author Robert Scholte
  * @since 3.3.0
  */
-public interface ToolchainsBuilder
-{
+public interface ToolchainsBuilder {
 
     /**
      * Builds the effective toolchains of the specified toolchains files.
      *
-     * @param request The toolchains building request that holds the parameters, must not be {@code null}.
+     * @param request The toolchains building request that holds the parameters,
+     *                must not be {@code null}.
      * @return The result of the toolchains building, never {@code null}.
-     * @throws ToolchainsBuildingException If the effective toolchains could not be built.
+     * @throws ToolchainsBuildingException If the effective toolchains could not be
+     *                                     built.
      */
-    ToolchainsBuildingResult build( ToolchainsBuildingRequest request )
-        throws ToolchainsBuildingException;
+    ToolchainsBuildingResult build(ToolchainsBuildingRequest request)
+            throws ToolchainsBuildingException;
 
 }

@@ -21,6 +21,7 @@ package org.apache.maven.settings.building;
 
 import java.util.List;
 
+import org.apache.maven.building.Problem;
 import org.apache.maven.settings.Settings;
 
 /**
@@ -28,8 +29,7 @@ import org.apache.maven.settings.Settings;
  *
  * @author Benjamin Bentmann
  */
-public interface SettingsBuildingResult
-{
+public interface SettingsBuildingResult {
 
     /**
      * Gets the assembled settings.
@@ -39,12 +39,14 @@ public interface SettingsBuildingResult
     Settings getEffectiveSettings();
 
     /**
-     * Gets the problems that were encountered during the settings building. Note that only problems of severity
-     * {@link SettingsProblem.Severity#WARNING} and below are reported here. Problems with a higher severity level cause
-     * the settings builder to fail with a {@link SettingsBuildingException}.
+     * Gets the problems that were encountered during the settings building. Note
+     * that only problems of severity {@link Problem.Severity#WARNING} and
+     * below are reported here. Problems with a higher severity level cause the
+     * settings builder to fail with a {@link SettingsBuildingException}.
      *
-     * @return The problems that were encountered during the settings building, can be empty but never {@code null}.
+     * @return The problems that were encountered during the settings building, can
+     *         be empty but never {@code null}.
      */
-    List<SettingsProblem> getProblems();
+    List<Problem> getProblems();
 
 }

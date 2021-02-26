@@ -28,7 +28,6 @@ import org.xml.sax.SAXException;
  * @since 4.0.0
  */
 @FunctionalInterface
-public interface SAXEvent
-{
+public interface SAXEvent {
     void execute() throws SAXException;
 }

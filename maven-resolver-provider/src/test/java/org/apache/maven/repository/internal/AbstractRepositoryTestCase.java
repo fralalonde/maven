@@ -38,8 +38,7 @@ import org.junit.jupiter.api.BeforeEach;
 import static org.apache.maven.test.PlexusExtension.getTestFile;
 
 @PlexusTest
-public abstract class AbstractRepositoryTestCase
-{
+public abstract class AbstractRepositoryTestCase {
     @Inject
     protected RepositorySystem system;
 
@@ -50,32 +49,29 @@ public abstract class AbstractRepositoryTestCase
 
     @BeforeEach
     public void setUp()
-        throws Exception
-    {
-        session = newMavenRepositorySystemSession( system );
+            throws Exception {
+        session = newMavenRepositorySystemSession(system);
     }
 
     protected PlexusContainer getContainer() {
         return container;
     }
 
-    public static RepositorySystemSession newMavenRepositorySystemSession(RepositorySystem system )
-    {
+    public static RepositorySystemSession newMavenRepositorySystemSession(RepositorySystem system) {
         DefaultRepositorySystemSession session = MavenRepositorySystemUtils.newSession();
 
-        LocalRepository localRepo = new LocalRepository( "target/local-repo" );
-        session.setLocalRepositoryManager( system.newLocalRepositoryManager( session, localRepo ) );
+        LocalRepository localRepo = new LocalRepository("target/local-repo");
+        session.setLocalRepositoryManager(system.newLocalRepositoryManager(session, localRepo));
 
-        session.setTransferListener( new ConsoleTransferListener() );
-        session.setRepositoryListener( new ConsoleRepositoryListener() );
+        session.setTransferListener(new ConsoleTransferListener());
+        session.setRepositoryListener(new ConsoleRepositoryListener());
 
         return session;
     }
 
     public static RemoteRepository newTestRepository()
-        throws MalformedURLException
-    {
-        return new RemoteRepository.Builder( "repo", "default",
-                                             getTestFile( "target/test-classes/repo" ).toURI().toURL().toString() ).build();
+            throws MalformedURLException {
+        return new RemoteRepository.Builder("repo", "default",
+                getTestFile("target/test-classes/repo").toURI().toURL().toString()).build();
     }
 }

@@ -27,40 +27,35 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class LogLevelRecorderTest
-{
+public class LogLevelRecorderTest {
     @Test
-    public void createsLogLevelRecorder()
-    {
-        LogLevelRecorder logLevelRecorder = new LogLevelRecorder( "WARN" );
-        logLevelRecorder.record( Level.ERROR );
+    public void createsLogLevelRecorder() {
+        LogLevelRecorder logLevelRecorder = new LogLevelRecorder("WARN");
+        logLevelRecorder.record(Level.ERROR);
 
-        assertTrue( logLevelRecorder.metThreshold() );
+        assertTrue(logLevelRecorder.metThreshold());
     }
 
     @Test
-    public void failsOnLowerThanWarn ()
-    {
-        assertThrows( IllegalArgumentException.class, () -> new LogLevelRecorder( "INFO" ) );
+    public void failsOnLowerThanWarn() {
+        assertThrows(IllegalArgumentException.class, () -> new LogLevelRecorder("INFO"));
     }
 
     @Test
-    public void createsLogLevelRecorderWithWarning()
-    {
-        LogLevelRecorder logLevelRecorder = new LogLevelRecorder( "WARNING" );
-        logLevelRecorder.record( Level.ERROR );
+    public void createsLogLevelRecorderWithWarning() {
+        LogLevelRecorder logLevelRecorder = new LogLevelRecorder("WARNING");
+        logLevelRecorder.record(Level.ERROR);
 
-        assertTrue( logLevelRecorder.metThreshold() );
+        assertTrue(logLevelRecorder.metThreshold());
     }
 
     @Test
-    public void failsOnUnknownLogLevel ()
-    {
-        Throwable thrown = assertThrows( IllegalArgumentException.class, () -> new LogLevelRecorder( "SEVERE" ) );
+    public void failsOnUnknownLogLevel() {
+        Throwable thrown = assertThrows(IllegalArgumentException.class, () -> new LogLevelRecorder("SEVERE"));
         String message = thrown.getMessage();
-        assertThat( message, containsString( "SEVERE is not a valid log severity threshold" ) );
-        assertThat( message, containsString( "WARN" ) );
-        assertThat( message, containsString( "WARNING" ) );
-        assertThat( message, containsString( "ERROR" ) );
+        assertThat(message, containsString("SEVERE is not a valid log severity threshold"));
+        assertThat(message, containsString("WARN"));
+        assertThat(message, containsString("WARNING"));
+        assertThat(message, containsString("ERROR"));
     }
 }

@@ -25,21 +25,21 @@ package org.apache.maven.lifecycle;
  * @author Benjamin Bentmann
  */
 public class LifecyclePhaseNotFoundException
-    extends Exception
-{
+        extends Exception {
 
     private final String lifecyclePhase;
 
     /**
-     * Creates a new exception to indicate that the specified lifecycle phase is not defined by any known lifecycle.
+     * Creates a new exception to indicate that the specified lifecycle phase is not
+     * defined by any known lifecycle.
      *
-     * @param message The detail message, may be {@code null}.
-     * @param lifecyclePhase The name of the lifecycle phase that could not be located, may be {@code null}.
+     * @param message        The detail message, may be {@code null}.
+     * @param lifecyclePhase The name of the lifecycle phase that could not be
+     *                       located, may be {@code null}.
      */
-    public LifecyclePhaseNotFoundException( String message, String lifecyclePhase )
-    {
-        super( message );
-        this.lifecyclePhase = ( lifecyclePhase != null ) ? lifecyclePhase : "";
+    public LifecyclePhaseNotFoundException(String message, String lifecyclePhase) {
+        super(message);
+        this.lifecyclePhase = (lifecyclePhase != null) ? lifecyclePhase : "";
     }
 
     /**
@@ -47,8 +47,7 @@ public class LifecyclePhaseNotFoundException
      *
      * @return The lifecycle phase that was not found, never {@code null}.
      */
-    public String getLifecyclePhase()
-    {
+    public String getLifecyclePhase() {
         return lifecyclePhase;
     }
 

@@ -28,13 +28,11 @@ import org.apache.maven.eventspy.EventSpy;
  * DefaultEventSpyContext
  */
 public class DefaultEventSpyContext
-    implements EventSpy.Context
-{
+        implements EventSpy.Context {
 
     private final Map<String, Object> data = new HashMap<>();
 
-    public Map<String, Object> getData()
-    {
+    public Map<String, Object> getData() {
         return data;
     }
 

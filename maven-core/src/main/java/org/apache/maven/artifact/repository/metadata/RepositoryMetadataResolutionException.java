@@ -25,16 +25,13 @@ package org.apache.maven.artifact.repository.metadata;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  */
 public class RepositoryMetadataResolutionException
-    extends Exception
-{
-    public RepositoryMetadataResolutionException( String message )
-    {
-        super( message );
+        extends Exception {
+    public RepositoryMetadataResolutionException(String message) {
+        super(message);
     }
 
-    public RepositoryMetadataResolutionException( String message,
-                                                  Exception e )
-    {
-        super( message, e );
+    public RepositoryMetadataResolutionException(String message,
+            Exception e) {
+        super(message, e);
     }
 }

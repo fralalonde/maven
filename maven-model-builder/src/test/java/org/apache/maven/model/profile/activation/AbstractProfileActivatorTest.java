@@ -36,46 +36,41 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  * @author Benjamin Bentmann
  */
-public abstract class AbstractProfileActivatorTest<T extends ProfileActivator>
-{
+public abstract class AbstractProfileActivatorTest<T extends ProfileActivator> {
 
     private Class<T> activatorClass;
 
     protected T activator;
 
-    public AbstractProfileActivatorTest( Class<T> activatorClass )
-    {
-        this.activatorClass = Objects.requireNonNull( activatorClass, "activatorClass cannot be null" );;
+    public AbstractProfileActivatorTest(Class<T> activatorClass) {
+        this.activatorClass = Objects.requireNonNull(activatorClass, "activatorClass cannot be null");
+        ;
     }
 
     @BeforeEach
     public void setUp()
-        throws Exception
-    {
+            throws Exception {
         activator = activatorClass.getConstructor().newInstance();
     }
 
     @AfterEach
     public void tearDown()
-        throws Exception
-    {
+            throws Exception {
         activator = null;
     }
 
-    protected ProfileActivationContext newContext( final Properties userProperties, final Properties systemProperties )
-    {
+    protected ProfileActivationContext newContext(final Properties userProperties, final Properties systemProperties) {
         DefaultProfileActivationContext context = new DefaultProfileActivationContext();
-        return context.setUserProperties( userProperties ).setSystemProperties( systemProperties );
+        return context.setUserProperties(userProperties).setSystemProperties(systemProperties);
     }
 
-    protected void assertActivation( boolean active, Profile profile, ProfileActivationContext context )
-    {
+    protected void assertActivation(boolean active, Profile profile, ProfileActivationContext context) {
         SimpleProblemCollector problems = new SimpleProblemCollector();
 
-        assertEquals( active, activator.isActive( profile, context, problems ) );
+        assertEquals(active, activator.isActive(profile, context, problems));
 
-        assertEquals( 0, problems.getErrors().size(), problems.getErrors().toString() );
-        assertEquals( 0, problems.getWarnings().size(), problems.getWarnings().toString() );
+        assertEquals(0, problems.getErrors().size(), problems.getErrors().toString());
+        assertEquals(0, problems.getWarnings().size(), problems.getWarnings().toString());
     }
 
 }

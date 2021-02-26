@@ -34,41 +34,36 @@ import java.util.stream.Collectors;
  */
 @Named
 @Singleton
-public class DefaultBuildResumptionAnalyzer implements BuildResumptionAnalyzer
-{
-    private static final Logger LOGGER = LoggerFactory.getLogger( DefaultBuildResumptionAnalyzer.class );
+public class DefaultBuildResumptionAnalyzer implements BuildResumptionAnalyzer {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultBuildResumptionAnalyzer.class);
 
     @Override
-    public Optional<BuildResumptionData> determineBuildResumptionData( final MavenExecutionResult result )
-    {
-        if ( !result.hasExceptions() )
-        {
+    public Optional<BuildResumptionData> determineBuildResumptionData(final MavenExecutionResult result) {
+        if (!result.hasExceptions()) {
             return Optional.empty();
         }
 
         List<MavenProject> sortedProjects = result.getTopologicallySortedProjects();
 
         boolean hasNoSuccess = sortedProjects.stream()
-                .noneMatch( project -> result.getBuildSummary( project ) instanceof BuildSuccess );
+                .noneMatch(project -> result.getBuildSummary(project) instanceof BuildSuccess);
 
-        if ( hasNoSuccess )
-        {
+        if (hasNoSuccess) {
             return Optional.empty();
         }
 
         List<String> remainingProjects = sortedProjects.stream()
-                .filter( project -> result.getBuildSummary( project ) == null
-                        || result.getBuildSummary( project ) instanceof BuildFailure )
-                .map( project -> project.getGroupId() + ":" + project.getArtifactId() )
-                .collect( Collectors.toList() );
+                .filter(project -> result.getBuildSummary(project) == null
+                        || result.getBuildSummary(project) instanceof BuildFailure)
+                .map(project -> project.getGroupId() + ":" + project.getArtifactId())
+                .collect(Collectors.toList());
 
-        if ( remainingProjects.isEmpty() )
-        {
-            LOGGER.info( "No remaining projects found, resuming the build would not make sense." );
+        if (remainingProjects.isEmpty()) {
+            LOGGER.info("No remaining projects found, resuming the build would not make sense.");
             return Optional.empty();
         }
 
-        return Optional.of( new BuildResumptionData( remainingProjects ) );
+        return Optional.of(new BuildResumptionData(remainingProjects));
     }
 
 }

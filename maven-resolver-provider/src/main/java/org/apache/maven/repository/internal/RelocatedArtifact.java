@@ -30,8 +30,7 @@ import org.eclipse.aether.artifact.Artifact;
  * @author Benjamin Bentmann
  */
 final class RelocatedArtifact
-    extends AbstractArtifact
-{
+        extends AbstractArtifact {
 
     private final Artifact artifact;
 
@@ -41,73 +40,55 @@ final class RelocatedArtifact
 
     private final String version;
 
-    RelocatedArtifact( Artifact artifact, String groupId, String artifactId, String version )
-    {
-        this.artifact = Objects.requireNonNull( artifact, "artifact cannot be null" );
+    RelocatedArtifact(Artifact artifact, String groupId, String artifactId, String version) {
+        this.artifact = Objects.requireNonNull(artifact, "artifact cannot be null");
         // TODO Use StringUtils here
-        this.groupId = ( groupId != null && groupId.length() > 0 ) ? groupId : null;
-        this.artifactId = ( artifactId != null && artifactId.length() > 0 ) ? artifactId : null;
-        this.version = ( version != null && version.length() > 0 ) ? version : null;
+        this.groupId = (groupId != null && groupId.length() > 0) ? groupId : null;
+        this.artifactId = (artifactId != null && artifactId.length() > 0) ? artifactId : null;
+        this.version = (version != null && version.length() > 0) ? version : null;
     }
 
-    public String getGroupId()
-    {
-        if ( groupId != null )
-        {
+    public String getGroupId() {
+        if (groupId != null) {
             return groupId;
-        }
-        else
-        {
+        } else {
             return artifact.getGroupId();
         }
     }
 
-    public String getArtifactId()
-    {
-        if ( artifactId != null )
-        {
+    public String getArtifactId() {
+        if (artifactId != null) {
             return artifactId;
-        }
-        else
-        {
+        } else {
             return artifact.getArtifactId();
         }
     }
 
-    public String getVersion()
-    {
-        if ( version != null )
-        {
+    public String getVersion() {
+        if (version != null) {
             return version;
-        }
-        else
-        {
+        } else {
             return artifact.getVersion();
         }
     }
 
-    public String getClassifier()
-    {
+    public String getClassifier() {
         return artifact.getClassifier();
     }
 
-    public String getExtension()
-    {
+    public String getExtension() {
         return artifact.getExtension();
     }
 
-    public File getFile()
-    {
+    public File getFile() {
         return artifact.getFile();
     }
 
-    public String getProperty( String key, String defaultValue )
-    {
-        return artifact.getProperty( key, defaultValue );
+    public String getProperty(String key, String defaultValue) {
+        return artifact.getProperty(key, defaultValue);
     }
 
-    public Map<String, String> getProperties()
-    {
+    public Map<String, String> getProperties() {
         return artifact.getProperties();
     }
 

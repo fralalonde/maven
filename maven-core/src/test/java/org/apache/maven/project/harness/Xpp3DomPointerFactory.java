@@ -32,28 +32,22 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
  * @author Benjamin Bentmann
  */
 public class Xpp3DomPointerFactory
-    implements NodePointerFactory
-{
+        implements NodePointerFactory {
 
-    public int getOrder()
-    {
+    public int getOrder() {
         return 200;
     }
 
-    public NodePointer createNodePointer( QName name, Object object, Locale locale )
-    {
-        if ( object instanceof Xpp3Dom )
-        {
-            return new Xpp3DomNodePointer( (Xpp3Dom) object );
+    public NodePointer createNodePointer(QName name, Object object, Locale locale) {
+        if (object instanceof Xpp3Dom) {
+            return new Xpp3DomNodePointer((Xpp3Dom) object);
         }
         return null;
     }
 
-    public NodePointer createNodePointer( NodePointer parent, QName name, Object object )
-    {
-        if ( object instanceof Xpp3Dom )
-        {
-            return new Xpp3DomNodePointer( parent, (Xpp3Dom) object );
+    public NodePointer createNodePointer(NodePointer parent, QName name, Object object) {
+        if (object instanceof Xpp3Dom) {
+            return new Xpp3DomNodePointer(parent, (Xpp3Dom) object);
         }
         return null;
     }

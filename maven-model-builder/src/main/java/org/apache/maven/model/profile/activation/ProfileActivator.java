@@ -28,32 +28,35 @@ import org.apache.maven.model.profile.ProfileActivationContext;
  *
  * @author Benjamin Bentmann
  */
-public interface ProfileActivator
-{
+public interface ProfileActivator {
 
     /**
-     * Determines whether the specified profile is active in the given activator context.
+     * Determines whether the specified profile is active in the given activator
+     * context.
      *
-     * @param profile The profile whose activation status should be determined, must not be {@code null}.
-     * @param context The environmental context used to determine the activation status of the profile, must not be
-     *            {@code null}.
-     * @param problems The container used to collect problems (e.g. bad syntax) that were encountered, must not be
-     *            {@code null}.
+     * @param profile  The profile whose activation status should be determined,
+     *                 must not be {@code null}.
+     * @param context  The environmental context used to determine the activation
+     *                 status of the profile, must not be {@code null}.
+     * @param problems The container used to collect problems (e.g. bad syntax) that
+     *                 were encountered, must not be {@code null}.
      * @return {@code true} if the profile is active, {@code false} otherwise.
      */
-    boolean isActive( Profile profile, ProfileActivationContext context, ModelProblemCollector problems );
+    boolean isActive(Profile profile, ProfileActivationContext context, ModelProblemCollector problems);
 
     /**
-     * Determines whether specified activation method is present in configuration or not. It should help to have AND
-     * between activation conditions
-     * Need for solving https://issues.apache.org/jira/browse/MNG-4565
-     * @param profile The profile whose activation status should be determined, must not be {@code null}.
-     * @param context The environmental context used to determine the activation status of the profile, must not be
-     *            {@code null}.
-     * @param problems The container used to collect problems (e.g. bad syntax) that were encountered, must not be
-     *            {@code null}.
+     * Determines whether specified activation method is present in configuration or
+     * not. It should help to have AND between activation conditions Need for
+     * solving https://issues.apache.org/jira/browse/MNG-4565
+     * 
+     * @param profile  The profile whose activation status should be determined,
+     *                 must not be {@code null}.
+     * @param context  The environmental context used to determine the activation
+     *                 status of the profile, must not be {@code null}.
+     * @param problems The container used to collect problems (e.g. bad syntax) that
+     *                 were encountered, must not be {@code null}.
      * @return {@code true} if the profile is active, {@code false} otherwise.
      */
-    boolean presentInConfig( Profile profile, ProfileActivationContext context, ModelProblemCollector problems );
+    boolean presentInConfig(Profile profile, ProfileActivationContext context, ModelProblemCollector problems);
 
 }

@@ -34,67 +34,60 @@ import static org.apache.maven.test.PlexusExtension.getTestFile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @PlexusTest
-public class ArtifactHandlerTest
-{
+public class ArtifactHandlerTest {
     @Inject
     PlexusContainer container;
 
     @Test
     public void testAptConsistency()
-        throws Exception
-    {
-        File apt = getTestFile( "src/site/apt/artifact-handlers.apt" );
+            throws Exception {
+        File apt = getTestFile("src/site/apt/artifact-handlers.apt");
 
-        List<String> lines = FileUtils.loadFile( apt );
+        List<String> lines = FileUtils.loadFile(apt);
 
-        for ( String line : lines )
-        {
-            if ( line.startsWith( "||" ) )
-            {
-                String[] cols = line.split( "\\|\\|" );
-                String[] expected =
-                    new String[] { "", "type", "classifier", "extension", "packaging", "language", "added to classpath",
+        for (String line : lines) {
+            if (line.startsWith("||")) {
+                String[] cols = line.split("\\|\\|");
+                String[] expected = new String[] { "", "type", "classifier", "extension", "packaging", "language",
+                        "added to classpath",
                         "includesDependencies", "" };
 
                 int i = 0;
-                for ( String col : cols )
-                {
-                    assertEquals( expected[i++], col.trim(), "Wrong column header" );
+                for (String col : cols) {
+                    assertEquals(expected[i++], col.trim(), "Wrong column header");
                 }
-            }
-            else if ( line.startsWith( "|" ) )
-            {
-                String[] cols = line.split( "\\|" );
+            } else if (line.startsWith("|")) {
+                String[] cols = line.split("\\|");
 
-                String type = trimApt( cols[1] );
-                String classifier = trimApt( cols[2] );
-                String extension = trimApt( cols[3], type );
-                String packaging = trimApt( cols[4], type );
-                String language = trimApt( cols[5] );
-                String addedToClasspath = trimApt( cols[6] );
-                String includesDependencies = trimApt( cols[7] );
+                String type = trimApt(cols[1]);
+                String classifier = trimApt(cols[2]);
+                String extension = trimApt(cols[3], type);
+                String packaging = trimApt(cols[4], type);
+                String language = trimApt(cols[5]);
+                String addedToClasspath = trimApt(cols[6]);
+                String includesDependencies = trimApt(cols[7]);
 
-                ArtifactHandler handler = container.lookup( ArtifactHandler.class, type );
-                assertEquals( handler.getExtension(), extension, type + " extension" );
-                assertEquals( handler.getPackaging(), packaging, type + " packaging" );
-                assertEquals( handler.getClassifier(), classifier, type + " classifier" );
-                assertEquals( handler.getLanguage(), language, type + " language" );
-                assertEquals( handler.isAddedToClasspath() ? "true" : null, addedToClasspath, type + " addedToClasspath" );
-                assertEquals( handler.isIncludesDependencies() ? "true" : null, includesDependencies, type + " includesDependencies" );
+                ArtifactHandler handler = container.lookup(ArtifactHandler.class, type);
+                assertEquals(handler.getExtension(), extension, type + " extension");
+                assertEquals(handler.getPackaging(), packaging, type + " packaging");
+                assertEquals(handler.getClassifier(), classifier, type + " classifier");
+                assertEquals(handler.getLanguage(), language, type + " language");
+                assertEquals(handler.isAddedToClasspath() ? "true" : null, addedToClasspath,
+                        type + " addedToClasspath");
+                assertEquals(handler.isIncludesDependencies() ? "true" : null, includesDependencies,
+                        type + " includesDependencies");
             }
         }
     }
 
-    private String trimApt( String content, String type )
-    {
-        String value = trimApt( content );
-        return "= type".equals( value ) ? type : value;
+    private String trimApt(String content, String type) {
+        String value = trimApt(content);
+        return "= type".equals(value) ? type : value;
     }
 
-    private String trimApt( String content )
-    {
-        content = content.replace( '<', ' ' ).replace( '>', ' ' ).trim();
+    private String trimApt(String content) {
+        content = content.replace('<', ' ').replace('>', ' ').trim();
 
-        return ( content.length() == 0 ) ? null : content;
+        return (content.length() == 0) ? null : content;
     }
 }

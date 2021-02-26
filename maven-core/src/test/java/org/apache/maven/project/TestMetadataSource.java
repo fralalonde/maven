@@ -30,22 +30,19 @@ import org.apache.maven.artifact.metadata.ResolutionGroup;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.project.artifact.MavenMetadataSource;
 
-@SuppressWarnings( "deprecation" )
-@Named( "classpath" )
+@SuppressWarnings("deprecation")
+@Named("classpath")
 @Singleton
 public class TestMetadataSource
-    extends MavenMetadataSource
-{
+        extends MavenMetadataSource {
     @Override
-    public ResolutionGroup retrieve( Artifact artifact, ArtifactRepository localRepository,
-                                     List<ArtifactRepository> remoteRepositories )
-        throws ArtifactMetadataRetrievalException
-    {
-        ResolutionGroup rg = super.retrieve( artifact, localRepository, remoteRepositories );
+    public ResolutionGroup retrieve(Artifact artifact, ArtifactRepository localRepository,
+            List<ArtifactRepository> remoteRepositories)
+            throws ArtifactMetadataRetrievalException {
+        ResolutionGroup rg = super.retrieve(artifact, localRepository, remoteRepositories);
 
-        for ( Artifact a : rg.getArtifacts() )
-        {
-            a.setResolved( true );
+        for (Artifact a : rg.getArtifacts()) {
+            a.setResolved(true);
         }
 
         return rg;

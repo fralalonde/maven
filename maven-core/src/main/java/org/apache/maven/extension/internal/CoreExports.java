@@ -29,47 +29,42 @@ import java.util.Set;
 import org.codehaus.plexus.classworlds.realm.ClassRealm;
 
 /**
- * Provides information about artifacts (identified by groupId:artifactId string key) and classpath elements exported by
- * Maven core itself and loaded Maven core extensions.
+ * Provides information about artifacts (identified by groupId:artifactId string
+ * key) and classpath elements exported by Maven core itself and loaded Maven
+ * core extensions.
  *
  * @since 3.3.0
  */
-public class CoreExports
-{
+public class CoreExports {
     private final Set<String> artifacts;
 
     private final Map<String, ClassLoader> packages;
 
-    public CoreExports( CoreExtensionEntry entry )
-    {
-        this( entry.getClassRealm(), entry.getExportedArtifacts(), entry.getExportedPackages() );
+    public CoreExports(CoreExtensionEntry entry) {
+        this(entry.getClassRealm(), entry.getExportedArtifacts(), entry.getExportedPackages());
     }
 
-    public CoreExports( ClassRealm realm, Set<String> exportedArtifacts, Set<String> exportedPackages )
-    {
+    public CoreExports(ClassRealm realm, Set<String> exportedArtifacts, Set<String> exportedPackages) {
         Map<String, ClassLoader> packages = new LinkedHashMap<>();
-        for ( String pkg : exportedPackages )
-        {
-            packages.put( pkg, realm );
+        for (String pkg : exportedPackages) {
+            packages.put(pkg, realm);
         }
-        this.artifacts = Collections.unmodifiableSet( new HashSet<>( exportedArtifacts ) );
-        this.packages = Collections.unmodifiableMap( new HashMap<>( packages ) );
+        this.artifacts = Collections.unmodifiableSet(new HashSet<>(exportedArtifacts));
+        this.packages = Collections.unmodifiableMap(new HashMap<>(packages));
     }
 
     /**
-     * Returns artifacts exported by Maven core and core extensions. Artifacts are identified by their
-     * groupId:artifactId string key.
+     * Returns artifacts exported by Maven core and core extensions. Artifacts are
+     * identified by their groupId:artifactId string key.
      */
-    public Set<String> getExportedArtifacts()
-    {
+    public Set<String> getExportedArtifacts() {
         return artifacts;
     }
 
     /**
      * Returns packages exported by Maven core and core extensions.
      */
-    public Map<String, ClassLoader> getExportedPackages()
-    {
+    public Map<String, ClassLoader> getExportedPackages() {
         return packages;
     }
 }

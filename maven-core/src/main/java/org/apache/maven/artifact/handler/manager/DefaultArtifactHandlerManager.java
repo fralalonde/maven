@@ -36,44 +36,36 @@ import org.apache.maven.artifact.handler.DefaultArtifactHandler;
 @Named
 @Singleton
 public class DefaultArtifactHandlerManager
-    implements ArtifactHandlerManager
-{
+        implements ArtifactHandlerManager {
 
     @Inject
     private Map<String, ArtifactHandler> artifactHandlers;
 
     private Map<String, ArtifactHandler> allHandlers = new ConcurrentHashMap<>();
 
-    public ArtifactHandler getArtifactHandler( String type )
-    {
-        ArtifactHandler handler = allHandlers.get( type );
+    public ArtifactHandler getArtifactHandler(String type) {
+        ArtifactHandler handler = allHandlers.get(type);
 
-        if ( handler == null )
-        {
-            handler = artifactHandlers.get( type );
+        if (handler == null) {
+            handler = artifactHandlers.get(type);
 
-            if ( handler == null )
-            {
-                handler = new DefaultArtifactHandler( type );
-            }
-            else
-            {
-                allHandlers.put( type, handler );
+            if (handler == null) {
+                handler = new DefaultArtifactHandler(type);
+            } else {
+                allHandlers.put(type, handler);
             }
         }
 
         return handler;
     }
 
-    public void addHandlers( Map<String, ArtifactHandler> handlers )
-    {
+    public void addHandlers(Map<String, ArtifactHandler> handlers) {
         // legacy support for maven-gpg-plugin:1.0
-        allHandlers.putAll( handlers );
+        allHandlers.putAll(handlers);
     }
 
     @Deprecated
-    public Set<String> getHandlerTypes()
-    {
+    public Set<String> getHandlerTypes() {
         return artifactHandlers.keySet();
     }
 

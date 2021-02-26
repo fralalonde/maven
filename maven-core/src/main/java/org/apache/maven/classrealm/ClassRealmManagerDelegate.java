@@ -19,18 +19,16 @@ package org.apache.maven.classrealm;
  * under the License.
  */
 
-
 import org.codehaus.plexus.classworlds.realm.ClassRealm;
 
 /**
- * ClassRealmManagerDelegate is used to perform addition configuration of
- * class realms created by ClassRealmManager.
+ * ClassRealmManagerDelegate is used to perform addition configuration of class
+ * realms created by ClassRealmManager.
  *
  * @author igor
  */
-public interface ClassRealmManagerDelegate
-{
+public interface ClassRealmManagerDelegate {
 
-    void setupRealm( ClassRealm classRealm, ClassRealmRequest request );
+    void setupRealm(ClassRealm classRealm, ClassRealmRequest request);
 
 }

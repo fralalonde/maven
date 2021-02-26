@@ -23,12 +23,10 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-
 /**
  * Class Lifecycle.
  */
-public class Lifecycle
-{
+public class Lifecycle {
     /**
      * Field id
      */
@@ -42,16 +40,14 @@ public class Lifecycle
     /**
      * Method getId
      */
-    public String getId()
-    {
+    public String getId() {
         return this.id;
     }
 
     /**
      * Method getLifecyclePhases
      */
-    public Map<String, LifecyclePhase> getLifecyclePhases()
-    {
+    public Map<String, LifecyclePhase> getLifecyclePhases() {
         return this.lifecyclePhases;
     }
 
@@ -60,8 +56,7 @@ public class Lifecycle
      *
      * @param id
      */
-    public void setId( String id )
-    {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -70,41 +65,34 @@ public class Lifecycle
      *
      * @param lifecyclePhases
      */
-    public void setLifecyclePhases( Map<String, LifecyclePhase> lifecyclePhases )
-    {
+    public void setLifecyclePhases(Map<String, LifecyclePhase> lifecyclePhases) {
         this.lifecyclePhases = lifecyclePhases;
     }
 
     @Deprecated
-    public Map<String, String> getPhases()
-    {
+    public Map<String, String> getPhases() {
         Map<String, LifecyclePhase> lphases = getLifecyclePhases();
-        if ( lphases == null )
-        {
+        if (lphases == null) {
             return null;
         }
 
-        if ( lphases.isEmpty() )
-        {
+        if (lphases.isEmpty()) {
             return Collections.emptyMap();
         }
 
         Map<String, String> phases = new LinkedHashMap<>();
-        for ( Map.Entry<String, LifecyclePhase> e: lphases.entrySet() )
-        {
-            phases.put( e.getKey(), e.getValue().toString() );
+        for (Map.Entry<String, LifecyclePhase> e : lphases.entrySet()) {
+            phases.put(e.getKey(), e.getValue().toString());
         }
         return phases;
     }
 
     @Deprecated
-    public void setPhases( Map<String, String> phases )
-    {
+    public void setPhases(Map<String, String> phases) {
         Map<String, LifecyclePhase> lphases = new LinkedHashMap<>();
-        for ( Map.Entry<String, String> e: phases.entrySet() )
-        {
-            lphases.put( e.getKey(), new LifecyclePhase( e.getValue() ) );
+        for (Map.Entry<String, String> e : phases.entrySet()) {
+            lphases.put(e.getKey(), new LifecyclePhase(e.getValue()));
         }
-        setLifecyclePhases( lphases );
+        setLifecyclePhases(lphases);
     }
 }

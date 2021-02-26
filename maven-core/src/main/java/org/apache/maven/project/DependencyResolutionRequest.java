@@ -27,8 +27,7 @@ import org.eclipse.aether.graph.DependencyFilter;
  *
  * @author Benjamin Bentmann
  */
-public interface DependencyResolutionRequest
-{
+public interface DependencyResolutionRequest {
 
     /**
      * Gets the project to resolve dependencies for.
@@ -43,25 +42,26 @@ public interface DependencyResolutionRequest
      * @param project The project to resolve dependencies for, may be {@code null}.
      * @return This request for chaining, never {@code null}.
      */
-    DependencyResolutionRequest setMavenProject( MavenProject project );
+    DependencyResolutionRequest setMavenProject(MavenProject project);
 
     /**
      * Gets the filter used to exclude some dependencies from resolution.
      *
-     * @return The filter to exclude dependencies from resolution or {@code null} to resolve all dependencies.
+     * @return The filter to exclude dependencies from resolution or {@code null} to
+     *         resolve all dependencies.
      */
     DependencyFilter getResolutionFilter();
 
     /**
-     * Sets the filter used to exclude some dependencies from resolution. Note that this filter only controls the
-     * resolution/download of dependency artifacts, not the inclusion of dependency nodes in the resolved dependency
-     * graph.
+     * Sets the filter used to exclude some dependencies from resolution. Note that
+     * this filter only controls the resolution/download of dependency artifacts,
+     * not the inclusion of dependency nodes in the resolved dependency graph.
      *
-     * @param filter The filter to exclude dependencies from resolution, may be {@code null} to resolve all
-     *            dependencies.
+     * @param filter The filter to exclude dependencies from resolution, may be
+     *               {@code null} to resolve all dependencies.
      * @return This request for chaining, never {@code null}.
      */
-    DependencyResolutionRequest setResolutionFilter( DependencyFilter filter );
+    DependencyResolutionRequest setResolutionFilter(DependencyFilter filter);
 
     /**
      * Gets the session to use for repository access.
@@ -76,6 +76,6 @@ public interface DependencyResolutionRequest
      * @param repositorySession The repository session to use.
      * @return This request for chaining, never {@code null}.
      */
-    DependencyResolutionRequest setRepositorySession( RepositorySystemSession repositorySession );
+    DependencyResolutionRequest setRepositorySession(RepositorySystemSession repositorySession);
 
 }

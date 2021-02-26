@@ -31,25 +31,23 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Tests that the global settings.xml shipped with the distribution is in good state.
+ * Tests that the global settings.xml shipped with the distribution is in good
+ * state.
  *
  * @author Benjamin Bentmann
  */
-public class GlobalSettingsTest
-{
+public class GlobalSettingsTest {
 
     @Test
     public void testValidGlobalSettings()
-        throws Exception
-    {
-        String basedir = System.getProperty( "basedir", System.getProperty( "user.dir" ) );
+            throws Exception {
+        String basedir = System.getProperty("basedir", System.getProperty("user.dir"));
 
-        File globalSettingsFile = new File( basedir, "src/assembly/maven/conf/settings.xml" );
-        assertTrue( globalSettingsFile.isFile(), globalSettingsFile.getAbsolutePath() );
+        File globalSettingsFile = new File(basedir, "src/assembly/maven/conf/settings.xml");
+        assertTrue(globalSettingsFile.isFile(), globalSettingsFile.getAbsolutePath());
 
-        try ( Reader reader = new InputStreamReader( new FileInputStream( globalSettingsFile ), StandardCharsets.UTF_8) )
-        {
-            new SettingsXpp3Reader().read( reader );
+        try (Reader reader = new InputStreamReader(new FileInputStream(globalSettingsFile), StandardCharsets.UTF_8)) {
+            new SettingsXpp3Reader().read(reader);
         }
     }
 

@@ -39,111 +39,101 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
- * A small example of a pipeline of 2 XML Filters, to understand how to get the expected result
+ * A small example of a pipeline of 2 XML Filters, to understand how to get the
+ * expected result
  *
  * @author Robert Scholte
  * @since 4.0.0
  */
-public class ChainedFilterTest
-{
+public class ChainedFilterTest {
 
     @Test
     public void test()
-        throws Exception
-    {
+            throws Exception {
         String input = "<project><!-- aBc --><name>dEf</name></project>";
 
         SAXTransformerFactory transformerFactory = (SAXTransformerFactory) Factories.newTransformerFactory();
         TransformerHandler transformerHandler = transformerFactory.newTransformerHandler();
 
         Writer writer = new StringWriter();
-        StreamResult result = new StreamResult( writer );
-        transformerHandler.setResult( result );
+        StreamResult result = new StreamResult(writer);
+        transformerHandler.setResult(result);
 
-        SAXResult transformResult = new SAXResult( transformerHandler );
+        SAXResult transformResult = new SAXResult(transformerHandler);
 
         // Watch the order of filters! In reverse order the values would be 'AweSome'
         AbstractSAXFilter filter = new Awesome();
 
-        // AbstractSAXFilter doesn't have a constructor with XMLReader, otherwise the LexicalHandler pipeline will be broken
-        filter.setParent( Factories.newXMLReader() );
+        // AbstractSAXFilter doesn't have a constructor with XMLReader, otherwise the
+        // LexicalHandler pipeline will be broken
+        filter.setParent(Factories.newXMLReader());
 
         // LexicalHandler of transformerResult must be the first filter
-        transformResult.setLexicalHandler( filter );
+        transformResult.setLexicalHandler(filter);
 
-        filter = new ChangeCase( filter );
+        filter = new ChangeCase(filter);
         // LexicalHandler on last filter must be the transformerHandler
-        filter.setLexicalHandler( transformerHandler );
+        filter.setLexicalHandler(transformerHandler);
 
-        SAXSource transformSource = new SAXSource( filter, new InputSource( new StringReader( input ) ) );
+        SAXSource transformSource = new SAXSource(filter, new InputSource(new StringReader(input)));
 
         Transformer transformer = transformerFactory.newTransformer();
-        transformer.transform( transformSource, transformResult );
+        transformer.transform(transformSource, transformResult);
 
         String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-            + "<project><!--AWESOME--><name>awesome</name></project>";
-        assertThat( writer.toString() ).and( expected ).areIdentical();
+                + "<project><!--AWESOME--><name>awesome</name></project>";
+        assertThat(writer.toString()).and(expected).areIdentical();
     }
 
     static class ChangeCase
-        extends AbstractSAXFilter
-    {
+            extends AbstractSAXFilter {
 
-        public ChangeCase()
-        {
+        public ChangeCase() {
             super();
         }
 
-        public ChangeCase( AbstractSAXFilter parent )
-        {
-            super( parent );
+        public ChangeCase(AbstractSAXFilter parent) {
+            super(parent);
         }
 
         @Override
-        public void comment( char[] ch, int start, int length )
-            throws SAXException
-        {
-            String s = new String( ch, start, length ).toUpperCase();
-            super.comment( s.toCharArray(), 0, s.length() );
+        public void comment(char[] ch, int start, int length)
+                throws SAXException {
+            String s = new String(ch, start, length).toUpperCase();
+            super.comment(s.toCharArray(), 0, s.length());
         }
 
         @Override
-        public void characters( char[] ch, int start, int length )
-            throws SAXException
-        {
-            String s = new String( ch, start, length ).toLowerCase();
-            super.characters( s.toCharArray(), 0, s.length() );
+        public void characters(char[] ch, int start, int length)
+                throws SAXException {
+            String s = new String(ch, start, length).toLowerCase();
+            super.characters(s.toCharArray(), 0, s.length());
         }
     }
 
     static class Awesome
-        extends AbstractSAXFilter
-    {
+            extends AbstractSAXFilter {
 
-        public Awesome()
-        {
+        public Awesome() {
             super();
         }
 
-        public Awesome( AbstractSAXFilter parent )
-        {
-            super( parent );
+        public Awesome(AbstractSAXFilter parent) {
+            super(parent);
         }
 
         @Override
-        public void comment( char[] ch, int start, int length )
-            throws SAXException
-        {
+        public void comment(char[] ch, int start, int length)
+                throws SAXException {
             String s = "AweSome";
-            super.comment( s.toCharArray(), 0, s.length() );
+            super.comment(s.toCharArray(), 0, s.length());
         }
 
         @Override
-        public void characters( char[] ch, int start, int length )
-            throws SAXException
-        {
+        public void characters(char[] ch, int start, int length)
+                throws SAXException {
             String s = "AweSome";
-            super.characters( s.toCharArray(), 0, s.length() );
+            super.characters(s.toCharArray(), 0, s.length());
         }
     }
 

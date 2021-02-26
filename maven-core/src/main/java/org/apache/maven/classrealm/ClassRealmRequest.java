@@ -27,14 +27,12 @@ import java.util.Map;
  *
  * @author Benjamin Bentmann
  */
-public interface ClassRealmRequest
-{
+public interface ClassRealmRequest {
 
     /**
      * The type of a class realm.
      */
-    enum RealmType
-    {
+    enum RealmType {
         /**
          * The class realm for the public API of the Maven core.
          */
@@ -79,21 +77,24 @@ public interface ClassRealmRequest
     /**
      * Gets the packages/types to import from the parent realm.
      *
-     * @return The modifiable list of packages/types to import from the parent realm, never {@code null}.
+     * @return The modifiable list of packages/types to import from the parent
+     *         realm, never {@code null}.
      */
     List<String> getParentImports();
 
     /**
      * Gets the packages/types to import from foreign realms.
      *
-     * @return The modifiable map of packages/types to import from foreign realms, never {@code null}.
+     * @return The modifiable map of packages/types to import from foreign realms,
+     *         never {@code null}.
      */
     Map<String, ClassLoader> getForeignImports();
 
     /**
      * Gets the constituents for the class realm.
      *
-     * @return The modifiable list of constituents for the class realm, never {@code null}.
+     * @return The modifiable list of constituents for the class realm, never
+     *         {@code null}.
      */
     List<ClassRealmConstituent> getConstituents();
 

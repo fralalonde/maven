@@ -31,56 +31,56 @@ public class ConcurrencyDependencyGraphTest {
     public void testGraph() throws Exception {
 
         ProjectBuildList projectBuildList = ProjectDependencyGraphStub.getProjectBuildList(
-                ProjectDependencyGraphStub.getMavenSession() );
+                ProjectDependencyGraphStub.getMavenSession());
 
         ProjectDependencyGraph projectDependencyGraph = new ProjectDependencyGraphStub();
 
-        ConcurrencyDependencyGraph graph = new ConcurrencyDependencyGraph( projectBuildList, projectDependencyGraph );
+        ConcurrencyDependencyGraph graph = new ConcurrencyDependencyGraph(projectBuildList, projectDependencyGraph);
 
         // start
-        assertEquals( 0, graph.getFinishedProjects().size() );
-        assertEquals( 6, graph.getNumberOfBuilds() );
+        assertEquals(0, graph.getFinishedProjects().size());
+        assertEquals(6, graph.getNumberOfBuilds());
 
         List<MavenProject> rootSchedulableBuilds = graph.getRootSchedulableBuilds();
         // only Project.A has no dependences
-        assertEquals( 1, rootSchedulableBuilds.size() );
-        assertEquals( ProjectDependencyGraphStub.A, rootSchedulableBuilds.iterator().next() );
+        assertEquals(1, rootSchedulableBuilds.size());
+        assertEquals(ProjectDependencyGraphStub.A, rootSchedulableBuilds.iterator().next());
         // double check A deps
-        List<MavenProject> dependenciesA = graph.getDependencies( ProjectDependencyGraphStub.A );
-        assertEquals( 0, dependenciesA.size() );
+        List<MavenProject> dependenciesA = graph.getDependencies(ProjectDependencyGraphStub.A);
+        assertEquals(0, dependenciesA.size());
 
-        assertEquals( 6, graph.getUnfinishedProjects().size() );
+        assertEquals(6, graph.getUnfinishedProjects().size());
 
-        List<MavenProject> schedulableNewProcesses = graph.markAsFinished( ProjectDependencyGraphStub.A );
+        List<MavenProject> schedulableNewProcesses = graph.markAsFinished(ProjectDependencyGraphStub.A);
         // expect Project B, C
-        assertEquals( 2, schedulableNewProcesses.size() );
-        assertEquals( 1, graph.getFinishedProjects().size() );
+        assertEquals(2, schedulableNewProcesses.size());
+        assertEquals(1, graph.getFinishedProjects().size());
 
-        graph.markAsFinished( ProjectDependencyGraphStub.A );
-        // still only  A
-        assertEquals( 1, graph.getFinishedProjects().size() );
+        graph.markAsFinished(ProjectDependencyGraphStub.A);
+        // still only A
+        assertEquals(1, graph.getFinishedProjects().size());
 
         Set<MavenProject> unfinishedProjects = graph.getUnfinishedProjects();
-        assertEquals( 5, unfinishedProjects.size() );
+        assertEquals(5, unfinishedProjects.size());
 
-        graph.markAsFinished( schedulableNewProcesses.get( 0 ) );
-        assertEquals( 2, graph.getFinishedProjects().size() );
-        assertEquals( 4, graph.getUnfinishedProjects().size() );
+        graph.markAsFinished(schedulableNewProcesses.get(0));
+        assertEquals(2, graph.getFinishedProjects().size());
+        assertEquals(4, graph.getUnfinishedProjects().size());
 
-        List<MavenProject> dependenciesC = graph.getDependencies( ProjectDependencyGraphStub.C );
+        List<MavenProject> dependenciesC = graph.getDependencies(ProjectDependencyGraphStub.C);
         // C depends only on A
-        assertEquals( 1, dependenciesC.size() );
+        assertEquals(1, dependenciesC.size());
 
-        List<MavenProject> dependenciesX = graph.getDependencies( ProjectDependencyGraphStub.X );
+        List<MavenProject> dependenciesX = graph.getDependencies(ProjectDependencyGraphStub.X);
         // X depends only on B and C
-        assertEquals( 2, dependenciesX.size() );
+        assertEquals(2, dependenciesX.size());
 
-        List<MavenProject> activeDependenciesC = graph.getActiveDependencies( ProjectDependencyGraphStub.C );
+        List<MavenProject> activeDependenciesC = graph.getActiveDependencies(ProjectDependencyGraphStub.C);
         // A already finished
-        assertEquals( 0, activeDependenciesC.size() );
+        assertEquals(0, activeDependenciesC.size());
 
-        List<MavenProject> activeDependenciesX = graph.getActiveDependencies( ProjectDependencyGraphStub.X );
+        List<MavenProject> activeDependenciesX = graph.getActiveDependencies(ProjectDependencyGraphStub.X);
         // waiting for C
-        assertEquals( 1, activeDependenciesX.size() );
+        assertEquals(1, activeDependenciesX.size());
     }
 }

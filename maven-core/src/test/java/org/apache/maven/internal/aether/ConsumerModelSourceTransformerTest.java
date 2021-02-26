@@ -29,41 +29,34 @@ import org.apache.maven.model.building.TransformerContext;
 import org.junit.jupiter.api.Test;
 import org.xmlunit.assertj.XmlAssert;
 
-public class ConsumerModelSourceTransformerTest
-{
+public class ConsumerModelSourceTransformerTest {
     private ConsumerModelSourceTransformer transformer = new ConsumerModelSourceTransformer();
 
     @Test
-    public void transform() throws Exception
-    {
-        Path beforePomFile = Paths.get( "src/test/resources/projects/transform/before.pom").toAbsolutePath();
-        Path afterPomFile = Paths.get( "src/test/resources/projects/transform/after.pom").toAbsolutePath();
+    public void transform() throws Exception {
+        Path beforePomFile = Paths.get("src/test/resources/projects/transform/before.pom").toAbsolutePath();
+        Path afterPomFile = Paths.get("src/test/resources/projects/transform/after.pom").toAbsolutePath();
 
-        try( InputStream expected = Files.newInputStream( afterPomFile );
-             InputStream result = transformer.transform( beforePomFile, new NoTransformerContext() ) )
-        {
-            XmlAssert.assertThat( result ).and( expected ).areIdentical();
+        try (InputStream expected = Files.newInputStream(afterPomFile);
+                InputStream result = transformer.transform(beforePomFile, new NoTransformerContext())) {
+            XmlAssert.assertThat(result).and(expected).areIdentical();
         }
     }
 
-    private static class NoTransformerContext implements TransformerContext
-    {
+    private static class NoTransformerContext implements TransformerContext {
         @Override
-        public String getUserProperty( String key )
-        {
+        public String getUserProperty(String key) {
             return null;
         }
 
         @Override
-        public Model getRawModel( String groupId, String artifactId )
-            throws IllegalStateException
-        {
+        public Model getRawModel(String groupId, String artifactId)
+                throws IllegalStateException {
             return null;
         }
 
         @Override
-        public Model getRawModel( Path p )
-        {
+        public Model getRawModel(Path p) {
             return null;
         }
     }

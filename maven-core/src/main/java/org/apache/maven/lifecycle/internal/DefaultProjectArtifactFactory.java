@@ -31,26 +31,24 @@ import org.apache.maven.project.artifact.InvalidDependencyVersionException;
 import org.apache.maven.project.artifact.MavenMetadataSource;
 
 /**
- * Default component responsible for creation of MavenProject#dependencyArtifacts instances.
+ * Default component responsible for creation of
+ * MavenProject#dependencyArtifacts instances.
  */
-@SuppressWarnings( "deprecation" )
+@SuppressWarnings("deprecation")
 @Named
 public class DefaultProjectArtifactFactory
-    implements ProjectArtifactFactory
-{
+        implements ProjectArtifactFactory {
     private final ArtifactFactory artifactFactory;
 
     @Inject
-    public DefaultProjectArtifactFactory( ArtifactFactory artifactFactory )
-    {
+    public DefaultProjectArtifactFactory(ArtifactFactory artifactFactory) {
         this.artifactFactory = artifactFactory;
     }
 
     @Override
-    public Set<Artifact> createArtifacts( MavenProject project )
-        throws InvalidDependencyVersionException
-    {
-        return MavenMetadataSource.createArtifacts( artifactFactory, project.getDependencies(), null, null, project );
+    public Set<Artifact> createArtifacts(MavenProject project)
+            throws InvalidDependencyVersionException {
+        return MavenMetadataSource.createArtifacts(artifactFactory, project.getDependencies(), null, null, project);
     }
 
 }

@@ -38,69 +38,56 @@ import java.util.Set;
  * @author Kristian Rosenvold
  */
 public class ProjectDependenciesResolverStub
-    implements ProjectDependenciesResolver, org.apache.maven.project.ProjectDependenciesResolver
-{
-    public Set<Artifact> resolve( MavenProject project, Collection<String> scopesToResolve, MavenSession session )
-        throws ArtifactResolutionException, ArtifactNotFoundException
-    {
+        implements ProjectDependenciesResolver, org.apache.maven.project.ProjectDependenciesResolver {
+    public Set<Artifact> resolve(MavenProject project, Collection<String> scopesToResolve, MavenSession session)
+            throws ArtifactResolutionException, ArtifactNotFoundException {
         return new HashSet<>();
     }
 
-    public Set<Artifact> resolve( MavenProject project, Collection<String> scopesToCollect,
-                                  Collection<String> scopesToResolve, MavenSession session )
-        throws ArtifactResolutionException, ArtifactNotFoundException
-    {
+    public Set<Artifact> resolve(MavenProject project, Collection<String> scopesToCollect,
+            Collection<String> scopesToResolve, MavenSession session)
+            throws ArtifactResolutionException, ArtifactNotFoundException {
         return new HashSet<>();
     }
 
-    public Set<Artifact> resolve( Collection<? extends MavenProject> projects, Collection<String> scopes,
-                                  MavenSession session )
-        throws ArtifactResolutionException, ArtifactNotFoundException
-    {
+    public Set<Artifact> resolve(Collection<? extends MavenProject> projects, Collection<String> scopes,
+            MavenSession session)
+            throws ArtifactResolutionException, ArtifactNotFoundException {
         return new HashSet<>();
     }
 
-    public Set<Artifact> resolve( MavenProject project, Collection<String> scopesToCollect,
-                                  Collection<String> scopesToResolve, MavenSession session,
-                                  Set<Artifact> ignoreableArtifacts )
-        throws ArtifactResolutionException, ArtifactNotFoundException
-    {
+    public Set<Artifact> resolve(MavenProject project, Collection<String> scopesToCollect,
+            Collection<String> scopesToResolve, MavenSession session,
+            Set<Artifact> ignoreableArtifacts)
+            throws ArtifactResolutionException, ArtifactNotFoundException {
         return new HashSet<>();
     }
 
-    public DependencyResolutionResult resolve( DependencyResolutionRequest request )
-        throws DependencyResolutionException
-    {
-        return new DependencyResolutionResult()
-        {
+    public DependencyResolutionResult resolve(DependencyResolutionRequest request)
+            throws DependencyResolutionException {
+        return new DependencyResolutionResult() {
 
-            public List<Dependency> getUnresolvedDependencies()
-            {
+            public List<Dependency> getUnresolvedDependencies() {
                 return Collections.emptyList();
             }
 
-            public List<Dependency> getResolvedDependencies()
-            {
+            public List<Dependency> getResolvedDependencies() {
                 return Collections.emptyList();
             }
 
-            public List<Exception> getResolutionErrors( Dependency dependency )
-            {
+            public List<Exception> getResolutionErrors(Dependency dependency) {
                 return Collections.emptyList();
             }
 
-            public DependencyNode getDependencyGraph()
-            {
-                return new DefaultDependencyNode( (Dependency) null );
+            public DependencyNode getDependencyGraph() {
+                return new DefaultDependencyNode((Dependency) null);
             }
 
-            public List<Dependency> getDependencies()
-            {
+            public List<Dependency> getDependencies() {
                 return Collections.emptyList();
             }
 
-            public List<Exception> getCollectionErrors()
-            {
+            public List<Exception> getCollectionErrors() {
                 return Collections.emptyList();
             }
         };

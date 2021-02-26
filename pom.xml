@@ -22,13 +22,14 @@ under the License.
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
+<!--  <parent>
     <groupId>org.apache.maven</groupId>
     <artifactId>maven-parent</artifactId>
     <version>34</version>
     <relativePath />
-  </parent>
+  </parent>-->
 
+  <groupId>org.apache.maven</groupId>
   <artifactId>maven</artifactId>
   <version>4.0.0-alpha-1-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -46,9 +47,20 @@ under the License.
   <inceptionYear>2001</inceptionYear>
 
   <properties>
-    <maven.version>3.0.5</maven.version>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.version>3.6.3</maven.version>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <formatter.rules>../formatter.xml</formatter.rules>
+    <formatter.skip>false</formatter.skip>
+    <formatter.goal>validate</formatter.goal>
+    <!-- impsort checking not executed by default, see profiles -->
+    <impsort.goal>check</impsort.goal>
+
+    <checkstyle.rules>../checkstyle.xml</checkstyle.rules>
+    <checkstyle.skip>true</checkstyle.skip>
+
     <classWorldsVersion>2.6.0</classWorldsVersion>
     <commonsCliVersion>1.4</commonsCliVersion>
     <commonsLangVersion>3.8.1</commonsLangVersion>
@@ -87,6 +99,7 @@ under the License.
     <module>maven-builder-support</module>
     <module>maven-model</module>
     <module>maven-model-builder</module>
+    <module>maven-compat</module>
     <module>maven-core</module>
     <module>maven-settings</module>
     <module>maven-settings-builder</module>
@@ -96,7 +109,6 @@ under the License.
     <module>maven-slf4j-provider</module>
     <module>maven-slf4j-wrapper</module>
     <module>maven-embedder</module>
-    <module>maven-compat</module>
     <module>apache-maven</module> <!-- rename to apache-maven/maven.pom after RAT-268 -->
     <module>maven-wrapper</module>
     <module>apache-maven/maven-wrapper.pom</module>
@@ -520,6 +532,12 @@ under the License.
   <!--bootstrap-start-comment-->
   <dependencies>
     <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.18</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
       <version>${junitVersion}</version>
@@ -613,27 +631,70 @@ under the License.
           <version>1.4</version>
         </plugin>
         <plugin>
-          <groupId>org.apache.rat</groupId>
-          <artifactId>apache-rat-plugin</artifactId>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.1</version>
           <configuration>
-            <excludes>
-              <exclude>.asf.yaml</exclude>
-              <exclude>src/test/resources*/**</exclude>
-              <exclude>src/test/projects/**</exclude>
-              <exclude>src/test/remote-repo/**</exclude>
-              <exclude>**/*.odg</exclude>
-              <!--
-                ! Excluded the license files itself cause they do not have have a license of themselfs.
-              -->
-              <exclude>src/main/appended-resources/licenses/CDDL-1.0.txt</exclude>
-              <exclude>src/main/appended-resources/licenses/EPL-1.0.txt</exclude>
-            </excludes>
+            <source>${maven.compiler.source}</source>
+            <target>${maven.compiler.target}</target>
+            <showDeprecation>true</showDeprecation>
+            <compilerArgs>
+              <!-- enable all default warnings -->
+              <arg>-Xlint</arg>
+              <!-- Verbose compiler messages -->
+              <arg>-Xdiags:verbose</arg>
+              <!-- treat warnings as errors : NOTE this is hard, javac is picky -->
+              <!--<arg>-Werror</arg>-->
+              <!-- disable anachronic serialization warnings -->
+              <arg>-Xlint:-serial</arg>
+              <!-- some compile-time annotations are unused -->
+              <!--<arg>-Xlint:-annotation</arg>-->
+            </compilerArgs>
           </configuration>
         </plugin>
+
+        <plugin>
+          <groupId>net.revelc.code.formatter</groupId>
+          <artifactId>formatter-maven-plugin</artifactId>
+          <version>2.14.0</version>
+          <configuration>
+            <configFile>${formatter.rules}</configFile>
+            <skipFormatting>${formatter.skip}</skipFormatting>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>net.revelc.code</groupId>
+          <artifactId>impsort-maven-plugin</artifactId>
+          <version>1.4.1</version>
+          <configuration>
+            <joinStaticWithNonStatic>true</joinStaticWithNonStatic>
+            <skip>${formatter.skip}</skip>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>3.1.1</version>
+          <dependencies>
+            <dependency>
+              <groupId>com.puppycrawl.tools</groupId>
+              <artifactId>checkstyle</artifactId>
+              <version>8.37</version>
+            </dependency>
+          </dependencies>
+          <configuration>
+            <skip>${checkstyle.skip}</skip>
+            <consoleOutput>true</consoleOutput>
+            <configLocation>${checkstyle.rules}</configLocation>
+          </configuration>
+        </plugin>
+
       </plugins>
     </pluginManagement>
     <plugins>
-      <plugin>
+      <!--no signature for Java11-->
+<!--      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>animal-sniffer-maven-plugin</artifactId>
         <version>1.18</version>
@@ -653,7 +714,7 @@ under the License.
             </goals>
           </execution>
         </executions>
-      </plugin>
+      </plugin>-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-doap-plugin</artifactId>
@@ -666,17 +727,6 @@ under the License.
             standardized coordinate system, binary plugins, and a standard build
             lifecycle.</charter>
           </asfExtOptions>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.rat</groupId>
-        <artifactId>apache-rat-plugin</artifactId>
-        <configuration>
-          <excludes combine.children="append">
-            <exclude>bootstrap/**</exclude>
-            <exclude>README.bootstrap.txt</exclude>
-            <exclude>README.md</exclude>
-          </excludes>
         </configuration>
       </plugin>
       <plugin>
@@ -705,6 +755,33 @@ under the License.
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>check</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>net.revelc.code.formatter</groupId>
+        <artifactId>formatter-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>run-formatter</id>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>${formatter.goal}</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 
@@ -792,6 +869,78 @@ under the License.
                 </property>
               </systemProperties>
             </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>skip-checkstyle</id>
+      <activation>
+        <file>
+          <missing>${checkstyle.rules}</missing>
+        </file>
+      </activation>
+      <properties>
+        <checkstyle.skip>true</checkstyle.skip>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>skip-format-rules</id>
+      <activation>
+        <file>
+          <missing>${formatter.rules}</missing>
+        </file>
+      </activation>
+      <properties>
+        <formatter.skip>true</formatter.skip>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>disable-code-format</id>
+      <activation>
+        <property>
+          <name>code.format</name>
+          <value>off</value>
+        </property>
+      </activation>
+      <properties>
+        <formatter.skip>true</formatter.skip>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>apply-code-format</id>
+      <activation>
+        <property>
+          <name>code.format</name>
+          <value>auto</value>
+        </property>
+      </activation>
+      <properties>
+        <impsort.goal>sort</impsort.goal>
+        <formatter.goal>format</formatter.goal>
+      </properties>
+      <build>
+        <plugins>
+          <!--
+          impsort rules sync with IDE is hard, making external validation (CI) painful for some devs
+          move plugin from this profile to main <build> section to enable impsort checking
+          -->
+          <plugin>
+            <groupId>net.revelc.code</groupId>
+            <artifactId>impsort-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>apply-import-order</id>
+                <phase>validate</phase>
+                <goals>
+                  <goal>${impsort.goal}</goal>
+                </goals>
+              </execution>
+            </executions>
           </plugin>
         </plugins>
       </build>

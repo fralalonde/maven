@@ -26,67 +26,55 @@ import java.util.Objects;
  * @author Robert Scholte
  * @since 4.0.0
  */
-public class DependencyKey
-{
+public class DependencyKey {
     private final String groupId;
 
     private final String artifactId;
 
     private final int hashCode;
 
-    public DependencyKey( String groupId, String artifactId )
-    {
+    public DependencyKey(String groupId, String artifactId) {
         this.groupId = groupId;
         this.artifactId = artifactId;
 
-        this.hashCode = Objects.hash( artifactId, groupId );
+        this.hashCode = Objects.hash(artifactId, groupId);
     }
 
-    public String getGroupId()
-    {
+    public String getGroupId() {
         return groupId;
     }
 
-    public String getArtifactId()
-    {
+    public String getArtifactId() {
         return artifactId;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return hashCode;
     }
 
     @Override
-    public boolean equals( Object obj )
-    {
-        if ( this == obj )
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if ( obj == null )
-        {
+        if (obj == null) {
             return false;
         }
-        if ( getClass() != obj.getClass() )
-        {
+        if (getClass() != obj.getClass()) {
             return false;
         }
 
         DependencyKey other = (DependencyKey) obj;
 
-        if ( !Objects.equals( artifactId, other.artifactId ) )
-        {
+        if (!Objects.equals(artifactId, other.artifactId)) {
             return false;
         }
-        if ( !Objects.equals( groupId, other.groupId ) )
-        {
+        if (!Objects.equals(groupId, other.groupId)) {
             return false;
         }
 
         return true;
     }
-
 
 }

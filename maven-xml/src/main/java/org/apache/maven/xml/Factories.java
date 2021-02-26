@@ -35,43 +35,36 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * @author Robert Scholte
  * @since 4.0.0
  */
-public final class Factories
-{
-    private Factories()
-    {
+public final class Factories {
+    private Factories() {
     }
 
     /**
      * See
      * https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html#transformerfactory
      */
-    public static TransformerFactory newTransformerFactory()
-    {
+    public static TransformerFactory newTransformerFactory() {
         TransformerFactory tf = TransformerFactory.newInstance();
-        tf.setAttribute( XMLConstants.ACCESS_EXTERNAL_DTD, "" );
-        tf.setAttribute( XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "" );
+        tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
 
         return tf;
     }
 
-    public static XMLReader newXMLReader() throws SAXException, ParserConfigurationException
-    {
+    public static XMLReader newXMLReader() throws SAXException, ParserConfigurationException {
         XMLReader reader = XMLReaderFactory.createXMLReader();
 
-        try
-        {
-            // Xerces 1 - http://xerces.apache.org/xerces-j/features.html#external-general-entities
-            // Xerces 2 - http://xerces.apache.org/xerces2-j/features.html#external-general-entities
+        try {
+            // Xerces 1 -
+            // http://xerces.apache.org/xerces-j/features.html#external-general-entities
+            // Xerces 2 -
+            // http://xerces.apache.org/xerces2-j/features.html#external-general-entities
 
             // Using the XMLReader's setFeature
-            reader.setFeature( "http://xml.org/sax/features/external-general-entities", false );
-        }
-        catch ( SAXNotRecognizedException e )
-        {
+            reader.setFeature("http://xml.org/sax/features/external-general-entities", false);
+        } catch (SAXNotRecognizedException e) {
             // Tried an unknown feature.
-        }
-        catch ( SAXNotSupportedException e )
-        {
+        } catch (SAXNotSupportedException e) {
             // Tried a feature known to the parser but unsupported.
         }
         return reader;

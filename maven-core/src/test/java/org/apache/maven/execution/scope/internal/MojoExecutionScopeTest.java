@@ -26,76 +26,69 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class MojoExecutionScopeTest
-{
+public class MojoExecutionScopeTest {
     @Test
     public void testNestedEnter()
-        throws Exception
-    {
+            throws Exception {
         MojoExecutionScope scope = new MojoExecutionScope();
 
         scope.enter();
 
         Object o1 = new Object();
-        scope.seed( Object.class, o1 );
-        assertSame( o1, scope.scope( Key.get( Object.class ), null ).get() );
+        scope.seed(Object.class, o1);
+        assertSame(o1, scope.scope(Key.get(Object.class), null).get());
 
         scope.enter();
         Object o2 = new Object();
-        scope.seed( Object.class, o2 );
-        assertSame( o2, scope.scope( Key.get( Object.class ), null ).get() );
+        scope.seed(Object.class, o2);
+        assertSame(o2, scope.scope(Key.get(Object.class), null).get());
 
         scope.exit();
-        assertSame( o1, scope.scope( Key.get( Object.class ), null ).get() );
+        assertSame(o1, scope.scope(Key.get(Object.class), null).get());
 
         scope.exit();
 
-        assertThrows( IllegalStateException.class, () -> scope.exit() );
+        assertThrows(IllegalStateException.class, () -> scope.exit());
     }
 
     @Test
     public void testMultiKeyInstance()
-        throws Exception
-    {
+            throws Exception {
         MojoExecutionScope scope = new MojoExecutionScope();
         scope.enter();
 
         final AtomicInteger beforeExecution = new AtomicInteger();
         final AtomicInteger afterExecutionSuccess = new AtomicInteger();
         final AtomicInteger afterExecutionFailure = new AtomicInteger();
-        final WeakMojoExecutionListener instance = new WeakMojoExecutionListener()
-        {
+        final WeakMojoExecutionListener instance = new WeakMojoExecutionListener() {
             @Override
-            public void beforeMojoExecution( MojoExecutionEvent event )
-                throws MojoExecutionException
-            {
+            public void beforeMojoExecution(MojoExecutionEvent event)
+                    throws MojoExecutionException {
                 beforeExecution.incrementAndGet();
             }
 
             @Override
-            public void afterMojoExecutionSuccess( MojoExecutionEvent event )
-                throws MojoExecutionException
-            {
+            public void afterMojoExecutionSuccess(MojoExecutionEvent event)
+                    throws MojoExecutionException {
                 afterExecutionSuccess.incrementAndGet();
             }
 
             @Override
-            public void afterExecutionFailure( MojoExecutionEvent event )
-            {
+            public void afterExecutionFailure(MojoExecutionEvent event) {
                 afterExecutionFailure.incrementAndGet();
             }
         };
-        assertSame( instance, scope.scope( Key.get( Object.class ), () -> instance ).get() );
-        assertSame( instance, scope.scope( Key.get( WeakMojoExecutionListener.class ), () -> instance ).get() );
+        assertSame(instance, scope.scope(Key.get(Object.class), () -> instance).get());
+        assertSame(instance, scope.scope(Key.get(WeakMojoExecutionListener.class), () -> instance).get());
 
-        final MojoExecutionEvent event = new MojoExecutionEvent( null, null, null, null );
-        scope.beforeMojoExecution( event );
-        scope.afterMojoExecutionSuccess( event );
-        scope.afterExecutionFailure( event );
+        final MojoExecutionEvent event = new MojoExecutionEvent(null, null, null, null);
+        scope.beforeMojoExecution(event);
+        scope.afterMojoExecutionSuccess(event);
+        scope.afterExecutionFailure(event);
 
-        assertEquals( 1, beforeExecution.get() );
-        assertEquals( 1, afterExecutionSuccess.get() );
-        assertEquals( 1, afterExecutionFailure.get() );
+        assertEquals(1, beforeExecution.get());
+        assertEquals(1, afterExecutionSuccess.get());
+        assertEquals(1, afterExecutionFailure.get());
 
         scope.exit();
     }

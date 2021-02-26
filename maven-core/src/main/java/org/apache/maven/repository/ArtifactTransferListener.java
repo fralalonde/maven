@@ -22,18 +22,17 @@ package org.apache.maven.repository;
 /**
  * ArtifactTransferListener
  */
-public interface ArtifactTransferListener
-{
+public interface ArtifactTransferListener {
     boolean isShowChecksumEvents();
 
-    void setShowChecksumEvents( boolean showChecksumEvents );
+    void setShowChecksumEvents(boolean showChecksumEvents);
 
-    void transferInitiated( ArtifactTransferEvent transferEvent );
+    void transferInitiated(ArtifactTransferEvent transferEvent);
 
-    void transferStarted( ArtifactTransferEvent transferEvent );
+    void transferStarted(ArtifactTransferEvent transferEvent);
 
-    void transferProgress( ArtifactTransferEvent transferEvent );
+    void transferProgress(ArtifactTransferEvent transferEvent);
 
-    void transferCompleted( ArtifactTransferEvent transferEvent );
+    void transferCompleted(ArtifactTransferEvent transferEvent);
 
 }

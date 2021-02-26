@@ -34,52 +34,43 @@ import org.apache.maven.model.building.ModelBuildingRequest;
 import org.apache.maven.model.building.ModelProblemCollector;
 
 /**
- * Handles the import of dependency management from other models into the target model.
+ * Handles the import of dependency management from other models into the target
+ * model.
  *
  * @author Benjamin Bentmann
  */
 @Named
 @Singleton
 public class DefaultDependencyManagementImporter
-    implements DependencyManagementImporter
-{
+        implements DependencyManagementImporter {
 
     @Override
-    public void importManagement( Model target, List<? extends DependencyManagement> sources,
-                                  ModelBuildingRequest request, ModelProblemCollector problems )
-    {
-        if ( sources != null && !sources.isEmpty() )
-        {
+    public void importManagement(Model target, List<? extends DependencyManagement> sources,
+            ModelBuildingRequest request, ModelProblemCollector problems) {
+        if (sources != null && !sources.isEmpty()) {
             Map<String, Dependency> dependencies = new LinkedHashMap<>();
 
             DependencyManagement depMgmt = target.getDependencyManagement();
 
-            if ( depMgmt != null )
-            {
-                for ( Dependency dependency : depMgmt.getDependencies() )
-                {
-                    dependencies.put( dependency.getManagementKey(), dependency );
+            if (depMgmt != null) {
+                for (Dependency dependency : depMgmt.getDependencies()) {
+                    dependencies.put(dependency.getManagementKey(), dependency);
                 }
-            }
-            else
-            {
+            } else {
                 depMgmt = new DependencyManagement();
-                target.setDependencyManagement( depMgmt );
+                target.setDependencyManagement(depMgmt);
             }
 
-            for ( DependencyManagement source : sources )
-            {
-                for ( Dependency dependency : source.getDependencies() )
-                {
+            for (DependencyManagement source : sources) {
+                for (Dependency dependency : source.getDependencies()) {
                     String key = dependency.getManagementKey();
-                    if ( !dependencies.containsKey( key ) )
-                    {
-                        dependencies.put( key, dependency );
+                    if (!dependencies.containsKey(key)) {
+                        dependencies.put(key, dependency);
                     }
                 }
             }
 
-            depMgmt.setDependencies( new ArrayList<>( dependencies.values() ) );
+            depMgmt.setDependencies(new ArrayList<>(dependencies.values()));
         }
     }
 

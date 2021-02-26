@@ -39,8 +39,7 @@ import org.codehaus.plexus.util.dag.CycleDetectedException;
  * @author Benjamin Bentmann
  */
 public class DefaultProjectDependencyGraph
-    implements ProjectDependencyGraph
-{
+        implements ProjectDependencyGraph {
 
     private ProjectSorter sorter;
 
@@ -53,99 +52,84 @@ public class DefaultProjectDependencyGraph
      * @throws DuplicateProjectException
      * @throws CycleDetectedException
      */
-    public DefaultProjectDependencyGraph( Collection<MavenProject> projects )
-        throws CycleDetectedException, DuplicateProjectException
-    {
+    public DefaultProjectDependencyGraph(Collection<MavenProject> projects)
+            throws CycleDetectedException, DuplicateProjectException {
         super();
-        this.allProjects = Collections.unmodifiableList( new ArrayList<>( projects ) );
-        this.sorter = new ProjectSorter( projects );
+        this.allProjects = Collections.unmodifiableList(new ArrayList<>(projects));
+        this.sorter = new ProjectSorter(projects);
     }
 
     /**
      * Creates a new project dependency graph based on the specified projects.
      *
      * @param allProjects All collected projects.
-     * @param projects The projects to create the dependency graph with.
+     * @param projects    The projects to create the dependency graph with.
      *
      * @throws DuplicateProjectException
      * @throws CycleDetectedException
      * @since 3.5.0
      */
-    public DefaultProjectDependencyGraph( final List<MavenProject> allProjects,
-                                          final Collection<MavenProject> projects )
-        throws CycleDetectedException, DuplicateProjectException
-    {
+    public DefaultProjectDependencyGraph(final List<MavenProject> allProjects,
+            final Collection<MavenProject> projects)
+            throws CycleDetectedException, DuplicateProjectException {
         super();
-        this.allProjects = Collections.unmodifiableList( new ArrayList<>( allProjects ) );
-        this.sorter = new ProjectSorter( projects );
+        this.allProjects = Collections.unmodifiableList(new ArrayList<>(allProjects));
+        this.sorter = new ProjectSorter(projects);
     }
 
     /**
      * @since 3.5.0
      */
-    public List<MavenProject> getAllProjects()
-    {
+    public List<MavenProject> getAllProjects() {
         return this.allProjects;
     }
 
-    public List<MavenProject> getSortedProjects()
-    {
-        return new ArrayList<>( sorter.getSortedProjects() );
+    public List<MavenProject> getSortedProjects() {
+        return new ArrayList<>(sorter.getSortedProjects());
     }
 
-    public List<MavenProject> getDownstreamProjects( MavenProject project, boolean transitive )
-    {
-        Objects.requireNonNull( project, "project cannot be null" );
+    public List<MavenProject> getDownstreamProjects(MavenProject project, boolean transitive) {
+        Objects.requireNonNull(project, "project cannot be null");
 
         Set<String> projectIds = new HashSet<>();
 
-        getDownstreamProjects( ProjectSorter.getId( project ), projectIds, transitive );
+        getDownstreamProjects(ProjectSorter.getId(project), projectIds, transitive);
 
-        return getSortedProjects( projectIds );
+        return getSortedProjects(projectIds);
     }
 
-    private void getDownstreamProjects( String projectId, Set<String> projectIds, boolean transitive )
-    {
-        for ( String id : sorter.getDependents( projectId ) )
-        {
-            if ( projectIds.add( id ) && transitive )
-            {
-                getDownstreamProjects( id, projectIds, transitive );
+    private void getDownstreamProjects(String projectId, Set<String> projectIds, boolean transitive) {
+        for (String id : sorter.getDependents(projectId)) {
+            if (projectIds.add(id) && transitive) {
+                getDownstreamProjects(id, projectIds, transitive);
             }
         }
     }
 
-    public List<MavenProject> getUpstreamProjects( MavenProject project, boolean transitive )
-    {
-        Objects.requireNonNull( project, "project cannot be null" );
+    public List<MavenProject> getUpstreamProjects(MavenProject project, boolean transitive) {
+        Objects.requireNonNull(project, "project cannot be null");
 
         Set<String> projectIds = new HashSet<>();
 
-        getUpstreamProjects( ProjectSorter.getId( project ), projectIds, transitive );
+        getUpstreamProjects(ProjectSorter.getId(project), projectIds, transitive);
 
-        return getSortedProjects( projectIds );
+        return getSortedProjects(projectIds);
     }
 
-    private void getUpstreamProjects( String projectId, Collection<String> projectIds, boolean transitive )
-    {
-        for ( String id : sorter.getDependencies( projectId ) )
-        {
-            if ( projectIds.add( id ) && transitive )
-            {
-                getUpstreamProjects( id, projectIds, transitive );
+    private void getUpstreamProjects(String projectId, Collection<String> projectIds, boolean transitive) {
+        for (String id : sorter.getDependencies(projectId)) {
+            if (projectIds.add(id) && transitive) {
+                getUpstreamProjects(id, projectIds, transitive);
             }
         }
     }
 
-    private List<MavenProject> getSortedProjects( Set<String> projectIds )
-    {
-        List<MavenProject> result = new ArrayList<>( projectIds.size() );
+    private List<MavenProject> getSortedProjects(Set<String> projectIds) {
+        List<MavenProject> result = new ArrayList<>(projectIds.size());
 
-        for ( MavenProject mavenProject : sorter.getSortedProjects() )
-        {
-            if ( projectIds.contains( ProjectSorter.getId( mavenProject ) ) )
-            {
-                result.add( mavenProject );
+        for (MavenProject mavenProject : sorter.getSortedProjects()) {
+            if (projectIds.contains(ProjectSorter.getId(mavenProject))) {
+                result.add(mavenProject);
             }
         }
 
@@ -153,8 +137,7 @@ public class DefaultProjectDependencyGraph
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return sorter.getSortedProjects().toString();
     }
 

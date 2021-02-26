@@ -33,73 +33,67 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 
-public class DefaultBuildResumptionDataRepositoryTest
-{
+public class DefaultBuildResumptionDataRepositoryTest {
     private final DefaultBuildResumptionDataRepository repository = new DefaultBuildResumptionDataRepository();
 
     @Test
-    public void resumeFromPropertyGetsApplied()
-    {
+    public void resumeFromPropertyGetsApplied() {
         MavenExecutionRequest request = new DefaultMavenExecutionRequest();
         Properties properties = new Properties();
-        properties.setProperty( "remainingProjects", ":module-a" );
+        properties.setProperty("remainingProjects", ":module-a");
 
-        repository.applyResumptionProperties( request, properties );
+        repository.applyResumptionProperties(request, properties);
 
-        assertThat( request.getSelectedProjects(), is( asList( ":module-a" ) ) );
+        assertThat(request.getSelectedProjects(), is(asList(":module-a")));
     }
 
     @Test
-    public void resumeFromPropertyDoesNotOverrideExistingRequestParameters()
-    {
+    public void resumeFromPropertyDoesNotOverrideExistingRequestParameters() {
         MavenExecutionRequest request = new DefaultMavenExecutionRequest();
-        request.setResumeFrom( ":module-b" );
+        request.setResumeFrom(":module-b");
         Properties properties = new Properties();
-        properties.setProperty( "remainingProjects", ":module-a" );
+        properties.setProperty("remainingProjects", ":module-a");
 
-        repository.applyResumptionProperties( request, properties );
+        repository.applyResumptionProperties(request, properties);
 
-        assertThat( request.getResumeFrom(), is( ":module-b" ) );
+        assertThat(request.getResumeFrom(), is(":module-b"));
     }
 
     @Test
-    public void projectsFromPropertyGetsAddedToExistingRequestParameters()
-    {
+    public void projectsFromPropertyGetsAddedToExistingRequestParameters() {
         MavenExecutionRequest request = new DefaultMavenExecutionRequest();
         List<String> selectedProjects = new ArrayList<>();
-        selectedProjects.add( ":module-a" );
-        request.setSelectedProjects( selectedProjects );
+        selectedProjects.add(":module-a");
+        request.setSelectedProjects(selectedProjects);
         Properties properties = new Properties();
-        properties.setProperty( "remainingProjects", ":module-b, :module-c" );
+        properties.setProperty("remainingProjects", ":module-b, :module-c");
 
-        repository.applyResumptionProperties( request, properties );
+        repository.applyResumptionProperties(request, properties);
 
-        assertThat( request.getSelectedProjects(), contains( ":module-a", ":module-b", ":module-c" ) );
+        assertThat(request.getSelectedProjects(), contains(":module-a", ":module-b", ":module-c"));
     }
 
     @Test
-    public void selectedProjectsAreNotAddedWhenPropertyValueIsEmpty()
-    {
+    public void selectedProjectsAreNotAddedWhenPropertyValueIsEmpty() {
         MavenExecutionRequest request = new DefaultMavenExecutionRequest();
         Properties properties = new Properties();
-        properties.setProperty( "remainingProjects", "" );
+        properties.setProperty("remainingProjects", "");
 
-        repository.applyResumptionProperties( request, properties );
+        repository.applyResumptionProperties(request, properties);
 
-        assertThat( request.getSelectedProjects(), is( empty() ) );
+        assertThat(request.getSelectedProjects(), is(empty()));
     }
 
     @Test
-    public void applyResumptionData_shouldLoadData()
-    {
+    public void applyResumptionData_shouldLoadData() {
         MavenExecutionRequest request = new DefaultMavenExecutionRequest();
         Build build = new Build();
-        build.setDirectory( "src/test/resources/org/apache/maven/execution/" );
+        build.setDirectory("src/test/resources/org/apache/maven/execution/");
         MavenProject rootProject = new MavenProject();
-        rootProject.setBuild( build );
+        rootProject.setBuild(build);
 
-        repository.applyResumptionData( request,  rootProject );
+        repository.applyResumptionData(request, rootProject);
 
-        assertThat( request.getSelectedProjects(), contains( "example:module-c" ) );
+        assertThat(request.getSelectedProjects(), contains("example:module-c"));
     }
 }

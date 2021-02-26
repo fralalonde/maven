@@ -27,8 +27,7 @@ import java.util.Map;
  * DefaultLifecycleMapping
  */
 public class DefaultLifecycleMapping
-    implements LifecycleMapping
-{
+        implements LifecycleMapping {
 
     private List<Lifecycle> lifecycles;
 
@@ -38,83 +37,67 @@ public class DefaultLifecycleMapping
     private Map<String, LifecyclePhase> phases;
 
     /**
-     * Populates the lifecycle map from the injected list of lifecycle mappings (if not already done).
+     * Populates the lifecycle map from the injected list of lifecycle mappings (if
+     * not already done).
      */
-    private void initLifecycleMap()
-    {
-        if ( lifecycleMap == null )
-        {
+    private void initLifecycleMap() {
+        if (lifecycleMap == null) {
             lifecycleMap = new HashMap<>();
 
-            if ( lifecycles != null )
-            {
-                for ( Lifecycle lifecycle : lifecycles )
-                {
-                    lifecycleMap.put( lifecycle.getId(), lifecycle );
+            if (lifecycles != null) {
+                for (Lifecycle lifecycle : lifecycles) {
+                    lifecycleMap.put(lifecycle.getId(), lifecycle);
                 }
-            }
-            else
-            {
+            } else {
                 /*
-                 * NOTE: This is to provide a migration path for implementors of the legacy API which did not know about
-                 * getLifecycles().
+                 * NOTE: This is to provide a migration path for implementors of the legacy API
+                 * which did not know about getLifecycles().
                  */
 
                 String[] lifecycleIds = { "default", "clean", "site" };
 
-                for ( String lifecycleId : lifecycleIds )
-                {
-                    Map<String, LifecyclePhase> phases = getLifecyclePhases( lifecycleId );
-                    if ( phases != null )
-                    {
+                for (String lifecycleId : lifecycleIds) {
+                    Map<String, LifecyclePhase> phases = getLifecyclePhases(lifecycleId);
+                    if (phases != null) {
                         Lifecycle lifecycle = new Lifecycle();
 
-                        lifecycle.setId( lifecycleId );
-                        lifecycle.setLifecyclePhases( phases );
+                        lifecycle.setId(lifecycleId);
+                        lifecycle.setLifecyclePhases(phases);
 
-                        lifecycleMap.put( lifecycleId, lifecycle );
+                        lifecycleMap.put(lifecycleId, lifecycle);
                     }
                 }
             }
         }
     }
 
-    public Map<String, Lifecycle> getLifecycles()
-    {
+    public Map<String, Lifecycle> getLifecycles() {
         initLifecycleMap();
 
         return lifecycleMap;
     }
 
-    public List<String> getOptionalMojos( String lifecycle )
-    {
+    public List<String> getOptionalMojos(String lifecycle) {
         return null;
     }
 
-    private Map<String, LifecyclePhase> getLifecyclePhases( String lifecycle )
-    {
+    private Map<String, LifecyclePhase> getLifecyclePhases(String lifecycle) {
         initLifecycleMap();
 
-        Lifecycle lifecycleMapping = lifecycleMap.get( lifecycle );
+        Lifecycle lifecycleMapping = lifecycleMap.get(lifecycle);
 
-        if ( lifecycleMapping != null )
-        {
+        if (lifecycleMapping != null) {
             return lifecycleMapping.getLifecyclePhases();
-        }
-        else if ( "default".equals( lifecycle ) )
-        {
+        } else if ("default".equals(lifecycle)) {
             return phases;
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
 
     @Deprecated
-    public Map<String, String> getPhases( String lifecycle )
-    {
-        return LifecyclePhase.toLegacyMap( getLifecyclePhases( lifecycle ) );
+    public Map<String, String> getPhases(String lifecycle) {
+        return LifecyclePhase.toLegacyMap(getLifecyclePhases(lifecycle));
     }
 
 }

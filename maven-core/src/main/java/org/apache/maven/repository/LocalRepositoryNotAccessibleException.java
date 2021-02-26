@@ -27,18 +27,15 @@ import java.io.IOException;
  * @author Benjamin Bentmann
  */
 public class LocalRepositoryNotAccessibleException
-    extends IOException
-{
+        extends IOException {
 
-    public LocalRepositoryNotAccessibleException( String message, Throwable cause )
-    {
-        super( message );
-        initCause( cause );
+    public LocalRepositoryNotAccessibleException(String message, Throwable cause) {
+        super(message);
+        initCause(cause);
     }
 
-    public LocalRepositoryNotAccessibleException( String message )
-    {
-        super( message );
+    public LocalRepositoryNotAccessibleException(String message) {
+        super(message);
     }
 
 }

@@ -29,152 +29,139 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Kristian Rosenvold
  */
-public class DefaultProjectDependencyGraphTest
-{
+public class DefaultProjectDependencyGraphTest {
 
     private final MavenProject aProject = createA();
 
-    private final MavenProject depender1 = createProject( Arrays.asList( toDependency( aProject ) ), "depender1" );
+    private final MavenProject depender1 = createProject(Arrays.asList(toDependency(aProject)), "depender1");
 
-    private final MavenProject depender2 = createProject( Arrays.asList( toDependency( aProject ) ), "depender2" );
+    private final MavenProject depender2 = createProject(Arrays.asList(toDependency(aProject)), "depender2");
 
-    private final MavenProject depender3 = createProject( Arrays.asList( toDependency( aProject ) ), "depender3" );
+    private final MavenProject depender3 = createProject(Arrays.asList(toDependency(aProject)), "depender3");
 
-    private final MavenProject depender4 =
-        createProject( Arrays.asList( toDependency( aProject ), toDependency( depender3 ) ), "depender4" );
+    private final MavenProject depender4 = createProject(Arrays.asList(toDependency(aProject), toDependency(depender3)),
+            "depender4");
 
-    private final MavenProject transitiveOnly =
-        createProject( Arrays.asList( toDependency( depender3 ) ), "depender5" );
+    private final MavenProject transitiveOnly = createProject(Arrays.asList(toDependency(depender3)), "depender5");
 
     @Test
     public void testGetSortedProjects()
-        throws DuplicateProjectException, CycleDetectedException
-    {
-        ProjectDependencyGraph graph = new DefaultProjectDependencyGraph( Arrays.asList( depender1, aProject ) );
+            throws DuplicateProjectException, CycleDetectedException {
+        ProjectDependencyGraph graph = new DefaultProjectDependencyGraph(Arrays.asList(depender1, aProject));
         final List<MavenProject> sortedProjects = graph.getSortedProjects();
-        assertEquals( aProject, sortedProjects.get( 0 ) );
-        assertEquals( depender1, sortedProjects.get( 1 ) );
+        assertEquals(aProject, sortedProjects.get(0));
+        assertEquals(depender1, sortedProjects.get(1));
     }
 
     @Test
     public void testVerifyExpectedParentStructure()
-        throws CycleDetectedException, DuplicateProjectException
-    {
-        // This test verifies the baseline structure used in subsequent tests. If this fails, the rest will fail.
+            throws CycleDetectedException, DuplicateProjectException {
+        // This test verifies the baseline structure used in subsequent tests. If this
+        // fails, the rest will fail.
         ProjectDependencyGraph graph = threeProjectsDependingOnASingle();
         final List<MavenProject> sortedProjects = graph.getSortedProjects();
-        assertEquals( aProject, sortedProjects.get( 0 ) );
-        assertEquals( depender1, sortedProjects.get( 1 ) );
-        assertEquals( depender2, sortedProjects.get( 2 ) );
-        assertEquals( depender3, sortedProjects.get( 3 ) );
+        assertEquals(aProject, sortedProjects.get(0));
+        assertEquals(depender1, sortedProjects.get(1));
+        assertEquals(depender2, sortedProjects.get(2));
+        assertEquals(depender3, sortedProjects.get(3));
     }
 
     @Test
     public void testVerifyThatDownstreamProjectsComeInSortedOrder()
-        throws CycleDetectedException, DuplicateProjectException
-    {
-        final List<MavenProject> downstreamProjects =
-            threeProjectsDependingOnASingle().getDownstreamProjects( aProject, true );
-        assertEquals( depender1, downstreamProjects.get( 0 ) );
-        assertEquals( depender2, downstreamProjects.get( 1 ) );
-        assertEquals( depender3, downstreamProjects.get( 2 ) );
+            throws CycleDetectedException, DuplicateProjectException {
+        final List<MavenProject> downstreamProjects = threeProjectsDependingOnASingle().getDownstreamProjects(aProject,
+                true);
+        assertEquals(depender1, downstreamProjects.get(0));
+        assertEquals(depender2, downstreamProjects.get(1));
+        assertEquals(depender3, downstreamProjects.get(2));
     }
 
     @Test
     public void testTransitivesInOrder()
-        throws CycleDetectedException, DuplicateProjectException
-    {
-        final ProjectDependencyGraph graph =
-            new DefaultProjectDependencyGraph( Arrays.asList( depender1, depender4, depender2, depender3, aProject ) );
+            throws CycleDetectedException, DuplicateProjectException {
+        final ProjectDependencyGraph graph = new DefaultProjectDependencyGraph(
+                Arrays.asList(depender1, depender4, depender2, depender3, aProject));
 
-        final List<MavenProject> downstreamProjects = graph.getDownstreamProjects( aProject, true );
-        assertEquals( depender1, downstreamProjects.get( 0 ) );
-        assertEquals( depender3, downstreamProjects.get( 1 ) );
-        assertEquals( depender4, downstreamProjects.get( 2 ) );
-        assertEquals( depender2, downstreamProjects.get( 3 ) );
+        final List<MavenProject> downstreamProjects = graph.getDownstreamProjects(aProject, true);
+        assertEquals(depender1, downstreamProjects.get(0));
+        assertEquals(depender3, downstreamProjects.get(1));
+        assertEquals(depender4, downstreamProjects.get(2));
+        assertEquals(depender2, downstreamProjects.get(3));
     }
 
     @Test
     public void testNonTransitivesInOrder()
-        throws CycleDetectedException, DuplicateProjectException
-    {
-        final ProjectDependencyGraph graph =
-            new DefaultProjectDependencyGraph( Arrays.asList( depender1, depender4, depender2, depender3, aProject ) );
+            throws CycleDetectedException, DuplicateProjectException {
+        final ProjectDependencyGraph graph = new DefaultProjectDependencyGraph(
+                Arrays.asList(depender1, depender4, depender2, depender3, aProject));
 
-        final List<MavenProject> downstreamProjects = graph.getDownstreamProjects( aProject, false );
-        assertEquals( depender1, downstreamProjects.get( 0 ) );
-        assertEquals( depender3, downstreamProjects.get( 1 ) );
-        assertEquals( depender4, downstreamProjects.get( 2 ) );
-        assertEquals( depender2, downstreamProjects.get( 3 ) );
+        final List<MavenProject> downstreamProjects = graph.getDownstreamProjects(aProject, false);
+        assertEquals(depender1, downstreamProjects.get(0));
+        assertEquals(depender3, downstreamProjects.get(1));
+        assertEquals(depender4, downstreamProjects.get(2));
+        assertEquals(depender2, downstreamProjects.get(3));
     }
 
     @Test
     public void testWithTransitiveOnly()
-        throws CycleDetectedException, DuplicateProjectException
-    {
+            throws CycleDetectedException, DuplicateProjectException {
         final ProjectDependencyGraph graph = new DefaultProjectDependencyGraph(
-            Arrays.asList( depender1, transitiveOnly, depender2, depender3, aProject ) );
+                Arrays.asList(depender1, transitiveOnly, depender2, depender3, aProject));
 
-        final List<MavenProject> downstreamProjects = graph.getDownstreamProjects( aProject, true );
-        assertEquals( depender1, downstreamProjects.get( 0 ) );
-        assertEquals( depender3, downstreamProjects.get( 1 ) );
-        assertEquals( transitiveOnly, downstreamProjects.get( 2 ) );
-        assertEquals( depender2, downstreamProjects.get( 3 ) );
+        final List<MavenProject> downstreamProjects = graph.getDownstreamProjects(aProject, true);
+        assertEquals(depender1, downstreamProjects.get(0));
+        assertEquals(depender3, downstreamProjects.get(1));
+        assertEquals(transitiveOnly, downstreamProjects.get(2));
+        assertEquals(depender2, downstreamProjects.get(3));
     }
 
     @Test
     public void testWithMissingTransitiveOnly()
-        throws CycleDetectedException, DuplicateProjectException
-    {
+            throws CycleDetectedException, DuplicateProjectException {
         final ProjectDependencyGraph graph = new DefaultProjectDependencyGraph(
-            Arrays.asList( depender1, transitiveOnly, depender2, depender3, aProject ) );
+                Arrays.asList(depender1, transitiveOnly, depender2, depender3, aProject));
 
-        final List<MavenProject> downstreamProjects = graph.getDownstreamProjects( aProject, false );
-        assertEquals( depender1, downstreamProjects.get( 0 ) );
-        assertEquals( depender3, downstreamProjects.get( 1 ) );
-        assertEquals( depender2, downstreamProjects.get( 2 ) );
+        final List<MavenProject> downstreamProjects = graph.getDownstreamProjects(aProject, false);
+        assertEquals(depender1, downstreamProjects.get(0));
+        assertEquals(depender3, downstreamProjects.get(1));
+        assertEquals(depender2, downstreamProjects.get(2));
     }
 
     @Test
     public void testGetUpstreamProjects()
-        throws CycleDetectedException, DuplicateProjectException
-    {
+            throws CycleDetectedException, DuplicateProjectException {
         ProjectDependencyGraph graph = threeProjectsDependingOnASingle();
-        final List<MavenProject> downstreamProjects = graph.getUpstreamProjects( depender1, true );
-        assertEquals( aProject, downstreamProjects.get( 0 ) );
+        final List<MavenProject> downstreamProjects = graph.getUpstreamProjects(depender1, true);
+        assertEquals(aProject, downstreamProjects.get(0));
     }
 
     private ProjectDependencyGraph threeProjectsDependingOnASingle()
-        throws CycleDetectedException, DuplicateProjectException
-    {
-        return new DefaultProjectDependencyGraph( Arrays.asList( depender1, depender2, depender3, aProject ) );
+            throws CycleDetectedException, DuplicateProjectException {
+        return new DefaultProjectDependencyGraph(Arrays.asList(depender1, depender2, depender3, aProject));
     }
 
-    private static MavenProject createA()
-    {
+    private static MavenProject createA() {
         MavenProject result = new MavenProject();
-        result.setGroupId( "org.apache" );
-        result.setArtifactId( "A" );
-        result.setVersion( "1.2" );
+        result.setGroupId("org.apache");
+        result.setArtifactId("A");
+        result.setVersion("1.2");
         return result;
     }
 
-    static Dependency toDependency( MavenProject mavenProject )
-    {
+    static Dependency toDependency(MavenProject mavenProject) {
         final Dependency dependency = new Dependency();
-        dependency.setArtifactId( mavenProject.getArtifactId() );
-        dependency.setGroupId( mavenProject.getGroupId() );
-        dependency.setVersion( mavenProject.getVersion() );
+        dependency.setArtifactId(mavenProject.getArtifactId());
+        dependency.setGroupId(mavenProject.getGroupId());
+        dependency.setVersion(mavenProject.getVersion());
         return dependency;
     }
 
-    private static MavenProject createProject( List<Dependency> dependencies, String artifactId )
-    {
+    private static MavenProject createProject(List<Dependency> dependencies, String artifactId) {
         MavenProject result = new MavenProject();
-        result.setGroupId( "org.apache" );
-        result.setArtifactId( artifactId );
-        result.setVersion( "1.2" );
-        result.setDependencies( dependencies );
+        result.setGroupId("org.apache");
+        result.setArtifactId(artifactId);
+        result.setVersion("1.2");
+        result.setDependencies(dependencies);
         return result;
     }
 

@@ -24,17 +24,14 @@ package org.apache.maven.model.building;
  * @author Robert Scholte
  * @since 4.0.0
  */
-public class TransformerException extends Exception
-{
+public class TransformerException extends Exception {
 
-    public TransformerException( Exception e )
-    {
-        super ( e );
+    public TransformerException(Exception e) {
+        super(e);
     }
 
-    public TransformerException( String message, Throwable exception )
-    {
-        super( message, exception );
+    public TransformerException(String message, Throwable exception) {
+        super(message, exception);
     }
 
 }

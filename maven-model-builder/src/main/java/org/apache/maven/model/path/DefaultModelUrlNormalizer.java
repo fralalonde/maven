@@ -30,58 +30,50 @@ import org.apache.maven.model.Site;
 import org.apache.maven.model.building.ModelBuildingRequest;
 
 /**
- * Normalizes URLs to remove the ugly parent references "../" that got potentially inserted by URL adjustment during
- * model inheritance.
+ * Normalizes URLs to remove the ugly parent references "../" that got
+ * potentially inserted by URL adjustment during model inheritance.
  *
  * @author Benjamin Bentmann
  */
 @Named
 @Singleton
 public class DefaultModelUrlNormalizer
-    implements ModelUrlNormalizer
-{
+        implements ModelUrlNormalizer {
 
     @Inject
     private UrlNormalizer urlNormalizer;
 
-    public DefaultModelUrlNormalizer setUrlNormalizer( UrlNormalizer urlNormalizer )
-    {
+    public DefaultModelUrlNormalizer setUrlNormalizer(UrlNormalizer urlNormalizer) {
         this.urlNormalizer = urlNormalizer;
         return this;
     }
 
     @Override
-    public void normalize( Model model, ModelBuildingRequest request )
-    {
-        if ( model == null )
-        {
+    public void normalize(Model model, ModelBuildingRequest request) {
+        if (model == null) {
             return;
         }
 
-        model.setUrl( normalize( model.getUrl() ) );
+        model.setUrl(normalize(model.getUrl()));
 
         Scm scm = model.getScm();
-        if ( scm != null )
-        {
-            scm.setUrl( normalize( scm.getUrl() ) );
-            scm.setConnection( normalize( scm.getConnection() ) );
-            scm.setDeveloperConnection( normalize( scm.getDeveloperConnection() ) );
+        if (scm != null) {
+            scm.setUrl(normalize(scm.getUrl()));
+            scm.setConnection(normalize(scm.getConnection()));
+            scm.setDeveloperConnection(normalize(scm.getDeveloperConnection()));
         }
 
         DistributionManagement dist = model.getDistributionManagement();
-        if ( dist != null )
-        {
+        if (dist != null) {
             Site site = dist.getSite();
-            if ( site != null )
-            {
-                site.setUrl( normalize( site.getUrl() ) );
+            if (site != null) {
+                site.setUrl(normalize(site.getUrl()));
             }
         }
     }
 
-    private String normalize( String url )
-    {
-        return urlNormalizer.normalize( url );
+    private String normalize(String url) {
+        return urlNormalizer.normalize(url);
     }
 
 }

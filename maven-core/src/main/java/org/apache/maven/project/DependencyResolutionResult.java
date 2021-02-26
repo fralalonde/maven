@@ -29,8 +29,7 @@ import org.eclipse.aether.graph.DependencyNode;
  *
  * @author Benjamin Bentmann
  */
-public interface DependencyResolutionResult
-{
+public interface DependencyResolutionResult {
 
     /**
      * Gets the dependency graph of the project.
@@ -41,8 +40,9 @@ public interface DependencyResolutionResult
 
     /**
      * Gets the transitive dependencies of the project that were not excluded by
-     * {@link DependencyResolutionRequest#getResolutionFilter()}. This list is a union of the results from
-     * {@link #getResolvedDependencies()} and {@link #getUnresolvedDependencies()}.
+     * {@link DependencyResolutionRequest#getResolutionFilter()}. This list is a
+     * union of the results from {@link #getResolvedDependencies()} and
+     * {@link #getUnresolvedDependencies()}.
      *
      * @return The transitive dependencies, never {@code null}.
      */
@@ -65,16 +65,19 @@ public interface DependencyResolutionResult
     /**
      * Gets the errors that occurred while building the dependency graph.
      *
-     * @return The errors that occurred while building the dependency graph, never {@code null}.
+     * @return The errors that occurred while building the dependency graph, never
+     *         {@code null}.
      */
     List<Exception> getCollectionErrors();
 
     /**
      * Gets the errors that occurred while resolving the specified dependency.
      *
-     * @param dependency The dependency for which to retrieve the errors, must not be {@code null}.
-     * @return The resolution errors for the specified dependency, never {@code null}.
+     * @param dependency The dependency for which to retrieve the errors, must not
+     *                   be {@code null}.
+     * @return The resolution errors for the specified dependency, never
+     *         {@code null}.
      */
-    List<Exception> getResolutionErrors( Dependency dependency );
+    List<Exception> getResolutionErrors(Dependency dependency);
 
 }

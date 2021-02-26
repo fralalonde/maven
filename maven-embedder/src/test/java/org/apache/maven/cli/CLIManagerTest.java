@@ -27,24 +27,21 @@ import org.apache.commons.cli.CommandLine;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class CLIManagerTest
-{
+public class CLIManagerTest {
     private CLIManager cliManager;
 
     @BeforeEach
-    public void setup()
-    {
+    public void setup() {
         cliManager = new CLIManager();
     }
 
     @Test
     public void spacedOptions()
-        throws Exception
-    {
-        CommandLine cmdLine = cliManager.parse( "-X -Dx=1 -D y=2 test".split( " " ) );
-        assertTrue( cmdLine.hasOption( CLIManager.DEBUG ) );
-        assertThat( cmdLine.getOptionValues( CLIManager.SET_SYSTEM_PROPERTY )[0], is( "x=1" ) );
-        assertThat( cmdLine.getOptionValues( CLIManager.SET_SYSTEM_PROPERTY )[1], is( "y=2" ) );
+            throws Exception {
+        CommandLine cmdLine = cliManager.parse("-X -Dx=1 -D y=2 test".split(" "));
+        assertTrue(cmdLine.hasOption(CLIManager.DEBUG));
+        assertThat(cmdLine.getOptionValues(CLIManager.SET_SYSTEM_PROPERTY)[0], is("x=1"));
+        assertThat(cmdLine.getOptionValues(CLIManager.SET_SYSTEM_PROPERTY)[1], is("y=2"));
     }
 
 }

@@ -24,8 +24,7 @@ package org.apache.maven.configuration;
  *
  * @author Benjamin Bentmann
  */
-public interface BeanConfigurationRequest
-{
+public interface BeanConfigurationRequest {
 
     /**
      * Gets the bean to configure. Eventually, a valid request must have a bean set.
@@ -40,7 +39,7 @@ public interface BeanConfigurationRequest
      * @param bean The bean to configure, may be {@code null}.
      * @return This request for chaining, never {@code null}.
      */
-    BeanConfigurationRequest setBean( Object bean );
+    BeanConfigurationRequest setBean(Object bean);
 
     /**
      * Gets the configuration to unmarshal into the bean.
@@ -50,26 +49,30 @@ public interface BeanConfigurationRequest
     Object getConfiguration();
 
     /**
-     * Sets the configuration to unmarshal into the bean. The configuration should be taken from
-     * {@link org.apache.maven.model.ConfigurationContainer#getConfiguration()} or a similar source.
-     * Fully equivalent to {@code setConfiguration(configuration, null)}.
+     * Sets the configuration to unmarshal into the bean. The configuration should
+     * be taken from
+     * {@link org.apache.maven.model.ConfigurationContainer#getConfiguration()} or a
+     * similar source. Fully equivalent to
+     * {@code setConfiguration(configuration, null)}.
      *
      * @param configuration The configuration to unmarshal, may be {@code null}.
      * @return This request for chaining, never {@code null}.
      */
-    BeanConfigurationRequest setConfiguration( Object configuration );
+    BeanConfigurationRequest setConfiguration(Object configuration);
 
     /**
-     * Sets the configuration to unmarshal into the bean. The configuration should be taken from
-     * {@link org.apache.maven.model.ConfigurationContainer#getConfiguration()} or a similar source.
-     * If {@code element} is not {@code null}, child configuration element with the specified name will
-     * be unmarshaled.
+     * Sets the configuration to unmarshal into the bean. The configuration should
+     * be taken from
+     * {@link org.apache.maven.model.ConfigurationContainer#getConfiguration()} or a
+     * similar source. If {@code element} is not {@code null}, child configuration
+     * element with the specified name will be unmarshaled.
      *
      * @param configuration The configuration to unmarshal, may be {@code null}.
-     * @param element Configuration element name to unmarshal or {@code null} to unmarshal entire configuration.
+     * @param element       Configuration element name to unmarshal or {@code null}
+     *                      to unmarshal entire configuration.
      * @return This request for chaining, never {@code null}.
      */
-    BeanConfigurationRequest setConfiguration( Object configuration, String element );
+    BeanConfigurationRequest setConfiguration(Object configuration, String element);
 
     /**
      * Returns configuration element name or {@code null}.
@@ -81,21 +84,23 @@ public interface BeanConfigurationRequest
     String getConfigurationElement();
 
     /**
-     * Gets the class loader from which to load any types referenced by the configuration. If unset, the class loader of
-     * the bean class will be used.
+     * Gets the class loader from which to load any types referenced by the
+     * configuration. If unset, the class loader of the bean class will be used.
      *
-     * @return The class loader to load referenced types from or {@code null} if unset.
+     * @return The class loader to load referenced types from or {@code null} if
+     *         unset.
      */
     ClassLoader getClassLoader();
 
     /**
-     * Sets the class loader from which to load any types referenced by the configuration. If unset, the class loader of
-     * the bean class will be used.
+     * Sets the class loader from which to load any types referenced by the
+     * configuration. If unset, the class loader of the bean class will be used.
      *
-     * @param classLoader The class loader to load referenced types from, may be {@code null}.
+     * @param classLoader The class loader to load referenced types from, may be
+     *                    {@code null}.
      * @return This request for chaining, never {@code null}.
      */
-    BeanConfigurationRequest setClassLoader( ClassLoader classLoader );
+    BeanConfigurationRequest setClassLoader(ClassLoader classLoader);
 
     /**
      * Gets the optional preprocessor for configuration values.
@@ -107,24 +112,28 @@ public interface BeanConfigurationRequest
     /**
      * Sets the optional preprocessor for configuration values.
      *
-     * @param valuePreprocessor The preprocessor for configuration values, may be {@code null} if unneeded.
+     * @param valuePreprocessor The preprocessor for configuration values, may be
+     *                          {@code null} if unneeded.
      * @return This request for chaining, never {@code null}.
      */
-    BeanConfigurationRequest setValuePreprocessor( BeanConfigurationValuePreprocessor valuePreprocessor );
+    BeanConfigurationRequest setValuePreprocessor(BeanConfigurationValuePreprocessor valuePreprocessor);
 
     /**
-     * Gets the optional path translator for configuration values unmarshalled to files.
+     * Gets the optional path translator for configuration values unmarshalled to
+     * files.
      *
      * @return The path translator for files or {@code null} if none.
      */
     BeanConfigurationPathTranslator getPathTranslator();
 
     /**
-     * Sets the optional path translator for configuration values unmarshalled to files.
+     * Sets the optional path translator for configuration values unmarshalled to
+     * files.
      *
-     * @param pathTranslator The path translator for files, may be {@code null} if unneeded.
+     * @param pathTranslator The path translator for files, may be {@code null} if
+     *                       unneeded.
      * @return This request for chaining, never {@code null}.
      */
-    BeanConfigurationRequest setPathTranslator( BeanConfigurationPathTranslator pathTranslator );
+    BeanConfigurationRequest setPathTranslator(BeanConfigurationPathTranslator pathTranslator);
 
 }

@@ -25,12 +25,10 @@ package org.apache.maven;
  * @author Benjamin Bentmann
  */
 public class InternalErrorException
-    extends MavenExecutionException
-{
+        extends MavenExecutionException {
 
-    public InternalErrorException( String message, Throwable cause )
-    {
-        super( message, cause );
+    public InternalErrorException(String message, Throwable cause) {
+        super(message, cause);
     }
 
 }

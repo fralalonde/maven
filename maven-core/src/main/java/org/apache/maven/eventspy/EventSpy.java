@@ -22,20 +22,21 @@ package org.apache.maven.eventspy;
 import java.util.Map;
 
 /**
- * A core extension to monitor Maven's execution. Typically, such an extension gets loaded into Maven by specifying the
- * system property {@code maven.ext.class.path} on the command line. As soon as dependency injection is setup, Maven
- * looks up all implementers of this interface and calls their {@link #init(Context)} method. <em>Note:</em>
- * Implementors are strongly advised to inherit from {@link AbstractEventSpy} instead of directly implementing this
- * interface.
+ * A core extension to monitor Maven's execution. Typically, such an extension
+ * gets loaded into Maven by specifying the system property
+ * {@code maven.ext.class.path} on the command line. As soon as dependency
+ * injection is setup, Maven looks up all implementers of this interface and
+ * calls their {@link #init(Context)} method. <em>Note:</em> Implementors are
+ * strongly advised to inherit from {@link AbstractEventSpy} instead of directly
+ * implementing this interface.
+ * 
  * @since 3.0.2
  */
-public interface EventSpy
-{
+public interface EventSpy {
     /**
      * Context
      */
-    interface Context
-    {
+    interface Context {
 
         /**
          * Gets key-value pairs providing information about the Maven runtime.
@@ -51,8 +52,8 @@ public interface EventSpy
      *
      * @param context The event spy context, never {@code null}.
      */
-    void init( Context context )
-        throws Exception;
+    void init(Context context)
+            throws Exception;
 
     /**
      * Notifies the spy of some build event/operation.
@@ -67,13 +68,14 @@ public interface EventSpy
      * @see org.apache.maven.execution.ExecutionEvent
      * @see org.eclipse.aether.RepositoryEvent
      */
-    void onEvent( Object event )
-        throws Exception;
+    void onEvent(Object event)
+            throws Exception;
 
     /**
-     * Notifies the spy of Maven's termination, allowing it to free any resources allocated by it.
+     * Notifies the spy of Maven's termination, allowing it to free any resources
+     * allocated by it.
      */
     void close()
-        throws Exception;
+            throws Exception;
 
 }

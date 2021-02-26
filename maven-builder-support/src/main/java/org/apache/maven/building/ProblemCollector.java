@@ -19,6 +19,8 @@ package org.apache.maven.building;
  * under the License.
  */
 
+import lombok.*;
+
 import java.util.List;
 
 /**
@@ -27,33 +29,20 @@ import java.util.List;
  * @author Benjamin Bentmann
  * @author Robert Scholte
  */
-public interface ProblemCollector
-{
+@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
+public class ProblemCollector {
 
-    /**
-     * Adds the specified problem.
-     * Either message or exception is required
-     *
-     * @param severity The severity of the problem, must not be {@code null}.
-     * @param message The detail message of the problem, may be {@code null}.
-     * @param line The one-based index of the line containing the problem or {@code -1} if unknown.
-     * @param column The one-based index of the column containing the problem or {@code -1} if unknown.
-     * @param cause The cause of the problem, may be {@code null}.
-     */
-    void add( Problem.Severity severity, String message, int line, int column, Exception cause );
+    @NonNull
+    @Getter
+    final List<Problem> problems;
 
-    /**
-     * The next messages will be bound to this source. When calling this method again, previous messages keep
-     * their source, but the next messages will use the new source.
-     *
-     * @param source
-     */
-    void setSource( String source );
+    @Setter
+    private String source;
 
-    /**
-     *
-     * @return the collected Problems, never {@code null}
-     */
-    List<Problem> getProblems();
+    public void add(Problem.Severity severity, String message, int line, int column, Exception cause) {
+        Problem problem = new Problem(source,  line, column, message, cause, severity);
+        problems.add(problem);
+    }
 
 }

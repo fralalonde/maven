@@ -28,21 +28,17 @@ import org.apache.maven.project.artifact.InvalidDependencyVersionException;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  */
 public class InvalidPluginException
-    extends Exception
-{
-    public InvalidPluginException( String message, ProjectBuildingException e )
-    {
-        super( message, e );
+        extends Exception {
+    public InvalidPluginException(String message, ProjectBuildingException e) {
+        super(message, e);
     }
 
-    public InvalidPluginException( String message, InvalidDependencyVersionException e )
-    {
-        super( message, e );
+    public InvalidPluginException(String message, InvalidDependencyVersionException e) {
+        super(message, e);
     }
 
-    public InvalidPluginException( String message )
-    {
-        super( message );
+    public InvalidPluginException(String message) {
+        super(message);
     }
 
 }

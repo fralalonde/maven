@@ -23,86 +23,73 @@ import org.xml.sax.SAXException;
 import org.xml.sax.ext.LexicalHandler;
 
 /**
- * During parsing the line separators are transformed to \n
- * Unlike characters(), comments don't use the systems line separator for serialization.
- * Hence use this class in the LexicalHandler chain to do so
+ * During parsing the line separators are transformed to \n Unlike characters(),
+ * comments don't use the systems line separator for serialization. Hence use
+ * this class in the LexicalHandler chain to do so
  *
  * @author Robert Scholte
  * @since 4.0.0
  */
-public class CommentRenormalizer implements LexicalHandler
-{
+public class CommentRenormalizer implements LexicalHandler {
     private final LexicalHandler lexicalHandler;
 
     private final String lineSeparator;
 
-    public CommentRenormalizer( LexicalHandler lexicalHandler )
-    {
-        this( lexicalHandler,  System.lineSeparator() );
+    public CommentRenormalizer(LexicalHandler lexicalHandler) {
+        this(lexicalHandler, System.lineSeparator());
     }
 
     // for testing purpose
-    CommentRenormalizer( LexicalHandler lexicalHandler, String lineSeparator )
-    {
+    CommentRenormalizer(LexicalHandler lexicalHandler, String lineSeparator) {
         this.lexicalHandler = lexicalHandler;
         this.lineSeparator = lineSeparator;
     }
 
     @Override
-    public void comment( char[] ch, int start, int length )
-        throws SAXException
-    {
-        if ( "\n".equals( lineSeparator ) )
-        {
-            lexicalHandler.comment( ch, start, length );
-        }
-        else
-        {
-            char[] ca = new String( ch, start, length ).replaceAll( "\n", lineSeparator ).toCharArray();
+    public void comment(char[] ch, int start, int length)
+            throws SAXException {
+        if ("\n".equals(lineSeparator)) {
+            lexicalHandler.comment(ch, start, length);
+        } else {
+            char[] ca = new String(ch, start, length).replaceAll("\n", lineSeparator).toCharArray();
 
-            lexicalHandler.comment( ca, 0, ca.length );
+            lexicalHandler.comment(ca, 0, ca.length);
         }
     }
 
     @Override
-    public void startDTD( String name, String publicId, String systemId )
-        throws SAXException
-    {
-        lexicalHandler.startDTD( name, publicId, systemId );
+    public void startDTD(String name, String publicId, String systemId)
+            throws SAXException {
+        lexicalHandler.startDTD(name, publicId, systemId);
     }
 
     @Override
     public void endDTD()
-        throws SAXException
-    {
+            throws SAXException {
         lexicalHandler.endDTD();
     }
 
     @Override
-    public void startEntity( String name )
-        throws SAXException
-    {
-        lexicalHandler.startEntity( name );
+    public void startEntity(String name)
+            throws SAXException {
+        lexicalHandler.startEntity(name);
     }
 
     @Override
-    public void endEntity( String name )
-        throws SAXException
-    {
-        lexicalHandler.endEntity( name );
+    public void endEntity(String name)
+            throws SAXException {
+        lexicalHandler.endEntity(name);
     }
 
     @Override
     public void startCDATA()
-        throws SAXException
-    {
+            throws SAXException {
         lexicalHandler.startCDATA();
     }
 
     @Override
     public void endCDATA()
-        throws SAXException
-    {
+            throws SAXException {
         lexicalHandler.endCDATA();
     }
 }

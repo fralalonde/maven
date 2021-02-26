@@ -31,17 +31,15 @@ import java.util.List;
  *
  */
 class PathTranslatingPostProcessor
-    implements InterpolationPostProcessor
-{
+        implements InterpolationPostProcessor {
 
     private final Collection<String> unprefixedPathKeys;
     private final File projectDir;
     private final PathTranslator pathTranslator;
     private final List<String> expressionPrefixes;
 
-    PathTranslatingPostProcessor( List<String> expressionPrefixes, Collection<String> unprefixedPathKeys,
-                                         File projectDir, PathTranslator pathTranslator )
-    {
+    PathTranslatingPostProcessor(List<String> expressionPrefixes, Collection<String> unprefixedPathKeys,
+            File projectDir, PathTranslator pathTranslator) {
         this.expressionPrefixes = expressionPrefixes;
         this.unprefixedPathKeys = unprefixedPathKeys;
         this.projectDir = projectDir;
@@ -49,15 +47,12 @@ class PathTranslatingPostProcessor
     }
 
     @Override
-    public Object execute( String expression, Object value )
-    {
-        if ( value != null )
-        {
-            expression = ValueSourceUtils.trimPrefix( expression, expressionPrefixes, true );
+    public Object execute(String expression, Object value) {
+        if (value != null) {
+            expression = ValueSourceUtils.trimPrefix(expression, expressionPrefixes, true);
 
-            if ( unprefixedPathKeys.contains( expression ) )
-            {
-                return pathTranslator.alignToBaseDirectory( String.valueOf( value ), projectDir );
+            if (unprefixedPathKeys.contains(expression)) {
+                return pathTranslator.alignToBaseDirectory(String.valueOf(value), projectDir);
             }
         }
 

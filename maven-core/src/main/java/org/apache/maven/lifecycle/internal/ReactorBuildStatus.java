@@ -33,48 +33,39 @@ import java.util.HashSet;
  * @since 3.0
  * @author <a href="mailto:kristian.rosenvold@gmail.com">Kristian Rosenvold</a>
  */
-public class ReactorBuildStatus
-{
+public class ReactorBuildStatus {
     private final ProjectDependencyGraph projectDependencyGraph;
 
-    private final Collection<String> blackListedProjects = Collections.synchronizedSet( new HashSet<>() );
+    private final Collection<String> blackListedProjects = Collections.synchronizedSet(new HashSet<>());
 
     private volatile boolean halted = false;
 
-    public ReactorBuildStatus( ProjectDependencyGraph projectDependencyGraph )
-    {
+    public ReactorBuildStatus(ProjectDependencyGraph projectDependencyGraph) {
         this.projectDependencyGraph = projectDependencyGraph;
     }
 
-    public boolean isBlackListed( MavenProject project )
-    {
-        return blackListedProjects.contains( BuilderCommon.getKey( project ) );
+    public boolean isBlackListed(MavenProject project) {
+        return blackListedProjects.contains(BuilderCommon.getKey(project));
     }
 
-    public void blackList( MavenProject project )
-    {
-        if ( blackListedProjects.add( BuilderCommon.getKey( project ) ) && projectDependencyGraph != null )
-        {
-            for ( MavenProject downstreamProject : projectDependencyGraph.getDownstreamProjects( project, true ) )
-            {
-                blackListedProjects.add( BuilderCommon.getKey( downstreamProject ) );
+    public void blackList(MavenProject project) {
+        if (blackListedProjects.add(BuilderCommon.getKey(project)) && projectDependencyGraph != null) {
+            for (MavenProject downstreamProject : projectDependencyGraph.getDownstreamProjects(project, true)) {
+                blackListedProjects.add(BuilderCommon.getKey(downstreamProject));
             }
         }
     }
 
-    public void halt()
-    {
+    public void halt() {
         halted = true;
     }
 
-    public boolean isHalted()
-    {
+    public boolean isHalted() {
         return halted;
     }
 
-    public boolean isHaltedOrBlacklisted( MavenProject mavenProject )
-    {
-        return isBlackListed( mavenProject ) || isHalted();
+    public boolean isHaltedOrBlacklisted(MavenProject mavenProject) {
+        return isBlackListed(mavenProject) || isHalted();
     }
 
 }

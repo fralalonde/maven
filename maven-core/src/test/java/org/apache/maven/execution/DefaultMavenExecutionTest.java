@@ -32,25 +32,22 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Benjamin Bentmann
  */
-public class DefaultMavenExecutionTest
-{
+public class DefaultMavenExecutionTest {
     @Test
-    public void testCopyDefault()
-    {
+    public void testCopyDefault() {
         MavenExecutionRequest original = new DefaultMavenExecutionRequest();
-        MavenExecutionRequest copy = DefaultMavenExecutionRequest.copy( original );
-        assertNotNull( copy );
-        assertNotSame( copy, original );
+        MavenExecutionRequest copy = DefaultMavenExecutionRequest.copy(original);
+        assertNotNull(copy);
+        assertNotSame(copy, original);
     }
 
     @Test
-    public void testResultWithNullTopologicallySortedProjectsIsEmptyList()
-    {
+    public void testResultWithNullTopologicallySortedProjectsIsEmptyList() {
         MavenExecutionResult result = new DefaultMavenExecutionResult();
-        result.setTopologicallySortedProjects( null );
+        result.setTopologicallySortedProjects(null);
         List<MavenProject> projects = result.getTopologicallySortedProjects();
-        assertNotNull( projects );
-        assertThat( projects, is( empty() ) );
+        assertNotNull(projects);
+        assertThat(projects, is(empty()));
     }
 
 }

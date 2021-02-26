@@ -20,25 +20,26 @@ package org.apache.maven.model.building;
  */
 
 /**
- * The transformerContextBuilder is responsible for initializing the TransformerContext.
- * In case rawModels are missing, it could do new buildingRequests on the ModelBuilder.
+ * The transformerContextBuilder is responsible for initializing the
+ * TransformerContext. In case rawModels are missing, it could do new
+ * buildingRequests on the ModelBuilder.
  *
  * @author Robert Scholte
  * @since 4.0.0
  */
-public interface TransformerContextBuilder
-{
+public interface TransformerContextBuilder {
     /**
      * This method is used to initialize the TransformerContext
      *
-     * @param request the modelBuildingRequest
+     * @param request  the modelBuildingRequest
      * @param problems the problemCollector
      * @return the mutable transformerContext
      */
-    TransformerContext initialize( ModelBuildingRequest request, ModelProblemCollector problems );
+    TransformerContext initialize(ModelBuildingRequest request, ModelProblemCollector problems);
 
     /**
-     * The immutable transformerContext, can be used after the buildplan is finished.
+     * The immutable transformerContext, can be used after the buildplan is
+     * finished.
      *
      * @return the immutable transformerContext
      */

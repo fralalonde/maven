@@ -65,18 +65,13 @@ import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class DefaultGraphBuilderTest
-{
+public class DefaultGraphBuilderTest {
     /*
-    The multi-module structure in this project is displayed as follows:
-
-    module-parent
-    └─── module-independent     (without parent declaration)
-         module-a
-         module-b               (depends on module-a)
-         module-c
-         └─── module-c-1
-              module-c-2        (depends on module-b)
+     * The multi-module structure in this project is displayed as follows:
+     * 
+     * module-parent └─── module-independent (without parent declaration) module-a
+     * module-b (depends on module-a) module-c └─── module-c-1 module-c-2 (depends
+     * on module-b)
      */
     private static final String PARENT_MODULE = "module-parent";
     private static final String INDEPENDENT_MODULE = "module-independent";
@@ -88,97 +83,99 @@ public class DefaultGraphBuilderTest
 
     private DefaultGraphBuilder graphBuilder;
 
-    private final ProjectBuilder projectBuilder = mock( ProjectBuilder.class );
-    private final MavenSession session = mock( MavenSession.class );
-    private final MavenExecutionRequest mavenExecutionRequest = mock( MavenExecutionRequest.class );
+    private final ProjectBuilder projectBuilder = mock(ProjectBuilder.class);
+    private final MavenSession session = mock(MavenSession.class);
+    private final MavenExecutionRequest mavenExecutionRequest = mock(MavenExecutionRequest.class);
 
-    private final ProjectsSelector projectsSelector = new DefaultProjectsSelector( projectBuilder );
+    private final ProjectsSelector projectsSelector = new DefaultProjectsSelector(projectBuilder);
 
-    // Not using mocks for these strategies - a mock would just copy the actual implementation.
+    // Not using mocks for these strategies - a mock would just copy the actual
+    // implementation.
 
     private final ModelLocator modelLocator = new DefaultModelLocator();
-    private final PomlessCollectionStrategy pomlessCollectionStrategy = new PomlessCollectionStrategy( projectBuilder );
-    private final MultiModuleCollectionStrategy multiModuleCollectionStrategy = new MultiModuleCollectionStrategy( modelLocator, projectsSelector );
-    private final RequestPomCollectionStrategy requestPomCollectionStrategy = new RequestPomCollectionStrategy( projectsSelector );
+    private final PomlessCollectionStrategy pomlessCollectionStrategy = new PomlessCollectionStrategy(projectBuilder);
+    private final MultiModuleCollectionStrategy multiModuleCollectionStrategy = new MultiModuleCollectionStrategy(
+            modelLocator, projectsSelector);
+    private final RequestPomCollectionStrategy requestPomCollectionStrategy = new RequestPomCollectionStrategy(
+            projectsSelector);
 
     private Map<String, MavenProject> artifactIdProjectMap;
 
-    public static Stream<Arguments> parameters()
-    {
+    public static Stream<Arguments> parameters() {
         return Stream.of(
-                scenario( "Full reactor in order" )
-                        .expectResult( PARENT_MODULE, MODULE_C, MODULE_C_1, MODULE_A, MODULE_B, MODULE_C_2, INDEPENDENT_MODULE ),
-                scenario( "Selected project" )
-                        .selectedProjects( MODULE_B )
-                        .expectResult( MODULE_B ),
-                scenario( "Selected project (including child modules)" )
-                        .selectedProjects( MODULE_C )
-                        .expectResult( MODULE_C, MODULE_C_1, MODULE_C_2 ),
-                scenario( "Excluded project" )
-                        .excludedProjects( MODULE_B )
-                        .expectResult( PARENT_MODULE, MODULE_C, MODULE_C_1, MODULE_A, MODULE_C_2, INDEPENDENT_MODULE ),
-                scenario( "Resuming from project" )
-                        .resumeFrom( MODULE_B )
-                        .expectResult( MODULE_B, MODULE_C_2, INDEPENDENT_MODULE ),
-                scenario( "Selected project with also make dependencies" )
-                        .selectedProjects( MODULE_C_2 )
-                        .makeBehavior( REACTOR_MAKE_UPSTREAM )
-                        .expectResult( PARENT_MODULE, MODULE_C, MODULE_A, MODULE_B, MODULE_C_2 ),
-                scenario( "Selected project with also make dependents" )
-                        .selectedProjects( MODULE_B )
-                        .makeBehavior( REACTOR_MAKE_DOWNSTREAM )
-                        .expectResult( MODULE_B, MODULE_C_2 ),
-                scenario( "Resuming from project with also make dependencies" )
-                        .makeBehavior( REACTOR_MAKE_UPSTREAM )
-                        .resumeFrom( MODULE_C_2 )
-                        .expectResult( PARENT_MODULE, MODULE_C, MODULE_A, MODULE_B, MODULE_C_2, INDEPENDENT_MODULE ),
-                scenario( "Selected project with resume from and also make dependency (MNG-4960 IT#1)" )
-                        .selectedProjects( MODULE_C_2 )
-                        .resumeFrom( MODULE_B )
-                        .makeBehavior( REACTOR_MAKE_UPSTREAM )
-                        .expectResult( PARENT_MODULE, MODULE_C, MODULE_A, MODULE_B, MODULE_C_2 ),
-                scenario( "Selected project with resume from and also make dependent (MNG-4960 IT#2)" )
-                        .selectedProjects( MODULE_B )
-                        .resumeFrom( MODULE_C_2 )
-                        .makeBehavior( REACTOR_MAKE_DOWNSTREAM )
-                        .expectResult( MODULE_C_2 ),
-                scenario( "Excluding an also make dependency from selectedProject does take its transitive dependency" )
-                        .selectedProjects( MODULE_C_2 )
-                        .excludedProjects( MODULE_B )
-                        .makeBehavior( REACTOR_MAKE_UPSTREAM )
-                        .expectResult( PARENT_MODULE, MODULE_C, MODULE_A, MODULE_C_2 ),
-                scenario( "Excluding an also make dependency from resumeFrom does take its transitive dependency" )
-                        .resumeFrom( MODULE_C_2 )
-                        .excludedProjects( MODULE_B )
-                        .makeBehavior( REACTOR_MAKE_UPSTREAM )
-                        .expectResult( PARENT_MODULE, MODULE_C, MODULE_A, MODULE_C_2, INDEPENDENT_MODULE ),
-                scenario( "Resume from exclude project downstream" )
-                        .resumeFrom( MODULE_A )
-                        .excludedProjects( MODULE_B )
-                        .expectResult( MODULE_A, MODULE_C_2, INDEPENDENT_MODULE ),
-                scenario( "Exclude the project we are resuming from (as proposed in MNG-6676)" )
-                        .resumeFrom( MODULE_B )
-                        .excludedProjects( MODULE_B )
-                        .expectResult( MODULE_C_2, INDEPENDENT_MODULE ),
-                scenario( "Selected projects in wrong order are resumed correctly in order" )
-                        .selectedProjects( MODULE_C_2, MODULE_B, MODULE_A )
-                        .resumeFrom( MODULE_B )
-                        .expectResult( MODULE_B, MODULE_C_2 ),
-                scenario( "Duplicate projects are filtered out" )
-                        .selectedProjects( MODULE_A, MODULE_A )
-                        .expectResult( MODULE_A ),
-                scenario( "Select reactor by specific pom" )
-                        .requestedPom( MODULE_C )
-                        .expectResult( MODULE_C, MODULE_C_1, MODULE_C_2 ),
-                scenario( "Select reactor by specific pom with also make dependencies" )
-                        .requestedPom( MODULE_C )
-                        .makeBehavior( REACTOR_MAKE_UPSTREAM )
-                        .expectResult( PARENT_MODULE, MODULE_C, MODULE_C_1, MODULE_A, MODULE_B, MODULE_C_2 ),
-                scenario( "Select reactor by specific pom with also make dependents" )
-                        .requestedPom( MODULE_B )
-                        .makeBehavior( REACTOR_MAKE_DOWNSTREAM )
-                        .expectResult( MODULE_B, MODULE_C_2 )
-        );
+                scenario("Full reactor in order")
+                        .expectResult(PARENT_MODULE, MODULE_C, MODULE_C_1, MODULE_A, MODULE_B, MODULE_C_2,
+                                INDEPENDENT_MODULE),
+                scenario("Selected project")
+                        .selectedProjects(MODULE_B)
+                        .expectResult(MODULE_B),
+                scenario("Selected project (including child modules)")
+                        .selectedProjects(MODULE_C)
+                        .expectResult(MODULE_C, MODULE_C_1, MODULE_C_2),
+                scenario("Excluded project")
+                        .excludedProjects(MODULE_B)
+                        .expectResult(PARENT_MODULE, MODULE_C, MODULE_C_1, MODULE_A, MODULE_C_2, INDEPENDENT_MODULE),
+                scenario("Resuming from project")
+                        .resumeFrom(MODULE_B)
+                        .expectResult(MODULE_B, MODULE_C_2, INDEPENDENT_MODULE),
+                scenario("Selected project with also make dependencies")
+                        .selectedProjects(MODULE_C_2)
+                        .makeBehavior(REACTOR_MAKE_UPSTREAM)
+                        .expectResult(PARENT_MODULE, MODULE_C, MODULE_A, MODULE_B, MODULE_C_2),
+                scenario("Selected project with also make dependents")
+                        .selectedProjects(MODULE_B)
+                        .makeBehavior(REACTOR_MAKE_DOWNSTREAM)
+                        .expectResult(MODULE_B, MODULE_C_2),
+                scenario("Resuming from project with also make dependencies")
+                        .makeBehavior(REACTOR_MAKE_UPSTREAM)
+                        .resumeFrom(MODULE_C_2)
+                        .expectResult(PARENT_MODULE, MODULE_C, MODULE_A, MODULE_B, MODULE_C_2, INDEPENDENT_MODULE),
+                scenario("Selected project with resume from and also make dependency (MNG-4960 IT#1)")
+                        .selectedProjects(MODULE_C_2)
+                        .resumeFrom(MODULE_B)
+                        .makeBehavior(REACTOR_MAKE_UPSTREAM)
+                        .expectResult(PARENT_MODULE, MODULE_C, MODULE_A, MODULE_B, MODULE_C_2),
+                scenario("Selected project with resume from and also make dependent (MNG-4960 IT#2)")
+                        .selectedProjects(MODULE_B)
+                        .resumeFrom(MODULE_C_2)
+                        .makeBehavior(REACTOR_MAKE_DOWNSTREAM)
+                        .expectResult(MODULE_C_2),
+                scenario("Excluding an also make dependency from selectedProject does take its transitive dependency")
+                        .selectedProjects(MODULE_C_2)
+                        .excludedProjects(MODULE_B)
+                        .makeBehavior(REACTOR_MAKE_UPSTREAM)
+                        .expectResult(PARENT_MODULE, MODULE_C, MODULE_A, MODULE_C_2),
+                scenario("Excluding an also make dependency from resumeFrom does take its transitive dependency")
+                        .resumeFrom(MODULE_C_2)
+                        .excludedProjects(MODULE_B)
+                        .makeBehavior(REACTOR_MAKE_UPSTREAM)
+                        .expectResult(PARENT_MODULE, MODULE_C, MODULE_A, MODULE_C_2, INDEPENDENT_MODULE),
+                scenario("Resume from exclude project downstream")
+                        .resumeFrom(MODULE_A)
+                        .excludedProjects(MODULE_B)
+                        .expectResult(MODULE_A, MODULE_C_2, INDEPENDENT_MODULE),
+                scenario("Exclude the project we are resuming from (as proposed in MNG-6676)")
+                        .resumeFrom(MODULE_B)
+                        .excludedProjects(MODULE_B)
+                        .expectResult(MODULE_C_2, INDEPENDENT_MODULE),
+                scenario("Selected projects in wrong order are resumed correctly in order")
+                        .selectedProjects(MODULE_C_2, MODULE_B, MODULE_A)
+                        .resumeFrom(MODULE_B)
+                        .expectResult(MODULE_B, MODULE_C_2),
+                scenario("Duplicate projects are filtered out")
+                        .selectedProjects(MODULE_A, MODULE_A)
+                        .expectResult(MODULE_A),
+                scenario("Select reactor by specific pom")
+                        .requestedPom(MODULE_C)
+                        .expectResult(MODULE_C, MODULE_C_1, MODULE_C_2),
+                scenario("Select reactor by specific pom with also make dependencies")
+                        .requestedPom(MODULE_C)
+                        .makeBehavior(REACTOR_MAKE_UPSTREAM)
+                        .expectResult(PARENT_MODULE, MODULE_C, MODULE_C_1, MODULE_A, MODULE_B, MODULE_C_2),
+                scenario("Select reactor by specific pom with also make dependents")
+                        .requestedPom(MODULE_B)
+                        .makeBehavior(REACTOR_MAKE_DOWNSTREAM)
+                        .expectResult(MODULE_B, MODULE_C_2));
     }
 
     @ParameterizedTest
@@ -190,162 +187,154 @@ public class DefaultGraphBuilderTest
             String parameterResumeFrom,
             String parameterMakeBehavior,
             List<String> parameterExpectedResult,
-            File parameterRequestedPom)
-    {
+            File parameterRequestedPom) {
         // Given
-        List<String> selectedProjects = parameterSelectedProjects.stream().map( p -> ":" + p ).collect( Collectors.toList() );
-        List<String> excludedProjects = parameterExcludedProjects.stream().map( p -> ":" + p ).collect( Collectors.toList() );
+        List<String> selectedProjects = parameterSelectedProjects.stream().map(p -> ":" + p)
+                .collect(Collectors.toList());
+        List<String> excludedProjects = parameterExcludedProjects.stream().map(p -> ":" + p)
+                .collect(Collectors.toList());
 
-        when( mavenExecutionRequest.getSelectedProjects() ).thenReturn( selectedProjects );
-        when( mavenExecutionRequest.getExcludedProjects() ).thenReturn( excludedProjects );
-        when( mavenExecutionRequest.getMakeBehavior() ).thenReturn( parameterMakeBehavior );
-        when( mavenExecutionRequest.getPom() ).thenReturn( parameterRequestedPom );
-        if ( StringUtils.isNotEmpty( parameterResumeFrom ) )
-        {
-            when( mavenExecutionRequest.getResumeFrom() ).thenReturn( ":" + parameterResumeFrom );
+        when(mavenExecutionRequest.getSelectedProjects()).thenReturn(selectedProjects);
+        when(mavenExecutionRequest.getExcludedProjects()).thenReturn(excludedProjects);
+        when(mavenExecutionRequest.getMakeBehavior()).thenReturn(parameterMakeBehavior);
+        when(mavenExecutionRequest.getPom()).thenReturn(parameterRequestedPom);
+        if (StringUtils.isNotEmpty(parameterResumeFrom)) {
+            when(mavenExecutionRequest.getResumeFrom()).thenReturn(":" + parameterResumeFrom);
         }
 
         // When
-        Result<ProjectDependencyGraph> result = graphBuilder.build( session );
+        Result<ProjectDependencyGraph> result = graphBuilder.build(session);
 
         // Then
         List<MavenProject> actualReactorProjects = result.get().getSortedProjects();
         List<MavenProject> expectedReactorProjects = parameterExpectedResult.stream()
-                .map( artifactIdProjectMap::get )
-                .collect( Collectors.toList());
-        assertEquals( expectedReactorProjects, actualReactorProjects, parameterDescription );
+                .map(artifactIdProjectMap::get)
+                .collect(Collectors.toList());
+        assertEquals(expectedReactorProjects, actualReactorProjects, parameterDescription);
     }
 
     @BeforeEach
-    public void before() throws Exception
-    {
+    public void before() throws Exception {
         graphBuilder = new DefaultGraphBuilder(
-                mock( BuildResumptionDataRepository.class ),
+                mock(BuildResumptionDataRepository.class),
                 pomlessCollectionStrategy,
                 multiModuleCollectionStrategy,
-                requestPomCollectionStrategy
-        );
+                requestPomCollectionStrategy);
 
         // Create projects
-        MavenProject projectParent = getMavenProject( PARENT_MODULE );
-        MavenProject projectIndependentModule = getMavenProject( INDEPENDENT_MODULE );
-        MavenProject projectModuleA = getMavenProject( MODULE_A, projectParent );
-        MavenProject projectModuleB = getMavenProject( MODULE_B, projectParent );
-        MavenProject projectModuleC = getMavenProject( MODULE_C, projectParent );
-        MavenProject projectModuleC1 = getMavenProject( MODULE_C_1, projectModuleC );
-        MavenProject projectModuleC2 = getMavenProject( MODULE_C_2, projectModuleC );
+        MavenProject projectParent = getMavenProject(PARENT_MODULE);
+        MavenProject projectIndependentModule = getMavenProject(INDEPENDENT_MODULE);
+        MavenProject projectModuleA = getMavenProject(MODULE_A, projectParent);
+        MavenProject projectModuleB = getMavenProject(MODULE_B, projectParent);
+        MavenProject projectModuleC = getMavenProject(MODULE_C, projectParent);
+        MavenProject projectModuleC1 = getMavenProject(MODULE_C_1, projectModuleC);
+        MavenProject projectModuleC2 = getMavenProject(MODULE_C_2, projectModuleC);
 
-        artifactIdProjectMap = Stream.of( projectParent, projectIndependentModule, projectModuleA, projectModuleB, projectModuleC, projectModuleC1, projectModuleC2 )
-                .collect( Collectors.toMap( MavenProject::getArtifactId, identity() ) );
+        artifactIdProjectMap = Stream
+                .of(projectParent, projectIndependentModule, projectModuleA, projectModuleB, projectModuleC,
+                        projectModuleC1, projectModuleC2)
+                .collect(Collectors.toMap(MavenProject::getArtifactId, identity()));
 
         // Set dependencies and modules
-        projectModuleB.setDependencies( singletonList( toDependency( projectModuleA ) ) );
-        projectModuleC2.setDependencies( singletonList( toDependency( projectModuleB ) ) );
-        projectParent.setCollectedProjects( asList( projectIndependentModule, projectModuleA, projectModuleB, projectModuleC, projectModuleC1, projectModuleC2 ) );
-        projectModuleC.setCollectedProjects( asList( projectModuleC1, projectModuleC2 ) );
+        projectModuleB.setDependencies(singletonList(toDependency(projectModuleA)));
+        projectModuleC2.setDependencies(singletonList(toDependency(projectModuleB)));
+        projectParent.setCollectedProjects(asList(projectIndependentModule, projectModuleA, projectModuleB,
+                projectModuleC, projectModuleC1, projectModuleC2));
+        projectModuleC.setCollectedProjects(asList(projectModuleC1, projectModuleC2));
 
         // Set up needed mocks
-        when( session.getRequest() ).thenReturn( mavenExecutionRequest );
-        when( session.getProjects() ).thenReturn( null ); // needed, otherwise it will be an empty list by default
-        when( mavenExecutionRequest.getProjectBuildingRequest() ).thenReturn( mock( ProjectBuildingRequest.class ) );
-        List<ProjectBuildingResult> projectBuildingResults = createProjectBuildingResultMocks( artifactIdProjectMap.values() );
-        when( projectBuilder.build( anyList(), anyBoolean(), any( ProjectBuildingRequest.class ) ) ).thenReturn( projectBuildingResults );
+        when(session.getRequest()).thenReturn(mavenExecutionRequest);
+        when(session.getProjects()).thenReturn(null); // needed, otherwise it will be an empty list by default
+        when(mavenExecutionRequest.getProjectBuildingRequest()).thenReturn(mock(ProjectBuildingRequest.class));
+        List<ProjectBuildingResult> projectBuildingResults = createProjectBuildingResultMocks(
+                artifactIdProjectMap.values());
+        when(projectBuilder.build(anyList(), anyBoolean(), any(ProjectBuildingRequest.class)))
+                .thenReturn(projectBuildingResults);
     }
 
-    private MavenProject getMavenProject( String artifactId, MavenProject parentProject )
-    {
-        MavenProject project = getMavenProject( artifactId );
+    private MavenProject getMavenProject(String artifactId, MavenProject parentProject) {
+        MavenProject project = getMavenProject(artifactId);
         Parent parent = new Parent();
-        parent.setGroupId( parentProject.getGroupId() );
-        parent.setArtifactId( parentProject.getArtifactId() );
-        project.getModel().setParent( parent );
+        parent.setGroupId(parentProject.getGroupId());
+        parent.setArtifactId(parentProject.getArtifactId());
+        project.getModel().setParent(parent);
         return project;
     }
 
-    private MavenProject getMavenProject( String artifactId )
-    {
+    private MavenProject getMavenProject(String artifactId) {
         MavenProject mavenProject = new MavenProject();
-        mavenProject.setGroupId( "unittest" );
-        mavenProject.setArtifactId( artifactId );
-        mavenProject.setVersion( "1.0" );
-        mavenProject.setPomFile( new File ( artifactId, "pom.xml" ) );
-        mavenProject.setCollectedProjects( new ArrayList<>() );
+        mavenProject.setGroupId("unittest");
+        mavenProject.setArtifactId(artifactId);
+        mavenProject.setVersion("1.0");
+        mavenProject.setPomFile(new File(artifactId, "pom.xml"));
+        mavenProject.setCollectedProjects(new ArrayList<>());
         return mavenProject;
     }
 
-    private Dependency toDependency( MavenProject mavenProject )
-    {
+    private Dependency toDependency(MavenProject mavenProject) {
         Dependency dependency = new Dependency();
-        dependency.setGroupId( mavenProject.getGroupId() );
-        dependency.setArtifactId( mavenProject.getArtifactId() );
-        dependency.setVersion( mavenProject.getVersion() );
+        dependency.setGroupId(mavenProject.getGroupId());
+        dependency.setArtifactId(mavenProject.getArtifactId());
+        dependency.setVersion(mavenProject.getVersion());
         return dependency;
     }
 
-    private List<ProjectBuildingResult> createProjectBuildingResultMocks( Collection<MavenProject> projects )
-    {
+    private List<ProjectBuildingResult> createProjectBuildingResultMocks(Collection<MavenProject> projects) {
         return projects.stream()
-                .map( project -> {
-                    ProjectBuildingResult result = mock( ProjectBuildingResult.class );
-                    when( result.getProject() ).thenReturn( project );
+                .map(project -> {
+                    ProjectBuildingResult result = mock(ProjectBuildingResult.class);
+                    when(result.getProject()).thenReturn(project);
                     return result;
-                } )
-                .collect( Collectors.toList() );
+                })
+                .collect(Collectors.toList());
     }
 
-    static class ScenarioBuilder
-    {
+    static class ScenarioBuilder {
         private String description;
         private List<String> selectedProjects = emptyList();
         private List<String> excludedProjects = emptyList();
         private String resumeFrom = "";
         private String makeBehavior = "";
-        private File requestedPom = new File( PARENT_MODULE, "pom.xml" );
+        private File requestedPom = new File(PARENT_MODULE, "pom.xml");
 
-        private ScenarioBuilder() { }
+        private ScenarioBuilder() {
+        }
 
-        public static ScenarioBuilder scenario( String description )
-        {
+        public static ScenarioBuilder scenario(String description) {
             ScenarioBuilder scenarioBuilder = new ScenarioBuilder();
             scenarioBuilder.description = description;
             return scenarioBuilder;
         }
 
-        public ScenarioBuilder selectedProjects( String... selectedProjects )
-        {
-            this.selectedProjects = asList( selectedProjects );
+        public ScenarioBuilder selectedProjects(String... selectedProjects) {
+            this.selectedProjects = asList(selectedProjects);
             return this;
         }
 
-        public ScenarioBuilder excludedProjects( String... excludedProjects )
-        {
-            this.excludedProjects = asList( excludedProjects );
+        public ScenarioBuilder excludedProjects(String... excludedProjects) {
+            this.excludedProjects = asList(excludedProjects);
             return this;
         }
 
-        public ScenarioBuilder resumeFrom( String resumeFrom )
-        {
+        public ScenarioBuilder resumeFrom(String resumeFrom) {
             this.resumeFrom = resumeFrom;
             return this;
         }
 
-        public ScenarioBuilder makeBehavior( String makeBehavior )
-        {
+        public ScenarioBuilder makeBehavior(String makeBehavior) {
             this.makeBehavior = makeBehavior;
             return this;
         }
 
-        public ScenarioBuilder requestedPom( String requestedPom )
-        {
-            this.requestedPom = new File( requestedPom, "pom.xml" );
+        public ScenarioBuilder requestedPom(String requestedPom) {
+            this.requestedPom = new File(requestedPom, "pom.xml");
             return this;
         }
 
-        public Arguments expectResult( String... expectedReactorProjects )
-        {
+        public Arguments expectResult(String... expectedReactorProjects) {
             return Arguments.arguments(
-                    description, selectedProjects, excludedProjects, resumeFrom, makeBehavior, asList( expectedReactorProjects ), requestedPom
-            );
+                    description, selectedProjects, excludedProjects, resumeFrom, makeBehavior,
+                    asList(expectedReactorProjects), requestedPom);
         }
     }
 }

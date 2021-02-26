@@ -27,64 +27,55 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 /**
  * @author Benjamin Bentmann
  */
-public class DefaultUrlNormalizerTest
-{
+public class DefaultUrlNormalizerTest {
 
     private UrlNormalizer normalizer = new DefaultUrlNormalizer();
 
-    private String normalize( String url )
-    {
-        return normalizer.normalize( url );
+    private String normalize(String url) {
+        return normalizer.normalize(url);
     }
 
     @Test
-    public void testNullSafe()
-    {
-        assertNull( normalize( null ) );
+    public void testNullSafe() {
+        assertNull(normalize(null));
     }
 
     @Test
-    public void testTrailingSlash()
-    {
-        assertEquals( "", normalize( "" ) );
-        assertEquals( "http://server.org/dir", normalize( "http://server.org/dir" ) );
-        assertEquals( "http://server.org/dir/", normalize( "http://server.org/dir/" ) );
+    public void testTrailingSlash() {
+        assertEquals("", normalize(""));
+        assertEquals("http://server.org/dir", normalize("http://server.org/dir"));
+        assertEquals("http://server.org/dir/", normalize("http://server.org/dir/"));
     }
 
     @Test
-    public void testRemovalOfParentRefs()
-    {
-        assertEquals( "http://server.org/child", normalize( "http://server.org/parent/../child" ) );
-        assertEquals( "http://server.org/child", normalize( "http://server.org/grand/parent/../../child" ) );
+    public void testRemovalOfParentRefs() {
+        assertEquals("http://server.org/child", normalize("http://server.org/parent/../child"));
+        assertEquals("http://server.org/child", normalize("http://server.org/grand/parent/../../child"));
 
-        assertEquals( "http://server.org//child", normalize( "http://server.org/parent/..//child" ) );
-        assertEquals( "http://server.org/child", normalize( "http://server.org/parent//../child" ) );
+        assertEquals("http://server.org//child", normalize("http://server.org/parent/..//child"));
+        assertEquals("http://server.org/child", normalize("http://server.org/parent//../child"));
     }
 
     @Test
-    public void testPreservationOfDoubleSlashes()
-    {
-        assertEquals( "scm:hg:ssh://localhost//home/user", normalize( "scm:hg:ssh://localhost//home/user" ) );
-        assertEquals( "file:////UNC/server", normalize( "file:////UNC/server" ) );
-        assertEquals( "[fetch=]http://server.org/[push=]ssh://server.org/",
-                      normalize( "[fetch=]http://server.org/[push=]ssh://server.org/" ) );
+    public void testPreservationOfDoubleSlashes() {
+        assertEquals("scm:hg:ssh://localhost//home/user", normalize("scm:hg:ssh://localhost//home/user"));
+        assertEquals("file:////UNC/server", normalize("file:////UNC/server"));
+        assertEquals("[fetch=]http://server.org/[push=]ssh://server.org/",
+                normalize("[fetch=]http://server.org/[push=]ssh://server.org/"));
     }
 
     @Test
-    public void absolutePathTraversalPastRootIsOmitted()
-    {
-        assertEquals( "/", normalize("/../" ) );
+    public void absolutePathTraversalPastRootIsOmitted() {
+        assertEquals("/", normalize("/../"));
     }
 
     @Test
-    public void parentDirectoryRemovedFromRelativeUriReference()
-    {
-        assertEquals( "", normalize( "a/../" ) );
+    public void parentDirectoryRemovedFromRelativeUriReference() {
+        assertEquals("", normalize("a/../"));
     }
 
     @Test
-    public void leadingParentDirectoryNotRemovedFromRelativeUriReference()
-    {
-        assertEquals( "../", normalize( "../" ) );
+    public void leadingParentDirectoryNotRemovedFromRelativeUriReference() {
+        assertEquals("../", normalize("../"));
     }
 }

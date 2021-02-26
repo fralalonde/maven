@@ -26,23 +26,25 @@ import java.io.Writer;
 import java.util.Map;
 
 /**
- * Handles serialization of toolchains into some kind of textual format like XML.
+ * Handles serialization of toolchains into some kind of textual format like
+ * XML.
  *
  * @author Mike Mol
  * @author Martin Kanters
  */
-public interface ToolchainsWriter
-{
+public interface ToolchainsWriter {
 
     /**
-     * Writes the supplied toolchains to the specified character writer. The writer will be automatically closed before
-     * the method returns.
+     * Writes the supplied toolchains to the specified character writer. The writer
+     * will be automatically closed before the method returns.
      *
-     * @param output The writer to serialize the toolchains to, must not be {@code null}.
-     * @param options The options to use for serialization, may be {@code null} to use the default values.
+     * @param output     The writer to serialize the toolchains to, must not be
+     *                   {@code null}.
+     * @param options    The options to use for serialization, may be {@code null}
+     *                   to use the default values.
      * @param toolchains The toolchains to serialize, must not be {@code null}.
      * @throws IOException If the toolchains could not be serialized.
      */
-    void write( Writer output, Map<String, Object> options, PersistedToolchains toolchains )
+    void write(Writer output, Map<String, Object> options, PersistedToolchains toolchains)
             throws IOException;
 }

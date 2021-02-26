@@ -28,14 +28,14 @@ import org.codehaus.plexus.classworlds.realm.ClassRealm;
 import org.eclipse.aether.artifact.Artifact;
 
 /**
- * Manages the class realms used by Maven. <strong>Warning:</strong> This is an internal utility interface that is only
- * public for technical reasons, it is not part of the public API. In particular, this interface can be changed or
+ * Manages the class realms used by Maven. <strong>Warning:</strong> This is an
+ * internal utility interface that is only public for technical reasons, it is
+ * not part of the public API. In particular, this interface can be changed or
  * deleted without prior notice.
  *
  * @author Benjamin Bentmann
  */
-public interface ClassRealmManager
-{
+public interface ClassRealmManager {
 
     /**
      * Gets the class realm hosting the Maven core.
@@ -45,7 +45,8 @@ public interface ClassRealmManager
     ClassRealm getCoreRealm();
 
     /**
-     * Gets the class realm exposing the Maven API. This is basically a restricted view on the Maven core realm.
+     * Gets the class realm exposing the Maven API. This is basically a restricted
+     * view on the Maven core realm.
      *
      * @return The class realm exposing the Maven API, never {@code null}.
      */
@@ -54,35 +55,44 @@ public interface ClassRealmManager
     /**
      * Creates a new class realm for the specified project and its build extensions.
      *
-     * @param model The model of the project for which to create a realm, must not be {@code null}.
-     * @param artifacts The artifacts to add to the class realm, may be {@code null}. Unresolved artifacts (i.e. with a
-     *            missing file) will automatically be excluded from the realm.
+     * @param model     The model of the project for which to create a realm, must
+     *                  not be {@code null}.
+     * @param artifacts The artifacts to add to the class realm, may be
+     *                  {@code null}. Unresolved artifacts (i.e. with a missing
+     *                  file) will automatically be excluded from the realm.
      * @return The new project realm, never {@code null}.
      */
-    ClassRealm createProjectRealm( Model model, List<Artifact> artifacts );
+    ClassRealm createProjectRealm(Model model, List<Artifact> artifacts);
 
     /**
      * Creates a new class realm for the specified build extension.
      *
-     * @param extension The extension plugin for which to create a realm, must not be {@code null}.
-     * @param artifacts The artifacts to add to the class realm, may be {@code null}. Unresolved artifacts (i.e. with a
-     *            missing file) will automatically be excluded from the realm.
+     * @param extension The extension plugin for which to create a realm, must not
+     *                  be {@code null}.
+     * @param artifacts The artifacts to add to the class realm, may be
+     *                  {@code null}. Unresolved artifacts (i.e. with a missing
+     *                  file) will automatically be excluded from the realm.
      * @return The new extension realm, never {@code null}.
      */
-    ClassRealm createExtensionRealm( Plugin extension, List<Artifact> artifacts );
+    ClassRealm createExtensionRealm(Plugin extension, List<Artifact> artifacts);
 
     /**
      * Creates a new class realm for the specified plugin.
      *
-     * @param plugin The plugin for which to create a realm, must not be {@code null}.
-     * @param parent The parent realm for the new realm, may be {@code null}.
-     * @param parentImports The packages/types to import from the parent realm, may be {@code null}.
-     * @param foreignImports The packages/types to import from foreign realms, may be {@code null}.
-     * @param artifacts The artifacts to add to the class realm, may be {@code null}. Unresolved artifacts (i.e. with a
-     *            missing file) will automatically be excluded from the realm.
+     * @param plugin         The plugin for which to create a realm, must not be
+     *                       {@code null}.
+     * @param parent         The parent realm for the new realm, may be
+     *                       {@code null}.
+     * @param parentImports  The packages/types to import from the parent realm, may
+     *                       be {@code null}.
+     * @param foreignImports The packages/types to import from foreign realms, may
+     *                       be {@code null}.
+     * @param artifacts      The artifacts to add to the class realm, may be
+     *                       {@code null}. Unresolved artifacts (i.e. with a missing
+     *                       file) will automatically be excluded from the realm.
      * @return The new plugin realm, never {@code null}.
      */
-    ClassRealm createPluginRealm( Plugin plugin, ClassLoader parent, List<String> parentImports,
-                                  Map<String, ClassLoader> foreignImports, List<Artifact> artifacts );
+    ClassRealm createPluginRealm(Plugin plugin, ClassLoader parent, List<String> parentImports,
+            Map<String, ClassLoader> foreignImports, List<Artifact> artifacts);
 
 }

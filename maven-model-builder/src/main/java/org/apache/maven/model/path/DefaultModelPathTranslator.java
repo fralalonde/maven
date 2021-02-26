@@ -41,74 +41,63 @@ import org.apache.maven.model.building.ModelBuildingRequest;
 @Named
 @Singleton
 public class DefaultModelPathTranslator
-    implements ModelPathTranslator
-{
+        implements ModelPathTranslator {
 
     @Inject
     private PathTranslator pathTranslator;
 
-    public DefaultModelPathTranslator setPathTranslator( PathTranslator pathTranslator )
-    {
+    public DefaultModelPathTranslator setPathTranslator(PathTranslator pathTranslator) {
         this.pathTranslator = pathTranslator;
         return this;
     }
 
     @Override
-    public void alignToBaseDirectory( Model model, File basedir, ModelBuildingRequest request )
-    {
-        if ( model == null || basedir == null )
-        {
+    public void alignToBaseDirectory(Model model, File basedir, ModelBuildingRequest request) {
+        if (model == null || basedir == null) {
             return;
         }
 
         Build build = model.getBuild();
 
-        if ( build != null )
-        {
-            build.setDirectory( alignToBaseDirectory( build.getDirectory(), basedir ) );
+        if (build != null) {
+            build.setDirectory(alignToBaseDirectory(build.getDirectory(), basedir));
 
-            build.setSourceDirectory( alignToBaseDirectory( build.getSourceDirectory(), basedir ) );
+            build.setSourceDirectory(alignToBaseDirectory(build.getSourceDirectory(), basedir));
 
-            build.setTestSourceDirectory( alignToBaseDirectory( build.getTestSourceDirectory(), basedir ) );
+            build.setTestSourceDirectory(alignToBaseDirectory(build.getTestSourceDirectory(), basedir));
 
-            build.setScriptSourceDirectory( alignToBaseDirectory( build.getScriptSourceDirectory(), basedir ) );
+            build.setScriptSourceDirectory(alignToBaseDirectory(build.getScriptSourceDirectory(), basedir));
 
-            for ( Resource resource : build.getResources() )
-            {
-                resource.setDirectory( alignToBaseDirectory( resource.getDirectory(), basedir ) );
+            for (Resource resource : build.getResources()) {
+                resource.setDirectory(alignToBaseDirectory(resource.getDirectory(), basedir));
             }
 
-            for ( Resource resource : build.getTestResources() )
-            {
-                resource.setDirectory( alignToBaseDirectory( resource.getDirectory(), basedir ) );
+            for (Resource resource : build.getTestResources()) {
+                resource.setDirectory(alignToBaseDirectory(resource.getDirectory(), basedir));
             }
 
-            if ( build.getFilters() != null )
-            {
-                List<String> filters = new ArrayList<>( build.getFilters().size() );
-                for ( String filter : build.getFilters() )
-                {
-                    filters.add( alignToBaseDirectory( filter, basedir ) );
+            if (build.getFilters() != null) {
+                List<String> filters = new ArrayList<>(build.getFilters().size());
+                for (String filter : build.getFilters()) {
+                    filters.add(alignToBaseDirectory(filter, basedir));
                 }
-                build.setFilters( filters );
+                build.setFilters(filters);
             }
 
-            build.setOutputDirectory( alignToBaseDirectory( build.getOutputDirectory(), basedir ) );
+            build.setOutputDirectory(alignToBaseDirectory(build.getOutputDirectory(), basedir));
 
-            build.setTestOutputDirectory( alignToBaseDirectory( build.getTestOutputDirectory(), basedir ) );
+            build.setTestOutputDirectory(alignToBaseDirectory(build.getTestOutputDirectory(), basedir));
         }
 
         Reporting reporting = model.getReporting();
 
-        if ( reporting != null )
-        {
-            reporting.setOutputDirectory( alignToBaseDirectory( reporting.getOutputDirectory(), basedir ) );
+        if (reporting != null) {
+            reporting.setOutputDirectory(alignToBaseDirectory(reporting.getOutputDirectory(), basedir));
         }
     }
 
-    private String alignToBaseDirectory( String path, File basedir )
-    {
-        return pathTranslator.alignToBaseDirectory( path, basedir );
+    private String alignToBaseDirectory(String path, File basedir) {
+        return pathTranslator.alignToBaseDirectory(path, basedir);
     }
 
 }

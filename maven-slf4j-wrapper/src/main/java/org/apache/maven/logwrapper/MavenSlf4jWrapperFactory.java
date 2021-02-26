@@ -26,8 +26,8 @@ import java.util.Optional;
 /**
  * Wrapper for creating loggers which can have a log level threshold.
  */
-public interface MavenSlf4jWrapperFactory extends ILoggerFactory
-{
-    void setLogLevelRecorder( LogLevelRecorder logLevelRecorder );
+public interface MavenSlf4jWrapperFactory extends ILoggerFactory {
+    void setLogLevelRecorder(LogLevelRecorder logLevelRecorder);
+
     Optional<LogLevelRecorder> getLogLevelRecorder();
 }

@@ -25,7 +25,6 @@ import org.eclipse.aether.transfer.AbstractTransferListener;
  * @author Benjamin Bentmann
  */
 public class QuietMavenTransferListener
-    extends AbstractTransferListener
-{
+        extends AbstractTransferListener {
 
 }

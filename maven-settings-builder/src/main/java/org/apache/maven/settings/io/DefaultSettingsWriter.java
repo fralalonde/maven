@@ -42,51 +42,44 @@ import org.codehaus.plexus.util.WriterFactory;
 @Named
 @Singleton
 public class DefaultSettingsWriter
-    implements SettingsWriter
-{
+        implements SettingsWriter {
 
     @Override
-    public void write( File output, Map<String, Object> options, Settings settings )
-        throws IOException
-    {
-        Objects.requireNonNull( output, "output cannot be null" );
-        Objects.requireNonNull( settings, "settings cannot be null" );
+    public void write(File output, Map<String, Object> options, Settings settings)
+            throws IOException {
+        Objects.requireNonNull(output, "output cannot be null");
+        Objects.requireNonNull(settings, "settings cannot be null");
 
         output.getParentFile().mkdirs();
 
-        write( WriterFactory.newXmlWriter( output ), options, settings );
+        write(WriterFactory.newXmlWriter(output), options, settings);
     }
 
     @Override
-    public void write( Writer output, Map<String, Object> options, Settings settings )
-        throws IOException
-    {
-        Objects.requireNonNull( output, "output cannot be null" );
-        Objects.requireNonNull( settings, "settings cannot be null" );
+    public void write(Writer output, Map<String, Object> options, Settings settings)
+            throws IOException {
+        Objects.requireNonNull(output, "output cannot be null");
+        Objects.requireNonNull(settings, "settings cannot be null");
 
-        try ( Writer out = output )
-        {
-            new SettingsXpp3Writer().write( out, settings );
+        try (Writer out = output) {
+            new SettingsXpp3Writer().write(out, settings);
         }
     }
 
     @Override
-    public void write( OutputStream output, Map<String, Object> options, Settings settings )
-        throws IOException
-    {
-        Objects.requireNonNull( output, "output cannot be null" );
-        Objects.requireNonNull( settings, "settings cannot be null" );
+    public void write(OutputStream output, Map<String, Object> options, Settings settings)
+            throws IOException {
+        Objects.requireNonNull(output, "output cannot be null");
+        Objects.requireNonNull(settings, "settings cannot be null");
 
         String encoding = settings.getModelEncoding();
         // TODO Use StringUtils here
-        if ( encoding == null || encoding.length() <= 0 )
-        {
+        if (encoding == null || encoding.length() <= 0) {
             encoding = "UTF-8";
         }
 
-        try ( Writer out = new OutputStreamWriter( output, encoding ) )
-        {
-            write( out, options, settings );
+        try (Writer out = new OutputStreamWriter(output, encoding)) {
+            write(out, options, settings);
         }
     }
 

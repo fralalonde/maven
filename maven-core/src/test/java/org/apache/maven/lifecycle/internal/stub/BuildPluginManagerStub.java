@@ -31,26 +31,22 @@ import org.eclipse.aether.repository.RemoteRepository;
  * @author Kristian Rosenvold
  */
 public class BuildPluginManagerStub
-    implements BuildPluginManager
-{
+        implements BuildPluginManager {
 
-    public PluginDescriptor loadPlugin( Plugin plugin, List<RemoteRepository> repositories, RepositorySystemSession session )
-    {
+    public PluginDescriptor loadPlugin(Plugin plugin, List<RemoteRepository> repositories,
+            RepositorySystemSession session) {
         return null;
     }
 
-    public MojoDescriptor getMojoDescriptor( Plugin plugin, String goal, List<RemoteRepository> repositories,
-                                             RepositorySystemSession session )
-    {
-        return MojoExecutorStub.createMojoDescriptor( plugin.getKey() );
+    public MojoDescriptor getMojoDescriptor(Plugin plugin, String goal, List<RemoteRepository> repositories,
+            RepositorySystemSession session) {
+        return MojoExecutorStub.createMojoDescriptor(plugin.getKey());
     }
 
-    public ClassRealm getPluginRealm( MavenSession session, PluginDescriptor pluginDescriptor )
-    {
+    public ClassRealm getPluginRealm(MavenSession session, PluginDescriptor pluginDescriptor) {
         return null;
     }
 
-    public void executeMojo( MavenSession session, MojoExecution execution )
-    {
+    public void executeMojo(MavenSession session, MojoExecution execution) {
     }
 }

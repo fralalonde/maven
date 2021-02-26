@@ -26,27 +26,31 @@ import org.apache.maven.model.building.ModelProblemCollector;
 import java.io.File;
 
 /**
- * Replaces expressions of the form <code>${token}</code> with their effective values. Effective values are basically
- * calculated from the elements of the model itself and the execution properties from the building request.
+ * Replaces expressions of the form <code>${token}</code> with their effective
+ * values. Effective values are basically calculated from the elements of the
+ * model itself and the execution properties from the building request.
  *
  * @author jdcasey
  */
-public interface ModelInterpolator
-{
+public interface ModelInterpolator {
 
     /**
-     * Interpolates expressions in the specified model. Note that implementations are free to either interpolate the
-     * provided model directly or to create a clone of the model and interpolate the clone. Callers should always use
-     * the returned model and must not rely on the input model being updated.
+     * Interpolates expressions in the specified model. Note that implementations
+     * are free to either interpolate the provided model directly or to create a
+     * clone of the model and interpolate the clone. Callers should always use the
+     * returned model and must not rely on the input model being updated.
      *
-     * @param model The model to interpolate, must not be {@code null}.
-     * @param projectDir The project directory, may be {@code null} if the model does not belong to a local project but
-     *            to some artifact's metadata.
-     * @param request The model building request that holds further settings, must not be {@code null}.
-     * @param problems The container used to collect problems that were encountered, must not be {@code null}.
+     * @param model      The model to interpolate, must not be {@code null}.
+     * @param projectDir The project directory, may be {@code null} if the model
+     *                   does not belong to a local project but to some artifact's
+     *                   metadata.
+     * @param request    The model building request that holds further settings,
+     *                   must not be {@code null}.
+     * @param problems   The container used to collect problems that were
+     *                   encountered, must not be {@code null}.
      * @return The interpolated model, never {@code null}.
      */
-    Model interpolateModel( Model model, File projectDir, ModelBuildingRequest request,
-                            ModelProblemCollector problems );
+    Model interpolateModel(Model model, File projectDir, ModelBuildingRequest request,
+            ModelProblemCollector problems);
 
 }

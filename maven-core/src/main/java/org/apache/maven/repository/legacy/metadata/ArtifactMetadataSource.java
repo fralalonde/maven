@@ -26,53 +26,59 @@ import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 
 /**
- * Provides some metadata operations, like querying the remote repository for a list of versions available for an
- * artifact.
+ * Provides some metadata operations, like querying the remote repository for a
+ * list of versions available for an artifact.
  *
  * @author <a href="mailto:jason@maven.org">Jason van Zyl </a>
  */
-public interface ArtifactMetadataSource
-{
+public interface ArtifactMetadataSource {
 
-    ResolutionGroup retrieve( MetadataResolutionRequest request )
-        throws ArtifactMetadataRetrievalException;
+    ResolutionGroup retrieve(MetadataResolutionRequest request)
+            throws ArtifactMetadataRetrievalException;
 
-    ResolutionGroup retrieve( Artifact artifact, ArtifactRepository localRepository,
-                              List<ArtifactRepository> remoteRepositories )
-        throws ArtifactMetadataRetrievalException;
+    ResolutionGroup retrieve(Artifact artifact, ArtifactRepository localRepository,
+            List<ArtifactRepository> remoteRepositories)
+            throws ArtifactMetadataRetrievalException;
 
     /**
      * Get a list of available versions for an artifact in the remote repository
      *
-     * @param artifact           artifact we are interested in. Only <code>groupid</code> and <code>artifactId</code>
-     *                           are needed, for instance the following code will work
+     * @param artifact           artifact we are interested in. Only
+     *                           <code>groupid</code> and <code>artifactId</code>
+     *                           are needed, for instance the following code will
+     *                           work
      *                           <code>artifactFactory.createProjectArtifact( "org.apache.maven", "maven", "" )</code>
      * @param localRepository    local repository
-     * @param remoteRepositories remote repositories, {@link List} $lt; {@link ArtifactRepository} &gt;
+     * @param remoteRepositories remote repositories, {@link List} $lt;
+     *                           {@link ArtifactRepository} &gt;
      * @return {@link List} $lt; {@link ArtifactVersion} &gt;
-     * @throws ArtifactMetadataRetrievalException
-     *          in case of error while retrieving repository metadata from the repository.
+     * @throws ArtifactMetadataRetrievalException in case of error while retrieving
+     *                                            repository metadata from the
+     *                                            repository.
      */
-    List<ArtifactVersion> retrieveAvailableVersions( Artifact artifact, ArtifactRepository localRepository,
-                                                     List<ArtifactRepository> remoteRepositories )
-        throws ArtifactMetadataRetrievalException;
+    List<ArtifactVersion> retrieveAvailableVersions(Artifact artifact, ArtifactRepository localRepository,
+            List<ArtifactRepository> remoteRepositories)
+            throws ArtifactMetadataRetrievalException;
 
     /**
-     * Get a list of available versions for an artifact in the remote deployment repository. This ignores any update
-     * policy checks and mirrors and always retrieves the latest information from the given repository.
+     * Get a list of available versions for an artifact in the remote deployment
+     * repository. This ignores any update policy checks and mirrors and always
+     * retrieves the latest information from the given repository.
      *
-     * @param artifact artifact we are interested in. Only <code>groupid</code> and <code>artifactId</code> are
-     *            needed, for instance the following code will work
-     *            <code>artifactFactory.createProjectArtifact( "org.apache.maven", "maven", "" )</code>
-     * @param localRepository    local repository
-     * @param remoteRepository   remote repository
+     * @param artifact         artifact we are interested in. Only
+     *                         <code>groupid</code> and <code>artifactId</code> are
+     *                         needed, for instance the following code will work
+     *                         <code>artifactFactory.createProjectArtifact( "org.apache.maven", "maven", "" )</code>
+     * @param localRepository  local repository
+     * @param remoteRepository remote repository
      * @return {@link List} $lt; {@link ArtifactVersion} &gt;
-     * @throws ArtifactMetadataRetrievalException
-     *          in case of error while retrieving repository metadata from the repository.
+     * @throws ArtifactMetadataRetrievalException in case of error while retrieving
+     *                                            repository metadata from the
+     *                                            repository.
      */
-    List<ArtifactVersion> retrieveAvailableVersionsFromDeploymentRepository( Artifact artifact,
-                                                                             ArtifactRepository localRepository,
-                                                                             ArtifactRepository remoteRepository )
-        throws ArtifactMetadataRetrievalException;
+    List<ArtifactVersion> retrieveAvailableVersionsFromDeploymentRepository(Artifact artifact,
+            ArtifactRepository localRepository,
+            ArtifactRepository remoteRepository)
+            throws ArtifactMetadataRetrievalException;
 
 }

@@ -13,7 +13,6 @@
  * the License.
  */
 
-
 package org.apache.maven.lifecycle;
 
 import org.apache.maven.AbstractCoreMavenComponentTestCase;
@@ -32,14 +31,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
- * Just asserts that it's able to create those components. Handy when CDI container gets a nervous breakdown.
+ * Just asserts that it's able to create those components. Handy when CDI
+ * container gets a nervous breakdown.
  *
  * @author Kristian Rosenvold
  */
 
 public class LifecycleExecutorSubModulesTest
-    extends AbstractCoreMavenComponentTestCase
-{
+        extends AbstractCoreMavenComponentTestCase {
     @Inject
     private DefaultLifecycles defaultLifeCycles;
 
@@ -64,23 +63,21 @@ public class LifecycleExecutorSubModulesTest
     @Inject
     private ExceptionHandler exceptionHandler;
 
-    protected String getProjectsDirectory()
-    {
+    protected String getProjectsDirectory() {
         return "src/test/projects/lifecycle-executor";
     }
 
     @Test
     public void testCreation()
-        throws Exception
-    {
-        assertNotNull( defaultLifeCycles );
-        assertNotNull( mojoExecutor );
-        assertNotNull( lifeCycleBuilder );
-        assertNotNull( lifeCycleDependencyResolver );
-        assertNotNull( lifeCycleExecutionPlanCalculator );
-        assertNotNull( lifeCyclePluginAnalyzer );
-        assertNotNull( lifeCycleTaskSegmentCalculator );
-        assertNotNull( exceptionHandler );
+            throws Exception {
+        assertNotNull(defaultLifeCycles);
+        assertNotNull(mojoExecutor);
+        assertNotNull(lifeCycleBuilder);
+        assertNotNull(lifeCycleDependencyResolver);
+        assertNotNull(lifeCycleExecutionPlanCalculator);
+        assertNotNull(lifeCyclePluginAnalyzer);
+        assertNotNull(lifeCycleTaskSegmentCalculator);
+        assertNotNull(exceptionHandler);
     }
 
 }

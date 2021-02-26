@@ -178,22 +178,6 @@ under the License.
         <filtering>true</filtering>
       </resource>
     </resources>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.rat</groupId>
-          <artifactId>apache-rat-plugin</artifactId>
-          <configuration>
-            <excludes combine.children="append">
-              <exclude>lifecycle-executor.txt</exclude>
-              <exclude>plugin-manager.txt</exclude>
-              <exclude>project-builder.txt</exclude>
-              <exclude>src/site/resources/design/**</exclude>
-            </excludes>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.codehaus.plexus</groupId>

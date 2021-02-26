@@ -32,125 +32,113 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ExclusionArtifactFilterTest
-{
+public class ExclusionArtifactFilterTest {
     private Artifact artifact;
 
     @BeforeEach
-    public void setup()
-    {
-        artifact = mock( Artifact.class );
-        when( artifact.getGroupId() ).thenReturn( "org.apache.maven" );
-        when( artifact.getArtifactId() ).thenReturn( "maven-core" );
+    public void setup() {
+        artifact = mock(Artifact.class);
+        when(artifact.getGroupId()).thenReturn("org.apache.maven");
+        when(artifact.getArtifactId()).thenReturn("maven-core");
     }
 
     @Test
-    public void testExcludeExact()
-    {
+    public void testExcludeExact() {
         Exclusion exclusion = new Exclusion();
-        exclusion.setGroupId( "org.apache.maven" );
-        exclusion.setArtifactId( "maven-core" );
-        ExclusionArtifactFilter filter = new ExclusionArtifactFilter( Collections.singletonList( exclusion ) );
+        exclusion.setGroupId("org.apache.maven");
+        exclusion.setArtifactId("maven-core");
+        ExclusionArtifactFilter filter = new ExclusionArtifactFilter(Collections.singletonList(exclusion));
 
-        assertThat( filter.include( artifact ), is( false ) );
+        assertThat(filter.include(artifact), is(false));
     }
 
     @Test
-    public void testExcludeNoMatch()
-    {
+    public void testExcludeNoMatch() {
         Exclusion exclusion = new Exclusion();
-        exclusion.setGroupId( "org.apache.maven" );
-        exclusion.setArtifactId( "maven-model" );
-        ExclusionArtifactFilter filter = new ExclusionArtifactFilter( Collections.singletonList( exclusion ) );
+        exclusion.setGroupId("org.apache.maven");
+        exclusion.setArtifactId("maven-model");
+        ExclusionArtifactFilter filter = new ExclusionArtifactFilter(Collections.singletonList(exclusion));
 
-        assertThat( filter.include( artifact ), is( true ) );
+        assertThat(filter.include(artifact), is(true));
     }
 
     @Test
-    public void testExcludeGroupIdWildcard()
-    {
+    public void testExcludeGroupIdWildcard() {
         Exclusion exclusion = new Exclusion();
-        exclusion.setGroupId( "*" );
-        exclusion.setArtifactId( "maven-core" );
-        ExclusionArtifactFilter filter = new ExclusionArtifactFilter( Collections.singletonList( exclusion ) );
+        exclusion.setGroupId("*");
+        exclusion.setArtifactId("maven-core");
+        ExclusionArtifactFilter filter = new ExclusionArtifactFilter(Collections.singletonList(exclusion));
 
-        assertThat( filter.include( artifact ), is( false ) );
+        assertThat(filter.include(artifact), is(false));
     }
 
-
     @Test
-    public void testExcludeGroupIdWildcardNoMatch()
-    {
+    public void testExcludeGroupIdWildcardNoMatch() {
         Exclusion exclusion = new Exclusion();
-        exclusion.setGroupId( "*" );
-        exclusion.setArtifactId( "maven-compat" );
-        ExclusionArtifactFilter filter = new ExclusionArtifactFilter( Collections.singletonList( exclusion ) );
+        exclusion.setGroupId("*");
+        exclusion.setArtifactId("maven-compat");
+        ExclusionArtifactFilter filter = new ExclusionArtifactFilter(Collections.singletonList(exclusion));
 
-        assertThat( filter.include( artifact ), is( true ) );
+        assertThat(filter.include(artifact), is(true));
     }
 
     @Test
-    public void testExcludeArtifactIdWildcard()
-    {
+    public void testExcludeArtifactIdWildcard() {
         Exclusion exclusion = new Exclusion();
-        exclusion.setGroupId( "org.apache.maven" );
-        exclusion.setArtifactId( "*" );
-        ExclusionArtifactFilter filter = new ExclusionArtifactFilter( Collections.singletonList( exclusion ) );
+        exclusion.setGroupId("org.apache.maven");
+        exclusion.setArtifactId("*");
+        ExclusionArtifactFilter filter = new ExclusionArtifactFilter(Collections.singletonList(exclusion));
 
-        assertThat( filter.include( artifact ), is( false ) );
+        assertThat(filter.include(artifact), is(false));
     }
 
     @Test
-    public void testExcludeArtifactIdWildcardNoMatch()
-    {
+    public void testExcludeArtifactIdWildcardNoMatch() {
         Exclusion exclusion = new Exclusion();
-        exclusion.setGroupId( "org.apache.groovy" );
-        exclusion.setArtifactId( "*" );
-        ExclusionArtifactFilter filter = new ExclusionArtifactFilter( Collections.singletonList( exclusion ) );
+        exclusion.setGroupId("org.apache.groovy");
+        exclusion.setArtifactId("*");
+        ExclusionArtifactFilter filter = new ExclusionArtifactFilter(Collections.singletonList(exclusion));
 
-        assertThat( filter.include( artifact ), is( true ) );
+        assertThat(filter.include(artifact), is(true));
     }
 
     @Test
-    public void testExcludeAllWildcard()
-    {
+    public void testExcludeAllWildcard() {
         Exclusion exclusion = new Exclusion();
-        exclusion.setGroupId( "*" );
-        exclusion.setArtifactId( "*" );
-        ExclusionArtifactFilter filter = new ExclusionArtifactFilter( Collections.singletonList( exclusion ) );
+        exclusion.setGroupId("*");
+        exclusion.setArtifactId("*");
+        ExclusionArtifactFilter filter = new ExclusionArtifactFilter(Collections.singletonList(exclusion));
 
-        assertThat( filter.include( artifact ), is( false ) );
+        assertThat(filter.include(artifact), is(false));
     }
 
     @Test
-    public void testMultipleExclusionsExcludeArtifactIdWildcard()
-    {
+    public void testMultipleExclusionsExcludeArtifactIdWildcard() {
         Exclusion exclusion1 = new Exclusion();
-        exclusion1.setGroupId( "org.apache.groovy" );
-        exclusion1.setArtifactId( "*" );
+        exclusion1.setGroupId("org.apache.groovy");
+        exclusion1.setArtifactId("*");
 
         Exclusion exclusion2 = new Exclusion();
-        exclusion2.setGroupId( "org.apache.maven" );
-        exclusion2.setArtifactId( "maven-core" );
+        exclusion2.setGroupId("org.apache.maven");
+        exclusion2.setArtifactId("maven-core");
 
-        ExclusionArtifactFilter filter = new ExclusionArtifactFilter( Arrays.asList( exclusion1, exclusion2 ) );
+        ExclusionArtifactFilter filter = new ExclusionArtifactFilter(Arrays.asList(exclusion1, exclusion2));
 
-        assertThat( filter.include( artifact ), is( false ) );
+        assertThat(filter.include(artifact), is(false));
     }
 
     @Test
-    public void testMultipleExclusionsExcludeGroupIdWildcard()
-    {
+    public void testMultipleExclusionsExcludeGroupIdWildcard() {
         Exclusion exclusion1 = new Exclusion();
-        exclusion1.setGroupId( "*" );
-        exclusion1.setArtifactId( "maven-model" );
+        exclusion1.setGroupId("*");
+        exclusion1.setArtifactId("maven-model");
 
         Exclusion exclusion2 = new Exclusion();
-        exclusion2.setGroupId( "org.apache.maven" );
-        exclusion2.setArtifactId( "maven-core" );
+        exclusion2.setGroupId("org.apache.maven");
+        exclusion2.setArtifactId("maven-core");
 
-        ExclusionArtifactFilter filter = new ExclusionArtifactFilter( Arrays.asList( exclusion1, exclusion2 ) );
+        ExclusionArtifactFilter filter = new ExclusionArtifactFilter(Arrays.asList(exclusion1, exclusion2));
 
-        assertThat( filter.include( artifact ), is( false ) );
+        assertThat(filter.include(artifact), is(false));
     }
 }

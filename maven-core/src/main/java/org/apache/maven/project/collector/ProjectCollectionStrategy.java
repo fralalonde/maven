@@ -28,14 +28,13 @@ import java.util.List;
 /**
  * Describes strategies for finding projects that Maven could build.
  */
-public interface ProjectCollectionStrategy
-{
+public interface ProjectCollectionStrategy {
     /**
      *
      * @param request
      * @return
      * @throws ProjectBuildingException
      */
-    List<MavenProject> collectProjects( final MavenExecutionRequest request )
+    List<MavenProject> collectProjects(final MavenExecutionRequest request)
             throws ProjectBuildingException;
 }

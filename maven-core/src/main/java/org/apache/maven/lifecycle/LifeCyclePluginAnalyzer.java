@@ -26,7 +26,6 @@ import org.apache.maven.model.Plugin;
  * @since 3.0
  * @author Kristian Rosenvold
  */
-public interface LifeCyclePluginAnalyzer
-{
-    Set<Plugin> getPluginsBoundByDefaultToAllLifecycles( String packaging );
+public interface LifeCyclePluginAnalyzer {
+    Set<Plugin> getPluginsBoundByDefaultToAllLifecycles(String packaging);
 }

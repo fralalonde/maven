@@ -32,17 +32,15 @@ import org.apache.maven.building.UrlSource;
  */
 @Deprecated
 public class UrlSettingsSource extends UrlSource
-    implements SettingsSource
-{
+        implements SettingsSource {
 
     /**
      * Creates a new model source backed by the specified URL.
      *
      * @param settingsUrl The settings URL, must not be {@code null}.
      */
-    public UrlSettingsSource( URL settingsUrl )
-    {
-        super( settingsUrl );
+    public UrlSettingsSource(URL settingsUrl) {
+        super(settingsUrl);
     }
 
     /**
@@ -52,8 +50,7 @@ public class UrlSettingsSource extends UrlSource
      * @deprecated instead use {@link #getUrl()}
      */
     @Deprecated
-    public URL getSettingsUrl()
-    {
+    public URL getSettingsUrl() {
         return getUrl();
     }
 

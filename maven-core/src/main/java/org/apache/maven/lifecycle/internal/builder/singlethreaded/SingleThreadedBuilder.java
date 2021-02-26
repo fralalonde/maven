@@ -36,41 +36,35 @@ import org.apache.maven.lifecycle.internal.builder.Builder;
 
 /**
  * <p>
- * A {@link Builder} encapsulates a strategy for building a set of Maven projects. The default strategy in Maven builds
- * the the projects serially, but a {@link Builder} can employ any type of concurrency model to build the projects.
+ * A {@link Builder} encapsulates a strategy for building a set of Maven
+ * projects. The default strategy in Maven builds the the projects serially, but
+ * a {@link Builder} can employ any type of concurrency model to build the
+ * projects.
  */
-@Named( "singlethreaded" )
+@Named("singlethreaded")
 @Singleton
 public class SingleThreadedBuilder
-    implements Builder
-{
+        implements Builder {
     private final LifecycleModuleBuilder lifecycleModuleBuilder;
 
     @Inject
-    public SingleThreadedBuilder( LifecycleModuleBuilder lifecycleModuleBuilder )
-    {
+    public SingleThreadedBuilder(LifecycleModuleBuilder lifecycleModuleBuilder) {
         this.lifecycleModuleBuilder = lifecycleModuleBuilder;
     }
 
-    public void build( MavenSession session, ReactorContext reactorContext, ProjectBuildList projectBuilds,
-                       List<TaskSegment> taskSegments, ReactorBuildStatus reactorBuildStatus )
-    {
-        for ( TaskSegment taskSegment : taskSegments )
-        {
-            for ( ProjectSegment projectBuild : projectBuilds.getByTaskSegment( taskSegment ) )
-            {
-                try
-                {
-                    lifecycleModuleBuilder.buildProject( session, reactorContext, projectBuild.getProject(),
-                                                         taskSegment );
-                    if ( reactorBuildStatus.isHalted() )
-                    {
+    public void build(MavenSession session, ReactorContext reactorContext, ProjectBuildList projectBuilds,
+            List<TaskSegment> taskSegments, ReactorBuildStatus reactorBuildStatus) {
+        for (TaskSegment taskSegment : taskSegments) {
+            for (ProjectSegment projectBuild : projectBuilds.getByTaskSegment(taskSegment)) {
+                try {
+                    lifecycleModuleBuilder.buildProject(session, reactorContext, projectBuild.getProject(),
+                            taskSegment);
+                    if (reactorBuildStatus.isHalted()) {
                         break;
                     }
-                }
-                catch ( Exception e )
-                {
-                    break; // Why are we just ignoring this exception? Are exceptions are being used for flow control
+                } catch (Exception e) {
+                    break; // Why are we just ignoring this exception? Are exceptions are being used for
+                           // flow control
                 }
             }
         }

@@ -25,29 +25,28 @@ package org.apache.maven.lifecycle;
  * @author Benjamin Bentmann
  */
 public class LifecycleNotFoundException
-    extends Exception
-{
+        extends Exception {
 
     private final String lifecycleId;
 
     /**
      * Creates a new exception to indicate that the specified lifecycle is unknown.
      *
-     * @param lifecycleId The identifier of the lifecycle that could not be located, may be {@code null}.
+     * @param lifecycleId The identifier of the lifecycle that could not be located,
+     *                    may be {@code null}.
      */
-    public LifecycleNotFoundException( String lifecycleId )
-    {
-        super( "Unknown lifecycle " + lifecycleId );
-        this.lifecycleId = ( lifecycleId != null ) ? lifecycleId : "";
+    public LifecycleNotFoundException(String lifecycleId) {
+        super("Unknown lifecycle " + lifecycleId);
+        this.lifecycleId = (lifecycleId != null) ? lifecycleId : "";
     }
 
     /**
      * Gets the identifier of the lifecycle that was not found.
      *
-     * @return The identifier of the lifecycle that was not found, never {@code null}.
+     * @return The identifier of the lifecycle that was not found, never
+     *         {@code null}.
      */
-    public String getLifecycleId()
-    {
+    public String getLifecycleId() {
         return lifecycleId;
     }
 

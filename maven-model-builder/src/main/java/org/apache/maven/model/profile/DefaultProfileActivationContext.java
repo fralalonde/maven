@@ -28,13 +28,13 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Describes the environmental context used to determine the activation status of profiles.
+ * Describes the environmental context used to determine the activation status
+ * of profiles.
  *
  * @author Benjamin Bentmann
  */
 public class DefaultProfileActivationContext
-    implements ProfileActivationContext
-{
+        implements ProfileActivationContext {
 
     private List<String> activeProfileIds = Collections.emptyList();
 
@@ -49,25 +49,22 @@ public class DefaultProfileActivationContext
     private File projectDirectory;
 
     @Override
-    public List<String> getActiveProfileIds()
-    {
+    public List<String> getActiveProfileIds() {
         return activeProfileIds;
     }
 
     /**
-     * Sets the identifiers of those profiles that should be activated by explicit demand.
+     * Sets the identifiers of those profiles that should be activated by explicit
+     * demand.
      *
-     * @param activeProfileIds The identifiers of those profiles to activate, may be {@code null}.
+     * @param activeProfileIds The identifiers of those profiles to activate, may be
+     *                         {@code null}.
      * @return This context, never {@code null}.
      */
-    public DefaultProfileActivationContext setActiveProfileIds( List<String> activeProfileIds )
-    {
-        if ( activeProfileIds != null )
-        {
-            this.activeProfileIds = Collections.unmodifiableList( activeProfileIds );
-        }
-        else
-        {
+    public DefaultProfileActivationContext setActiveProfileIds(List<String> activeProfileIds) {
+        if (activeProfileIds != null) {
+            this.activeProfileIds = Collections.unmodifiableList(activeProfileIds);
+        } else {
             this.activeProfileIds = Collections.emptyList();
         }
 
@@ -75,25 +72,22 @@ public class DefaultProfileActivationContext
     }
 
     @Override
-    public List<String> getInactiveProfileIds()
-    {
+    public List<String> getInactiveProfileIds() {
         return inactiveProfileIds;
     }
 
     /**
-     * Sets the identifiers of those profiles that should be deactivated by explicit demand.
+     * Sets the identifiers of those profiles that should be deactivated by explicit
+     * demand.
      *
-     * @param inactiveProfileIds The identifiers of those profiles to deactivate, may be {@code null}.
+     * @param inactiveProfileIds The identifiers of those profiles to deactivate,
+     *                           may be {@code null}.
      * @return This context, never {@code null}.
      */
-    public DefaultProfileActivationContext setInactiveProfileIds( List<String> inactiveProfileIds )
-    {
-        if ( inactiveProfileIds != null )
-        {
-            this.inactiveProfileIds = Collections.unmodifiableList( inactiveProfileIds );
-        }
-        else
-        {
+    public DefaultProfileActivationContext setInactiveProfileIds(List<String> inactiveProfileIds) {
+        if (inactiveProfileIds != null) {
+            this.inactiveProfileIds = Collections.unmodifiableList(inactiveProfileIds);
+        } else {
             this.inactiveProfileIds = Collections.emptyList();
         }
 
@@ -101,27 +95,23 @@ public class DefaultProfileActivationContext
     }
 
     @Override
-    public Map<String, String> getSystemProperties()
-    {
+    public Map<String, String> getSystemProperties() {
         return systemProperties;
     }
 
     /**
-     * Sets the system properties to use for interpolation and profile activation. The system properties are collected
-     * from the runtime environment like {@link System#getProperties()} and environment variables.
+     * Sets the system properties to use for interpolation and profile activation.
+     * The system properties are collected from the runtime environment like
+     * {@link System#getProperties()} and environment variables.
      *
      * @param systemProperties The system properties, may be {@code null}.
      * @return This context, never {@code null}.
      */
-    @SuppressWarnings( "unchecked" )
-    public DefaultProfileActivationContext setSystemProperties( Properties systemProperties )
-    {
-        if ( systemProperties != null )
-        {
-            this.systemProperties = Collections.unmodifiableMap( (Map) systemProperties );
-        }
-        else
-        {
+    @SuppressWarnings("unchecked")
+    public DefaultProfileActivationContext setSystemProperties(Properties systemProperties) {
+        if (systemProperties != null) {
+            this.systemProperties = Collections.unmodifiableMap((Map) systemProperties);
+        } else {
             this.systemProperties = Collections.emptyMap();
         }
 
@@ -129,20 +119,17 @@ public class DefaultProfileActivationContext
     }
 
     /**
-     * Sets the system properties to use for interpolation and profile activation. The system properties are collected
-     * from the runtime environment like {@link System#getProperties()} and environment variables.
+     * Sets the system properties to use for interpolation and profile activation.
+     * The system properties are collected from the runtime environment like
+     * {@link System#getProperties()} and environment variables.
      *
      * @param systemProperties The system properties, may be {@code null}.
      * @return This context, never {@code null}.
      */
-    public DefaultProfileActivationContext setSystemProperties( Map<String, String> systemProperties )
-    {
-        if ( systemProperties != null )
-        {
-            this.systemProperties = Collections.unmodifiableMap( systemProperties );
-        }
-        else
-        {
+    public DefaultProfileActivationContext setSystemProperties(Map<String, String> systemProperties) {
+        if (systemProperties != null) {
+            this.systemProperties = Collections.unmodifiableMap(systemProperties);
+        } else {
             this.systemProperties = Collections.emptyMap();
         }
 
@@ -150,28 +137,23 @@ public class DefaultProfileActivationContext
     }
 
     @Override
-    public Map<String, String> getUserProperties()
-    {
+    public Map<String, String> getUserProperties() {
         return userProperties;
     }
 
     /**
-     * Sets the user properties to use for interpolation and profile activation. The user properties have been
-     * configured directly by the user on his discretion, e.g. via the {@code -Dkey=value} parameter on the command
-     * line.
+     * Sets the user properties to use for interpolation and profile activation. The
+     * user properties have been configured directly by the user on his discretion,
+     * e.g. via the {@code -Dkey=value} parameter on the command line.
      *
      * @param userProperties The user properties, may be {@code null}.
      * @return This context, never {@code null}.
      */
-    @SuppressWarnings( "unchecked" )
-    public DefaultProfileActivationContext setUserProperties( Properties userProperties )
-    {
-        if ( userProperties != null )
-        {
-            this.userProperties = Collections.unmodifiableMap( (Map) userProperties );
-        }
-        else
-        {
+    @SuppressWarnings("unchecked")
+    public DefaultProfileActivationContext setUserProperties(Properties userProperties) {
+        if (userProperties != null) {
+            this.userProperties = Collections.unmodifiableMap((Map) userProperties);
+        } else {
             this.userProperties = Collections.emptyMap();
         }
 
@@ -179,21 +161,17 @@ public class DefaultProfileActivationContext
     }
 
     /**
-     * Sets the user properties to use for interpolation and profile activation. The user properties have been
-     * configured directly by the user on his discretion, e.g. via the {@code -Dkey=value} parameter on the command
-     * line.
+     * Sets the user properties to use for interpolation and profile activation. The
+     * user properties have been configured directly by the user on his discretion,
+     * e.g. via the {@code -Dkey=value} parameter on the command line.
      *
      * @param userProperties The user properties, may be {@code null}.
      * @return This context, never {@code null}.
      */
-    public DefaultProfileActivationContext setUserProperties( Map<String, String> userProperties )
-    {
-        if ( userProperties != null )
-        {
-            this.userProperties = Collections.unmodifiableMap( userProperties );
-        }
-        else
-        {
+    public DefaultProfileActivationContext setUserProperties(Map<String, String> userProperties) {
+        if (userProperties != null) {
+            this.userProperties = Collections.unmodifiableMap(userProperties);
+        } else {
             this.userProperties = Collections.emptyMap();
         }
 
@@ -201,58 +179,50 @@ public class DefaultProfileActivationContext
     }
 
     @Override
-    public File getProjectDirectory()
-    {
+    public File getProjectDirectory() {
         return projectDirectory;
     }
 
     /**
      * Sets the base directory of the current project.
      *
-     * @param projectDirectory The base directory of the current project, may be {@code null} if profile activation
-     *                         happens in the context of metadata retrieval rather than project building.
+     * @param projectDirectory The base directory of the current project, may be
+     *                         {@code null} if profile activation happens in the
+     *                         context of metadata retrieval rather than project
+     *                         building.
      * @return This context, never {@code null}.
      */
-    public DefaultProfileActivationContext setProjectDirectory( File projectDirectory )
-    {
+    public DefaultProfileActivationContext setProjectDirectory(File projectDirectory) {
         this.projectDirectory = projectDirectory;
 
         return this;
     }
 
     @Override
-    public Map<String, String> getProjectProperties()
-    {
+    public Map<String, String> getProjectProperties() {
         return projectProperties;
     }
 
-    public DefaultProfileActivationContext setProjectProperties( Properties projectProperties )
-    {
-        if ( projectProperties != null )
-        {
+    public DefaultProfileActivationContext setProjectProperties(Properties projectProperties) {
+        if (projectProperties != null) {
 
-            this.projectProperties = Collections.unmodifiableMap( toMap( projectProperties ) );
-        }
-        else
-        {
+            this.projectProperties = Collections.unmodifiableMap(toMap(projectProperties));
+        } else {
             this.projectProperties = Collections.emptyMap();
         }
 
         return this;
     }
 
-    private Map<String, String> toMap( Properties properties )
-    {
-        if ( properties == null )
-        {
+    private Map<String, String> toMap(Properties properties) {
+        if (properties == null) {
             return Collections.emptyMap();
         }
         Map<String, String> map = new HashMap<>();
         Enumeration keys = properties.keys();
-        while ( keys.hasMoreElements() )
-        {
+        while (keys.hasMoreElements()) {
             String key = (String) keys.nextElement();
-            map.put( key, properties.getProperty( key ) );
+            map.put(key, properties.getProperty(key));
         }
         return map;
     }

@@ -26,8 +26,7 @@ import java.io.File;
  *
  * @author Benjamin Bentmann
  */
-public interface ClassRealmConstituent
-{
+public interface ClassRealmConstituent {
 
     /**
      * Gets the group id of the constituent's artifact.

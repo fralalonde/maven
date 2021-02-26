@@ -25,16 +25,13 @@ package org.apache.maven.artifact.repository.metadata;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  */
 public class RepositoryMetadataStoreException
-    extends Exception
-{
-    public RepositoryMetadataStoreException( String message )
-    {
-        super( message );
+        extends Exception {
+    public RepositoryMetadataStoreException(String message) {
+        super(message);
     }
 
-    public RepositoryMetadataStoreException( String message,
-                                             Exception e )
-    {
-        super( message, e );
+    public RepositoryMetadataStoreException(String message,
+            Exception e) {
+        super(message, e);
     }
 }

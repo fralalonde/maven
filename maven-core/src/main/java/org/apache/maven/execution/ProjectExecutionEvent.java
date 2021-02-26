@@ -26,16 +26,17 @@ import org.apache.maven.project.MavenProject;
 
 /**
  * <p>
- * Encapsulates parameters of ProjectExecutionListener callback methods and is meant to provide API evolution path
- * should it become necessary to introduce new parameters in the existing callbacks in the future.
+ * Encapsulates parameters of ProjectExecutionListener callback methods and is
+ * meant to provide API evolution path should it become necessary to introduce
+ * new parameters in the existing callbacks in the future.
  * </p>
- * <strong>Note:</strong> This class is part of work in progress and can be changed or removed without notice.
+ * <strong>Note:</strong> This class is part of work in progress and can be
+ * changed or removed without notice.
  *
  * @see ProjectExecutionListener
  * @since 3.1.2
  */
-public class ProjectExecutionEvent
-{
+public class ProjectExecutionEvent {
 
     private final MavenSession session;
 
@@ -45,47 +46,39 @@ public class ProjectExecutionEvent
 
     private final Throwable cause;
 
-    public ProjectExecutionEvent( MavenSession session, MavenProject project )
-    {
-        this( session, project, null, null );
+    public ProjectExecutionEvent(MavenSession session, MavenProject project) {
+        this(session, project, null, null);
     }
 
-    public ProjectExecutionEvent( MavenSession session, MavenProject project, List<MojoExecution> executionPlan )
-    {
-        this( session, project, executionPlan, null );
+    public ProjectExecutionEvent(MavenSession session, MavenProject project, List<MojoExecution> executionPlan) {
+        this(session, project, executionPlan, null);
     }
 
-    public ProjectExecutionEvent( MavenSession session, MavenProject project, Throwable cause )
-    {
-        this( session, project, null, cause );
+    public ProjectExecutionEvent(MavenSession session, MavenProject project, Throwable cause) {
+        this(session, project, null, cause);
     }
 
-    public ProjectExecutionEvent( MavenSession session, MavenProject project, List<MojoExecution> executionPlan,
-                                  Throwable cause )
-    {
+    public ProjectExecutionEvent(MavenSession session, MavenProject project, List<MojoExecution> executionPlan,
+            Throwable cause) {
         this.session = session;
         this.project = project;
         this.executionPlan = executionPlan;
         this.cause = cause;
     }
 
-    public MavenSession getSession()
-    {
+    public MavenSession getSession() {
         return session;
     }
 
-    public MavenProject getProject()
-    {
+    public MavenProject getProject() {
         return project;
     }
 
-    public List<MojoExecution> getExecutionPlan()
-    {
+    public List<MojoExecution> getExecutionPlan() {
         return executionPlan;
     }
 
-    public Throwable getCause()
-    {
+    public Throwable getCause() {
         return cause;
     }
 

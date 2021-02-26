@@ -30,27 +30,25 @@ import org.apache.maven.building.StringSource;
  */
 @Deprecated
 public class StringModelSource extends StringSource
-    implements ModelSource
-{
+        implements ModelSource {
 
     /**
      * Creates a new model source backed by the specified string.
      *
      * @param pom The POM's string representation, may be empty or {@code null}.
      */
-    public StringModelSource( CharSequence pom )
-    {
-        this( pom, null );
+    public StringModelSource(CharSequence pom) {
+        this(pom, null);
     }
 
     /**
      * Creates a new model source backed by the specified string.
      *
-     * @param pom The POM's string representation, may be empty or {@code null}.
+     * @param pom      The POM's string representation, may be empty or
+     *                 {@code null}.
      * @param location The location to report for this use, may be {@code null}.
      */
-    public StringModelSource( CharSequence pom, String location )
-    {
-        super( pom, location );
+    public StringModelSource(CharSequence pom, String location) {
+        super(pom, location);
     }
 }

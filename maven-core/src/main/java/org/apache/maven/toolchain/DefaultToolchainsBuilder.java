@@ -33,39 +33,32 @@ import javax.inject.Singleton;
 
 /**
  * @author Benjamin Bentmann
- * @deprecated instead use {@link org.apache.maven.toolchain.building.DefaultToolchainsBuilder}
+ * @deprecated instead use
+ *             {@link org.apache.maven.toolchain.building.DefaultToolchainsBuilder}
  */
 @Deprecated
-@Named( "default" )
+@Named("default")
 @Singleton
 public class DefaultToolchainsBuilder
-    implements ToolchainsBuilder
-{
+        implements ToolchainsBuilder {
 
     @Inject
     private Logger logger;
 
-    public PersistedToolchains build( File userToolchainsFile )
-        throws MisconfiguredToolchainException
-    {
+    public PersistedToolchains build(File userToolchainsFile)
+            throws MisconfiguredToolchainException {
         PersistedToolchains toolchains = null;
 
-        if ( userToolchainsFile != null && userToolchainsFile.isFile() )
-        {
-            try ( Reader in = ReaderFactory.newXmlReader( userToolchainsFile ) )
-            {
-                toolchains = new MavenToolchainsXpp3Reader().read( in );
-            }
-            catch ( Exception e )
-            {
+        if (userToolchainsFile != null && userToolchainsFile.isFile()) {
+            try (Reader in = ReaderFactory.newXmlReader(userToolchainsFile)) {
+                toolchains = new MavenToolchainsXpp3Reader().read(in);
+            } catch (Exception e) {
                 throw new MisconfiguredToolchainException(
-                    "Cannot read toolchains file at " + userToolchainsFile.getAbsolutePath(), e );
+                        "Cannot read toolchains file at " + userToolchainsFile.getAbsolutePath(), e);
             }
 
-        }
-        else if ( userToolchainsFile != null )
-        {
-            logger.debug( "Toolchains configuration was not found at " + userToolchainsFile );
+        } else if (userToolchainsFile != null) {
+            logger.debug("Toolchains configuration was not found at " + userToolchainsFile);
         }
 
         return toolchains;

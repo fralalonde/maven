@@ -37,8 +37,7 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
  * @author Benjamin Bentmann
  */
 class Xpp3DomNodeIterator
-    implements NodeIterator
-{
+        implements NodeIterator {
 
     private NodePointer parent;
 
@@ -56,75 +55,59 @@ class Xpp3DomNodeIterator
 
     private int position;
 
-    public Xpp3DomNodeIterator( NodePointer parent, NodeTest test, boolean reverse, NodePointer startWith )
-    {
+    public Xpp3DomNodeIterator(NodePointer parent, NodeTest test, boolean reverse, NodePointer startWith) {
         this.parent = parent;
         this.node = (Xpp3Dom) parent.getNode();
         this.children = this.node.getChildren();
-        if ( startWith != null )
-        {
+        if (startWith != null) {
             Xpp3Dom startWithNode = (Xpp3Dom) startWith.getNode();
-            for ( ; filteredIndex < children.length; filteredIndex++ )
-            {
-                if ( startWithNode.equals( children[filteredIndex] ) )
-                {
+            for (; filteredIndex < children.length; filteredIndex++) {
+                if (startWithNode.equals(children[filteredIndex])) {
                     filteredIndex++;
                     break;
                 }
             }
         }
         this.test = test;
-        if ( reverse )
-        {
+        if (reverse) {
             throw new UnsupportedOperationException();
         }
     }
 
-    public NodePointer getNodePointer()
-    {
-        if ( position == 0 )
-        {
-            setPosition( 1 );
+    public NodePointer getNodePointer() {
+        if (position == 0) {
+            setPosition(1);
         }
-        return ( child == null ) ? null : new Xpp3DomNodePointer( parent, child );
+        return (child == null) ? null : new Xpp3DomNodePointer(parent, child);
     }
 
-    public int getPosition()
-    {
+    public int getPosition() {
         return position;
     }
 
-    public boolean setPosition( int position )
-    {
+    public boolean setPosition(int position) {
         this.position = position;
-        filterChildren( position );
-        child = ( position > 0 && position <= filteredChildren.size() ) ? filteredChildren.get( position - 1 ) : null;
+        filterChildren(position);
+        child = (position > 0 && position <= filteredChildren.size()) ? filteredChildren.get(position - 1) : null;
         return child != null;
     }
 
-    private void filterChildren( int position )
-    {
-        for ( ; position > filteredChildren.size() && filteredIndex < children.length; filteredIndex++ )
-        {
+    private void filterChildren(int position) {
+        for (; position > filteredChildren.size() && filteredIndex < children.length; filteredIndex++) {
             Xpp3Dom child = children[filteredIndex];
-            if ( testNode( child ) )
-            {
-                filteredChildren.add( child );
+            if (testNode(child)) {
+                filteredChildren.add(child);
             }
         }
     }
 
-    private boolean testNode( Xpp3Dom node )
-    {
-        if ( test == null )
-        {
+    private boolean testNode(Xpp3Dom node) {
+        if (test == null) {
             return true;
         }
-        if ( test instanceof NodeNameTest )
-        {
+        if (test instanceof NodeNameTest) {
             String nodeName = node.getName();
-            if ( StringUtils.isEmpty( nodeName ) )
-            {
+            if (StringUtils.isEmpty(nodeName)) {
                 return false;
             }
 
@@ -133,26 +116,22 @@ class Xpp3DomNodeIterator
             boolean wildcard = nodeNameTest.isWildcard();
             String testName = nodeNameTest.getNodeName().getName();
             String testPrefix = nodeNameTest.getNodeName().getPrefix();
-            if ( wildcard && testPrefix == null )
-            {
+            if (wildcard && testPrefix == null) {
                 return true;
             }
-            if ( wildcard || testName.equals( nodeName ) )
-            {
-                return StringUtils.isEmpty( namespaceURI ) || StringUtils.isEmpty( testPrefix );
+            if (wildcard || testName.equals(nodeName)) {
+                return StringUtils.isEmpty(namespaceURI) || StringUtils.isEmpty(testPrefix);
             }
             return false;
         }
-        if ( test instanceof NodeTypeTest )
-        {
-            switch ( ( (NodeTypeTest) test ).getNodeType() )
-            {
-                case Compiler.NODE_TYPE_NODE:
-                    return true;
-                case Compiler.NODE_TYPE_TEXT:
-                    return node.getValue() != null;
-                default:
-                    return false;
+        if (test instanceof NodeTypeTest) {
+            switch (((NodeTypeTest) test).getNodeType()) {
+            case Compiler.NODE_TYPE_NODE:
+                return true;
+            case Compiler.NODE_TYPE_TEXT:
+                return node.getValue() != null;
+            default:
+                return false;
             }
         }
         return false;

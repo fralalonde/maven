@@ -26,8 +26,7 @@ import java.util.Map;
  * @author Benjamin Bentmann
  */
 class DefaultClassRealmRequest
-    implements ClassRealmRequest
-{
+        implements ClassRealmRequest {
 
     private final RealmType type;
 
@@ -39,9 +38,8 @@ class DefaultClassRealmRequest
 
     private final List<ClassRealmConstituent> constituents;
 
-    DefaultClassRealmRequest( RealmType type, ClassLoader parent, List<String> parentImports,
-                              Map<String, ClassLoader> foreignImports, List<ClassRealmConstituent> constituents )
-    {
+    DefaultClassRealmRequest(RealmType type, ClassLoader parent, List<String> parentImports,
+            Map<String, ClassLoader> foreignImports, List<ClassRealmConstituent> constituents) {
         this.type = type;
         this.parent = parent;
         this.parentImports = parentImports;
@@ -49,33 +47,27 @@ class DefaultClassRealmRequest
         this.constituents = constituents;
     }
 
-    public RealmType getType()
-    {
+    public RealmType getType() {
         return type;
     }
 
-    public ClassLoader getParent()
-    {
+    public ClassLoader getParent() {
         return parent;
     }
 
-    public List<String> getImports()
-    {
+    public List<String> getImports() {
         return getParentImports();
     }
 
-    public List<String> getParentImports()
-    {
+    public List<String> getParentImports() {
         return parentImports;
     }
 
-    public Map<String, ClassLoader> getForeignImports()
-    {
+    public Map<String, ClassLoader> getForeignImports() {
         return foreignImports;
     }
 
-    public List<ClassRealmConstituent> getConstituents()
-    {
+    public List<ClassRealmConstituent> getConstituents() {
         return constituents;
     }
 

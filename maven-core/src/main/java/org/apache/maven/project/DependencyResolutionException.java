@@ -23,19 +23,16 @@ package org.apache.maven.project;
  * @author Benjamin Bentmann
  */
 public class DependencyResolutionException
-    extends Exception
-{
+        extends Exception {
 
     private final transient DependencyResolutionResult result;
 
-    public DependencyResolutionException( DependencyResolutionResult result, String message, Throwable cause )
-    {
-        super( message, cause );
+    public DependencyResolutionException(DependencyResolutionResult result, String message, Throwable cause) {
+        super(message, cause);
         this.result = result;
     }
 
-    public DependencyResolutionResult getResult()
-    {
+    public DependencyResolutionResult getResult() {
         return result;
     }
 

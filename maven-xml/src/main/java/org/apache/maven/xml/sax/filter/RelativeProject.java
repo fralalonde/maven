@@ -24,33 +24,28 @@ package org.apache.maven.xml.sax.filter;
  * @author Robert Scholte
  * @since 4.0.0
  */
-public class RelativeProject
-{
+public class RelativeProject {
     private final String groupId;
 
     private final String artifactId;
 
     private final String version;
 
-    public RelativeProject( String groupId, String artifactId, String version )
-    {
+    public RelativeProject(String groupId, String artifactId, String version) {
         this.groupId = groupId;
         this.artifactId = artifactId;
         this.version = version;
     }
 
-    public String getGroupId()
-    {
+    public String getGroupId() {
         return groupId;
     }
 
-    public String getArtifactId()
-    {
+    public String getArtifactId() {
         return artifactId;
     }
 
-    public String getVersion()
-    {
+    public String getVersion() {
         return version;
     }
 }

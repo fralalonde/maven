@@ -27,18 +27,16 @@ import org.apache.maven.toolchain.model.ToolchainModel;
  * @author mkleint
  * @since 2.0.9
  */
-public interface ToolchainFactory
-{
+public interface ToolchainFactory {
     /**
      * Create instance of toolchain.
      **/
-    ToolchainPrivate createToolchain( ToolchainModel model )
-        throws MisconfiguredToolchainException;
+    ToolchainPrivate createToolchain(ToolchainModel model)
+            throws MisconfiguredToolchainException;
 
     /**
-     * Returns the default instance of the particular type of toolchain, can return <code>null</code>
-     * if not applicable.
-     * TODO keep around??
+     * Returns the default instance of the particular type of toolchain, can return
+     * <code>null</code> if not applicable. TODO keep around??
      **/
     ToolchainPrivate createDefaultToolchain();
 }

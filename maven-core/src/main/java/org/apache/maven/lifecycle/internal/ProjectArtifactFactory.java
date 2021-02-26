@@ -27,14 +27,15 @@ import org.apache.maven.project.artifact.InvalidDependencyVersionException;
 
 /**
  * <p>
- * Component interface responsible for creation of MavenProject#dependencyArtifacts instances.
+ * Component interface responsible for creation of
+ * MavenProject#dependencyArtifacts instances.
  * </p>
- * <strong>NOTE:</strong> This class is not part of any public api and can be changed or deleted without prior notice.
+ * <strong>NOTE:</strong> This class is not part of any public api and can be
+ * changed or deleted without prior notice.
  *
  * @since 3.2.4
  */
-public interface ProjectArtifactFactory
-{
-    Set<Artifact> createArtifacts( MavenProject project )
-        throws InvalidDependencyVersionException;
+public interface ProjectArtifactFactory {
+    Set<Artifact> createArtifacts(MavenProject project)
+            throws InvalidDependencyVersionException;
 }

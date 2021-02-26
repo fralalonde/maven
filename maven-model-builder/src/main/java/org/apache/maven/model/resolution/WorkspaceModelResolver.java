@@ -24,13 +24,12 @@ import org.apache.maven.model.Model;
 /**
  * WorkspaceModelResolver
  */
-public interface WorkspaceModelResolver
-{
+public interface WorkspaceModelResolver {
 
-    Model resolveRawModel( String groupId, String artifactId, String versionConstraint )
-        throws UnresolvableModelException;
+    Model resolveRawModel(String groupId, String artifactId, String versionConstraint)
+            throws UnresolvableModelException;
 
-    Model resolveEffectiveModel( String groupId, String artifactId, String versionConstraint )
-        throws UnresolvableModelException;
+    Model resolveEffectiveModel(String groupId, String artifactId, String versionConstraint)
+            throws UnresolvableModelException;
 
 }

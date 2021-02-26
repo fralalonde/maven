@@ -42,8 +42,7 @@ import javax.inject.Singleton;
 // wiring and reference and external source for the lifecycle configuration.
 @Named
 @Singleton
-public class DefaultLifecycles
-{
+public class DefaultLifecycles {
     public static final String[] STANDARD_LIFECYCLES = { "default", "clean", "site", "wrapper" };
 
     // @Configuration(source="org/apache/maven/lifecycle/lifecycles.xml")
@@ -52,15 +51,13 @@ public class DefaultLifecycles
 
     private final Logger logger;
 
-    public DefaultLifecycles()
-    {
+    public DefaultLifecycles() {
         this.lifecyclesMap = null;
         this.logger = null;
     }
 
     @Inject
-    public DefaultLifecycles( Map<String, Lifecycle> lifecyclesMap, Logger logger )
-    {
+    public DefaultLifecycles(Map<String, Lifecycle> lifecyclesMap, Logger logger) {
         // Must keep the lifecyclesMap as is.
         // During initialization it only contains the default lifecycles.
         // However, extensions might add custom lifecycles later on.
@@ -74,43 +71,37 @@ public class DefaultLifecycles
      * @param phase
      * @return
      */
-    public Lifecycle get( String phase )
-    {
-        return getPhaseToLifecycleMap().get( phase );
+    public Lifecycle get(String phase) {
+        return getPhaseToLifecycleMap().get(phase);
     }
 
     /**
-     * We use this to map all phases to the lifecycle that contains it. This is used so that a user can specify the
-     * phase they want to execute and we can easily determine what lifecycle we need to run.
+     * We use this to map all phases to the lifecycle that contains it. This is used
+     * so that a user can specify the phase they want to execute and we can easily
+     * determine what lifecycle we need to run.
      *
      * @return A map of lifecycles, indexed on id
      */
-    public Map<String, Lifecycle> getPhaseToLifecycleMap()
-    {
-        // If people are going to make their own lifecycles then we need to tell people how to namespace them correctly
+    public Map<String, Lifecycle> getPhaseToLifecycleMap() {
+        // If people are going to make their own lifecycles then we need to tell people
+        // how to namespace them correctly
         // so that they don't interfere with internally defined lifecycles.
 
         Map<String, Lifecycle> phaseToLifecycleMap = new HashMap<>();
 
-        for ( Lifecycle lifecycle : getLifeCycles() )
-        {
-            if ( logger.isDebugEnabled() )
-            {
-                logger.debug( "Lifecycle " + lifecycle );
+        for (Lifecycle lifecycle : getLifeCycles()) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Lifecycle " + lifecycle);
             }
 
-            for ( String phase : lifecycle.getPhases() )
-            {
+            for (String phase : lifecycle.getPhases()) {
                 // The first definition wins.
-                if ( !phaseToLifecycleMap.containsKey( phase ) )
-                {
-                    phaseToLifecycleMap.put( phase, lifecycle );
-                }
-                else
-                {
-                    Lifecycle original = phaseToLifecycleMap.get( phase );
-                    logger.warn( "Duplicated lifecycle phase " + phase + ". Defined in " + original.getId()
-                        + " but also in " + lifecycle.getId() );
+                if (!phaseToLifecycleMap.containsKey(phase)) {
+                    phaseToLifecycleMap.put(phase, lifecycle);
+                } else {
+                    Lifecycle original = phaseToLifecycleMap.get(phase);
+                    logger.warn("Duplicated lifecycle phase " + phase + ". Defined in " + original.getId()
+                            + " but also in " + lifecycle.getId());
                 }
             }
         }
@@ -118,37 +109,31 @@ public class DefaultLifecycles
         return phaseToLifecycleMap;
     }
 
-    public List<Lifecycle> getLifeCycles()
-    {
-        List<String> lifecycleIds = Arrays.asList( STANDARD_LIFECYCLES );
+    public List<Lifecycle> getLifeCycles() {
+        List<String> lifecycleIds = Arrays.asList(STANDARD_LIFECYCLES);
 
-        Comparator<String> comparator = ( l, r ) ->
-        {
-            int lx = lifecycleIds.indexOf( l );
-            int rx = lifecycleIds.indexOf( r );
+        Comparator<String> comparator = (l, r) -> {
+            int lx = lifecycleIds.indexOf(l);
+            int rx = lifecycleIds.indexOf(r);
 
-            if ( lx < 0 || rx < 0 )
-            {
+            if (lx < 0 || rx < 0) {
                 return rx - lx;
-            }
-            else
-            {
+            } else {
                 return lx - rx;
             }
         };
 
         // ensure canonical order of standard lifecycles
         return lifecyclesMap.values().stream()
-                                .peek( l -> Objects.requireNonNull( l.getId(), "A lifecycle must have an id." ) )
-                                .sorted( Comparator.comparing( Lifecycle::getId, comparator ) )
-                                .collect( Collectors.toList() );
+                .peek(l -> Objects.requireNonNull(l.getId(), "A lifecycle must have an id."))
+                .sorted(Comparator.comparing(Lifecycle::getId, comparator))
+                .collect(Collectors.toList());
     }
 
-    public String getLifecyclePhaseList()
-    {
+    public String getLifecyclePhaseList() {
         return getLifeCycles().stream()
-                        .flatMap( l -> l.getPhases().stream() )
-                        .collect( Collectors.joining( ", " ) );
+                .flatMap(l -> l.getPhases().stream())
+                .collect(Collectors.joining(", "));
     }
 
 }

@@ -27,19 +27,20 @@ import org.apache.maven.project.MavenProject;
 /**
  * @author Jason van Zyl
  */
-public interface MavenExecutionResult
-{
-    MavenExecutionResult setProject( MavenProject project );
+public interface MavenExecutionResult {
+    MavenExecutionResult setProject(MavenProject project);
+
     MavenProject getProject();
 
-    MavenExecutionResult setTopologicallySortedProjects( List<MavenProject> projects );
+    MavenExecutionResult setTopologicallySortedProjects(List<MavenProject> projects);
 
     /**
      * @return the sorted list, or an empty list if there are no projects.
      */
     List<MavenProject> getTopologicallySortedProjects();
 
-    MavenExecutionResult setDependencyResolutionResult( DependencyResolutionResult result );
+    MavenExecutionResult setDependencyResolutionResult(DependencyResolutionResult result);
+
     DependencyResolutionResult getDependencyResolutionResult();
 
     // for each exception
@@ -49,37 +50,45 @@ public interface MavenExecutionResult
     // - xmlpull parser exception
     List<Throwable> getExceptions();
 
-    MavenExecutionResult addException( Throwable e );
+    MavenExecutionResult addException(Throwable e);
 
     boolean hasExceptions();
 
     /**
      * Gets the build summary for the specified project.
      *
-     * @param project The project to get the build summary for, must not be {@code null}.
-     * @return The build summary for the project or {@code null} if the project has not been built (yet).
+     * @param project The project to get the build summary for, must not be
+     *                {@code null}.
+     * @return The build summary for the project or {@code null} if the project has
+     *         not been built (yet).
      */
-    BuildSummary getBuildSummary( MavenProject project );
+    BuildSummary getBuildSummary(MavenProject project);
 
     /**
      * Add the specified build summary.
      *
      * @param summary The build summary to add, must not be {@code null}.
      */
-    void addBuildSummary( BuildSummary summary );
+    void addBuildSummary(BuildSummary summary);
 
     /**
-     * Indicates whether or not the build could be resumed by a second invocation of Maven.
+     * Indicates whether or not the build could be resumed by a second invocation of
+     * Maven.
+     * 
      * @see BuildResumptionDataRepository
-     * @return <code>true</code> when it is possible to resume the build, <code>false</code> otherwise.
+     * @return <code>true</code> when it is possible to resume the build,
+     *         <code>false</code> otherwise.
      */
     boolean canResume();
 
     /**
-     * Indicate that the build can or cannot be resumed by a second invocation of Maven.
-     * @param canResume <code>true</code> when it is possible to resume the build, <code>false</code> otherwise.
+     * Indicate that the build can or cannot be resumed by a second invocation of
+     * Maven.
+     * 
+     * @param canResume <code>true</code> when it is possible to resume the build,
+     *                  <code>false</code> otherwise.
      * @see BuildResumptionDataRepository
      * @see #canResume()
      */
-    void setCanResume( boolean canResume );
+    void setCanResume(boolean canResume);
 }

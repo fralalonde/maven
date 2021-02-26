@@ -41,7 +41,8 @@ import org.codehaus.plexus.util.StringUtils;
  * <p>
  * Logs debug output from the various lifecycle phases.
  * </p>
- * <strong>NOTE:</strong> This class is not part of any public api and can be changed or deleted without prior notice.
+ * <strong>NOTE:</strong> This class is not part of any public api and can be
+ * changed or deleted without prior notice.
  *
  * @since 3.0
  * @author Benjamin Bentmann
@@ -50,137 +51,114 @@ import org.codehaus.plexus.util.StringUtils;
  */
 @Named
 @Singleton
-public class LifecycleDebugLogger
-{
+public class LifecycleDebugLogger {
     @Inject
     private Logger logger;
 
-
-    public LifecycleDebugLogger()
-    {
+    public LifecycleDebugLogger() {
     }
 
-    public LifecycleDebugLogger( Logger logger )
-    {
+    public LifecycleDebugLogger(Logger logger) {
         this.logger = logger;
     }
 
-
-    public void debug( String s )
-    {
-        logger.debug( s );
+    public void debug(String s) {
+        logger.debug(s);
     }
 
-    public void info( String s )
-    {
-        logger.info( s );
+    public void info(String s) {
+        logger.info(s);
     }
 
-    public void debugReactorPlan( ProjectBuildList projectBuilds )
-    {
-        if ( !logger.isDebugEnabled() )
-        {
+    public void debugReactorPlan(ProjectBuildList projectBuilds) {
+        if (!logger.isDebugEnabled()) {
             return;
         }
 
-        logger.debug( "=== REACTOR BUILD PLAN ================================================" );
+        logger.debug("=== REACTOR BUILD PLAN ================================================");
 
-        for ( Iterator<ProjectSegment> it = projectBuilds.iterator(); it.hasNext(); )
-        {
+        for (Iterator<ProjectSegment> it = projectBuilds.iterator(); it.hasNext();) {
             ProjectSegment projectBuild = it.next();
 
-            logger.debug( "Project: " + projectBuild.getProject().getId() );
-            logger.debug( "Tasks:   " + projectBuild.getTaskSegment().getTasks() );
-            logger.debug( "Style:   " + ( projectBuild.getTaskSegment().isAggregating() ? "Aggregating" : "Regular" ) );
+            logger.debug("Project: " + projectBuild.getProject().getId());
+            logger.debug("Tasks:   " + projectBuild.getTaskSegment().getTasks());
+            logger.debug("Style:   " + (projectBuild.getTaskSegment().isAggregating() ? "Aggregating" : "Regular"));
 
-            if ( it.hasNext() )
-            {
-                logger.debug( "-----------------------------------------------------------------------" );
+            if (it.hasNext()) {
+                logger.debug("-----------------------------------------------------------------------");
             }
         }
 
-        logger.debug( "=======================================================================" );
+        logger.debug("=======================================================================");
     }
 
-
-    public void debugProjectPlan( MavenProject currentProject, MavenExecutionPlan executionPlan )
-    {
-        if ( !logger.isDebugEnabled() )
-        {
+    public void debugProjectPlan(MavenProject currentProject, MavenExecutionPlan executionPlan) {
+        if (!logger.isDebugEnabled()) {
             return;
         }
 
-        logger.debug( "=== PROJECT BUILD PLAN ================================================" );
-        logger.debug( "Project:       " + BuilderCommon.getKey( currentProject ) );
+        logger.debug("=== PROJECT BUILD PLAN ================================================");
+        logger.debug("Project:       " + BuilderCommon.getKey(currentProject));
 
-        debugDependencyRequirements( executionPlan.getMojoExecutions() );
+        debugDependencyRequirements(executionPlan.getMojoExecutions());
 
-        logger.debug( "Repositories (dependencies): " + currentProject.getRemoteProjectRepositories() );
-        logger.debug( "Repositories (plugins)     : " + currentProject.getRemotePluginRepositories() );
+        logger.debug("Repositories (dependencies): " + currentProject.getRemoteProjectRepositories());
+        logger.debug("Repositories (plugins)     : " + currentProject.getRemotePluginRepositories());
 
-        for ( ExecutionPlanItem mojoExecution : executionPlan )
-        {
-            debugMojoExecution( mojoExecution.getMojoExecution() );
+        for (ExecutionPlanItem mojoExecution : executionPlan) {
+            debugMojoExecution(mojoExecution.getMojoExecution());
         }
 
-        logger.debug( "=======================================================================" );
+        logger.debug("=======================================================================");
     }
 
-    private void debugMojoExecution( MojoExecution mojoExecution )
-    {
-        String mojoExecId =
-            mojoExecution.getGroupId() + ':' + mojoExecution.getArtifactId() + ':' + mojoExecution.getVersion() + ':'
+    private void debugMojoExecution(MojoExecution mojoExecution) {
+        String mojoExecId = mojoExecution.getGroupId() + ':' + mojoExecution.getArtifactId() + ':'
+                + mojoExecution.getVersion() + ':'
                 + mojoExecution.getGoal() + " (" + mojoExecution.getExecutionId() + ')';
 
         Map<String, List<MojoExecution>> forkedExecutions = mojoExecution.getForkedExecutions();
-        if ( !forkedExecutions.isEmpty() )
-        {
-            for ( Map.Entry<String, List<MojoExecution>> fork : forkedExecutions.entrySet() )
-            {
-                logger.debug( "--- init fork of " + fork.getKey() + " for " + mojoExecId + " ---" );
+        if (!forkedExecutions.isEmpty()) {
+            for (Map.Entry<String, List<MojoExecution>> fork : forkedExecutions.entrySet()) {
+                logger.debug("--- init fork of " + fork.getKey() + " for " + mojoExecId + " ---");
 
-                debugDependencyRequirements( fork.getValue() );
+                debugDependencyRequirements(fork.getValue());
 
-                for ( MojoExecution forkedExecution : fork.getValue() )
-                {
-                    debugMojoExecution( forkedExecution );
+                for (MojoExecution forkedExecution : fork.getValue()) {
+                    debugMojoExecution(forkedExecution);
                 }
 
-                logger.debug( "--- exit fork of " + fork.getKey() + " for " + mojoExecId + " ---" );
+                logger.debug("--- exit fork of " + fork.getKey() + " for " + mojoExecId + " ---");
             }
         }
 
-        logger.debug( "-----------------------------------------------------------------------" );
-        logger.debug( "Goal:          " + mojoExecId );
+        logger.debug("-----------------------------------------------------------------------");
+        logger.debug("Goal:          " + mojoExecId);
         logger.debug(
-            "Style:         " + ( mojoExecution.getMojoDescriptor().isAggregator() ? "Aggregating" : "Regular" ) );
-        logger.debug( "Configuration: " + mojoExecution.getConfiguration() );
+                "Style:         " + (mojoExecution.getMojoDescriptor().isAggregator() ? "Aggregating" : "Regular"));
+        logger.debug("Configuration: " + mojoExecution.getConfiguration());
     }
 
-    private void debugDependencyRequirements( List<MojoExecution> mojoExecutions )
-    {
+    private void debugDependencyRequirements(List<MojoExecution> mojoExecutions) {
         Set<String> scopesToCollect = new TreeSet<>();
         Set<String> scopesToResolve = new TreeSet<>();
 
-        for ( MojoExecution mojoExecution : mojoExecutions )
-        {
+        for (MojoExecution mojoExecution : mojoExecutions) {
             MojoDescriptor mojoDescriptor = mojoExecution.getMojoDescriptor();
 
             String scopeToCollect = mojoDescriptor.getDependencyCollectionRequired();
-            if ( StringUtils.isNotEmpty( scopeToCollect ) )
-            {
-                scopesToCollect.add( scopeToCollect );
+            if (StringUtils.isNotEmpty(scopeToCollect)) {
+                scopesToCollect.add(scopeToCollect);
             }
 
             String scopeToResolve = mojoDescriptor.getDependencyResolutionRequired();
-            if ( StringUtils.isNotEmpty( scopeToResolve ) )
-            {
-                scopesToResolve.add( scopeToResolve );
+            if (StringUtils.isNotEmpty(scopeToResolve)) {
+                scopesToResolve.add(scopeToResolve);
             }
         }
 
-        logger.debug( "Dependencies (collect): " + scopesToCollect );
-        logger.debug( "Dependencies (resolve): " + scopesToResolve );
+        logger.debug("Dependencies (collect): " + scopesToCollect);
+        logger.debug("Dependencies (resolve): " + scopesToResolve);
     }
 
 }

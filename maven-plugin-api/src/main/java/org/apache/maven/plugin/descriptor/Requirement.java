@@ -25,31 +25,26 @@ package org.apache.maven.plugin.descriptor;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  */
 public class Requirement
-    implements Cloneable
-{
+        implements Cloneable {
     private final String role;
 
     private final String roleHint;
 
-    public Requirement( String role )
-    {
+    public Requirement(String role) {
         this.role = role;
         this.roleHint = null;
     }
 
-    public Requirement( String role, String roleHint )
-    {
+    public Requirement(String role, String roleHint) {
         this.role = role;
         this.roleHint = roleHint;
     }
 
-    public String getRole()
-    {
+    public String getRole() {
         return role;
     }
 
-    public String getRoleHint()
-    {
+    public String getRoleHint() {
         return roleHint;
     }
 
@@ -57,15 +52,11 @@ public class Requirement
      * Creates a shallow copy of this requirement.
      */
     @Override
-    public Requirement clone()
-    {
-        try
-        {
+    public Requirement clone() {
+        try {
             return (Requirement) super.clone();
-        }
-        catch ( CloneNotSupportedException e )
-        {
-            throw new UnsupportedOperationException( e );
+        } catch (CloneNotSupportedException e) {
+            throw new UnsupportedOperationException(e);
         }
     }
 

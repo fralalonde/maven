@@ -15,41 +15,34 @@ package org.apache.maven;
  * the License.
  */
 
-
 import org.apache.maven.exception.ExceptionHandler;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 
 public class MavenTest
-    extends AbstractCoreMavenComponentTestCase
-{
+        extends AbstractCoreMavenComponentTestCase {
     @Inject
     private Maven maven;
 
     @Inject
     private ExceptionHandler exceptionHandler;
 
-    protected String getProjectsDirectory()
-    {
+    protected String getProjectsDirectory() {
         return "src/test/projects/lifecycle-executor";
     }
 
     @Test
     public void testLifecycleExecutionUsingADefaultLifecyclePhase()
-        throws Exception
-    {
-/*
-        File pom = getProject( "project-with-additional-lifecycle-elements" );
-        MavenExecutionRequest request = createMavenExecutionRequest( pom );
-        MavenExecutionResult result = maven.execute( request );
-        if ( result.hasExceptions() )
-        {
-            ExceptionSummary es = exceptionHandler.handleException( result.getExceptions().get( 0 ) );
-            System.out.println( es.getMessage() );
-            es.getException().printStackTrace();
-            fail( "Maven did not execute correctly." );
-        }
-*/
+            throws Exception {
+        /*
+         * File pom = getProject( "project-with-additional-lifecycle-elements" );
+         * MavenExecutionRequest request = createMavenExecutionRequest( pom );
+         * MavenExecutionResult result = maven.execute( request ); if (
+         * result.hasExceptions() ) { ExceptionSummary es =
+         * exceptionHandler.handleException( result.getExceptions().get( 0 ) );
+         * System.out.println( es.getMessage() ); es.getException().printStackTrace();
+         * fail( "Maven did not execute correctly." ); }
+         */
     }
 }

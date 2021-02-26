@@ -3,7 +3,6 @@ package org.apache.maven.model.merge;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -22,9 +21,7 @@ import static org.hamcrest.Matchers.is;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.util.Arrays;
-
 import org.apache.maven.model.Build;
 import org.apache.maven.model.Contributor;
 import org.apache.maven.model.Dependency;
@@ -39,391 +36,375 @@ import org.apache.maven.model.Repository;
 import org.junit.jupiter.api.Test;
 
 /**
- * ModelMerger is based on same instances, subclasses should override KeyComputer per type
+ * ModelMerger is based on same instances, subclasses should override
+ * KeyComputer per type
  *
  * @author Robert Scholte
  *
  */
-public class ModelMergerTest
-{
+public class ModelMergerTest {
     private ModelMerger modelMerger = new ModelMerger();
 
     @Test
-    public void mergeArtifactId()
-    {
+    public void mergeArtifactId() {
         Model target = new Model();
-        target.setArtifactId( "TARGET" );
+        target.setArtifactId("TARGET");
 
         Model source = new Model();
-        source.setArtifactId( "SOURCE" );
+        source.setArtifactId("SOURCE");
 
-        modelMerger.merge( target, source, true, null );
-        assertThat( target.getArtifactId(), is( "SOURCE" ) );
+        modelMerger.merge(target, source, true, null);
+        assertThat(target.getArtifactId(), is("SOURCE"));
 
-        target.setArtifactId( "TARGET" );;
-        modelMerger.merge( target, source, false, null );
-        assertThat( target.getArtifactId(), is( "TARGET" ) );
+        target.setArtifactId("TARGET");
+        ;
+        modelMerger.merge(target, source, false, null);
+        assertThat(target.getArtifactId(), is("TARGET"));
     }
 
     @Test
-    public void mergeSameContributors()
-    {
+    public void mergeSameContributors() {
         Contributor contributor = new Contributor();
-        contributor.setEmail( "contributor@maven.apache.org" );
+        contributor.setEmail("contributor@maven.apache.org");
 
         Model target = new Model();
-        target.setContributors( Arrays.asList( contributor ) );
+        target.setContributors(Arrays.asList(contributor));
 
         Model source = new Model();
-        source.setContributors( Arrays.asList( contributor ) );
+        source.setContributors(Arrays.asList(contributor));
 
-        modelMerger.merge( target, source, true, null );
+        modelMerger.merge(target, source, true, null);
 
-        assertThat( target.getContributors(), contains( contributor ) );
+        assertThat(target.getContributors(), contains(contributor));
     }
 
     @Test
-    public void mergeSameDependencies()
-    {
+    public void mergeSameDependencies() {
         Dependency dependency = new Dependency();
-        dependency.setGroupId( "groupId" );
-        dependency.setArtifactId( "artifactId" );
-        dependency.setType( "type" );
+        dependency.setGroupId("groupId");
+        dependency.setArtifactId("artifactId");
+        dependency.setType("type");
 
         Model target = new Model();
-        target.setDependencies( Arrays.asList( dependency ) );
+        target.setDependencies(Arrays.asList(dependency));
 
         Model source = new Model();
-        source.setDependencies( Arrays.asList( dependency ) );
+        source.setDependencies(Arrays.asList(dependency));
 
-        modelMerger.merge( target, source, true, null );
+        modelMerger.merge(target, source, true, null);
 
-        assertThat( target.getDependencies(), contains( dependency ) );
+        assertThat(target.getDependencies(), contains(dependency));
     }
 
     @Test
-    public void mergeDescription()
-    {
+    public void mergeDescription() {
         Model target = new Model();
-        target.setDescription( "TARGET" );
+        target.setDescription("TARGET");
 
         Model source = new Model();
-        source.setDescription( "SOURCE" );
+        source.setDescription("SOURCE");
 
-        modelMerger.merge( target, source, true, null );
-        assertThat( target.getDescription(), is( "SOURCE" ) );
+        modelMerger.merge(target, source, true, null);
+        assertThat(target.getDescription(), is("SOURCE"));
 
-        target.setDescription( "TARGET" );
-        modelMerger.merge( target, source, false, null );
-        assertThat( target.getDescription(), is( "TARGET" ) );
+        target.setDescription("TARGET");
+        modelMerger.merge(target, source, false, null);
+        assertThat(target.getDescription(), is("TARGET"));
     }
 
     @Test
-    public void mergeSameDevelopers()
-    {
+    public void mergeSameDevelopers() {
         Developer developer = new Developer();
-        developer.setId( "devid" );
+        developer.setId("devid");
 
         Model target = new Model();
-        target.setDevelopers( Arrays.asList( developer ) );
+        target.setDevelopers(Arrays.asList(developer));
 
         Model source = new Model();
-        source.setDevelopers( Arrays.asList( developer ) );
+        source.setDevelopers(Arrays.asList(developer));
 
-        modelMerger.merge( target, source, true, null );
+        modelMerger.merge(target, source, true, null);
 
-        assertThat( target.getDevelopers(), contains( developer ) );
+        assertThat(target.getDevelopers(), contains(developer));
     }
 
     @Test
-    public void mergeSameExcludes()
-    {
+    public void mergeSameExcludes() {
         PatternSet target = new PatternSet();
-        target.setExcludes( Arrays.asList( "first", "second", "third" ) );
+        target.setExcludes(Arrays.asList("first", "second", "third"));
         PatternSet source = new PatternSet();
-        source.setExcludes( Arrays.asList( "first", "second", "third" ) );
+        source.setExcludes(Arrays.asList("first", "second", "third"));
 
-        modelMerger.mergePatternSet_Excludes( target, source, true, null );
+        modelMerger.mergePatternSet_Excludes(target, source, true, null);
 
-        assertThat( target.getExcludes(), contains( "first", "second", "third" ) );
+        assertThat(target.getExcludes(), contains("first", "second", "third"));
     }
 
     @Test
-    public void mergeSameFilters()
-    {
+    public void mergeSameFilters() {
         Build target = new Build();
-        target.setFilters( Arrays.asList( "first", "second", "third" ) );
+        target.setFilters(Arrays.asList("first", "second", "third"));
         Build source = new Build();
-        source.setFilters( Arrays.asList( "first", "second", "third" ) );
+        source.setFilters(Arrays.asList("first", "second", "third"));
 
-        modelMerger.mergeBuild( target, source, true, null );
+        modelMerger.mergeBuild(target, source, true, null);
 
-        assertThat( target.getFilters(), contains( "first", "second", "third" ) );
+        assertThat(target.getFilters(), contains("first", "second", "third"));
     }
 
     @Test
-    public void mergeSameGoals()
-    {
+    public void mergeSameGoals() {
         PluginExecution target = new PluginExecution();
-        target.setGoals( Arrays.asList( "first", "second", "third" ) );
+        target.setGoals(Arrays.asList("first", "second", "third"));
         PluginExecution source = new PluginExecution();
-        source.setGoals( Arrays.asList( "first", "second", "third" ) );
+        source.setGoals(Arrays.asList("first", "second", "third"));
 
-        modelMerger.mergePluginExecution( target, source, true, null );
+        modelMerger.mergePluginExecution(target, source, true, null);
 
-        assertThat( target.getGoals(), contains( "first", "second", "third" ) );
+        assertThat(target.getGoals(), contains("first", "second", "third"));
     }
 
     @Test
-    public void mergeGroupId()
-    {
+    public void mergeGroupId() {
         Model target = new Model();
-        target.setGroupId( "TARGET" );
+        target.setGroupId("TARGET");
 
         Model source = new Model();
-        source.setGroupId( "SOURCE" );
+        source.setGroupId("SOURCE");
 
-        modelMerger.merge( target, source, true, null );
-        assertThat( target.getGroupId(), is( "SOURCE" ) );
+        modelMerger.merge(target, source, true, null);
+        assertThat(target.getGroupId(), is("SOURCE"));
 
-        target.setGroupId( "TARGET" );
-        modelMerger.merge( target, source, false, null );
-        assertThat( target.getGroupId(), is( "TARGET" ) );
+        target.setGroupId("TARGET");
+        modelMerger.merge(target, source, false, null);
+        assertThat(target.getGroupId(), is("TARGET"));
     }
 
     @Test
-    public void mergeInceptionYear()
-    {
+    public void mergeInceptionYear() {
         Model target = new Model();
-        target.setInceptionYear( "TARGET" );
+        target.setInceptionYear("TARGET");
 
         Model source = new Model();
-        source.setInceptionYear( "SOURCE" );
+        source.setInceptionYear("SOURCE");
 
-        modelMerger.merge( target, source, true, null );
-        assertThat( target.getInceptionYear(), is( "SOURCE" ) );
+        modelMerger.merge(target, source, true, null);
+        assertThat(target.getInceptionYear(), is("SOURCE"));
 
-        target.setInceptionYear( "TARGET" );
-        modelMerger.merge( target, source, false, null );
-        assertThat( target.getInceptionYear(), is( "TARGET" ) );
+        target.setInceptionYear("TARGET");
+        modelMerger.merge(target, source, false, null);
+        assertThat(target.getInceptionYear(), is("TARGET"));
     }
 
     @Test
-    public void mergeSameIncludes()
-    {
+    public void mergeSameIncludes() {
         PatternSet target = new PatternSet();
-        target.setIncludes( Arrays.asList( "first", "second", "third" ) );
+        target.setIncludes(Arrays.asList("first", "second", "third"));
         PatternSet source = new PatternSet();
-        source.setIncludes( Arrays.asList( "first", "second", "third" ) );
+        source.setIncludes(Arrays.asList("first", "second", "third"));
 
-        modelMerger.mergePatternSet_Includes( target, source, true, null );
+        modelMerger.mergePatternSet_Includes(target, source, true, null);
 
-        assertThat( target.getIncludes(), contains( "first", "second", "third" ) );
+        assertThat(target.getIncludes(), contains("first", "second", "third"));
     }
 
     @Test
-    public void mergeSameMailingLists()
-    {
+    public void mergeSameMailingLists() {
         MailingList mailingList = new MailingList();
-        mailingList.setName( "name" );
+        mailingList.setName("name");
 
         Model target = new Model();
-        target.setMailingLists( Arrays.asList( mailingList ) );
+        target.setMailingLists(Arrays.asList(mailingList));
 
         Model source = new Model();
-        source.setMailingLists( Arrays.asList( mailingList ) );
+        source.setMailingLists(Arrays.asList(mailingList));
 
-        modelMerger.merge( target, source, true, null );
+        modelMerger.merge(target, source, true, null);
 
-        assertThat( target.getMailingLists(), contains( mailingList ) );
+        assertThat(target.getMailingLists(), contains(mailingList));
     }
 
     @Test
-    public void mergeModelVersion()
-    {
+    public void mergeModelVersion() {
         Model target = new Model();
-        target.setModelVersion( "TARGET" );
+        target.setModelVersion("TARGET");
 
         Model source = new Model();
-        source.setModelVersion( "SOURCE" );
+        source.setModelVersion("SOURCE");
 
-        modelMerger.merge( target, source, true, null );
-        assertThat( target.getModelVersion(), is( "SOURCE" ) );
+        modelMerger.merge(target, source, true, null);
+        assertThat(target.getModelVersion(), is("SOURCE"));
 
-        target.setModelVersion( "TARGET" );;
-        modelMerger.merge( target, source, false, null );
-        assertThat( target.getModelVersion(), is( "TARGET" ) );
+        target.setModelVersion("TARGET");
+        ;
+        modelMerger.merge(target, source, false, null);
+        assertThat(target.getModelVersion(), is("TARGET"));
     }
 
     @Test
-    public void mergeSameModules()
-    {
+    public void mergeSameModules() {
         Model target = new Model();
-        target.setModules( Arrays.asList( "first", "second", "third" ) );
+        target.setModules(Arrays.asList("first", "second", "third"));
         Model source = new Model();
-        source.setModules( Arrays.asList( "first", "second", "third" ) );
+        source.setModules(Arrays.asList("first", "second", "third"));
 
-        modelMerger.merge( target, source, true, null );
+        modelMerger.merge(target, source, true, null);
 
-        assertThat( target.getModules(), contains( "first", "second", "third" ) );
+        assertThat(target.getModules(), contains("first", "second", "third"));
     }
 
     @Test
-    public void mergeName()
-    {
+    public void mergeName() {
         Model target = new Model();
-        target.setName( "TARGET" );
+        target.setName("TARGET");
 
         Model source = new Model();
-        source.setName( "SOURCE" );
+        source.setName("SOURCE");
 
-        modelMerger.merge( target, source, true, null );
-        assertThat( target.getName(), is( "SOURCE" ) );
+        modelMerger.merge(target, source, true, null);
+        assertThat(target.getName(), is("SOURCE"));
 
-        target.setName( "TARGET" );;
-        modelMerger.merge( target, source, false, null );
-        assertThat( target.getName(), is( "TARGET" ) );
+        target.setName("TARGET");
+        ;
+        modelMerger.merge(target, source, false, null);
+        assertThat(target.getName(), is("TARGET"));
     }
 
     @Test
-    public void mergeSameOtherArchives()
-    {
+    public void mergeSameOtherArchives() {
         MailingList target = new MailingList();
-        target.setOtherArchives( Arrays.asList( "first", "second", "third" ) );
+        target.setOtherArchives(Arrays.asList("first", "second", "third"));
         MailingList source = new MailingList();
-        source.setOtherArchives( Arrays.asList( "first", "second", "third" ) );
+        source.setOtherArchives(Arrays.asList("first", "second", "third"));
 
-        modelMerger.mergeMailingList( target, source, true, null );
+        modelMerger.mergeMailingList(target, source, true, null);
 
-        assertThat( target.getOtherArchives(), contains( "first", "second", "third" ) );
+        assertThat(target.getOtherArchives(), contains("first", "second", "third"));
     }
 
     @Test
-    public void mergePackaging()
-    {
+    public void mergePackaging() {
         Model target = new Model();
-        target.setPackaging( "TARGET" );
+        target.setPackaging("TARGET");
 
         Model source = new Model();
-        source.setPackaging( "SOURCE" );
+        source.setPackaging("SOURCE");
 
-        modelMerger.merge( target, source, true, null );
-        assertThat( target.getPackaging(), is( "SOURCE" ) );
+        modelMerger.merge(target, source, true, null);
+        assertThat(target.getPackaging(), is("SOURCE"));
 
-        target.setPackaging( "TARGET" );;
-        modelMerger.merge( target, source, false, null );
-        assertThat( target.getPackaging(), is( "TARGET" ) );
+        target.setPackaging("TARGET");
+        ;
+        modelMerger.merge(target, source, false, null);
+        assertThat(target.getPackaging(), is("TARGET"));
     }
 
     @Test
-    public void mergeSamePluginRepositories()
-    {
+    public void mergeSamePluginRepositories() {
         Repository repository = new Repository();
-        repository.setId( "repository" );
+        repository.setId("repository");
 
         Model target = new Model();
-        target.setPluginRepositories( Arrays.asList( repository ) );
+        target.setPluginRepositories(Arrays.asList(repository));
 
         Model source = new Model();
-        source.setPluginRepositories( Arrays.asList( repository ) );
+        source.setPluginRepositories(Arrays.asList(repository));
 
-        modelMerger.merge( target, source, true, null );
+        modelMerger.merge(target, source, true, null);
 
-        assertThat( target.getPluginRepositories(), contains( repository ) );
+        assertThat(target.getPluginRepositories(), contains(repository));
     }
 
     @Test
-    public void mergeSameProfiles()
-    {
+    public void mergeSameProfiles() {
         Profile profile = new Profile();
-        profile.setId( "profile" );
+        profile.setId("profile");
 
         Model target = new Model();
-        target.setProfiles( Arrays.asList( profile ) );
+        target.setProfiles(Arrays.asList(profile));
 
         Model source = new Model();
-        source.setProfiles( Arrays.asList( profile ) );
+        source.setProfiles(Arrays.asList(profile));
 
-        modelMerger.merge( target, source, true, null );
+        modelMerger.merge(target, source, true, null);
 
-        assertThat( target.getProfiles(), contains( profile ) );
+        assertThat(target.getProfiles(), contains(profile));
     }
 
     @Test
-    public void mergeSameReports()
-    {
+    public void mergeSameReports() {
         ReportSet target = new ReportSet();
-        target.setReports( Arrays.asList( "first", "second", "third" ) );
+        target.setReports(Arrays.asList("first", "second", "third"));
         ReportSet source = new ReportSet();
-        source.setReports( Arrays.asList( "first", "second", "third" ) );
+        source.setReports(Arrays.asList("first", "second", "third"));
 
-        modelMerger.mergeReportSet( target, source, true, null );
+        modelMerger.mergeReportSet(target, source, true, null);
 
-        assertThat( target.getReports(), contains( "first", "second", "third" ) );
+        assertThat(target.getReports(), contains("first", "second", "third"));
     }
 
     @Test
-    public void mergeSameRepositories()
-    {
+    public void mergeSameRepositories() {
         Repository repository = new Repository();
-        repository.setId( "repository" );
+        repository.setId("repository");
 
         Model target = new Model();
-        target.setRepositories( Arrays.asList( repository ) );
+        target.setRepositories(Arrays.asList(repository));
 
         Model source = new Model();
-        source.setRepositories( Arrays.asList( repository ) );
+        source.setRepositories(Arrays.asList(repository));
 
-        modelMerger.merge( target, source, true, null );
+        modelMerger.merge(target, source, true, null);
 
-        assertThat( target.getRepositories(), contains( repository ) );
+        assertThat(target.getRepositories(), contains(repository));
     }
 
     @Test
-    public void mergeSameRoles()
-    {
+    public void mergeSameRoles() {
         Contributor target = new Contributor();
-        target.setRoles( Arrays.asList( "first", "second", "third" ) );
+        target.setRoles(Arrays.asList("first", "second", "third"));
         Contributor source = new Contributor();
-        source.setRoles( Arrays.asList( "first", "second", "third" ) );
+        source.setRoles(Arrays.asList("first", "second", "third"));
 
-        modelMerger.mergeContributor_Roles( target, source, true, null );
+        modelMerger.mergeContributor_Roles(target, source, true, null);
 
-        assertThat( target.getRoles(), contains( "first", "second", "third" ) );
+        assertThat(target.getRoles(), contains("first", "second", "third"));
     }
 
     @Test
-    public void mergeUrl()
-    {
+    public void mergeUrl() {
         Model target = new Model();
-        target.setUrl( "TARGET" );;
+        target.setUrl("TARGET");
+        ;
 
         Model source = new Model();
-        source.setUrl( "SOURCE" );
+        source.setUrl("SOURCE");
 
-        modelMerger.merge( target, source, true, null );
-        assertThat( target.getUrl(), is( "SOURCE" ) );
+        modelMerger.merge(target, source, true, null);
+        assertThat(target.getUrl(), is("SOURCE"));
 
-        target.setUrl( "TARGET" );;
-        modelMerger.merge( target, source, false, null );
-        assertThat( target.getUrl(), is( "TARGET" ) );
+        target.setUrl("TARGET");
+        ;
+        modelMerger.merge(target, source, false, null);
+        assertThat(target.getUrl(), is("TARGET"));
     }
 
     @Test
-    public void mergeVersion()
-    {
+    public void mergeVersion() {
         Model target = new Model();
-        target.setVersion( "TARGET" );;
+        target.setVersion("TARGET");
+        ;
 
         Model source = new Model();
-        source.setVersion( "SOURCE" );
+        source.setVersion("SOURCE");
 
-        modelMerger.merge( target, source, true, null );
-        assertThat( target.getVersion(), is( "SOURCE" ) );
+        modelMerger.merge(target, source, true, null);
+        assertThat(target.getVersion(), is("SOURCE"));
 
-        target.setVersion( "TARGET" );;
-        modelMerger.merge( target, source, false, null );
-        assertThat( target.getVersion(), is( "TARGET" ) );
+        target.setVersion("TARGET");
+        ;
+        modelMerger.merge(target, source, false, null);
+        assertThat(target.getVersion(), is("TARGET"));
     }
 
 }

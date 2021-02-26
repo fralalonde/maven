@@ -23,17 +23,14 @@ package org.apache.maven;
  * A special throwable used to signal a graceful abort of the build.
  */
 public class BuildAbort
-    extends Error
-{
+        extends Error {
 
-    public BuildAbort( String message )
-    {
-        super( message );
+    public BuildAbort(String message) {
+        super(message);
     }
 
-    public BuildAbort( String message, Throwable cause )
-    {
-        super( message, cause );
+    public BuildAbort(String message, Throwable cause) {
+        super(message, cause);
     }
 
 }

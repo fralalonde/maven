@@ -47,8 +47,7 @@ import static org.apache.maven.test.PlexusExtension.getBasedir;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @PlexusTest
-public class PomConstructionWithSettingsTest
-{
+public class PomConstructionWithSettingsTest {
     private static final String BASE_DIR = "src/test";
 
     private static final String BASE_POM_DIR = BASE_DIR + "/resources-settings";
@@ -63,17 +62,15 @@ public class PomConstructionWithSettingsTest
 
     @BeforeEach
     public void setUp()
-        throws Exception
-    {
-        testDirectory = new File( getBasedir(), BASE_POM_DIR );
+            throws Exception {
+        testDirectory = new File(getBasedir(), BASE_POM_DIR);
     }
 
     @Test
     public void testSettingsNoPom()
-        throws Exception
-    {
-        PomTestWrapper pom = buildPom( "settings-no-pom" );
-        assertEquals( "local-profile-prop-value", pom.getValue( "properties/local-profile-prop" ) );
+            throws Exception {
+        PomTestWrapper pom = buildPom("settings-no-pom");
+        assertEquals("local-profile-prop-value", pom.getValue("properties/local-profile-prop"));
     }
 
     /**
@@ -81,13 +78,12 @@ public class PomConstructionWithSettingsTest
      */
     @Test
     public void testPomAndSettingsInterpolation()
-        throws Exception
-    {
-        PomTestWrapper pom = buildPom( "test-pom-and-settings-interpolation" );
-        assertEquals( "applied", pom.getValue( "properties/settingsProfile" ) );
-        assertEquals( "applied", pom.getValue( "properties/pomProfile" ) );
-        assertEquals( "settings", pom.getValue( "properties/pomVsSettings" ) );
-        assertEquals( "settings", pom.getValue( "properties/pomVsSettingsInterpolated" ) );
+            throws Exception {
+        PomTestWrapper pom = buildPom("test-pom-and-settings-interpolation");
+        assertEquals("applied", pom.getValue("properties/settingsProfile"));
+        assertEquals("applied", pom.getValue("properties/pomProfile"));
+        assertEquals("settings", pom.getValue("properties/pomVsSettings"));
+        assertEquals("settings", pom.getValue("properties/pomVsSettingsInterpolated"));
     }
 
     /**
@@ -95,54 +91,49 @@ public class PomConstructionWithSettingsTest
      */
     @Test
     public void testRepositories()
-        throws Exception
-    {
-        PomTestWrapper pom = buildPom( "repositories" );
-        assertEquals( "maven-core-it-0", pom.getValue( "repositories[1]/id" ) );
+            throws Exception {
+        PomTestWrapper pom = buildPom("repositories");
+        assertEquals("maven-core-it-0", pom.getValue("repositories[1]/id"));
     }
 
-    private PomTestWrapper buildPom( String pomPath )
-        throws Exception
-    {
-        File pomFile = new File( testDirectory + File.separator + pomPath, "pom.xml" );
-        File settingsFile = new File( testDirectory + File.separator + pomPath, "settings.xml" );
-        Settings settings = readSettingsFile( settingsFile );
+    private PomTestWrapper buildPom(String pomPath)
+            throws Exception {
+        File pomFile = new File(testDirectory + File.separator + pomPath, "pom.xml");
+        File settingsFile = new File(testDirectory + File.separator + pomPath, "settings.xml");
+        Settings settings = readSettingsFile(settingsFile);
 
         ProjectBuildingRequest config = new DefaultProjectBuildingRequest();
 
-        for ( org.apache.maven.settings.Profile rawProfile : settings.getProfiles() )
-        {
-            Profile profile = SettingsUtils.convertFromSettingsProfile( rawProfile );
-            config.addProfile( profile );
+        for (org.apache.maven.settings.Profile rawProfile : settings.getProfiles()) {
+            Profile profile = SettingsUtils.convertFromSettingsProfile(rawProfile);
+            config.addProfile(profile);
         }
 
-        String localRepoUrl =
-            System.getProperty( "maven.repo.local", System.getProperty( "user.home" ) + "/.m2/repository" );
+        String localRepoUrl = System.getProperty("maven.repo.local",
+                System.getProperty("user.home") + "/.m2/repository");
         localRepoUrl = "file://" + localRepoUrl;
         config.setLocalRepository(
-            repositorySystem.createArtifactRepository( "local", localRepoUrl, new DefaultRepositoryLayout(), null,
-                                                       null ) );
-        config.setActiveProfileIds( settings.getActiveProfiles() );
+                repositorySystem.createArtifactRepository("local", localRepoUrl, new DefaultRepositoryLayout(), null,
+                        null));
+        config.setActiveProfileIds(settings.getActiveProfiles());
 
         DefaultRepositorySystemSession repoSession = MavenRepositorySystemUtils.newSession();
-        LocalRepository localRepo = new LocalRepository( config.getLocalRepository().getBasedir() );
+        LocalRepository localRepo = new LocalRepository(config.getLocalRepository().getBasedir());
         repoSession.setLocalRepositoryManager(
-            new SimpleLocalRepositoryManagerFactory().newInstance( repoSession, localRepo ) );
-        config.setRepositorySession( repoSession );
+                new SimpleLocalRepositoryManagerFactory().newInstance(repoSession, localRepo));
+        config.setRepositorySession(repoSession);
 
-        return new PomTestWrapper( pomFile, projectBuilder.build( pomFile, config ).getProject() );
+        return new PomTestWrapper(pomFile, projectBuilder.build(pomFile, config).getProject());
     }
 
-    private static Settings readSettingsFile( File settingsFile )
-        throws IOException, XmlPullParserException
-    {
+    private static Settings readSettingsFile(File settingsFile)
+            throws IOException, XmlPullParserException {
         Settings settings = null;
 
-        try ( Reader reader = ReaderFactory.newXmlReader( settingsFile ) )
-        {
+        try (Reader reader = ReaderFactory.newXmlReader(settingsFile)) {
             SettingsXpp3Reader modelReader = new SettingsXpp3Reader();
 
-            settings = modelReader.read( reader );
+            settings = modelReader.read(reader);
         }
         return settings;
     }

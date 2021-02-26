@@ -22,37 +22,39 @@ package org.apache.maven.toolchain;
 import org.apache.maven.execution.MavenSession;
 
 /**
- * Component for use by the <code>maven-toolchains-plugin</code> only.
- * It provides API: <ol>
+ * Component for use by the <code>maven-toolchains-plugin</code> only. It
+ * provides API:
+ * <ol>
  * <li>to retrieve every toolchains available in user settings,</li>
- * <li>to store chosen toolchain into build context for later use by toolchain-aware plugins.</li>
+ * <li>to store chosen toolchain into build context for later use by
+ * toolchain-aware plugins.</li>
  * </ol>
  *
  * @author mkleint
  * @since 2.0.9
  * @see ToolchainManager#getToolchainFromBuildContext(String, MavenSession)
  */
-public interface ToolchainManagerPrivate
-{
+public interface ToolchainManagerPrivate {
 
     /**
      * Retrieves every toolchains of given type available in user settings.
      *
-     * @param type the type, must not be {@code null}
+     * @param type    the type, must not be {@code null}
      * @param context the Maven session, must not be {@code null}
      * @since 3.0 (addition of the <code>MavenSession</code> parameter)
      */
-    ToolchainPrivate[] getToolchainsForType( String type, MavenSession context )
-        throws MisconfiguredToolchainException;
+    ToolchainPrivate[] getToolchainsForType(String type, MavenSession context)
+            throws MisconfiguredToolchainException;
 
     /**
-     * Stores the toolchain into build context for later use by toolchain-aware plugins.
+     * Stores the toolchain into build context for later use by toolchain-aware
+     * plugins.
      *
      * @param toolchain the toolchain to store, must not be {@code null}
-     * @param context the Maven session, must not be {@code null}
+     * @param context   the Maven session, must not be {@code null}
      * @since 2.0.9
      * @see ToolchainManager#getToolchainFromBuildContext(String, MavenSession)
      */
-    void storeToolchainToBuildContext( ToolchainPrivate toolchain, MavenSession context );
+    void storeToolchainToBuildContext(ToolchainPrivate toolchain, MavenSession context);
 
 }

@@ -27,29 +27,26 @@ import org.apache.maven.lifecycle.mapping.LifecyclePhase;
 /**
  * Class Lifecycle.
  */
-public class Lifecycle
-{
-    public Lifecycle()
-    {
+public class Lifecycle {
+    public Lifecycle() {
     }
 
-    public Lifecycle( String id, List<String> phases, Map<String, LifecyclePhase> defaultPhases )
-    {
+    public Lifecycle(String id, List<String> phases, Map<String, LifecyclePhase> defaultPhases) {
         this.id = id;
         this.phases = phases;
         this.defaultPhases = defaultPhases;
     }
 
     // <lifecycle>
-    //   <id>clean</id>
-    //   <phases>
-    //     <phase>pre-clean</phase>
-    //     <phase>clean</phase>
-    //     <phase>post-clean</phase>
-    //   </phases>
-    //   <default-phases>
-    //     <clean>org.apache.maven.plugins:maven-clean-plugin:clean</clean>
-    //   </default-phases>
+    // <id>clean</id>
+    // <phases>
+    // <phase>pre-clean</phase>
+    // <phase>clean</phase>
+    // <phase>post-clean</phase>
+    // </phases>
+    // <default-phases>
+    // <clean>org.apache.maven.plugins:maven-clean-plugin:clean</clean>
+    // </default-phases>
     // </lifecycle>
 
     private String id;
@@ -58,30 +55,25 @@ public class Lifecycle
 
     private Map<String, LifecyclePhase> defaultPhases;
 
-    public String getId()
-    {
+    public String getId() {
         return this.id;
     }
 
-    public List<String> getPhases()
-    {
+    public List<String> getPhases() {
         return this.phases;
     }
 
-    public Map<String, LifecyclePhase> getDefaultLifecyclePhases()
-    {
+    public Map<String, LifecyclePhase> getDefaultLifecyclePhases() {
         return defaultPhases;
     }
 
     @Deprecated
-    public Map<String, String> getDefaultPhases()
-    {
-        return LifecyclePhase.toLegacyMap( getDefaultLifecyclePhases() );
+    public Map<String, String> getDefaultPhases() {
+        return LifecyclePhase.toLegacyMap(getDefaultLifecyclePhases());
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return id + " -> " + phases;
     }
 

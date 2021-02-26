@@ -33,69 +33,55 @@ import org.eclipse.aether.RepositorySystemSession;
  * @author Benjamin Bentmann
  */
 public class DefaultModelCache
-    implements ModelCache
-{
+        implements ModelCache {
 
     private static final String KEY = DefaultModelCache.class.getName();
 
     private final Map<Object, Object> cache;
 
-    public static ModelCache newInstance( RepositorySystemSession session )
-    {
+    public static ModelCache newInstance(RepositorySystemSession session) {
         Map<Object, Object> cache;
-        if ( session.getCache() == null )
-        {
+        if (session.getCache() == null) {
             cache = new ConcurrentHashMap<>();
-        }
-        else
-        {
-            cache = ( Map ) session.getCache().get( session, KEY );
-            if ( cache == null )
-            {
+        } else {
+            cache = (Map) session.getCache().get(session, KEY);
+            if (cache == null) {
                 cache = new ConcurrentHashMap<>();
-                session.getCache().put( session, KEY, cache );
+                session.getCache().put(session, KEY, cache);
             }
         }
-        return new DefaultModelCache( cache );
+        return new DefaultModelCache(cache);
     }
 
-    private DefaultModelCache( Map<Object, Object> cache )
-    {
+    private DefaultModelCache(Map<Object, Object> cache) {
         this.cache = cache;
     }
 
-    public Object get( Source path, String tag )
-    {
-        return get( new SourceCacheKey( path, tag ) );
+    public Object get(Source path, String tag) {
+        return get(new SourceCacheKey(path, tag));
     }
 
-    public void put( Source path, String tag, Object data )
-    {
-        put( new SourceCacheKey( path, tag ), data );
+    public void put(Source path, String tag, Object data) {
+        put(new SourceCacheKey(path, tag), data);
     }
 
-    public Object get( String groupId, String artifactId, String version, String tag )
-    {
-        return get( new GavCacheKey( groupId, artifactId, version, tag ) );
+    public Object get(String groupId, String artifactId, String version, String tag) {
+        return get(new GavCacheKey(groupId, artifactId, version, tag));
     }
 
-    public void put( String groupId, String artifactId, String version, String tag, Object data )
-    {
-        put( new GavCacheKey( groupId, artifactId, version, tag ), data );
+    public void put(String groupId, String artifactId, String version, String tag, Object data) {
+        put(new GavCacheKey(groupId, artifactId, version, tag), data);
     }
 
-    protected Object get( Object key )
-    {
-        return cache.get( key );
+    protected Object get(Object key) {
+        return cache.get(key);
     }
 
-    protected void put( Object key, Object data )
-    {
-        cache.put( key, data );
+    protected void put(Object key, Object data) {
+        cache.put(key, data);
     }
 
-    static class GavCacheKey
-    {
+    static class GavCacheKey {
 
         private final String gav;
 
@@ -103,62 +89,51 @@ public class DefaultModelCache
 
         private final int hash;
 
-        GavCacheKey( String groupId, String artifactId, String version, String tag )
-        {
-            this( gav( groupId, artifactId, version ), tag );
+        GavCacheKey(String groupId, String artifactId, String version, String tag) {
+            this(gav(groupId, artifactId, version), tag);
         }
 
-        GavCacheKey( String gav, String tag )
-        {
+        GavCacheKey(String gav, String tag) {
             this.gav = gav;
             this.tag = tag;
-            this.hash = Objects.hash( gav, tag );
+            this.hash = Objects.hash(gav, tag);
         }
 
-        private static String gav( String groupId, String artifactId, String version )
-        {
+        private static String gav(String groupId, String artifactId, String version) {
             StringBuilder sb = new StringBuilder();
-            if ( groupId != null )
-            {
-                sb.append( groupId );
+            if (groupId != null) {
+                sb.append(groupId);
             }
-            sb.append( ":" );
-            if ( artifactId != null )
-            {
-                sb.append( artifactId );
+            sb.append(":");
+            if (artifactId != null) {
+                sb.append(artifactId);
             }
-            sb.append( ":" );
-            if ( version != null )
-            {
-                sb.append( version );
+            sb.append(":");
+            if (version != null) {
+                sb.append(version);
             }
             return sb.toString();
         }
 
         @Override
-        public boolean equals( Object obj )
-        {
-            if ( this == obj )
-            {
+        public boolean equals(Object obj) {
+            if (this == obj) {
                 return true;
             }
-            if ( null == obj || !getClass().equals( obj.getClass() ) )
-            {
+            if (null == obj || !getClass().equals(obj.getClass())) {
                 return false;
             }
             GavCacheKey that = (GavCacheKey) obj;
-            return Objects.equals( this.gav, that.gav ) && Objects.equals( this.tag, that.tag );
+            return Objects.equals(this.gav, that.gav) && Objects.equals(this.tag, that.tag);
         }
 
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             return hash;
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return "GavCacheKey{"
                     + "gav='" + gav + '\''
                     + ", tag='" + tag + '\''
@@ -166,24 +141,21 @@ public class DefaultModelCache
         }
     }
 
-    private static final class SourceCacheKey
-    {
+    private static final class SourceCacheKey {
         private final Source source;
 
         private final String tag;
 
         private final int hash;
 
-        SourceCacheKey( Source source, String tag )
-        {
+        SourceCacheKey(Source source, String tag) {
             this.source = source;
             this.tag = tag;
-            this.hash = Objects.hash( source, tag );
+            this.hash = Objects.hash(source, tag);
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return "SourceCacheKey{"
                     + "source=" + source
                     + ", tag='" + tag + '\''
@@ -191,23 +163,19 @@ public class DefaultModelCache
         }
 
         @Override
-        public boolean equals( Object obj )
-        {
-            if ( this == obj )
-            {
+        public boolean equals(Object obj) {
+            if (this == obj) {
                 return true;
             }
-            if ( null == obj || !getClass().equals( obj.getClass() ) )
-            {
+            if (null == obj || !getClass().equals(obj.getClass())) {
                 return false;
             }
             SourceCacheKey that = (SourceCacheKey) obj;
-            return Objects.equals( this.source, that.source ) && Objects.equals( this.tag, that.tag );
+            return Objects.equals(this.source, that.source) && Objects.equals(this.tag, that.tag);
         }
 
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             return hash;
         }
     }

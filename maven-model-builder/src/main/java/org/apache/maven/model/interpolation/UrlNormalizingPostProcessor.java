@@ -31,36 +31,31 @@ import org.codehaus.plexus.interpolation.InterpolationPostProcessor;
  * @author Benjamin Bentmann
  */
 class UrlNormalizingPostProcessor
-    implements InterpolationPostProcessor
-{
+        implements InterpolationPostProcessor {
 
     private static final Set<String> URL_EXPRESSIONS;
 
-    static
-    {
+    static {
         Set<String> expressions = new HashSet<>();
-        expressions.add( "project.url" );
-        expressions.add( "project.scm.url" );
-        expressions.add( "project.scm.connection" );
-        expressions.add( "project.scm.developerConnection" );
-        expressions.add( "project.distributionManagement.site.url" );
+        expressions.add("project.url");
+        expressions.add("project.scm.url");
+        expressions.add("project.scm.connection");
+        expressions.add("project.scm.developerConnection");
+        expressions.add("project.distributionManagement.site.url");
 
         URL_EXPRESSIONS = expressions;
     }
 
     private UrlNormalizer normalizer;
 
-    UrlNormalizingPostProcessor( UrlNormalizer normalizer )
-    {
+    UrlNormalizingPostProcessor(UrlNormalizer normalizer) {
         this.normalizer = normalizer;
     }
 
     @Override
-    public Object execute( String expression, Object value )
-    {
-        if ( value != null && URL_EXPRESSIONS.contains( expression ) )
-        {
-            return normalizer.normalize( value.toString() );
+    public Object execute(String expression, Object value) {
+        if (value != null && URL_EXPRESSIONS.contains(expression)) {
+            return normalizer.normalize(value.toString());
         }
 
         return null;

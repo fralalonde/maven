@@ -25,19 +25,21 @@ import org.apache.maven.toolchain.model.ToolchainModel;
 
 /**
  * a private contract between the toolchains plugin and the components.
+ * 
  * @author mkleint
  */
 public interface ToolchainPrivate
-    extends Toolchain
-{
+        extends Toolchain {
 
     /**
-     * Let the toolchain decide if it matches requirements defined
-     * in the toolchain plugin configuration.
-     * @param requirements Map&lt;String, String&gt; key value pair, may not be {@code null}
+     * Let the toolchain decide if it matches requirements defined in the toolchain
+     * plugin configuration.
+     * 
+     * @param requirements Map&lt;String, String&gt; key value pair, may not be
+     *                     {@code null}
      * @return {@code true} if the requirements match, otherwise {@code false}
      */
-    boolean matchesRequirements( Map<String, String> requirements );
+    boolean matchesRequirements(Map<String, String> requirements);
 
     /**
      *

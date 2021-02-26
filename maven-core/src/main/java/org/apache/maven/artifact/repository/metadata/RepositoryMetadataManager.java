@@ -28,19 +28,18 @@ import org.apache.maven.artifact.repository.RepositoryRequest;
 /**
  * RepositoryMetadataManager
  */
-public interface RepositoryMetadataManager
-{
+public interface RepositoryMetadataManager {
 
-    void resolve( RepositoryMetadata repositoryMetadata, RepositoryRequest repositoryRequest )
-        throws RepositoryMetadataResolutionException;
+    void resolve(RepositoryMetadata repositoryMetadata, RepositoryRequest repositoryRequest)
+            throws RepositoryMetadataResolutionException;
 
-    void resolve( RepositoryMetadata repositoryMetadata, List<ArtifactRepository> repositories,
-                  ArtifactRepository localRepository )
-        throws RepositoryMetadataResolutionException;
+    void resolve(RepositoryMetadata repositoryMetadata, List<ArtifactRepository> repositories,
+            ArtifactRepository localRepository)
+            throws RepositoryMetadataResolutionException;
 
-    void resolveAlways( RepositoryMetadata metadata, ArtifactRepository localRepository,
-                        ArtifactRepository remoteRepository )
-        throws RepositoryMetadataResolutionException;
+    void resolveAlways(RepositoryMetadata metadata, ArtifactRepository localRepository,
+            ArtifactRepository remoteRepository)
+            throws RepositoryMetadataResolutionException;
 
     /**
      * Deploy metadata to the remote repository.
@@ -49,9 +48,9 @@ public interface RepositoryMetadataManager
      * @param localRepository      the local repository to install to first
      * @param deploymentRepository the remote repository to deploy to
      */
-    void deploy( ArtifactMetadata metadata, ArtifactRepository localRepository,
-                 ArtifactRepository deploymentRepository )
-        throws RepositoryMetadataDeploymentException;
+    void deploy(ArtifactMetadata metadata, ArtifactRepository localRepository,
+            ArtifactRepository deploymentRepository)
+            throws RepositoryMetadataDeploymentException;
 
     /**
      * Install the metadata in the local repository.
@@ -59,6 +58,6 @@ public interface RepositoryMetadataManager
      * @param metadata        the metadata
      * @param localRepository the local repository
      */
-    void install( ArtifactMetadata metadata, ArtifactRepository localRepository )
-        throws RepositoryMetadataInstallationException;
+    void install(ArtifactMetadata metadata, ArtifactRepository localRepository)
+            throws RepositoryMetadataInstallationException;
 }

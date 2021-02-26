@@ -34,33 +34,28 @@ import com.google.inject.AbstractModule;
  */
 @Named
 public class SessionScopeModule
-    extends AbstractModule
-{
+        extends AbstractModule {
     private final SessionScope scope;
 
     @Inject
-    public SessionScopeModule()
-    {
-        this( new SessionScope() );
+    public SessionScopeModule() {
+        this(new SessionScope());
     }
 
-    public SessionScopeModule( PlexusContainer container )
-        throws ComponentLookupException
-    {
-        this( container.lookup( SessionScope.class ) );
+    public SessionScopeModule(PlexusContainer container)
+            throws ComponentLookupException {
+        this(container.lookup(SessionScope.class));
     }
 
-    private SessionScopeModule( SessionScope scope )
-    {
+    private SessionScopeModule(SessionScope scope) {
         this.scope = scope;
     }
 
     @Override
-    protected void configure()
-    {
-        bindScope( SessionScoped.class, scope );
-        bind( SessionScope.class ).toInstance( scope );
+    protected void configure() {
+        bindScope(SessionScoped.class, scope);
+        bind(SessionScope.class).toInstance(scope);
 
-        bind( MavenSession.class ).toProvider( SessionScope.<MavenSession>seededKeyProvider() ).in( scope );
+        bind(MavenSession.class).toProvider(SessionScope.<MavenSession>seededKeyProvider()).in(scope);
     }
 }

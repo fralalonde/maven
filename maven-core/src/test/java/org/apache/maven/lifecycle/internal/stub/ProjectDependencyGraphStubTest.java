@@ -29,39 +29,34 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Kristian Rosenvold
  */
 
-public class ProjectDependencyGraphStubTest
-{
+public class ProjectDependencyGraphStubTest {
     ProjectDependencyGraphStub stub = new ProjectDependencyGraphStub();
 
     @Test
-    public void testADependencies()
-    {
-        final List<MavenProject> mavenProjects = stub.getUpstreamProjects( ProjectDependencyGraphStub.A, false );
-        assertEquals( 0, mavenProjects.size() );
+    public void testADependencies() {
+        final List<MavenProject> mavenProjects = stub.getUpstreamProjects(ProjectDependencyGraphStub.A, false);
+        assertEquals(0, mavenProjects.size());
     }
 
     @Test
-    public void testBDepenencies()
-    {
-        final List<MavenProject> bProjects = stub.getUpstreamProjects( ProjectDependencyGraphStub.B, false );
-        assertEquals( 1, bProjects.size() );
-        assertTrue( bProjects.contains( ProjectDependencyGraphStub.A ) );
+    public void testBDepenencies() {
+        final List<MavenProject> bProjects = stub.getUpstreamProjects(ProjectDependencyGraphStub.B, false);
+        assertEquals(1, bProjects.size());
+        assertTrue(bProjects.contains(ProjectDependencyGraphStub.A));
     }
 
     @Test
-    public void testCDepenencies()
-    {
-        final List<MavenProject> cProjects = stub.getUpstreamProjects( ProjectDependencyGraphStub.C, false );
-        assertEquals( 1, cProjects.size() );
-        assertTrue( cProjects.contains( ProjectDependencyGraphStub.A ) );
+    public void testCDepenencies() {
+        final List<MavenProject> cProjects = stub.getUpstreamProjects(ProjectDependencyGraphStub.C, false);
+        assertEquals(1, cProjects.size());
+        assertTrue(cProjects.contains(ProjectDependencyGraphStub.A));
     }
 
     @Test
-    public void testXDepenencies()
-    {
-        final List<MavenProject> cProjects = stub.getUpstreamProjects( ProjectDependencyGraphStub.X, false );
-        assertEquals( 2, cProjects.size() );
-        assertTrue( cProjects.contains( ProjectDependencyGraphStub.C ) );
-        assertTrue( cProjects.contains( ProjectDependencyGraphStub.B ) );
+    public void testXDepenencies() {
+        final List<MavenProject> cProjects = stub.getUpstreamProjects(ProjectDependencyGraphStub.X, false);
+        assertEquals(2, cProjects.size());
+        assertTrue(cProjects.contains(ProjectDependencyGraphStub.C));
+        assertTrue(cProjects.contains(ProjectDependencyGraphStub.B));
     }
 }

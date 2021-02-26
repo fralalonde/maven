@@ -26,18 +26,18 @@ import java.io.File;
  *
  * @author Jason van Zyl
  */
-public interface PathTranslator
-{
+public interface PathTranslator {
 
     /**
-     * Resolves the specified path against the given base directory. The resolved path will be absolute and uses the
-     * platform-specific file separator if a base directory is given. Otherwise, the input path will be returned
-     * unaltered.
+     * Resolves the specified path against the given base directory. The resolved
+     * path will be absolute and uses the platform-specific file separator if a base
+     * directory is given. Otherwise, the input path will be returned unaltered.
      *
-     * @param path The path to resolve, may be {@code null}.
-     * @param basedir The base directory to resolve relative paths against, may be {@code null}.
+     * @param path    The path to resolve, may be {@code null}.
+     * @param basedir The base directory to resolve relative paths against, may be
+     *                {@code null}.
      * @return The resolved path or {@code null} if the input path was {@code null}.
      */
-    String alignToBaseDirectory( String path, File basedir );
+    String alignToBaseDirectory(String path, File basedir);
 
 }

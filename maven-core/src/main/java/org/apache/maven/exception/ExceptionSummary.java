@@ -23,17 +23,18 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Provide a summary of the exception, containing:<ul>
+ * Provide a summary of the exception, containing:
+ * <ul>
  * <li>the exception itself,</li>
  * <li>useful end-user message,</li>
- * <li>useful reference to a solution, or set of solutions: this is usually a wiki page url in
- * <a href="http://cwiki.apache.org/confluence/display/MAVEN/">http://cwiki.apache.org/confluence/display/MAVEN/</a>,
+ * <li>useful reference to a solution, or set of solutions: this is usually a
+ * wiki page url in <a href=
+ * "http://cwiki.apache.org/confluence/display/MAVEN/">http://cwiki.apache.org/confluence/display/MAVEN/</a>,
  * </li>
  * <li>child exception summaries.</li>
  * </ul>
  */
-public class ExceptionSummary
-{
+public class ExceptionSummary {
 
     private Throwable exception;
 
@@ -43,39 +44,33 @@ public class ExceptionSummary
 
     private List<ExceptionSummary> children;
 
-    public ExceptionSummary( Throwable exception, String message, String reference )
-    {
-        this( exception, message, reference, null );
+    public ExceptionSummary(Throwable exception, String message, String reference) {
+        this(exception, message, reference, null);
     }
 
-    public ExceptionSummary( Throwable exception, String message, String reference, List<ExceptionSummary> children )
-    {
+    public ExceptionSummary(Throwable exception, String message, String reference, List<ExceptionSummary> children) {
         this.exception = exception;
-        this.message = ( message != null ) ? message : "";
-        this.reference = ( reference != null ) ? reference : "";
-        this.children = ( children != null )
-                            ? Collections.unmodifiableList( children )
-                            : Collections.<ExceptionSummary>emptyList();
+        this.message = (message != null) ? message : "";
+        this.reference = (reference != null) ? reference : "";
+        this.children = (children != null)
+                ? Collections.unmodifiableList(children)
+                : Collections.<ExceptionSummary>emptyList();
 
     }
 
-    public Throwable getException()
-    {
+    public Throwable getException() {
         return exception;
     }
 
-    public String getMessage()
-    {
+    public String getMessage() {
         return message;
     }
 
-    public String getReference()
-    {
+    public String getReference() {
         return reference;
     }
 
-    public List<ExceptionSummary> getChildren()
-    {
+    public List<ExceptionSummary> getChildren() {
         return children;
     }
 

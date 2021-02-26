@@ -41,7 +41,8 @@ import org.apache.maven.session.scope.internal.SessionScope;
  * <p>
  * Builds one or more lifecycles for a full module
  * </p>
- * <strong>NOTE:</strong> This class is not part of any public api and can be changed or deleted without prior notice.
+ * <strong>NOTE:</strong> This class is not part of any public api and can be
+ * changed or deleted without prior notice.
  *
  * @since 3.0
  * @author Benjamin Bentmann
@@ -50,8 +51,7 @@ import org.apache.maven.session.scope.internal.SessionScope;
  */
 @Named
 @Singleton
-public class LifecycleModuleBuilder
-{
+public class LifecycleModuleBuilder {
 
     @Inject
     private MojoExecutor mojoExecutor;
@@ -68,86 +68,75 @@ public class LifecycleModuleBuilder
     private SessionScope sessionScope;
 
     @Inject
-    public void setProjectExecutionListeners( final List<ProjectExecutionListener> listeners )
-    {
-        this.projectExecutionListener = new CompoundProjectExecutionListener( listeners );
+    public void setProjectExecutionListeners(final List<ProjectExecutionListener> listeners) {
+        this.projectExecutionListener = new CompoundProjectExecutionListener(listeners);
     }
 
-    public void buildProject( MavenSession session, ReactorContext reactorContext, MavenProject currentProject,
-                              TaskSegment taskSegment )
-    {
-        buildProject( session, session, reactorContext, currentProject, taskSegment );
+    public void buildProject(MavenSession session, ReactorContext reactorContext, MavenProject currentProject,
+            TaskSegment taskSegment) {
+        buildProject(session, session, reactorContext, currentProject, taskSegment);
     }
 
-    public void buildProject( MavenSession session, MavenSession rootSession, ReactorContext reactorContext,
-                              MavenProject currentProject, TaskSegment taskSegment )
-    {
-        session.setCurrentProject( currentProject );
+    public void buildProject(MavenSession session, MavenSession rootSession, ReactorContext reactorContext,
+            MavenProject currentProject, TaskSegment taskSegment) {
+        session.setCurrentProject(currentProject);
 
         long buildStartTime = System.currentTimeMillis();
 
         // session may be different from rootSession seeded in DefaultMaven
         // explicitly seed the right session here to make sure it is used by Guice
-        sessionScope.enter( reactorContext.getSessionScopeMemento() );
-        sessionScope.seed( MavenSession.class, session );
-        try
-        {
+        sessionScope.enter(reactorContext.getSessionScopeMemento());
+        sessionScope.seed(MavenSession.class, session);
+        try {
 
-            if ( reactorContext.getReactorBuildStatus().isHaltedOrBlacklisted( currentProject ) )
-            {
-                eventCatapult.fire( ExecutionEvent.Type.ProjectSkipped, session, null );
+            if (reactorContext.getReactorBuildStatus().isHaltedOrBlacklisted(currentProject)) {
+                eventCatapult.fire(ExecutionEvent.Type.ProjectSkipped, session, null);
                 return;
             }
 
-            BuilderCommon.attachToThread( currentProject );
+            BuilderCommon.attachToThread(currentProject);
 
-            projectExecutionListener.beforeProjectExecution( new ProjectExecutionEvent( session, currentProject ) );
+            projectExecutionListener.beforeProjectExecution(new ProjectExecutionEvent(session, currentProject));
 
-            eventCatapult.fire( ExecutionEvent.Type.ProjectStarted, session, null );
+            eventCatapult.fire(ExecutionEvent.Type.ProjectStarted, session, null);
 
-            MavenExecutionPlan executionPlan =
-                builderCommon.resolveBuildPlan( session, currentProject, taskSegment, new HashSet<>() );
+            MavenExecutionPlan executionPlan = builderCommon.resolveBuildPlan(session, currentProject, taskSegment,
+                    new HashSet<>());
             List<MojoExecution> mojoExecutions = executionPlan.getMojoExecutions();
 
-            projectExecutionListener.beforeProjectLifecycleExecution( new ProjectExecutionEvent( session,
-                                                                                                 currentProject,
-                                                                                                 mojoExecutions ) );
-            mojoExecutor.execute( session, mojoExecutions, reactorContext.getProjectIndex() );
+            projectExecutionListener.beforeProjectLifecycleExecution(new ProjectExecutionEvent(session,
+                    currentProject,
+                    mojoExecutions));
+            mojoExecutor.execute(session, mojoExecutions, reactorContext.getProjectIndex());
 
             long buildEndTime = System.currentTimeMillis();
 
-            projectExecutionListener.afterProjectExecutionSuccess( new ProjectExecutionEvent( session, currentProject,
-                                                                                              mojoExecutions ) );
+            projectExecutionListener.afterProjectExecutionSuccess(new ProjectExecutionEvent(session, currentProject,
+                    mojoExecutions));
 
-            reactorContext.getResult().addBuildSummary( new BuildSuccess( currentProject,
-                                                                          buildEndTime - buildStartTime ) );
+            reactorContext.getResult().addBuildSummary(new BuildSuccess(currentProject,
+                    buildEndTime - buildStartTime));
 
-            eventCatapult.fire( ExecutionEvent.Type.ProjectSucceeded, session, null );
-        }
-        catch ( Throwable t )
-        {
-            builderCommon.handleBuildError( reactorContext, rootSession, session, currentProject, t, buildStartTime );
+            eventCatapult.fire(ExecutionEvent.Type.ProjectSucceeded, session, null);
+        } catch (Throwable t) {
+            builderCommon.handleBuildError(reactorContext, rootSession, session, currentProject, t, buildStartTime);
 
-            projectExecutionListener.afterProjectExecutionFailure( new ProjectExecutionEvent( session, currentProject,
-                                                                                              t ) );
+            projectExecutionListener.afterProjectExecutionFailure(new ProjectExecutionEvent(session, currentProject,
+                    t));
 
             // rethrow original errors and runtime exceptions
-            if ( t instanceof RuntimeException )
-            {
+            if (t instanceof RuntimeException) {
                 throw (RuntimeException) t;
             }
-            if ( t instanceof Error )
-            {
+            if (t instanceof Error) {
                 throw (Error) t;
             }
-        }
-        finally
-        {
+        } finally {
             sessionScope.exit();
 
-            session.setCurrentProject( null );
+            session.setCurrentProject(null);
 
-            Thread.currentThread().setContextClassLoader( reactorContext.getOriginalContextClassLoader() );
+            Thread.currentThread().setContextClassLoader(reactorContext.getOriginalContextClassLoader());
         }
     }
 }

@@ -36,104 +36,93 @@ import org.codehaus.plexus.logging.AbstractLogEnabled;
 /**
  * DefaultMavenProjectHelper
  */
-@SuppressWarnings( "deprecation" )
+@SuppressWarnings("deprecation")
 @Named
 @Singleton
 public class DefaultMavenProjectHelper
-    extends AbstractLogEnabled
-    implements MavenProjectHelper
-{
+        extends AbstractLogEnabled
+        implements MavenProjectHelper {
     private final ArtifactHandlerManager artifactHandlerManager;
 
     @Inject
-    public DefaultMavenProjectHelper( ArtifactHandlerManager artifactHandlerManager )
-    {
+    public DefaultMavenProjectHelper(ArtifactHandlerManager artifactHandlerManager) {
         this.artifactHandlerManager = artifactHandlerManager;
     }
 
-    public void attachArtifact( MavenProject project, String artifactType, String artifactClassifier,
-                                File artifactFile )
-    {
+    public void attachArtifact(MavenProject project, String artifactType, String artifactClassifier,
+            File artifactFile) {
         String type = artifactType;
 
         ArtifactHandler handler = null;
 
-        if ( type != null )
-        {
-            handler = artifactHandlerManager.getArtifactHandler( artifactType );
+        if (type != null) {
+            handler = artifactHandlerManager.getArtifactHandler(artifactType);
         }
 
-        if ( handler == null )
-        {
-            handler = artifactHandlerManager.getArtifactHandler( "jar" );
+        if (handler == null) {
+            handler = artifactHandlerManager.getArtifactHandler("jar");
         }
 
-        Artifact artifact = new AttachedArtifact( project.getArtifact(), artifactType, artifactClassifier, handler );
+        Artifact artifact = new AttachedArtifact(project.getArtifact(), artifactType, artifactClassifier, handler);
 
-        artifact.setFile( artifactFile );
-        artifact.setResolved( true );
+        artifact.setFile(artifactFile);
+        artifact.setResolved(true);
 
-        attachArtifact( project, artifact );
+        attachArtifact(project, artifact);
     }
 
-    public void attachArtifact( MavenProject project, String artifactType, File artifactFile )
-    {
-        ArtifactHandler handler = artifactHandlerManager.getArtifactHandler( artifactType );
+    public void attachArtifact(MavenProject project, String artifactType, File artifactFile) {
+        ArtifactHandler handler = artifactHandlerManager.getArtifactHandler(artifactType);
 
-        Artifact artifact = new AttachedArtifact( project.getArtifact(), artifactType, handler );
+        Artifact artifact = new AttachedArtifact(project.getArtifact(), artifactType, handler);
 
-        artifact.setFile( artifactFile );
-        artifact.setResolved( true );
+        artifact.setFile(artifactFile);
+        artifact.setResolved(true);
 
-        attachArtifact( project, artifact );
+        attachArtifact(project, artifact);
     }
 
-    public void attachArtifact( MavenProject project, File artifactFile, String artifactClassifier )
-    {
+    public void attachArtifact(MavenProject project, File artifactFile, String artifactClassifier) {
         Artifact projectArtifact = project.getArtifact();
 
-        Artifact artifact =
-            new AttachedArtifact( projectArtifact, projectArtifact.getType(), artifactClassifier,
-                                  projectArtifact.getArtifactHandler() );
+        Artifact artifact = new AttachedArtifact(projectArtifact, projectArtifact.getType(), artifactClassifier,
+                projectArtifact.getArtifactHandler());
 
-        artifact.setFile( artifactFile );
-        artifact.setResolved( true );
+        artifact.setFile(artifactFile);
+        artifact.setResolved(true);
 
-        attachArtifact( project, artifact );
+        attachArtifact(project, artifact);
     }
 
     /**
      * Add an attached artifact or replace the file for an existing artifact.
      *
      * @see MavenProject#addAttachedArtifact(org.apache.maven.artifact.Artifact)
-     * @param project project reference.
+     * @param project  project reference.
      * @param artifact artifact to add or replace.
      */
-    public void attachArtifact( MavenProject project, Artifact artifact )
-    {
-        project.addAttachedArtifact( artifact );
+    public void attachArtifact(MavenProject project, Artifact artifact) {
+        project.addAttachedArtifact(artifact);
     }
 
-    public void addResource( MavenProject project, String resourceDirectory, List<String> includes,
-                             List<String> excludes )
-    {
+    public void addResource(MavenProject project, String resourceDirectory, List<String> includes,
+            List<String> excludes) {
         Resource resource = new Resource();
-        resource.setDirectory( resourceDirectory );
-        resource.setIncludes( includes );
-        resource.setExcludes( excludes );
+        resource.setDirectory(resourceDirectory);
+        resource.setIncludes(includes);
+        resource.setExcludes(excludes);
 
-        project.addResource( resource );
+        project.addResource(resource);
     }
 
-    public void addTestResource( MavenProject project, String resourceDirectory, List<String> includes,
-                                 List<String> excludes )
-    {
+    public void addTestResource(MavenProject project, String resourceDirectory, List<String> includes,
+            List<String> excludes) {
         Resource resource = new Resource();
-        resource.setDirectory( resourceDirectory );
-        resource.setIncludes( includes );
-        resource.setExcludes( excludes );
+        resource.setDirectory(resourceDirectory);
+        resource.setIncludes(includes);
+        resource.setExcludes(excludes);
 
-        project.addTestResource( resource );
+        project.addTestResource(resource);
     }
 
 }

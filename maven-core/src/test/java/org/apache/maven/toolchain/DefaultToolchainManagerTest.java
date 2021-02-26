@@ -43,9 +43,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-public class DefaultToolchainManagerTest
-{
-     // Mocks to inject into toolchainManager
+public class DefaultToolchainManagerTest {
+    // Mocks to inject into toolchainManager
     @Mock
     private Logger logger;
 
@@ -59,95 +58,90 @@ public class DefaultToolchainManagerTest
     private ToolchainFactory toolchainFactory_rareType;
 
     @BeforeEach
-    public void onSetup() throws Exception
-    {
+    public void onSetup() throws Exception {
         toolchainManager = new DefaultToolchainManager();
 
-        MockitoAnnotations.initMocks( this );
+        MockitoAnnotations.initMocks(this);
 
         toolchainManager.factories = new HashMap<>();
-        toolchainManager.factories.put( "basic", toolchainFactory_basicType );
-        toolchainManager.factories.put( "rare", toolchainFactory_rareType );
+        toolchainManager.factories.put("basic", toolchainFactory_basicType);
+        toolchainManager.factories.put("rare", toolchainFactory_rareType);
     }
 
     @Test
-    public void testNoModels()
-    {
-        MavenSession session = mock( MavenSession.class );
+    public void testNoModels() {
+        MavenSession session = mock(MavenSession.class);
         MavenExecutionRequest executionRequest = new DefaultMavenExecutionRequest();
-        when( session.getRequest() ).thenReturn( executionRequest );
+        when(session.getRequest()).thenReturn(executionRequest);
 
-        List<Toolchain> toolchains = toolchainManager.getToolchains( session, "unknown", null );
+        List<Toolchain> toolchains = toolchainManager.getToolchains(session, "unknown", null);
 
-        assertEquals( 0, toolchains.size() );
+        assertEquals(0, toolchains.size());
     }
 
     @Test
-    public void testModelNoFactory()
-    {
-        MavenSession session = mock( MavenSession.class );
+    public void testModelNoFactory() {
+        MavenSession session = mock(MavenSession.class);
         MavenExecutionRequest executionRequest = new DefaultMavenExecutionRequest();
         Map<String, List<ToolchainModel>> toolchainModels = new HashMap<>();
-        toolchainModels.put( "unknown", Collections.singletonList( new ToolchainModel() ) );
-        executionRequest.setToolchains( toolchainModels );
-        when( session.getRequest() ).thenReturn( executionRequest );
+        toolchainModels.put("unknown", Collections.singletonList(new ToolchainModel()));
+        executionRequest.setToolchains(toolchainModels);
+        when(session.getRequest()).thenReturn(executionRequest);
 
-        List<Toolchain> toolchains = toolchainManager.getToolchains( session, "unknown", null );
+        List<Toolchain> toolchains = toolchainManager.getToolchains(session, "unknown", null);
 
-        assertEquals( 0, toolchains.size() );
-        verify( logger ).error( "Missing toolchain factory for type: unknown. Possibly caused by misconfigured project." );
+        assertEquals(0, toolchains.size());
+        verify(logger).error("Missing toolchain factory for type: unknown. Possibly caused by misconfigured project.");
     }
 
     @Test
-    public void testModelAndFactory()
-    {
-        MavenSession session = mock( MavenSession.class );
+    public void testModelAndFactory() {
+        MavenSession session = mock(MavenSession.class);
         MavenExecutionRequest executionRequest = new DefaultMavenExecutionRequest();
         Map<String, List<ToolchainModel>> toolchainModels = new HashMap<>();
-        toolchainModels.put( "basic", Arrays.asList( new ToolchainModel(), new ToolchainModel() ) );
-        toolchainModels.put( "rare", Collections.singletonList( new ToolchainModel() ) );
-        executionRequest.setToolchains( toolchainModels );
-        when( session.getRequest() ).thenReturn( executionRequest );
+        toolchainModels.put("basic", Arrays.asList(new ToolchainModel(), new ToolchainModel()));
+        toolchainModels.put("rare", Collections.singletonList(new ToolchainModel()));
+        executionRequest.setToolchains(toolchainModels);
+        when(session.getRequest()).thenReturn(executionRequest);
 
-        List<Toolchain> toolchains = toolchainManager.getToolchains( session, "rare", null );
+        List<Toolchain> toolchains = toolchainManager.getToolchains(session, "rare", null);
 
-        assertEquals( 1, toolchains.size() );
+        assertEquals(1, toolchains.size());
     }
 
     @Test
-    public void testModelsAndFactory()
-    {
-        MavenSession session = mock( MavenSession.class );
+    public void testModelsAndFactory() {
+        MavenSession session = mock(MavenSession.class);
         MavenExecutionRequest executionRequest = new DefaultMavenExecutionRequest();
         Map<String, List<ToolchainModel>> toolchainModels = new HashMap<>();
-        toolchainModels.put( "basic", Arrays.asList( new ToolchainModel(), new ToolchainModel() ) );
-        toolchainModels.put( "rare", Collections.singletonList( new ToolchainModel() ) );
-        executionRequest.setToolchains( toolchainModels );
-        when( session.getRequest() ).thenReturn( executionRequest );
+        toolchainModels.put("basic", Arrays.asList(new ToolchainModel(), new ToolchainModel()));
+        toolchainModels.put("rare", Collections.singletonList(new ToolchainModel()));
+        executionRequest.setToolchains(toolchainModels);
+        when(session.getRequest()).thenReturn(executionRequest);
 
-        List<Toolchain> toolchains = toolchainManager.getToolchains( session, "basic", null );
+        List<Toolchain> toolchains = toolchainManager.getToolchains(session, "basic", null);
 
-        assertEquals( 2, toolchains.size() );
+        assertEquals(2, toolchains.size());
     }
 
     @Test
     public void testRequirements()
-        throws Exception
-    {
-        MavenSession session = mock( MavenSession.class );
+            throws Exception {
+        MavenSession session = mock(MavenSession.class);
         MavenExecutionRequest executionRequest = new DefaultMavenExecutionRequest();
         Map<String, List<ToolchainModel>> toolchainModels = new HashMap<>();
-        toolchainModels.put( "basic", Arrays.asList( new ToolchainModel(), new ToolchainModel() ) );
-        toolchainModels.put( "rare", Collections.singletonList( new ToolchainModel() ) );
-        executionRequest.setToolchains( toolchainModels );
-        when( session.getRequest() ).thenReturn( executionRequest );
-        ToolchainPrivate basicPrivate = mock( ToolchainPrivate.class );
-        when( basicPrivate.matchesRequirements( ArgumentMatchers.<String, String>anyMap() ) ).thenReturn( false ).thenReturn( true );
-        when( toolchainFactory_basicType.createToolchain( isA( ToolchainModel.class ) ) ).thenReturn( basicPrivate );
+        toolchainModels.put("basic", Arrays.asList(new ToolchainModel(), new ToolchainModel()));
+        toolchainModels.put("rare", Collections.singletonList(new ToolchainModel()));
+        executionRequest.setToolchains(toolchainModels);
+        when(session.getRequest()).thenReturn(executionRequest);
+        ToolchainPrivate basicPrivate = mock(ToolchainPrivate.class);
+        when(basicPrivate.matchesRequirements(ArgumentMatchers.<String, String>anyMap())).thenReturn(false)
+                .thenReturn(true);
+        when(toolchainFactory_basicType.createToolchain(isA(ToolchainModel.class))).thenReturn(basicPrivate);
 
-        List<Toolchain> toolchains =
-            toolchainManager.getToolchains( session, "basic", Collections.singletonMap( "key", "value" ) );
+        List<Toolchain> toolchains = toolchainManager.getToolchains(session, "basic",
+                Collections.singletonMap("key", "value"));
 
-        assertEquals( 1, toolchains.size() );
+        assertEquals(1, toolchains.size());
     }
 }

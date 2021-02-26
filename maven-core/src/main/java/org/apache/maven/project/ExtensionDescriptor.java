@@ -23,65 +23,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Provides metadata about a build extension. <strong>Warning:</strong> This is an internal utility class that is only
- * public for technical reasons, it is not part of the public API. In particular, this class can be changed or deleted
- * without prior notice.
+ * Provides metadata about a build extension. <strong>Warning:</strong> This is
+ * an internal utility class that is only public for technical reasons, it is
+ * not part of the public API. In particular, this class can be changed or
+ * deleted without prior notice.
  *
  * @author Benjamin Bentmann
  */
-public class ExtensionDescriptor
-{
+public class ExtensionDescriptor {
 
     private List<String> exportedPackages;
 
     private List<String> exportedArtifacts;
 
-    ExtensionDescriptor()
-    {
+    ExtensionDescriptor() {
         // hide constructor
     }
 
-    public List<String> getExportedPackages()
-    {
-        if ( exportedPackages == null )
-        {
+    public List<String> getExportedPackages() {
+        if (exportedPackages == null) {
             exportedPackages = new ArrayList<>();
         }
 
         return exportedPackages;
     }
 
-    public void setExportedPackages( List<String> exportedPackages )
-    {
-        if ( exportedPackages == null )
-        {
+    public void setExportedPackages(List<String> exportedPackages) {
+        if (exportedPackages == null) {
             this.exportedPackages = null;
-        }
-        else
-        {
-            this.exportedPackages = new ArrayList<>( exportedPackages );
+        } else {
+            this.exportedPackages = new ArrayList<>(exportedPackages);
         }
     }
 
-    public List<String> getExportedArtifacts()
-    {
-        if ( exportedArtifacts == null )
-        {
+    public List<String> getExportedArtifacts() {
+        if (exportedArtifacts == null) {
             exportedArtifacts = new ArrayList<>();
         }
 
         return exportedArtifacts;
     }
 
-    public void setExportedArtifacts( List<String> exportedArtifacts )
-    {
-        if ( exportedArtifacts == null )
-        {
+    public void setExportedArtifacts(List<String> exportedArtifacts) {
+        if (exportedArtifacts == null) {
             this.exportedArtifacts = null;
-        }
-        else
-        {
-            this.exportedArtifacts = new ArrayList<>( exportedArtifacts );
+        } else {
+            this.exportedArtifacts = new ArrayList<>(exportedArtifacts);
         }
     }
 

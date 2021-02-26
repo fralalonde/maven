@@ -30,32 +30,29 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 /**
  * @author Benjamin Bentmann
  */
-public class DefaultModelBuilderFactoryTest
-{
+public class DefaultModelBuilderFactoryTest {
 
-    private File getPom( String name )
-    {
-        return new File( "src/test/resources/poms/factory/" + name + ".xml" ).getAbsoluteFile();
+    private File getPom(String name) {
+        return new File("src/test/resources/poms/factory/" + name + ".xml").getAbsoluteFile();
     }
 
     @Test
     public void testCompleteWiring()
-        throws Exception
-    {
+            throws Exception {
         ModelBuilder builder = new DefaultModelBuilderFactory().newInstance();
-        assertNotNull( builder );
+        assertNotNull(builder);
 
         DefaultModelBuildingRequest request = new DefaultModelBuildingRequest();
-        request.setProcessPlugins( true );
-        request.setPomFile( getPom( "simple" ) );
+        request.setProcessPlugins(true);
+        request.setPomFile(getPom("simple"));
 
-        ModelBuildingResult result = builder.build( request );
-        assertNotNull( result );
-        assertNotNull( result.getEffectiveModel() );
-        assertEquals( "activated", result.getEffectiveModel().getProperties().get( "profile.file" ) );
-        Xpp3Dom conf = (Xpp3Dom) result.getEffectiveModel().getBuild().getPlugins().get( 0 ).getConfiguration();
-        assertEquals( "1.5", conf.getChild( "source" ).getValue() );
-        assertEquals( "  1.5  ", conf.getChild( "target" ).getValue() );
+        ModelBuildingResult result = builder.build(request);
+        assertNotNull(result);
+        assertNotNull(result.getEffectiveModel());
+        assertEquals("activated", result.getEffectiveModel().getProperties().get("profile.file"));
+        Xpp3Dom conf = (Xpp3Dom) result.getEffectiveModel().getBuild().getPlugins().get(0).getConfiguration();
+        assertEquals("1.5", conf.getChild("source").getValue());
+        assertEquals("  1.5  ", conf.getChild("target").getValue());
     }
 
 }

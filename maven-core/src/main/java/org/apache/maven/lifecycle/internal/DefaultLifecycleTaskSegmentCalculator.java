@@ -45,7 +45,8 @@ import org.codehaus.plexus.util.StringUtils;
  * <p>
  * Calculates the task segments in the build
  * </p>
- * <strong>NOTE:</strong> This class is not part of any public api and can be changed or deleted without prior notice.
+ * <strong>NOTE:</strong> This class is not part of any public api and can be
+ * changed or deleted without prior notice.
  *
  * @since 3.0
  * @author Benjamin Bentmann
@@ -56,92 +57,77 @@ import org.codehaus.plexus.util.StringUtils;
 @Named
 @Singleton
 public class DefaultLifecycleTaskSegmentCalculator
-    implements LifecycleTaskSegmentCalculator
-{
+        implements LifecycleTaskSegmentCalculator {
     @Inject
     private MojoDescriptorCreator mojoDescriptorCreator;
 
     @Inject
     private LifecyclePluginResolver lifecyclePluginResolver;
 
-    public DefaultLifecycleTaskSegmentCalculator()
-    {
+    public DefaultLifecycleTaskSegmentCalculator() {
     }
 
-    public List<TaskSegment> calculateTaskSegments( MavenSession session )
-        throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
-        MojoNotFoundException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
-        PluginVersionResolutionException, LifecyclePhaseNotFoundException, LifecycleNotFoundException
-    {
+    public List<TaskSegment> calculateTaskSegments(MavenSession session)
+            throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
+            MojoNotFoundException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
+            PluginVersionResolutionException, LifecyclePhaseNotFoundException, LifecycleNotFoundException {
 
         MavenProject rootProject = session.getTopLevelProject();
 
         List<String> tasks = session.getGoals();
 
-        if ( ( tasks == null || tasks.isEmpty() ) && !StringUtils.isEmpty( rootProject.getDefaultGoal() ) )
-        {
-            tasks = Arrays.asList( StringUtils.split( rootProject.getDefaultGoal() ) );
+        if ((tasks == null || tasks.isEmpty()) && !StringUtils.isEmpty(rootProject.getDefaultGoal())) {
+            tasks = Arrays.asList(StringUtils.split(rootProject.getDefaultGoal()));
         }
 
-        return calculateTaskSegments( session, tasks );
+        return calculateTaskSegments(session, tasks);
     }
 
-    public List<TaskSegment> calculateTaskSegments( MavenSession session, List<String> tasks )
-        throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
-        MojoNotFoundException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
-        PluginVersionResolutionException
-    {
-        List<TaskSegment> taskSegments = new ArrayList<>( tasks.size() );
+    public List<TaskSegment> calculateTaskSegments(MavenSession session, List<String> tasks)
+            throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
+            MojoNotFoundException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
+            PluginVersionResolutionException {
+        List<TaskSegment> taskSegments = new ArrayList<>(tasks.size());
 
         TaskSegment currentSegment = null;
 
-        for ( String task : tasks )
-        {
-            if ( isGoalSpecification( task ) )
-            {
+        for (String task : tasks) {
+            if (isGoalSpecification(task)) {
                 // "pluginPrefix:goal" or "groupId:artifactId[:version]:goal"
 
-                lifecyclePluginResolver.resolveMissingPluginVersions( session.getTopLevelProject(), session );
+                lifecyclePluginResolver.resolveMissingPluginVersions(session.getTopLevelProject(), session);
 
-                MojoDescriptor mojoDescriptor =
-                    mojoDescriptorCreator.getMojoDescriptor( task, session, session.getTopLevelProject() );
+                MojoDescriptor mojoDescriptor = mojoDescriptorCreator.getMojoDescriptor(task, session,
+                        session.getTopLevelProject());
 
                 boolean aggregating = mojoDescriptor.isAggregator() || !mojoDescriptor.isProjectRequired();
 
-                if ( currentSegment == null || currentSegment.isAggregating() != aggregating )
-                {
-                    currentSegment = new TaskSegment( aggregating );
-                    taskSegments.add( currentSegment );
+                if (currentSegment == null || currentSegment.isAggregating() != aggregating) {
+                    currentSegment = new TaskSegment(aggregating);
+                    taskSegments.add(currentSegment);
                 }
 
-                currentSegment.getTasks().add( new GoalTask( task ) );
-            }
-            else
-            {
+                currentSegment.getTasks().add(new GoalTask(task));
+            } else {
                 // lifecycle phase
 
-                if ( currentSegment == null || currentSegment.isAggregating() )
-                {
-                    currentSegment = new TaskSegment( false );
-                    taskSegments.add( currentSegment );
+                if (currentSegment == null || currentSegment.isAggregating()) {
+                    currentSegment = new TaskSegment(false);
+                    taskSegments.add(currentSegment);
                 }
 
-                currentSegment.getTasks().add( new LifecycleTask( task ) );
+                currentSegment.getTasks().add(new LifecycleTask(task));
             }
         }
 
         return taskSegments;
     }
 
-    public boolean requiresProject( MavenSession session )
-    {
+    public boolean requiresProject(MavenSession session) {
         List<String> goals = session.getGoals();
-        if ( goals != null )
-        {
-            for ( String goal : goals )
-            {
-                if ( !isGoalSpecification( goal ) )
-                {
+        if (goals != null) {
+            for (String goal : goals) {
+                if (!isGoalSpecification(goal)) {
                     return true;
                 }
             }
@@ -149,10 +135,8 @@ public class DefaultLifecycleTaskSegmentCalculator
         return false;
     }
 
-
-    private boolean isGoalSpecification( String task )
-    {
-        return task.indexOf( ':' ) >= 0;
+    private boolean isGoalSpecification(String task) {
+        return task.indexOf(':') >= 0;
     }
 
 }

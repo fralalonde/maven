@@ -28,39 +28,46 @@ import org.apache.maven.model.building.ModelProblemCollector;
  *
  * @author <a href="mailto:trygvis@inamo.no">Trygve Laugst&oslash;l</a>
  */
-public interface ModelValidator
-{
+public interface ModelValidator {
     /**
-     * Checks the specified file model for missing or invalid values. This model is directly created from the POM
-     * file and has not been subjected to inheritance, interpolation or profile/default injection.
+     * Checks the specified file model for missing or invalid values. This model is
+     * directly created from the POM file and has not been subjected to inheritance,
+     * interpolation or profile/default injection.
      *
-     * @param model The model to validate, must not be {@code null}.
-     * @param request The model building request that holds further settings, must not be {@code null}.
-     * @param problems The container used to collect problems that were encountered, must not be {@code null}.
+     * @param model    The model to validate, must not be {@code null}.
+     * @param request  The model building request that holds further settings, must
+     *                 not be {@code null}.
+     * @param problems The container used to collect problems that were encountered,
+     *                 must not be {@code null}.
      */
-    default void validateFileModel( Model model, ModelBuildingRequest request, ModelProblemCollector problems )
-    {
+    default void validateFileModel(Model model, ModelBuildingRequest request, ModelProblemCollector problems) {
         // do nothing
     }
 
     /**
-     * Checks the specified (raw) model for missing or invalid values. The raw model is the file model + buildpom filter
-     * transformation and has not been subjected to inheritance, interpolation or profile/default injection.
+     * Checks the specified (raw) model for missing or invalid values. The raw model
+     * is the file model + buildpom filter transformation and has not been subjected
+     * to inheritance, interpolation or profile/default injection.
      *
-     * @param model The model to validate, must not be {@code null}.
-     * @param request The model building request that holds further settings, must not be {@code null}.
-     * @param problems The container used to collect problems that were encountered, must not be {@code null}.
+     * @param model    The model to validate, must not be {@code null}.
+     * @param request  The model building request that holds further settings, must
+     *                 not be {@code null}.
+     * @param problems The container used to collect problems that were encountered,
+     *                 must not be {@code null}.
      */
-    void validateRawModel( Model model, ModelBuildingRequest request, ModelProblemCollector problems );
+    void validateRawModel(Model model, ModelBuildingRequest request, ModelProblemCollector problems);
 
     /**
-     * Checks the specified (effective) model for missing or invalid values. The effective model is fully assembled and
-     * has undergone inheritance, interpolation and other model operations.
+     * Checks the specified (effective) model for missing or invalid values. The
+     * effective model is fully assembled and has undergone inheritance,
+     * interpolation and other model operations.
      *
-     * @param model The model to validate, must not be {@code null}.
-     * @param request The model building request that holds further settings, must not be {@code null}.
-     * @param problems The container used to collect problems that were encountered, must not be {@code null}.
+     * @param model    The model to validate, must not be {@code null}.
+     * @param request  The model building request that holds further settings, must
+     *                 not be {@code null}.
+     * @param problems The container used to collect problems that were encountered,
+     *                 must not be {@code null}.
      */
-    void validateEffectiveModel( Model model, ModelBuildingRequest request, ModelProblemCollector problems );
+    void validateEffectiveModel(Model model, ModelBuildingRequest request, ModelProblemCollector problems);
 
 }

@@ -25,26 +25,22 @@ import java.io.File;
  * MissingModuleException
  */
 public class MissingModuleException
-    extends MavenExecutionException
-{
+        extends MavenExecutionException {
 
     private File moduleFile;
     private final String moduleName;
 
-    public MissingModuleException( String moduleName, File moduleFile, File pomFile )
-    {
-        super( "The module: " + moduleName + " cannot be found in file: " + moduleFile, pomFile );
+    public MissingModuleException(String moduleName, File moduleFile, File pomFile) {
+        super("The module: " + moduleName + " cannot be found in file: " + moduleFile, pomFile);
         this.moduleName = moduleName;
         this.moduleFile = moduleFile;
     }
 
-    public File getModuleFile()
-    {
+    public File getModuleFile() {
         return moduleFile;
     }
 
-    public String getModuleName()
-    {
+    public String getModuleName() {
         return moduleName;
     }
 

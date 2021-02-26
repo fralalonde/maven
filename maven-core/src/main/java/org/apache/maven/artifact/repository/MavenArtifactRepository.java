@@ -30,13 +30,12 @@ import org.apache.maven.artifact.repository.layout.ArtifactRepositoryLayout;
 import org.apache.maven.repository.Proxy;
 
 /**
- * Abstraction of an artifact repository. Artifact repositories can be remote, local, or even build reactor or
- * IDE workspace.
+ * Abstraction of an artifact repository. Artifact repositories can be remote,
+ * local, or even build reactor or IDE workspace.
  */
 //TODO completely separate local and remote artifact repositories
 public class MavenArtifactRepository
-    implements ArtifactRepository
-{
+        implements ArtifactRepository {
     private static final String LS = System.lineSeparator();
 
     private String id;
@@ -59,8 +58,7 @@ public class MavenArtifactRepository
 
     private List<ArtifactRepository> mirroredRepositories = Collections.emptyList();
 
-    public MavenArtifactRepository()
-    {
+    public MavenArtifactRepository() {
     }
 
     /**
@@ -72,9 +70,8 @@ public class MavenArtifactRepository
      * @param snapshots the policies to use for snapshots
      * @param releases  the policies to use for releases
      */
-    public MavenArtifactRepository( String id, String url, ArtifactRepositoryLayout layout,
-                                    ArtifactRepositoryPolicy snapshots, ArtifactRepositoryPolicy releases )
-    {
+    public MavenArtifactRepository(String id, String url, ArtifactRepositoryLayout layout,
+            ArtifactRepositoryPolicy snapshots, ArtifactRepositoryPolicy releases) {
         this.id = id;
         this.url = url;
         this.layout = layout;
@@ -83,200 +80,167 @@ public class MavenArtifactRepository
         //
         // Derive these from the URL
         //
-        this.protocol = protocol( url );
-        this.basedir = basedir( url );
+        this.protocol = protocol(url);
+        this.basedir = basedir(url);
     }
 
-    public String pathOf( Artifact artifact )
-    {
-        return layout.pathOf( artifact );
+    public String pathOf(Artifact artifact) {
+        return layout.pathOf(artifact);
     }
 
-    public String pathOfRemoteRepositoryMetadata( ArtifactMetadata artifactMetadata )
-    {
-        return layout.pathOfRemoteRepositoryMetadata( artifactMetadata );
+    public String pathOfRemoteRepositoryMetadata(ArtifactMetadata artifactMetadata) {
+        return layout.pathOfRemoteRepositoryMetadata(artifactMetadata);
     }
 
-    public String pathOfLocalRepositoryMetadata( ArtifactMetadata metadata, ArtifactRepository repository )
-    {
-        return layout.pathOfLocalRepositoryMetadata( metadata, repository );
+    public String pathOfLocalRepositoryMetadata(ArtifactMetadata metadata, ArtifactRepository repository) {
+        return layout.pathOfLocalRepositoryMetadata(metadata, repository);
     }
 
-    public void setLayout( ArtifactRepositoryLayout layout )
-    {
+    public void setLayout(ArtifactRepositoryLayout layout) {
         this.layout = layout;
     }
 
-    public ArtifactRepositoryLayout getLayout()
-    {
+    public ArtifactRepositoryLayout getLayout() {
         return layout;
     }
 
-    public void setSnapshotUpdatePolicy( ArtifactRepositoryPolicy snapshots )
-    {
+    public void setSnapshotUpdatePolicy(ArtifactRepositoryPolicy snapshots) {
         this.snapshots = snapshots;
     }
 
-    public ArtifactRepositoryPolicy getSnapshots()
-    {
+    public ArtifactRepositoryPolicy getSnapshots() {
         return snapshots;
     }
 
-    public void setReleaseUpdatePolicy( ArtifactRepositoryPolicy releases )
-    {
+    public void setReleaseUpdatePolicy(ArtifactRepositoryPolicy releases) {
         this.releases = releases;
     }
 
-    public ArtifactRepositoryPolicy getReleases()
-    {
+    public ArtifactRepositoryPolicy getReleases() {
         return releases;
     }
 
-    public String getKey()
-    {
+    public String getKey() {
         return getId();
     }
 
-    public String toString()
-    {
-        StringBuilder sb = new StringBuilder( 256 );
+    public String toString() {
+        StringBuilder sb = new StringBuilder(256);
 
-        sb.append( "      id: " ).append( getId() ).append( LS );
-        sb.append( "      url: " ).append( getUrl() ).append( LS );
-        sb.append( "   layout: " ).append( layout != null ? layout : "none" );
+        sb.append("      id: ").append(getId()).append(LS);
+        sb.append("      url: ").append(getUrl()).append(LS);
+        sb.append("   layout: ").append(layout != null ? layout : "none");
 
-        if ( proxy != null )
-        {
-            sb.append( LS ).append( "    proxy: " ).append( proxy.getHost() ).append( ':' ).append( proxy.getPort() );
+        if (proxy != null) {
+            sb.append(LS).append("    proxy: ").append(proxy.getHost()).append(':').append(proxy.getPort());
         }
 
-        if ( snapshots != null )
-        {
-            sb.append( LS ).append( "snapshots: [enabled => " ).append( snapshots.isEnabled() );
-            sb.append( ", update => " ).append( snapshots.getUpdatePolicy() ).append( ']' );
+        if (snapshots != null) {
+            sb.append(LS).append("snapshots: [enabled => ").append(snapshots.isEnabled());
+            sb.append(", update => ").append(snapshots.getUpdatePolicy()).append(']');
         }
 
-        if ( releases != null )
-        {
-            sb.append( LS ).append( "releases: [enabled => " ).append( releases.isEnabled() );
-            sb.append( ", update => " ).append( releases.getUpdatePolicy() ).append( ']' );
+        if (releases != null) {
+            sb.append(LS).append("releases: [enabled => ").append(releases.isEnabled());
+            sb.append(", update => ").append(releases.getUpdatePolicy()).append(']');
         }
 
         return sb.toString();
     }
 
-    public Artifact find( Artifact artifact )
-    {
-        File artifactFile = new File( getBasedir(), pathOf( artifact ) );
+    public Artifact find(Artifact artifact) {
+        File artifactFile = new File(getBasedir(), pathOf(artifact));
 
-        // We need to set the file here or the resolver will fail with an NPE, not fully equipped to deal
+        // We need to set the file here or the resolver will fail with an NPE, not fully
+        // equipped to deal
         // with multiple local repository implementations yet.
-        artifact.setFile( artifactFile );
+        artifact.setFile(artifactFile);
 
         return artifact;
     }
 
-    public List<String> findVersions( Artifact artifact )
-    {
+    public List<String> findVersions(Artifact artifact) {
         return Collections.emptyList();
     }
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public String getUrl()
-    {
+    public String getUrl() {
         return url;
     }
 
-    public String getBasedir()
-    {
+    public String getBasedir() {
         return basedir;
     }
 
-    public String getProtocol()
-    {
+    public String getProtocol() {
         return protocol;
     }
 
-    public void setId( String id )
-    {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public void setUrl( String url )
-    {
+    public void setUrl(String url) {
         this.url = url;
 
-        this.protocol = protocol( url );
-        this.basedir = basedir( url );
+        this.protocol = protocol(url);
+        this.basedir = basedir(url);
     }
 
     // Path Utils
 
     /**
-     * Return the protocol name.
-     * <br>
-     * E.g: for input
-     * <code>http://www.codehaus.org</code> this method will return <code>http</code>
+     * Return the protocol name. <br>
+     * E.g: for input <code>http://www.codehaus.org</code> this method will return
+     * <code>http</code>
      *
      * @param url the url
      * @return the host name
      */
-    private static String protocol( final String url )
-    {
-        final int pos = url.indexOf( ':' );
+    private static String protocol(final String url) {
+        final int pos = url.indexOf(':');
 
-        if ( pos == -1 )
-        {
+        if (pos == -1) {
             return "";
         }
-        return url.substring( 0, pos ).trim();
+        return url.substring(0, pos).trim();
     }
 
     /**
      * Derive the path portion of the given URL.
      *
      * @param url the repository URL
-     * @return the basedir of the repository
-     * TODO need to URL decode for spaces?
+     * @return the basedir of the repository TODO need to URL decode for spaces?
      */
-    private String basedir( String url )
-    {
+    private String basedir(String url) {
         String retValue = null;
 
-        if ( protocol.equalsIgnoreCase( "file" ) )
-        {
-            retValue = url.substring( protocol.length() + 1 );
-            retValue = decode( retValue );
+        if (protocol.equalsIgnoreCase("file")) {
+            retValue = url.substring(protocol.length() + 1);
+            retValue = decode(retValue);
             // special case: if omitted // on protocol, keep path as is
-            if ( retValue.startsWith( "//" ) )
-            {
-                retValue = retValue.substring( 2 );
+            if (retValue.startsWith("//")) {
+                retValue = retValue.substring(2);
 
-                if ( retValue.length() >= 2 && ( retValue.charAt( 1 ) == '|' || retValue.charAt( 1 ) == ':' ) )
-                {
-                    // special case: if there is a windows drive letter, then keep the original return value
-                    retValue = retValue.charAt( 0 ) + ":" + retValue.substring( 2 );
-                }
-                else
-                {
+                if (retValue.length() >= 2 && (retValue.charAt(1) == '|' || retValue.charAt(1) == ':')) {
+                    // special case: if there is a windows drive letter, then keep the original
+                    // return value
+                    retValue = retValue.charAt(0) + ":" + retValue.substring(2);
+                } else {
                     // Now we expect the host
-                    int index = retValue.indexOf( '/' );
-                    if ( index >= 0 )
-                    {
-                        retValue = retValue.substring( index + 1 );
+                    int index = retValue.indexOf('/');
+                    if (index >= 0) {
+                        retValue = retValue.substring(index + 1);
                     }
 
-                    // special case: if there is a windows drive letter, then keep the original return value
-                    if ( retValue.length() >= 2 && ( retValue.charAt( 1 ) == '|' || retValue.charAt( 1 ) == ':' ) )
-                    {
-                        retValue = retValue.charAt( 0 ) + ":" + retValue.substring( 2 );
-                    }
-                    else if ( index >= 0 )
-                    {
+                    // special case: if there is a windows drive letter, then keep the original
+                    // return value
+                    if (retValue.length() >= 2 && (retValue.charAt(1) == '|' || retValue.charAt(1) == ':')) {
+                        retValue = retValue.charAt(0) + ":" + retValue.substring(2);
+                    } else if (index >= 0) {
                         // leading / was previously stripped
                         retValue = "/" + retValue;
                     }
@@ -284,134 +248,110 @@ public class MavenArtifactRepository
             }
 
             // special case: if there is a windows drive letter using |, switch to :
-            if ( retValue.length() >= 2 && retValue.charAt( 1 ) == '|' )
-            {
-                retValue = retValue.charAt( 0 ) + ":" + retValue.substring( 2 );
+            if (retValue.length() >= 2 && retValue.charAt(1) == '|') {
+                retValue = retValue.charAt(0) + ":" + retValue.substring(2);
             }
 
             // normalize separators
-            retValue = new File( retValue ).getPath();
+            retValue = new File(retValue).getPath();
         }
 
-        if ( retValue == null )
-        {
+        if (retValue == null) {
             retValue = "/";
         }
         return retValue.trim();
     }
 
     /**
-     * Decodes the specified (portion of a) URL. <strong>Note:</strong> This decoder assumes that ISO-8859-1 is used to
-     * convert URL-encoded bytes to characters.
+     * Decodes the specified (portion of a) URL. <strong>Note:</strong> This decoder
+     * assumes that ISO-8859-1 is used to convert URL-encoded bytes to characters.
      *
      * @param url The URL to decode, may be <code>null</code>.
-     * @return The decoded URL or <code>null</code> if the input was <code>null</code>.
+     * @return The decoded URL or <code>null</code> if the input was
+     *         <code>null</code>.
      */
-    private static String decode( String url )
-    {
+    private static String decode(String url) {
         String decoded = url;
-        if ( url != null )
-        {
+        if (url != null) {
             int pos = -1;
-            while ( ( pos = decoded.indexOf( '%', pos + 1 ) ) >= 0 )
-            {
-                if ( pos + 2 < decoded.length() )
-                {
-                    String hexStr = decoded.substring( pos + 1, pos + 3 );
-                    char ch = (char) Integer.parseInt( hexStr, 16 );
-                    decoded = decoded.substring( 0, pos ) + ch + decoded.substring( pos + 3 );
+            while ((pos = decoded.indexOf('%', pos + 1)) >= 0) {
+                if (pos + 2 < decoded.length()) {
+                    String hexStr = decoded.substring(pos + 1, pos + 3);
+                    char ch = (char) Integer.parseInt(hexStr, 16);
+                    decoded = decoded.substring(0, pos) + ch + decoded.substring(pos + 3);
                 }
             }
         }
         return decoded;
     }
 
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ( ( getId() == null ) ? 0 : getId().hashCode() );
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         return result;
     }
 
-    public boolean equals( Object obj )
-    {
-        if ( this == obj )
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if ( obj == null )
-        {
+        if (obj == null) {
             return false;
         }
-        if ( getClass() != obj.getClass() )
-        {
+        if (getClass() != obj.getClass()) {
             return false;
         }
 
         ArtifactRepository other = (ArtifactRepository) obj;
 
-        return eq( getId(), other.getId() );
+        return eq(getId(), other.getId());
     }
 
-    protected static <T> boolean eq( T s1, T s2 )
-    {
-        return Objects.equals( s1, s2 );
+    protected static <T> boolean eq(T s1, T s2) {
+        return Objects.equals(s1, s2);
     }
 
-    public Authentication getAuthentication()
-    {
+    public Authentication getAuthentication() {
         return authentication;
     }
 
-    public void setAuthentication( Authentication authentication )
-    {
+    public void setAuthentication(Authentication authentication) {
         this.authentication = authentication;
     }
 
-    public Proxy getProxy()
-    {
+    public Proxy getProxy() {
         return proxy;
     }
 
-    public void setProxy( Proxy proxy )
-    {
+    public void setProxy(Proxy proxy) {
         this.proxy = proxy;
     }
 
-    public boolean isBlacklisted()
-    {
+    public boolean isBlacklisted() {
         return false;
     }
 
-    public void setBlacklisted( boolean blackListed )
-    {
+    public void setBlacklisted(boolean blackListed) {
         // no op
     }
 
-    public boolean isUniqueVersion()
-    {
+    public boolean isUniqueVersion() {
         return true;
     }
 
-    public boolean isProjectAware()
-    {
+    public boolean isProjectAware() {
         return false;
     }
 
-    public List<ArtifactRepository> getMirroredRepositories()
-    {
+    public List<ArtifactRepository> getMirroredRepositories() {
         return mirroredRepositories;
     }
 
-    public void setMirroredRepositories( List<ArtifactRepository> mirroredRepositories )
-    {
-        if ( mirroredRepositories != null )
-        {
-            this.mirroredRepositories = Collections.unmodifiableList( mirroredRepositories );
-        }
-        else
-        {
+    public void setMirroredRepositories(List<ArtifactRepository> mirroredRepositories) {
+        if (mirroredRepositories != null) {
+            this.mirroredRepositories = Collections.unmodifiableList(mirroredRepositories);
+        } else {
             this.mirroredRepositories = Collections.emptyList();
         }
     }

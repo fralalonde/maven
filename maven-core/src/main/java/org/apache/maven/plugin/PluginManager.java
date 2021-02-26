@@ -39,44 +39,46 @@ import java.util.Map;
  * @author <a href="mailto:jason@maven.org">Jason van Zyl </a>
  */
 @Deprecated
-public interface PluginManager
-{
+public interface PluginManager {
     String ROLE = PluginManager.class.getName();
 
-    void executeMojo( MavenProject project, MojoExecution execution, MavenSession session )
-        throws MojoExecutionException, ArtifactResolutionException, MojoFailureException, ArtifactNotFoundException,
-        InvalidDependencyVersionException, PluginManagerException, PluginConfigurationException;
+    void executeMojo(MavenProject project, MojoExecution execution, MavenSession session)
+            throws MojoExecutionException, ArtifactResolutionException, MojoFailureException, ArtifactNotFoundException,
+            InvalidDependencyVersionException, PluginManagerException, PluginConfigurationException;
 
-    PluginDescriptor getPluginDescriptorForPrefix( String prefix );
+    PluginDescriptor getPluginDescriptorForPrefix(String prefix);
 
-    Plugin getPluginDefinitionForPrefix( String prefix, MavenSession session, MavenProject project );
+    Plugin getPluginDefinitionForPrefix(String prefix, MavenSession session, MavenProject project);
 
-    PluginDescriptor verifyPlugin( Plugin plugin, MavenProject project, Settings settings,
-                                   ArtifactRepository localRepository )
-        throws ArtifactResolutionException, PluginVersionResolutionException, ArtifactNotFoundException,
-        InvalidVersionSpecificationException, InvalidPluginException, PluginManagerException, PluginNotFoundException,
-        PluginVersionNotFoundException;
+    PluginDescriptor verifyPlugin(Plugin plugin, MavenProject project, Settings settings,
+            ArtifactRepository localRepository)
+            throws ArtifactResolutionException, PluginVersionResolutionException, ArtifactNotFoundException,
+            InvalidVersionSpecificationException, InvalidPluginException, PluginManagerException,
+            PluginNotFoundException,
+            PluginVersionNotFoundException;
 
-    Object getPluginComponent( Plugin plugin, String role, String roleHint )
-        throws PluginManagerException, ComponentLookupException;
+    Object getPluginComponent(Plugin plugin, String role, String roleHint)
+            throws PluginManagerException, ComponentLookupException;
 
-    Map<String, Object> getPluginComponents( Plugin plugin, String role )
-        throws ComponentLookupException, PluginManagerException;
-
-    /**
-     * @since 2.2.1
-     */
-    PluginDescriptor loadPluginDescriptor( Plugin plugin, MavenProject project, MavenSession session )
-        throws ArtifactResolutionException, PluginVersionResolutionException, ArtifactNotFoundException,
-        InvalidVersionSpecificationException, InvalidPluginException, PluginManagerException, PluginNotFoundException,
-        PluginVersionNotFoundException;
+    Map<String, Object> getPluginComponents(Plugin plugin, String role)
+            throws ComponentLookupException, PluginManagerException;
 
     /**
      * @since 2.2.1
      */
-    PluginDescriptor loadPluginFully( Plugin plugin, MavenProject project, MavenSession session )
-        throws ArtifactResolutionException, PluginVersionResolutionException, ArtifactNotFoundException,
-        InvalidVersionSpecificationException, InvalidPluginException, PluginManagerException, PluginNotFoundException,
-        PluginVersionNotFoundException;
+    PluginDescriptor loadPluginDescriptor(Plugin plugin, MavenProject project, MavenSession session)
+            throws ArtifactResolutionException, PluginVersionResolutionException, ArtifactNotFoundException,
+            InvalidVersionSpecificationException, InvalidPluginException, PluginManagerException,
+            PluginNotFoundException,
+            PluginVersionNotFoundException;
+
+    /**
+     * @since 2.2.1
+     */
+    PluginDescriptor loadPluginFully(Plugin plugin, MavenProject project, MavenSession session)
+            throws ArtifactResolutionException, PluginVersionResolutionException, ArtifactNotFoundException,
+            InvalidVersionSpecificationException, InvalidPluginException, PluginManagerException,
+            PluginNotFoundException,
+            PluginVersionNotFoundException;
 
 }

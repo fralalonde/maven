@@ -30,42 +30,38 @@ import java.util.Map;
  * <p>
  * Provides the positional index of the project
  * </p>
- * <strong>NOTE:</strong> This class is not part of any public api and can be changed or deleted without prior notice.
+ * <strong>NOTE:</strong> This class is not part of any public api and can be
+ * changed or deleted without prior notice.
  *
  * @since 3.0
  * @author Benjamin Bentmann
  * @author Kristian Rosenvold (extracted class only)
  */
 // TODO Kristian wonders if this class really is necessary and if it overlaps other concepts.
-public final class ProjectIndex
-{
+public final class ProjectIndex {
 
     private final Map<String, MavenProject> projects;
 
     private final Map<String, Integer> indices;
 
-    public ProjectIndex( List<MavenProject> projects )
-    {
-        this.projects = new HashMap<>( projects.size() * 2 );
-        this.indices = new HashMap<>( projects.size() * 2 );
+    public ProjectIndex(List<MavenProject> projects) {
+        this.projects = new HashMap<>(projects.size() * 2);
+        this.indices = new HashMap<>(projects.size() * 2);
 
-        for ( int i = 0; i < projects.size(); i++ )
-        {
-            MavenProject project = projects.get( i );
-            String key = BuilderCommon.getKey( project );
+        for (int i = 0; i < projects.size(); i++) {
+            MavenProject project = projects.get(i);
+            String key = BuilderCommon.getKey(project);
 
-            this.getProjects().put( key, project );
-            this.getIndices().put( key, i );
+            this.getProjects().put(key, project);
+            this.getIndices().put(key, i);
         }
     }
 
-    public Map<String, MavenProject> getProjects()
-    {
+    public Map<String, MavenProject> getProjects() {
         return projects;
     }
 
-    public Map<String, Integer> getIndices()
-    {
+    public Map<String, Integer> getIndices() {
         return indices;
     }
 }

@@ -28,81 +28,69 @@ import org.eclipse.aether.repository.RemoteRepository;
  * PluginVersionResolutionException
  */
 public class PluginVersionResolutionException
-    extends Exception
-{
+        extends Exception {
     private final String groupId;
 
     private final String artifactId;
 
     private final String baseMessage;
 
-    public PluginVersionResolutionException( String groupId, String artifactId, String baseMessage, Throwable cause )
-    {
-        super( "Error resolving version for plugin \'" + groupId + ":" + artifactId + "\': " + baseMessage, cause );
+    public PluginVersionResolutionException(String groupId, String artifactId, String baseMessage, Throwable cause) {
+        super("Error resolving version for plugin \'" + groupId + ":" + artifactId + "\': " + baseMessage, cause);
 
         this.groupId = groupId;
         this.artifactId = artifactId;
         this.baseMessage = baseMessage;
     }
 
-    public PluginVersionResolutionException( String groupId, String artifactId, String baseMessage )
-    {
-        super( "Error resolving version for plugin \'" + groupId + ":" + artifactId + "\': " + baseMessage );
+    public PluginVersionResolutionException(String groupId, String artifactId, String baseMessage) {
+        super("Error resolving version for plugin \'" + groupId + ":" + artifactId + "\': " + baseMessage);
 
         this.groupId = groupId;
         this.artifactId = artifactId;
         this.baseMessage = baseMessage;
     }
 
-    public PluginVersionResolutionException( String groupId, String artifactId, LocalRepository localRepository,
-                                             List<RemoteRepository> remoteRepositories, String baseMessage )
-    {
-        super( "Error resolving version for plugin \'" + groupId + ":" + artifactId + "\' from the repositories "
-            + format( localRepository, remoteRepositories ) + ": " + baseMessage );
+    public PluginVersionResolutionException(String groupId, String artifactId, LocalRepository localRepository,
+            List<RemoteRepository> remoteRepositories, String baseMessage) {
+        super("Error resolving version for plugin \'" + groupId + ":" + artifactId + "\' from the repositories "
+                + format(localRepository, remoteRepositories) + ": " + baseMessage);
 
         this.groupId = groupId;
         this.artifactId = artifactId;
         this.baseMessage = baseMessage;
     }
 
-    public String getGroupId()
-    {
+    public String getGroupId() {
         return groupId;
     }
 
-    public String getArtifactId()
-    {
+    public String getArtifactId() {
         return artifactId;
     }
 
-    public String getBaseMessage()
-    {
+    public String getBaseMessage() {
         return baseMessage;
     }
 
-    private static String format( LocalRepository localRepository, List<RemoteRepository> remoteRepositories )
-    {
-        StringBuilder repos = new StringBuilder( "[" );
+    private static String format(LocalRepository localRepository, List<RemoteRepository> remoteRepositories) {
+        StringBuilder repos = new StringBuilder("[");
 
-        if ( localRepository != null )
-        {
-            repos.append( localRepository.getId() ).append( " (" ).append( localRepository.getBasedir() ).append( ")" );
+        if (localRepository != null) {
+            repos.append(localRepository.getId()).append(" (").append(localRepository.getBasedir()).append(")");
         }
 
-        if ( remoteRepositories != null && !remoteRepositories.isEmpty() )
-        {
-            for ( RemoteRepository repository : remoteRepositories )
-            {
-                repos.append( ", " );
+        if (remoteRepositories != null && !remoteRepositories.isEmpty()) {
+            for (RemoteRepository repository : remoteRepositories) {
+                repos.append(", ");
 
-                if ( repository != null )
-                {
-                    repos.append( repository.getId() ).append( " (" ).append( repository.getUrl() ).append( ")" );
+                if (repository != null) {
+                    repos.append(repository.getId()).append(" (").append(repository.getUrl()).append(")");
                 }
             }
         }
 
-        repos.append( "]" );
+        repos.append("]");
 
         return repos.toString();
     }

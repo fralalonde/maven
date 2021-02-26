@@ -32,21 +32,23 @@ import org.apache.maven.plugin.PluginResolutionException;
 import org.apache.maven.project.MavenProject;
 
 /**
- * Lifecycle mapping delegate component interface. Calculates project build execution plan given {@link Lifecycle} and
- * lifecycle phase. Standard lifecycles use plugin execution {@code <phase>} or mojo default lifecycle phase to
- * calculate the execution plan, but custom lifecycles can use alternative mapping strategies.
+ * Lifecycle mapping delegate component interface. Calculates project build
+ * execution plan given {@link Lifecycle} and lifecycle phase. Standard
+ * lifecycles use plugin execution {@code <phase>} or mojo default lifecycle
+ * phase to calculate the execution plan, but custom lifecycles can use
+ * alternative mapping strategies.
  * <p>
- * Implementations of this interface must be annotated with either {@code @Named("lifecycle-id")} or equivalent plexus
- * {@code @Component} annotations.
+ * Implementations of this interface must be annotated with either
+ * {@code @Named("lifecycle-id")} or equivalent plexus {@code @Component}
+ * annotations.
  *
  * @since 3.2.0
  * @see org.apache.maven.lifecycle.internal.DefaultLifecycleMappingDelegate
  * @author ifedorenko
  */
-public interface LifecycleMappingDelegate
-{
-    Map<String, List<MojoExecution>> calculateLifecycleMappings( MavenSession session, MavenProject project,
-                                                                 Lifecycle lifecycle, String lifecyclePhase )
-        throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
-        MojoNotFoundException, InvalidPluginDescriptorException;
+public interface LifecycleMappingDelegate {
+    Map<String, List<MojoExecution>> calculateLifecycleMappings(MavenSession session, MavenProject project,
+            Lifecycle lifecycle, String lifecyclePhase)
+            throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
+            MojoNotFoundException, InvalidPluginDescriptorException;
 }

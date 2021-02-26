@@ -36,99 +36,86 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Benjamin Bentmann
  */
-public class DefaultBeanConfiguratorTest
-{
+public class DefaultBeanConfiguratorTest {
 
     private BeanConfigurator configurator;
 
     @BeforeEach
     public void setUp()
-        throws Exception
-    {
+            throws Exception {
         configurator = new DefaultBeanConfigurator();
     }
 
     @AfterEach
     public void tearDown()
-        throws Exception
-    {
+            throws Exception {
         configurator = null;
     }
 
-    private Xpp3Dom toConfig( String xml )
-    {
-        try
-        {
-            return Xpp3DomBuilder.build( new StringReader( "<configuration>" + xml + "</configuration>" ) );
-        }
-        catch ( XmlPullParserException | IOException e )
-        {
-            throw new IllegalArgumentException( e );
+    private Xpp3Dom toConfig(String xml) {
+        try {
+            return Xpp3DomBuilder.build(new StringReader("<configuration>" + xml + "</configuration>"));
+        } catch (XmlPullParserException | IOException e) {
+            throw new IllegalArgumentException(e);
         }
     }
 
     @Test
     public void testMinimal()
-        throws BeanConfigurationException
-    {
+            throws BeanConfigurationException {
         SomeBean bean = new SomeBean();
 
-        Xpp3Dom config = toConfig( "<file>test</file>" );
+        Xpp3Dom config = toConfig("<file>test</file>");
 
         DefaultBeanConfigurationRequest request = new DefaultBeanConfigurationRequest();
-        request.setBean( bean ).setConfiguration( config );
+        request.setBean(bean).setConfiguration(config);
 
-        configurator.configureBean( request );
+        configurator.configureBean(request);
 
-        assertEquals( new File( "test" ), bean.file );
+        assertEquals(new File("test"), bean.file);
     }
 
     @Test
     public void testPreAndPostProcessing()
-        throws BeanConfigurationException
-    {
+            throws BeanConfigurationException {
         SomeBean bean = new SomeBean();
 
-        Xpp3Dom config = toConfig( "<file>${test}</file>" );
+        Xpp3Dom config = toConfig("<file>${test}</file>");
 
-        BeanConfigurationValuePreprocessor preprocessor = ( value, type ) ->
-        {
-            if ( value != null && value.startsWith( "${" ) && value.endsWith( "}" ) )
-            {
-                return value.substring( 2, value.length() - 1 );
+        BeanConfigurationValuePreprocessor preprocessor = (value, type) -> {
+            if (value != null && value.startsWith("${") && value.endsWith("}")) {
+                return value.substring(2, value.length() - 1);
             }
             return value;
         };
 
-        BeanConfigurationPathTranslator translator = path -> new File( "base", path.getPath() ).getAbsoluteFile();
+        BeanConfigurationPathTranslator translator = path -> new File("base", path.getPath()).getAbsoluteFile();
 
         DefaultBeanConfigurationRequest request = new DefaultBeanConfigurationRequest();
-        request.setBean( bean ).setConfiguration( config );
-        request.setValuePreprocessor( preprocessor ).setPathTranslator( translator );
+        request.setBean(bean).setConfiguration(config);
+        request.setValuePreprocessor(preprocessor).setPathTranslator(translator);
 
-        configurator.configureBean( request );
+        configurator.configureBean(request);
 
-        assertEquals( new File( "base/test" ).getAbsoluteFile(), bean.file );
+        assertEquals(new File("base/test").getAbsoluteFile(), bean.file);
     }
 
     @Test
     public void testChildConfigurationElement()
-        throws BeanConfigurationException
-    {
+            throws BeanConfigurationException {
         SomeBean bean = new SomeBean();
 
-        Xpp3Dom config = toConfig( "<wrapper><file>test</file></wrapper>" );
+        Xpp3Dom config = toConfig("<wrapper><file>test</file></wrapper>");
 
         DefaultBeanConfigurationRequest request = new DefaultBeanConfigurationRequest();
-        request.setBean( bean ).setConfiguration( config, "wrapper" );
+        request.setBean(bean).setConfiguration(config, "wrapper");
 
-        configurator.configureBean( request );
+        configurator.configureBean(request);
 
-        assertEquals( new File( "test" ), bean.file );
+        assertEquals(new File("test"), bean.file);
     }
 
-    static class SomeBean
-    {
+    static class SomeBean {
 
         File file;
 

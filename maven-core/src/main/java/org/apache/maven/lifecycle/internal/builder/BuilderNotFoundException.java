@@ -23,10 +23,8 @@ package org.apache.maven.lifecycle.internal.builder;
  * BuilderNotFoundException
  */
 public class BuilderNotFoundException
-    extends Exception
-{
-    public BuilderNotFoundException( String message )
-    {
-        super( message );
+        extends Exception {
+    public BuilderNotFoundException(String message) {
+        super(message);
     }
 }

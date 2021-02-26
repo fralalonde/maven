@@ -23,24 +23,26 @@ import org.apache.maven.execution.MavenSession;
 import org.eclipse.aether.RepositorySystemSession;
 
 /**
- * Helps to provide backward-compatibility with plugins that use legacy components. <strong>Warning:</strong> This is an
- * internal utility interface that is only public for technical reasons, it is not part of the public API. In
- * particular, this interface can be changed or deleted without prior notice.
+ * Helps to provide backward-compatibility with plugins that use legacy
+ * components. <strong>Warning:</strong> This is an internal utility interface
+ * that is only public for technical reasons, it is not part of the public API.
+ * In particular, this interface can be changed or deleted without prior notice.
  *
  * @since 3.0
  * @author Benjamin Bentmann
  */
-public interface LegacySupport
-{
+public interface LegacySupport {
 
     /**
-     * Sets the currently active session. Some legacy components are basically stateful and their API is missing
-     * parameters that would be required to delegate to a stateless component. Saving the session (in a thread-local
-     * variable) is our best effort to record any state that is required to enable proper delegation.
+     * Sets the currently active session. Some legacy components are basically
+     * stateful and their API is missing parameters that would be required to
+     * delegate to a stateless component. Saving the session (in a thread-local
+     * variable) is our best effort to record any state that is required to enable
+     * proper delegation.
      *
      * @param session The currently active session, may be {@code null}.
      */
-    void setSession( MavenSession session );
+    void setSession(MavenSession session);
 
     /**
      * Gets the currently active session.

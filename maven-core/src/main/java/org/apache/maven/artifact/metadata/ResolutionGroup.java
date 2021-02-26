@@ -31,19 +31,16 @@ import org.apache.maven.artifact.repository.ArtifactRepository;
  */
 @Deprecated
 public class ResolutionGroup
-    extends org.apache.maven.repository.legacy.metadata.ResolutionGroup
-{
+        extends org.apache.maven.repository.legacy.metadata.ResolutionGroup {
 
-    public ResolutionGroup( Artifact pomArtifact, Set<Artifact> artifacts,
-                            List<ArtifactRepository> resolutionRepositories )
-    {
-        super( pomArtifact, artifacts, resolutionRepositories );
+    public ResolutionGroup(Artifact pomArtifact, Set<Artifact> artifacts,
+            List<ArtifactRepository> resolutionRepositories) {
+        super(pomArtifact, artifacts, resolutionRepositories);
     }
 
-    public ResolutionGroup( Artifact pomArtifact, Artifact relocatedArtifact, Set<Artifact> artifacts,
-                            Map<String, Artifact> managedVersions, List<ArtifactRepository> resolutionRepositories )
-    {
-        super( pomArtifact, relocatedArtifact, artifacts, managedVersions, resolutionRepositories );
+    public ResolutionGroup(Artifact pomArtifact, Artifact relocatedArtifact, Set<Artifact> artifacts,
+            Map<String, Artifact> managedVersions, List<ArtifactRepository> resolutionRepositories) {
+        super(pomArtifact, relocatedArtifact, artifacts, managedVersions, resolutionRepositories);
     }
 
 }

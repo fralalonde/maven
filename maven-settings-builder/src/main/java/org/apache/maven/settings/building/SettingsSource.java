@@ -22,14 +22,14 @@ package org.apache.maven.settings.building;
 import org.apache.maven.building.Source;
 
 /**
- * Provides access to the contents of settings independently of the backing store (e.g. file system, database, memory).
+ * Provides access to the contents of settings independently of the backing
+ * store (e.g. file system, database, memory).
  *
  * @author Benjamin Bentmann
  *
  * @deprecated instead use {@link Source}
  */
 @Deprecated
-public interface SettingsSource extends Source
-{
+public interface SettingsSource extends Source {
 
 }

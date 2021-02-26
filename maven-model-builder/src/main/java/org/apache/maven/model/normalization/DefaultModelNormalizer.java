@@ -45,55 +45,49 @@ import org.codehaus.plexus.util.StringUtils;
 @Named
 @Singleton
 public class DefaultModelNormalizer
-    implements ModelNormalizer
-{
+        implements ModelNormalizer {
 
     private DuplicateMerger merger = new DuplicateMerger();
 
     @Override
-    public void mergeDuplicates( Model model, ModelBuildingRequest request, ModelProblemCollector problems )
-    {
+    public void mergeDuplicates(Model model, ModelBuildingRequest request, ModelProblemCollector problems) {
         Build build = model.getBuild();
-        if ( build != null )
-        {
+        if (build != null) {
             List<Plugin> plugins = build.getPlugins();
-            Map<Object, Plugin> normalized = new LinkedHashMap<>( plugins.size() * 2 );
+            Map<Object, Plugin> normalized = new LinkedHashMap<>(plugins.size() * 2);
 
-            for ( Plugin plugin : plugins )
-            {
+            for (Plugin plugin : plugins) {
                 Object key = plugin.getKey();
-                Plugin first = normalized.get( key );
-                if ( first != null )
-                {
-                    merger.mergePlugin( plugin, first );
+                Plugin first = normalized.get(key);
+                if (first != null) {
+                    merger.mergePlugin(plugin, first);
                 }
-                normalized.put( key, plugin );
+                normalized.put(key, plugin);
             }
 
-            if ( plugins.size() != normalized.size() )
-            {
-                build.setPlugins( new ArrayList<>( normalized.values() ) );
+            if (plugins.size() != normalized.size()) {
+                build.setPlugins(new ArrayList<>(normalized.values()));
             }
         }
 
         /*
-         * NOTE: This is primarily to keep backward-compat with Maven 2.x which did not validate that dependencies are
-         * unique within a single POM. Upon multiple declarations, 2.x just kept the last one but retained the order of
-         * the first occurrence. So when we're in lenient/compat mode, we have to deal with such broken POMs and mimic
-         * the way 2.x works. When we're in strict mode, the removal of duplicates just saves other merging steps from
-         * aftereffects and bogus error messages.
+         * NOTE: This is primarily to keep backward-compat with Maven 2.x which did not
+         * validate that dependencies are unique within a single POM. Upon multiple
+         * declarations, 2.x just kept the last one but retained the order of the first
+         * occurrence. So when we're in lenient/compat mode, we have to deal with such
+         * broken POMs and mimic the way 2.x works. When we're in strict mode, the
+         * removal of duplicates just saves other merging steps from aftereffects and
+         * bogus error messages.
          */
         List<Dependency> dependencies = model.getDependencies();
-        Map<String, Dependency> normalized = new LinkedHashMap<>( dependencies.size() * 2 );
+        Map<String, Dependency> normalized = new LinkedHashMap<>(dependencies.size() * 2);
 
-        for ( Dependency dependency : dependencies )
-        {
-            normalized.put( dependency.getManagementKey(), dependency );
+        for (Dependency dependency : dependencies) {
+            normalized.put(dependency.getManagementKey(), dependency);
         }
 
-        if ( dependencies.size() != normalized.size() )
-        {
-            model.setDependencies( new ArrayList<>( normalized.values() ) );
+        if (dependencies.size() != normalized.size()) {
+            model.setDependencies(new ArrayList<>(normalized.values()));
         }
     }
 
@@ -101,39 +95,32 @@ public class DefaultModelNormalizer
      * DuplicateMerger
      */
     protected static class DuplicateMerger
-        extends MavenModelMerger
-    {
+            extends MavenModelMerger {
 
-        public void mergePlugin( Plugin target, Plugin source )
-        {
-            super.mergePlugin( target, source, false, Collections.emptyMap() );
+        public void mergePlugin(Plugin target, Plugin source) {
+            super.mergePlugin(target, source, false, Collections.emptyMap());
         }
 
     }
 
     @Override
-    public void injectDefaultValues( Model model, ModelBuildingRequest request, ModelProblemCollector problems )
-    {
-        injectDependencyDefaults( model.getDependencies() );
+    public void injectDefaultValues(Model model, ModelBuildingRequest request, ModelProblemCollector problems) {
+        injectDependencyDefaults(model.getDependencies());
 
         Build build = model.getBuild();
-        if ( build != null )
-        {
-            for ( Plugin plugin : build.getPlugins() )
-            {
-                injectDependencyDefaults( plugin.getDependencies() );
+        if (build != null) {
+            for (Plugin plugin : build.getPlugins()) {
+                injectDependencyDefaults(plugin.getDependencies());
             }
         }
     }
 
-    private void injectDependencyDefaults( List<Dependency> dependencies )
-    {
-        for ( Dependency dependency : dependencies )
-        {
-            if ( StringUtils.isEmpty( dependency.getScope() ) )
-            {
-                // we cannot set this directly in the MDO due to the interactions with dependency management
-                dependency.setScope( "compile" );
+    private void injectDependencyDefaults(List<Dependency> dependencies) {
+        for (Dependency dependency : dependencies) {
+            if (StringUtils.isEmpty(dependency.getScope())) {
+                // we cannot set this directly in the MDO due to the interactions with
+                // dependency management
+                dependency.setScope("compile");
             }
         }
     }

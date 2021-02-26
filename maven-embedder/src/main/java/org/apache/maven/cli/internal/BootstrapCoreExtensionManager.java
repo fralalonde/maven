@@ -53,8 +53,7 @@ import org.eclipse.aether.util.graph.visitor.PreorderNodeListGenerator;
  * BootstrapCoreExtensionManager
  */
 @Named
-public class BootstrapCoreExtensionManager
-{
+public class BootstrapCoreExtensionManager {
     private final Logger log;
 
     private final DefaultPluginDependenciesResolver pluginDependenciesResolver;
@@ -66,80 +65,72 @@ public class BootstrapCoreExtensionManager
     private final ClassRealm parentRealm;
 
     @Inject
-    public BootstrapCoreExtensionManager( Logger log, DefaultPluginDependenciesResolver pluginDependenciesResolver,
-                                          DefaultRepositorySystemSessionFactory repositorySystemSessionFactory,
-                                          PlexusContainer container )
-    {
+    public BootstrapCoreExtensionManager(Logger log, DefaultPluginDependenciesResolver pluginDependenciesResolver,
+            DefaultRepositorySystemSessionFactory repositorySystemSessionFactory,
+            PlexusContainer container) {
         this.log = log;
         this.pluginDependenciesResolver = pluginDependenciesResolver;
         this.repositorySystemSessionFactory = repositorySystemSessionFactory;
-        this.classWorld = ( (DefaultPlexusContainer) container ).getClassWorld();
+        this.classWorld = ((DefaultPlexusContainer) container).getClassWorld();
         this.parentRealm = container.getContainerRealm();
     }
 
-    public List<CoreExtensionEntry> loadCoreExtensions( MavenExecutionRequest request, Set<String> providedArtifacts,
-                                                        List<CoreExtension> extensions )
-        throws Exception
-    {
-        RepositorySystemSession repoSession = repositorySystemSessionFactory.newRepositorySession( request );
-        List<RemoteRepository> repositories = RepositoryUtils.toRepos( request.getPluginArtifactRepositories() );
+    public List<CoreExtensionEntry> loadCoreExtensions(MavenExecutionRequest request, Set<String> providedArtifacts,
+            List<CoreExtension> extensions)
+            throws Exception {
+        RepositorySystemSession repoSession = repositorySystemSessionFactory.newRepositorySession(request);
+        List<RemoteRepository> repositories = RepositoryUtils.toRepos(request.getPluginArtifactRepositories());
 
-        return resolveCoreExtensions( repoSession, repositories, providedArtifacts, extensions );
+        return resolveCoreExtensions(repoSession, repositories, providedArtifacts, extensions);
     }
 
-    private List<CoreExtensionEntry> resolveCoreExtensions( RepositorySystemSession repoSession,
-                                                            List<RemoteRepository> repositories,
-                                                            Set<String> providedArtifacts,
-                                                            List<CoreExtension> configuration )
-        throws Exception
-    {
+    private List<CoreExtensionEntry> resolveCoreExtensions(RepositorySystemSession repoSession,
+            List<RemoteRepository> repositories,
+            Set<String> providedArtifacts,
+            List<CoreExtension> configuration)
+            throws Exception {
         List<CoreExtensionEntry> extensions = new ArrayList<>();
 
-        DependencyFilter dependencyFilter = new ExclusionsDependencyFilter( providedArtifacts );
+        DependencyFilter dependencyFilter = new ExclusionsDependencyFilter(providedArtifacts);
 
-        for ( CoreExtension extension : configuration )
-        {
-            List<Artifact> artifacts = resolveExtension( extension, repoSession, repositories, dependencyFilter );
-            if ( !artifacts.isEmpty() )
-            {
-                extensions.add( createExtension( extension, artifacts ) );
+        for (CoreExtension extension : configuration) {
+            List<Artifact> artifacts = resolveExtension(extension, repoSession, repositories, dependencyFilter);
+            if (!artifacts.isEmpty()) {
+                extensions.add(createExtension(extension, artifacts));
             }
         }
 
-        return Collections.unmodifiableList( extensions );
+        return Collections.unmodifiableList(extensions);
     }
 
-    private CoreExtensionEntry createExtension( CoreExtension extension, List<Artifact> artifacts )
-        throws Exception
-    {
-        String realmId =
-            "coreExtension>" + extension.getGroupId() + ":" + extension.getArtifactId() + ":" + extension.getVersion();
-        ClassRealm realm = classWorld.newRealm( realmId, null );
-        log.debug( "Populating class realm " + realm.getId() );
-        realm.setParentRealm( parentRealm );
-        for ( Artifact artifact : artifacts )
-        {
+    private CoreExtensionEntry createExtension(CoreExtension extension, List<Artifact> artifacts)
+            throws Exception {
+        String realmId = "coreExtension>" + extension.getGroupId() + ":" + extension.getArtifactId() + ":"
+                + extension.getVersion();
+        ClassRealm realm = classWorld.newRealm(realmId, null);
+        log.debug("Populating class realm " + realm.getId());
+        realm.setParentRealm(parentRealm);
+        for (Artifact artifact : artifacts) {
             File file = artifact.getFile();
-            log.debug( "  Included " + file );
-            realm.addURL( file.toURI().toURL() );
+            log.debug("  Included " + file);
+            realm.addURL(file.toURI().toURL());
         }
-        return CoreExtensionEntry.discoverFrom( realm, Collections.singleton( artifacts.get( 0 ).getFile() ) );
+        return CoreExtensionEntry.discoverFrom(realm, Collections.singleton(artifacts.get(0).getFile()));
     }
 
-    private List<Artifact> resolveExtension( CoreExtension extension, RepositorySystemSession repoSession,
-                                             List<RemoteRepository> repositories, DependencyFilter dependencyFilter )
-        throws PluginResolutionException
-    {
+    private List<Artifact> resolveExtension(CoreExtension extension, RepositorySystemSession repoSession,
+            List<RemoteRepository> repositories, DependencyFilter dependencyFilter)
+            throws PluginResolutionException {
         Plugin plugin = new Plugin();
-        plugin.setGroupId( extension.getGroupId() );
-        plugin.setArtifactId( extension.getArtifactId() );
-        plugin.setVersion( extension.getVersion() );
+        plugin.setGroupId(extension.getGroupId());
+        plugin.setArtifactId(extension.getArtifactId());
+        plugin.setVersion(extension.getVersion());
 
-        DependencyNode root =
-            pluginDependenciesResolver.resolveCoreExtension( plugin, dependencyFilter, repositories, repoSession );
+        DependencyNode root = pluginDependenciesResolver.resolveCoreExtension(plugin, dependencyFilter, repositories,
+                repoSession);
         PreorderNodeListGenerator nlg = new PreorderNodeListGenerator();
-        root.accept( nlg );
-        List<Artifact> artifacts = nlg.getArtifacts( false );
+        root.accept(nlg);
+        List<Artifact> artifacts = nlg.getArtifacts(false);
 
         return artifacts;
     }

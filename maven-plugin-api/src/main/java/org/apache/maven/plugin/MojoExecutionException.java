@@ -26,54 +26,51 @@ package org.apache.maven.plugin;
  * @author Brett Porter
  */
 public class MojoExecutionException
-    extends AbstractMojoExecutionException
-{
+        extends AbstractMojoExecutionException {
     /**
-     * Construct a new <code>MojoExecutionException</code> exception providing the source and a short and long message:
-     * these messages are used to improve the message written at the end of Maven build.
+     * Construct a new <code>MojoExecutionException</code> exception providing the
+     * source and a short and long message: these messages are used to improve the
+     * message written at the end of Maven build.
      *
      * @param source
      * @param shortMessage
      * @param longMessage
      */
-    public MojoExecutionException( Object source, String shortMessage, String longMessage )
-    {
-        super( shortMessage );
+    public MojoExecutionException(Object source, String shortMessage, String longMessage) {
+        super(shortMessage);
         this.source = source;
         this.longMessage = longMessage;
     }
 
     /**
-     * Construct a new <code>MojoExecutionException</code> exception wrapping an underlying <code>Exception</code>
-     * and providing a <code>message</code>.
+     * Construct a new <code>MojoExecutionException</code> exception wrapping an
+     * underlying <code>Exception</code> and providing a <code>message</code>.
      *
      * @param message
      * @param cause
      */
-    public MojoExecutionException( String message, Exception cause )
-    {
-        super( message, cause );
+    public MojoExecutionException(String message, Exception cause) {
+        super(message, cause);
     }
 
     /**
-     * Construct a new <code>MojoExecutionException</code> exception wrapping an underlying <code>Throwable</code>
-     * and providing a <code>message</code>.
+     * Construct a new <code>MojoExecutionException</code> exception wrapping an
+     * underlying <code>Throwable</code> and providing a <code>message</code>.
      *
      * @param message
      * @param cause
      */
-    public MojoExecutionException( String message, Throwable cause )
-    {
-        super( message, cause );
+    public MojoExecutionException(String message, Throwable cause) {
+        super(message, cause);
     }
 
     /**
-     * Construct a new <code>MojoExecutionException</code> exception providing a <code>message</code>.
+     * Construct a new <code>MojoExecutionException</code> exception providing a
+     * <code>message</code>.
      *
      * @param message
      */
-    public MojoExecutionException( String message )
-    {
-        super( message );
+    public MojoExecutionException(String message) {
+        super(message);
     }
 }

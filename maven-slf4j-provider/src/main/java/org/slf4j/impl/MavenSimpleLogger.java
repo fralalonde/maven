@@ -25,95 +25,76 @@ import static org.apache.maven.shared.utils.logging.MessageUtils.buffer;
 import static org.apache.maven.shared.utils.logging.MessageUtils.level;
 
 /**
- * Logger for Maven, that support colorization of levels and stacktraces. This class implements 2 methods introduced in
- * slf4j-simple provider local copy.
+ * Logger for Maven, that support colorization of levels and stacktraces. This
+ * class implements 2 methods introduced in slf4j-simple provider local copy.
  *
  * @since 3.5.0
  */
-public class MavenSimpleLogger extends SimpleLogger
-{
-    MavenSimpleLogger( String name )
-    {
-        super( name );
+public class MavenSimpleLogger extends SimpleLogger {
+    MavenSimpleLogger(String name) {
+        super(name);
     }
 
     @Override
-    protected String renderLevel( int level )
-    {
-        switch ( level )
-        {
-            case LOG_LEVEL_TRACE:
-                return level().debug( "TRACE" );
-            case LOG_LEVEL_DEBUG:
-                return level().debug( "DEBUG" );
-            case LOG_LEVEL_INFO:
-                return level().info( "INFO" );
-            case LOG_LEVEL_WARN:
-                return level().warning( "WARNING" );
-            case LOG_LEVEL_ERROR:
-            default:
-                return level().error( "ERROR" );
+    protected String renderLevel(int level) {
+        switch (level) {
+        case LOG_LEVEL_TRACE:
+            return level().debug("TRACE");
+        case LOG_LEVEL_DEBUG:
+            return level().debug("DEBUG");
+        case LOG_LEVEL_INFO:
+            return level().info("INFO");
+        case LOG_LEVEL_WARN:
+            return level().warning("WARNING");
+        case LOG_LEVEL_ERROR:
+        default:
+            return level().error("ERROR");
         }
     }
 
     @Override
-    protected void writeThrowable( Throwable t, PrintStream stream )
-    {
-        if ( t == null )
-        {
+    protected void writeThrowable(Throwable t, PrintStream stream) {
+        if (t == null) {
             return;
         }
-        stream.print( buffer().failure( t.getClass().getName() ) );
-        if ( t.getMessage() != null )
-        {
-            stream.print( ": " );
-            stream.print( buffer().failure( t.getMessage() ) );
+        stream.print(buffer().failure(t.getClass().getName()));
+        if (t.getMessage() != null) {
+            stream.print(": ");
+            stream.print(buffer().failure(t.getMessage()));
         }
         stream.println();
 
-        while ( t != null )
-        {
-            for ( StackTraceElement e : t.getStackTrace() )
-            {
-                stream.print( "    " );
-                stream.print( buffer().strong( "at" ) );
-                stream.print( " " + e.getClassName() + "." + e.getMethodName() );
-                stream.print( buffer().a( " (" ).strong( getLocation( e ) ).a( ")" ) );
+        while (t != null) {
+            for (StackTraceElement e : t.getStackTrace()) {
+                stream.print("    ");
+                stream.print(buffer().strong("at"));
+                stream.print(" " + e.getClassName() + "." + e.getMethodName());
+                stream.print(buffer().a(" (").strong(getLocation(e)).a(")"));
                 stream.println();
             }
 
             t = t.getCause();
-            if ( t != null )
-            {
-                stream.print( buffer().strong( "Caused by" ).a( ": " ).a( t.getClass().getName() ) );
-                if ( t.getMessage() != null )
-                {
-                    stream.print( ": " );
-                    stream.print( buffer().failure( t.getMessage() ) );
+            if (t != null) {
+                stream.print(buffer().strong("Caused by").a(": ").a(t.getClass().getName()));
+                if (t.getMessage() != null) {
+                    stream.print(": ");
+                    stream.print(buffer().failure(t.getMessage()));
                 }
                 stream.println();
             }
         }
     }
 
-    protected String getLocation( final StackTraceElement e )
-    {
+    protected String getLocation(final StackTraceElement e) {
         assert e != null;
 
-        if ( e.isNativeMethod() )
-        {
+        if (e.isNativeMethod()) {
             return "Native Method";
-        }
-        else if ( e.getFileName() == null )
-        {
+        } else if (e.getFileName() == null) {
             return "Unknown Source";
-        }
-        else if ( e.getLineNumber() >= 0 )
-        {
-            return String.format( "%s:%s", e.getFileName(), e.getLineNumber() );
-        }
-        else
-        {
+        } else if (e.getLineNumber() >= 0) {
+            return String.format("%s:%s", e.getFileName(), e.getLineNumber());
+        } else {
             return e.getFileName();
         }
     }

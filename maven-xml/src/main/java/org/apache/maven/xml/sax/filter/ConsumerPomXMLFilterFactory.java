@@ -31,29 +31,25 @@ import org.xml.sax.SAXException;
  * @author Robert Scholte
  * @since 4.0.0
  */
-public class ConsumerPomXMLFilterFactory
-{
+public class ConsumerPomXMLFilterFactory {
     private BuildPomXMLFilterFactory buildPomXMLFilterFactory;
 
-    public ConsumerPomXMLFilterFactory( BuildPomXMLFilterFactory buildPomXMLFilterFactory )
-    {
+    public ConsumerPomXMLFilterFactory(BuildPomXMLFilterFactory buildPomXMLFilterFactory) {
         this.buildPomXMLFilterFactory = buildPomXMLFilterFactory;
     }
 
-    public final ConsumerPomXMLFilter get( Path projectPath )
-        throws SAXException, ParserConfigurationException, TransformerConfigurationException
-    {
-        BuildPomXMLFilter parent = buildPomXMLFilterFactory.get( projectPath );
-
+    public final ConsumerPomXMLFilter get(Path projectPath)
+            throws SAXException, ParserConfigurationException, TransformerConfigurationException {
+        BuildPomXMLFilter parent = buildPomXMLFilterFactory.get(projectPath);
 
         // Ensure that xs:any elements aren't touched by next filters
-        AbstractSAXFilter filter = new FastForwardFilter( parent );
+        AbstractSAXFilter filter = new FastForwardFilter(parent);
 
         // Strip modules
-        filter = new ModulesXMLFilter( filter );
+        filter = new ModulesXMLFilter(filter);
         // Adjust relativePath
-        filter = new RelativePathXMLFilter( filter );
+        filter = new RelativePathXMLFilter(filter);
 
-        return new ConsumerPomXMLFilter( filter );
+        return new ConsumerPomXMLFilter(filter);
     }
 }

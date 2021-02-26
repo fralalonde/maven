@@ -27,21 +27,19 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Kristian Rosenvold
  */
-public class ProjectBuildListTest
-{
+public class ProjectBuildListTest {
     @Test
     public void testGetByTaskSegment()
-        throws Exception
-    {
+            throws Exception {
         final MavenSession session = ProjectDependencyGraphStub.getMavenSession();
-        ProjectBuildList projectBuildList = ProjectDependencyGraphStub.getProjectBuildList( session );
-        TaskSegment taskSegment = projectBuildList.get( 0 ).getTaskSegment();
-        assertThat( "This test assumes there are at least 6 elements in projectBuilds",
-                    projectBuildList.size(), is( greaterThanOrEqualTo( 6 ) ) );
+        ProjectBuildList projectBuildList = ProjectDependencyGraphStub.getProjectBuildList(session);
+        TaskSegment taskSegment = projectBuildList.get(0).getTaskSegment();
+        assertThat("This test assumes there are at least 6 elements in projectBuilds",
+                projectBuildList.size(), is(greaterThanOrEqualTo(6)));
 
-        final ProjectBuildList byTaskSegment = projectBuildList.getByTaskSegment( taskSegment );
-        assertEquals( projectBuildList.size(),
-                      byTaskSegment.size() ); // TODO Make multiple segments on projectBuildList
+        final ProjectBuildList byTaskSegment = projectBuildList.getByTaskSegment(taskSegment);
+        assertEquals(projectBuildList.size(),
+                byTaskSegment.size()); // TODO Make multiple segments on projectBuildList
     }
 
 }

@@ -29,39 +29,34 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class UrlSourceTest
-{
+public class UrlSourceTest {
 
     @Test
-    public void testUrlSource()
-    {
+    public void testUrlSource() {
         NullPointerException e = assertThrows(
                 NullPointerException.class,
-                () -> new UrlSource( null ),
-                "Should fail, since you must specify a url" );
-        assertEquals( "url cannot be null", e.getMessage() );
+                () -> new UrlSource(null),
+                "Should fail, since you must specify a url");
+        assertEquals("url cannot be null", e.getMessage());
     }
 
     @Test
     public void testGetInputStream()
-        throws Exception
-    {
-        URL txtFile = new File( "target/test-classes/source.txt" ).toURI().toURL();
-        UrlSource source = new UrlSource( txtFile );
-        try ( InputStream is = source.getInputStream();
-              Scanner scanner = new Scanner( is ) )
-        {
-            assertEquals( "Hello World!", scanner.nextLine() );
+            throws Exception {
+        URL txtFile = new File("target/test-classes/source.txt").toURI().toURL();
+        UrlSource source = new UrlSource(txtFile);
+        try (InputStream is = source.getInputStream();
+                Scanner scanner = new Scanner(is)) {
+            assertEquals("Hello World!", scanner.nextLine());
         }
     }
 
     @Test
     public void testGetLocation()
-        throws Exception
-    {
-        URL txtFile = new File( "target/test-classes/source.txt" ).toURI().toURL();
-        UrlSource source = new UrlSource( txtFile );
-        assertEquals( txtFile.toExternalForm(), source.getLocation() );
+            throws Exception {
+        URL txtFile = new File("target/test-classes/source.txt").toURI().toURL();
+        UrlSource source = new UrlSource(txtFile);
+        assertEquals(txtFile.toExternalForm(), source.getLocation());
     }
 
 }

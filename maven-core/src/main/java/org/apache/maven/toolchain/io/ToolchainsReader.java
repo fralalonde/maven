@@ -28,56 +28,64 @@ import java.util.Map;
 import org.apache.maven.toolchain.model.PersistedToolchains;
 
 /**
- * Handles deserialization of toolchains from some kind of textual format like XML.
+ * Handles deserialization of toolchains from some kind of textual format like
+ * XML.
  *
  * @author Robert Scholte
  * @since 3.3.0
  */
-public interface ToolchainsReader
-{
+public interface ToolchainsReader {
 
     /**
-     * The key for the option to enable strict parsing. This option is of type {@link Boolean} and defaults to {@code
-     * true}. If {@code false}, unknown elements will be ignored instead of causing a failure.
+     * The key for the option to enable strict parsing. This option is of type
+     * {@link Boolean} and defaults to {@code
+     * true}. If {@code false}, unknown elements will be ignored instead of causing
+     * a failure.
      */
     String IS_STRICT = "org.apache.maven.toolchains.io.isStrict";
 
     /**
      * Reads the toolchains from the specified file.
      *
-     * @param input The file to deserialize the toolchains from, must not be {@code null}.
-     * @param options The options to use for deserialization, may be {@code null} to use the default values.
+     * @param input   The file to deserialize the toolchains from, must not be
+     *                {@code null}.
+     * @param options The options to use for deserialization, may be {@code null} to
+     *                use the default values.
      * @return The deserialized toolchains, never {@code null}.
-     * @throws IOException If the toolchains could not be deserialized.
+     * @throws IOException              If the toolchains could not be deserialized.
      * @throws ToolchainsParseException If the input format could not be parsed.
      */
-    PersistedToolchains read( File input, Map<String, ?> options )
-        throws IOException, ToolchainsParseException;
+    PersistedToolchains read(File input, Map<String, ?> options)
+            throws IOException, ToolchainsParseException;
 
     /**
-     * Reads the toolchains from the specified character reader. The reader will be automatically closed before the
-     * method returns.
+     * Reads the toolchains from the specified character reader. The reader will be
+     * automatically closed before the method returns.
      *
-     * @param input The reader to deserialize the toolchains from, must not be {@code null}.
-     * @param options The options to use for deserialization, may be {@code null} to use the default values.
+     * @param input   The reader to deserialize the toolchains from, must not be
+     *                {@code null}.
+     * @param options The options to use for deserialization, may be {@code null} to
+     *                use the default values.
      * @return The deserialized toolchains, never {@code null}.
-     * @throws IOException If the toolchains could not be deserialized.
+     * @throws IOException              If the toolchains could not be deserialized.
      * @throws ToolchainsParseException If the input format could not be parsed.
      */
-    PersistedToolchains read( Reader input, Map<String, ?> options )
-        throws IOException, ToolchainsParseException;
+    PersistedToolchains read(Reader input, Map<String, ?> options)
+            throws IOException, ToolchainsParseException;
 
     /**
-     * Reads the toolchains from the specified byte stream. The stream will be automatically closed before the method
-     * returns.
+     * Reads the toolchains from the specified byte stream. The stream will be
+     * automatically closed before the method returns.
      *
-     * @param input The stream to deserialize the toolchains from, must not be {@code null}.
-     * @param options The options to use for deserialization, may be {@code null} to use the default values.
+     * @param input   The stream to deserialize the toolchains from, must not be
+     *                {@code null}.
+     * @param options The options to use for deserialization, may be {@code null} to
+     *                use the default values.
      * @return The deserialized toolchains, never {@code null}.
-     * @throws IOException If the toolchains could not be deserialized.
+     * @throws IOException              If the toolchains could not be deserialized.
      * @throws ToolchainsParseException If the input format could not be parsed.
      */
-    PersistedToolchains read( InputStream input, Map<String, ?> options )
-        throws IOException, ToolchainsParseException;
+    PersistedToolchains read(InputStream input, Map<String, ?> options)
+            throws IOException, ToolchainsParseException;
 
 }

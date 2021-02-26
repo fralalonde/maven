@@ -25,16 +25,13 @@ package org.apache.maven.feature;
  * @author Robert Scholte
  * @since 4.0.0
  */
-public final class Features
-{
-    private Features()
-    {
+public final class Features {
+    private Features() {
     }
 
-    private static final Feature BUILDCONSUMER = new Feature( "maven.experimental.buildconsumer", "true" );
+    private static final Feature BUILDCONSUMER = new Feature("maven.experimental.buildconsumer", "true");
 
-    public static Feature buildConsumer()
-    {
+    public static Feature buildConsumer() {
         return BUILDCONSUMER;
     }
 
@@ -44,25 +41,21 @@ public final class Features
      * @author Robert Scholte
      * @since 4.0.0
      */
-    public static class Feature
-    {
+    public static class Feature {
         private final boolean active;
-        
+
         private final String name;
 
-        Feature( String name, String defaultValue )
-        {
+        Feature(String name, String defaultValue) {
             this.name = name;
-            this.active = "true".equals( System.getProperty( name, defaultValue ) );
+            this.active = "true".equals(System.getProperty(name, defaultValue));
         }
 
-        public boolean isActive()
-        {
-           return active;
+        public boolean isActive() {
+            return active;
         }
-        
-        public String propertyName()
-        {
+
+        public String propertyName() {
             return name;
         }
 

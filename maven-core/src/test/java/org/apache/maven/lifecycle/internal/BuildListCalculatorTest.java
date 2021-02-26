@@ -25,27 +25,24 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class BuildListCalculatorTest
-{
+public class BuildListCalculatorTest {
 
     @Test
     public void testCalculateProjectBuilds()
-        throws Exception
-    {
+            throws Exception {
         LifecycleTaskSegmentCalculator lifecycleTaskSegmentCalculator = getTaskSegmentCalculator();
         BuildListCalculator buildListCalculator = new BuildListCalculator();
         final MavenSession session = ProjectDependencyGraphStub.getMavenSession();
-        List<TaskSegment> taskSegments = lifecycleTaskSegmentCalculator.calculateTaskSegments( session );
-        final ProjectBuildList buildList = buildListCalculator.calculateProjectBuilds( session, taskSegments );
-        final ProjectBuildList segments = buildList.getByTaskSegment( taskSegments.get( 0 ) );
-        assertEquals( 3, taskSegments.size(), "Stub data contains 3 segments" );
-        assertEquals( 6, segments.size(), "Stub data contains 6 items" );
-        final ProjectSegment build = segments.get( 0 );
-        assertNotNull( build );
+        List<TaskSegment> taskSegments = lifecycleTaskSegmentCalculator.calculateTaskSegments(session);
+        final ProjectBuildList buildList = buildListCalculator.calculateProjectBuilds(session, taskSegments);
+        final ProjectBuildList segments = buildList.getByTaskSegment(taskSegments.get(0));
+        assertEquals(3, taskSegments.size(), "Stub data contains 3 segments");
+        assertEquals(6, segments.size(), "Stub data contains 6 items");
+        final ProjectSegment build = segments.get(0);
+        assertNotNull(build);
     }
 
-    private static LifecycleTaskSegmentCalculator getTaskSegmentCalculator()
-    {
+    private static LifecycleTaskSegmentCalculator getTaskSegmentCalculator() {
         return new LifecycleTaskSegmentCalculatorStub();
     }
 

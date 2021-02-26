@@ -31,8 +31,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-public class DownloaderTest
-{
+public class DownloaderTest {
     @TempDir
     public Path testDir;
 
@@ -48,24 +47,22 @@ public class DownloaderTest
 
     @BeforeEach
     public void setUp()
-        throws Exception
-    {
-        download = new DefaultDownloader( "mvnw", "aVersion" );
-        rootDir = testDir.resolve( "root" );
-        downloadFile = rootDir.resolve( "file" );
-        remoteFile = testDir.resolve( "remoteFile" );
-        Files.write( remoteFile, Arrays.asList( "sometext" ) );
+            throws Exception {
+        download = new DefaultDownloader("mvnw", "aVersion");
+        rootDir = testDir.resolve("root");
+        downloadFile = rootDir.resolve("file");
+        remoteFile = testDir.resolve("remoteFile");
+        Files.write(remoteFile, Arrays.asList("sometext"));
         sourceRoot = remoteFile.toUri();
     }
 
     @Test
     public void testDownload()
-        throws Exception
-    {
-        assert !Files.exists( downloadFile );
-        download.download( sourceRoot, downloadFile );
-        assert Files.exists( downloadFile );
-        assertEquals( "sometext",
-                      Files.readAllLines( downloadFile ).stream().collect( Collectors.joining() ) );
+            throws Exception {
+        assert !Files.exists(downloadFile);
+        download.download(sourceRoot, downloadFile);
+        assert Files.exists(downloadFile);
+        assertEquals("sometext",
+                Files.readAllLines(downloadFile).stream().collect(Collectors.joining()));
     }
 }

@@ -28,28 +28,25 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 /**
  * @author Benjamin Bentmann
  */
-public class DefaultSettingsBuilderFactoryTest
-{
+public class DefaultSettingsBuilderFactoryTest {
 
-    private File getSettings( String name )
-    {
-        return new File( "src/test/resources/settings/factory/" + name + ".xml" ).getAbsoluteFile();
+    private File getSettings(String name) {
+        return new File("src/test/resources/settings/factory/" + name + ".xml").getAbsoluteFile();
     }
 
     @Test
     public void testCompleteWiring()
-        throws Exception
-    {
+            throws Exception {
         SettingsBuilder builder = new DefaultSettingsBuilderFactory().newInstance();
-        assertNotNull( builder );
+        assertNotNull(builder);
 
         DefaultSettingsBuildingRequest request = new DefaultSettingsBuildingRequest();
-        request.setSystemProperties( System.getProperties() );
-        request.setUserSettingsFile( getSettings( "simple" ) );
+        request.setSystemProperties(System.getProperties());
+        request.setUserSettingsFile(getSettings("simple"));
 
-        SettingsBuildingResult result = builder.build( request );
-        assertNotNull( result );
-        assertNotNull( result.getEffectiveSettings() );
+        SettingsBuildingResult result = builder.build(request);
+        assertNotNull(result);
+        assertNotNull(result.getEffectiveSettings());
     }
 
 }

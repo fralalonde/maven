@@ -48,183 +48,170 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @author Christian Schulte
  * @since 3.5.0
  */
-public class ProjectModelResolverTest extends AbstractMavenProjectTestCase
-{
+public class ProjectModelResolverTest extends AbstractMavenProjectTestCase {
 
     /**
      * Creates a new {@code ProjectModelResolverTest} instance.
      */
-    public ProjectModelResolverTest()
-    {
+    public ProjectModelResolverTest() {
         super();
     }
 
     @Test
-    public void testResolveParentThrowsUnresolvableModelExceptionWhenNotFound() throws Exception
-    {
+    public void testResolveParentThrowsUnresolvableModelExceptionWhenNotFound() throws Exception {
         final Parent parent = new Parent();
-        parent.setGroupId( "org.apache" );
-        parent.setArtifactId( "apache" );
-        parent.setVersion( "0" );
+        parent.setGroupId("org.apache");
+        parent.setArtifactId("apache");
+        parent.setVersion("0");
 
         UnresolvableModelException e = assertThrows(
                 UnresolvableModelException.class,
-                () -> newModelResolver().resolveModel( parent ),
-                "Expected 'UnresolvableModelException' not thrown." );
-        assertNotNull( e.getMessage() );
-        assertThat( e.getMessage(), startsWith( "Could not find artifact org.apache:apache:pom:0 in central" ) );
+                () -> newModelResolver().resolveModel(parent),
+                "Expected 'UnresolvableModelException' not thrown.");
+        assertNotNull(e.getMessage());
+        assertThat(e.getMessage(), startsWith("Could not find artifact org.apache:apache:pom:0 in central"));
     }
 
     @Test
-    public void testResolveParentThrowsUnresolvableModelExceptionWhenNoMatchingVersionFound() throws Exception
-    {
+    public void testResolveParentThrowsUnresolvableModelExceptionWhenNoMatchingVersionFound() throws Exception {
         final Parent parent = new Parent();
-        parent.setGroupId( "org.apache" );
-        parent.setArtifactId( "apache" );
-        parent.setVersion( "[2.0,2.1)" );
+        parent.setGroupId("org.apache");
+        parent.setArtifactId("apache");
+        parent.setVersion("[2.0,2.1)");
 
         UnresolvableModelException e = assertThrows(
                 UnresolvableModelException.class,
-                () -> newModelResolver().resolveModel( parent ),
-                "Expected 'UnresolvableModelException' not thrown." );
-        assertEquals( "No versions matched the requested parent version range '[2.0,2.1)'",
-                      e.getMessage() );
+                () -> newModelResolver().resolveModel(parent),
+                "Expected 'UnresolvableModelException' not thrown.");
+        assertEquals("No versions matched the requested parent version range '[2.0,2.1)'",
+                e.getMessage());
     }
 
     @Test
-    public void testResolveParentThrowsUnresolvableModelExceptionWhenUsingRangesWithoutUpperBound() throws Exception
-    {
+    public void testResolveParentThrowsUnresolvableModelExceptionWhenUsingRangesWithoutUpperBound() throws Exception {
         final Parent parent = new Parent();
-        parent.setGroupId( "org.apache" );
-        parent.setArtifactId( "apache" );
-        parent.setVersion( "[1,)" );
+        parent.setGroupId("org.apache");
+        parent.setArtifactId("apache");
+        parent.setVersion("[1,)");
 
         UnresolvableModelException e = assertThrows(
                 UnresolvableModelException.class,
-                () -> newModelResolver().resolveModel( parent ),
-                "Expected 'UnresolvableModelException' not thrown." );
-        assertEquals( "The requested parent version range '[1,)' does not specify an upper bound",
-                      e.getMessage() );
+                () -> newModelResolver().resolveModel(parent),
+                "Expected 'UnresolvableModelException' not thrown.");
+        assertEquals("The requested parent version range '[1,)' does not specify an upper bound",
+                e.getMessage());
     }
 
     @Test
-    public void testResolveParentSuccessfullyResolvesExistingParentWithoutRange() throws Exception
-    {
+    public void testResolveParentSuccessfullyResolvesExistingParentWithoutRange() throws Exception {
         final Parent parent = new Parent();
-        parent.setGroupId( "org.apache" );
-        parent.setArtifactId( "apache" );
-        parent.setVersion( "1" );
+        parent.setGroupId("org.apache");
+        parent.setArtifactId("apache");
+        parent.setVersion("1");
 
-        assertNotNull( this.newModelResolver().resolveModel( parent ) );
-        assertEquals( "1", parent.getVersion() );
+        assertNotNull(this.newModelResolver().resolveModel(parent));
+        assertEquals("1", parent.getVersion());
     }
 
     @Test
-    public void testResolveParentSuccessfullyResolvesExistingParentUsingHighestVersion() throws Exception
-    {
+    public void testResolveParentSuccessfullyResolvesExistingParentUsingHighestVersion() throws Exception {
         final Parent parent = new Parent();
-        parent.setGroupId( "org.apache" );
-        parent.setArtifactId( "apache" );
-        parent.setVersion( "(,2.0)" );
+        parent.setGroupId("org.apache");
+        parent.setArtifactId("apache");
+        parent.setVersion("(,2.0)");
 
-        assertNotNull( this.newModelResolver().resolveModel( parent ) );
-        assertEquals( "1", parent.getVersion() );
+        assertNotNull(this.newModelResolver().resolveModel(parent));
+        assertEquals("1", parent.getVersion());
     }
 
     @Test
-    public void testResolveDependencyThrowsUnresolvableModelExceptionWhenNotFound() throws Exception
-    {
+    public void testResolveDependencyThrowsUnresolvableModelExceptionWhenNotFound() throws Exception {
         final Dependency dependency = new Dependency();
-        dependency.setGroupId( "org.apache" );
-        dependency.setArtifactId( "apache" );
-        dependency.setVersion( "0" );
+        dependency.setGroupId("org.apache");
+        dependency.setArtifactId("apache");
+        dependency.setVersion("0");
 
         UnresolvableModelException e = assertThrows(
                 UnresolvableModelException.class,
-                () -> newModelResolver().resolveModel( dependency ),
-                "Expected 'UnresolvableModelException' not thrown." );
-        assertNotNull( e.getMessage() );
-        assertThat( e.getMessage(), startsWith( "Could not find artifact org.apache:apache:pom:0 in central" ) );
+                () -> newModelResolver().resolveModel(dependency),
+                "Expected 'UnresolvableModelException' not thrown.");
+        assertNotNull(e.getMessage());
+        assertThat(e.getMessage(), startsWith("Could not find artifact org.apache:apache:pom:0 in central"));
     }
 
     @Test
-    public void testResolveDependencyThrowsUnresolvableModelExceptionWhenNoMatchingVersionFound() throws Exception
-    {
+    public void testResolveDependencyThrowsUnresolvableModelExceptionWhenNoMatchingVersionFound() throws Exception {
         final Dependency dependency = new Dependency();
-        dependency.setGroupId( "org.apache" );
-        dependency.setArtifactId( "apache" );
-        dependency.setVersion( "[2.0,2.1)" );
+        dependency.setGroupId("org.apache");
+        dependency.setArtifactId("apache");
+        dependency.setVersion("[2.0,2.1)");
 
         UnresolvableModelException e = assertThrows(
                 UnresolvableModelException.class,
-                () -> newModelResolver().resolveModel( dependency ),
-                "Expected 'UnresolvableModelException' not thrown." );
-        assertEquals( "No versions matched the requested dependency version range '[2.0,2.1)'",
-                      e.getMessage() );
+                () -> newModelResolver().resolveModel(dependency),
+                "Expected 'UnresolvableModelException' not thrown.");
+        assertEquals("No versions matched the requested dependency version range '[2.0,2.1)'",
+                e.getMessage());
     }
 
     @Test
-    public void testResolveDependencyThrowsUnresolvableModelExceptionWhenUsingRangesWithoutUpperBound() throws Exception
-    {
+    public void testResolveDependencyThrowsUnresolvableModelExceptionWhenUsingRangesWithoutUpperBound()
+            throws Exception {
         final Dependency dependency = new Dependency();
-        dependency.setGroupId( "org.apache" );
-        dependency.setArtifactId( "apache" );
-        dependency.setVersion( "[1,)" );
+        dependency.setGroupId("org.apache");
+        dependency.setArtifactId("apache");
+        dependency.setVersion("[1,)");
 
         UnresolvableModelException e = assertThrows(
                 UnresolvableModelException.class,
-                () -> newModelResolver().resolveModel( dependency ),
-                "Expected 'UnresolvableModelException' not thrown." );
-        assertEquals( "The requested dependency version range '[1,)' does not specify an upper bound",
-                      e.getMessage() );
+                () -> newModelResolver().resolveModel(dependency),
+                "Expected 'UnresolvableModelException' not thrown.");
+        assertEquals("The requested dependency version range '[1,)' does not specify an upper bound",
+                e.getMessage());
     }
 
     @Test
-    public void testResolveDependencySuccessfullyResolvesExistingDependencyWithoutRange() throws Exception
-    {
+    public void testResolveDependencySuccessfullyResolvesExistingDependencyWithoutRange() throws Exception {
         final Dependency dependency = new Dependency();
-        dependency.setGroupId( "org.apache" );
-        dependency.setArtifactId( "apache" );
-        dependency.setVersion( "1" );
+        dependency.setGroupId("org.apache");
+        dependency.setArtifactId("apache");
+        dependency.setVersion("1");
 
-        assertNotNull( this.newModelResolver().resolveModel( dependency ) );
-        assertEquals( "1", dependency.getVersion() );
+        assertNotNull(this.newModelResolver().resolveModel(dependency));
+        assertEquals("1", dependency.getVersion());
     }
 
     @Test
-    public void testResolveDependencySuccessfullyResolvesExistingDependencyUsingHighestVersion() throws Exception
-    {
+    public void testResolveDependencySuccessfullyResolvesExistingDependencyUsingHighestVersion() throws Exception {
         final Dependency dependency = new Dependency();
-        dependency.setGroupId( "org.apache" );
-        dependency.setArtifactId( "apache" );
-        dependency.setVersion( "(,2.0)" );
+        dependency.setGroupId("org.apache");
+        dependency.setArtifactId("apache");
+        dependency.setVersion("(,2.0)");
 
-        assertNotNull( this.newModelResolver().resolveModel( dependency ) );
-        assertEquals( "1", dependency.getVersion() );
+        assertNotNull(this.newModelResolver().resolveModel(dependency));
+        assertEquals("1", dependency.getVersion());
     }
 
-    private ModelResolver newModelResolver() throws Exception
-    {
-        final File localRepo = new File( this.getLocalRepository().getBasedir() );
+    private ModelResolver newModelResolver() throws Exception {
+        final File localRepo = new File(this.getLocalRepository().getBasedir());
         final DefaultRepositorySystemSession repoSession = MavenRepositorySystemUtils.newSession();
-        repoSession.setLocalRepositoryManager( new LegacyLocalRepositoryManager( localRepo ) );
+        repoSession.setLocalRepositoryManager(new LegacyLocalRepositoryManager(localRepo));
 
-        return new ProjectModelResolver( repoSession, null, getContainer().lookup( RepositorySystem.class ),
-                                         getContainer().lookup( RemoteRepositoryManager.class ),
-                                         this.getRemoteRepositories(),
-                                         ProjectBuildingRequest.RepositoryMerging.REQUEST_DOMINANT, null );
+        return new ProjectModelResolver(repoSession, null, getContainer().lookup(RepositorySystem.class),
+                getContainer().lookup(RemoteRepositoryManager.class),
+                this.getRemoteRepositories(),
+                ProjectBuildingRequest.RepositoryMerging.REQUEST_DOMINANT, null);
 
     }
 
     private List<RemoteRepository> getRemoteRepositories()
-        throws InvalidRepositoryException
-    {
-        final File repoDir = new File( getBasedir(), "src/test/remote-repo" ).getAbsoluteFile();
-        final RemoteRepository remoteRepository =
-            new RemoteRepository.Builder( org.apache.maven.repository.RepositorySystem.DEFAULT_REMOTE_REPO_ID,
-                                          "default", repoDir.toURI().toASCIIString() ).build();
+            throws InvalidRepositoryException {
+        final File repoDir = new File(getBasedir(), "src/test/remote-repo").getAbsoluteFile();
+        final RemoteRepository remoteRepository = new RemoteRepository.Builder(
+                org.apache.maven.repository.RepositorySystem.DEFAULT_REMOTE_REPO_ID,
+                "default", repoDir.toURI().toASCIIString()).build();
 
-        return Collections.singletonList( remoteRepository );
+        return Collections.singletonList(remoteRepository);
     }
 
 }

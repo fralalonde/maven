@@ -30,85 +30,73 @@ import org.apache.maven.artifact.repository.ArtifactRepository;
 /**
  * @author jdcasey
  */
-@Named( "default" )
+@Named("default")
 @Singleton
 public class DefaultRepositoryLayout
-    implements ArtifactRepositoryLayout
-{
+        implements ArtifactRepositoryLayout {
     private static final char PATH_SEPARATOR = '/';
 
     private static final char GROUP_SEPARATOR = '.';
 
     private static final char ARTIFACT_SEPARATOR = '-';
 
-    public String getId()
-    {
+    public String getId() {
         return "default";
     }
 
-    public String pathOf( Artifact artifact )
-    {
+    public String pathOf(Artifact artifact) {
         ArtifactHandler artifactHandler = artifact.getArtifactHandler();
 
-        StringBuilder path = new StringBuilder( 128 );
+        StringBuilder path = new StringBuilder(128);
 
-        path.append( formatAsDirectory( artifact.getGroupId() ) ).append( PATH_SEPARATOR );
-        path.append( artifact.getArtifactId() ).append( PATH_SEPARATOR );
-        path.append( artifact.getBaseVersion() ).append( PATH_SEPARATOR );
-        path.append( artifact.getArtifactId() ).append( ARTIFACT_SEPARATOR ).append( artifact.getVersion() );
+        path.append(formatAsDirectory(artifact.getGroupId())).append(PATH_SEPARATOR);
+        path.append(artifact.getArtifactId()).append(PATH_SEPARATOR);
+        path.append(artifact.getBaseVersion()).append(PATH_SEPARATOR);
+        path.append(artifact.getArtifactId()).append(ARTIFACT_SEPARATOR).append(artifact.getVersion());
 
-        if ( artifact.hasClassifier() )
-        {
-            path.append( ARTIFACT_SEPARATOR ).append( artifact.getClassifier() );
+        if (artifact.hasClassifier()) {
+            path.append(ARTIFACT_SEPARATOR).append(artifact.getClassifier());
         }
 
-        if ( artifactHandler.getExtension() != null && artifactHandler.getExtension().length() > 0 )
-        {
-            path.append( GROUP_SEPARATOR ).append( artifactHandler.getExtension() );
+        if (artifactHandler.getExtension() != null && artifactHandler.getExtension().length() > 0) {
+            path.append(GROUP_SEPARATOR).append(artifactHandler.getExtension());
         }
 
         return path.toString();
     }
 
-    public String pathOfLocalRepositoryMetadata( ArtifactMetadata metadata, ArtifactRepository repository )
-    {
-        return pathOfRepositoryMetadata( metadata, metadata.getLocalFilename( repository ) );
+    public String pathOfLocalRepositoryMetadata(ArtifactMetadata metadata, ArtifactRepository repository) {
+        return pathOfRepositoryMetadata(metadata, metadata.getLocalFilename(repository));
     }
 
-    private String pathOfRepositoryMetadata( ArtifactMetadata metadata,
-                                             String filename )
-    {
-        StringBuilder path = new StringBuilder( 128 );
+    private String pathOfRepositoryMetadata(ArtifactMetadata metadata,
+            String filename) {
+        StringBuilder path = new StringBuilder(128);
 
-        path.append( formatAsDirectory( metadata.getGroupId() ) ).append( PATH_SEPARATOR );
-        if ( !metadata.storedInGroupDirectory() )
-        {
-            path.append( metadata.getArtifactId() ).append( PATH_SEPARATOR );
+        path.append(formatAsDirectory(metadata.getGroupId())).append(PATH_SEPARATOR);
+        if (!metadata.storedInGroupDirectory()) {
+            path.append(metadata.getArtifactId()).append(PATH_SEPARATOR);
 
-            if ( metadata.storedInArtifactVersionDirectory() )
-            {
-                path.append( metadata.getBaseVersion() ).append( PATH_SEPARATOR );
+            if (metadata.storedInArtifactVersionDirectory()) {
+                path.append(metadata.getBaseVersion()).append(PATH_SEPARATOR);
             }
         }
 
-        path.append( filename );
+        path.append(filename);
 
         return path.toString();
     }
 
-    public String pathOfRemoteRepositoryMetadata( ArtifactMetadata metadata )
-    {
-        return pathOfRepositoryMetadata( metadata, metadata.getRemoteFilename() );
+    public String pathOfRemoteRepositoryMetadata(ArtifactMetadata metadata) {
+        return pathOfRepositoryMetadata(metadata, metadata.getRemoteFilename());
     }
 
-    private String formatAsDirectory( String directory )
-    {
-        return directory.replace( GROUP_SEPARATOR, PATH_SEPARATOR );
+    private String formatAsDirectory(String directory) {
+        return directory.replace(GROUP_SEPARATOR, PATH_SEPARATOR);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return getId();
     }
 

@@ -28,15 +28,12 @@ import org.apache.maven.plugin.MojoExecution;
  * @author Benjamin Bentmann
  */
 public class ExecutionEventCatapultStub
-    implements ExecutionEventCatapult
-{
+        implements ExecutionEventCatapult {
 
-    public void fire( Type eventType, MavenSession session, MojoExecution mojoExecution )
-    {
+    public void fire(Type eventType, MavenSession session, MojoExecution mojoExecution) {
     }
 
-    public void fire( Type eventType, MavenSession session, MojoExecution mojoExecution, Exception exception )
-    {
+    public void fire(Type eventType, MavenSession session, MojoExecution mojoExecution, Exception exception) {
     }
 
 }

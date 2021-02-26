@@ -41,63 +41,55 @@ import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Determines profile activation based on the existence/absence of some file.
- * File name interpolation support is limited to <code>${basedir}</code> (since Maven 3,
- * see <a href="https://issues.apache.org/jira/browse/MNG-2363">MNG-2363</a>),
- * System properties and request properties.
- * <code>${project.basedir}</code> is intentionally not supported as this form would suggest that other
- * <code>${project.*}</code> expressions can be used, which is however beyond the design.
+ * File name interpolation support is limited to <code>${basedir}</code> (since
+ * Maven 3, see
+ * <a href="https://issues.apache.org/jira/browse/MNG-2363">MNG-2363</a>),
+ * System properties and request properties. <code>${project.basedir}</code> is
+ * intentionally not supported as this form would suggest that other
+ * <code>${project.*}</code> expressions can be used, which is however beyond
+ * the design.
  *
  * @author Benjamin Bentmann
  * @see ActivationFile
  * @see org.apache.maven.model.validation.DefaultModelValidator#validateRawModel
  */
-@Named( "file" )
+@Named("file")
 @Singleton
 public class FileProfileActivator
-    implements ProfileActivator
-{
+        implements ProfileActivator {
 
     @Inject
     private PathTranslator pathTranslator;
 
-    public FileProfileActivator setPathTranslator( PathTranslator pathTranslator )
-    {
+    public FileProfileActivator setPathTranslator(PathTranslator pathTranslator) {
         this.pathTranslator = pathTranslator;
         return this;
     }
 
     @Override
-    public boolean isActive( Profile profile, ProfileActivationContext context, ModelProblemCollector problems )
-    {
+    public boolean isActive(Profile profile, ProfileActivationContext context, ModelProblemCollector problems) {
         Activation activation = profile.getActivation();
 
-        if ( activation == null )
-        {
+        if (activation == null) {
             return false;
         }
 
         ActivationFile file = activation.getFile();
 
-        if ( file == null )
-        {
+        if (file == null) {
             return false;
         }
 
         String path;
         boolean missing;
 
-        if ( StringUtils.isNotEmpty( file.getExists() ) )
-        {
+        if (StringUtils.isNotEmpty(file.getExists())) {
             path = file.getExists();
             missing = false;
-        }
-        else if ( StringUtils.isNotEmpty( file.getMissing() ) )
-        {
+        } else if (StringUtils.isNotEmpty(file.getMissing())) {
             path = file.getMissing();
             missing = true;
-        }
-        else
-        {
+        } else {
             return false;
         }
 
@@ -105,66 +97,54 @@ public class FileProfileActivator
 
         final File basedir = context.getProjectDirectory();
 
-        if ( basedir != null )
-        {
-            interpolator.addValueSource( new AbstractValueSource( false )
-            {
+        if (basedir != null) {
+            interpolator.addValueSource(new AbstractValueSource(false) {
                 @Override
-                public Object getValue( String expression )
-                {
+                public Object getValue(String expression) {
                     /*
-                     * NOTE: We intentionally only support ${basedir} and not ${project.basedir} as the latter form
-                     * would suggest that other project.* expressions can be used which is however beyond the design.
+                     * NOTE: We intentionally only support ${basedir} and not ${project.basedir} as
+                     * the latter form would suggest that other project.* expressions can be used
+                     * which is however beyond the design.
                      */
-                    if ( "basedir".equals( expression ) )
-                    {
+                    if ("basedir".equals(expression)) {
                         return basedir.getAbsolutePath();
                     }
                     return null;
                 }
-            } );
-        }
-        else if ( path.contains( "${basedir}" ) )
-        {
+            });
+        } else if (path.contains("${basedir}")) {
             return false;
         }
 
-        interpolator.addValueSource( new MapBasedValueSource( context.getProjectProperties() ) );
+        interpolator.addValueSource(new MapBasedValueSource(context.getProjectProperties()));
 
-        interpolator.addValueSource( new MapBasedValueSource( context.getUserProperties() ) );
+        interpolator.addValueSource(new MapBasedValueSource(context.getUserProperties()));
 
-        interpolator.addValueSource( new MapBasedValueSource( context.getSystemProperties() ) );
+        interpolator.addValueSource(new MapBasedValueSource(context.getSystemProperties()));
 
-        try
-        {
-            path = interpolator.interpolate( path, "" );
-        }
-        catch ( Exception e )
-        {
-            problems.add( new ModelProblemCollectorRequest( Severity.ERROR, Version.BASE )
-                    .setMessage( "Failed to interpolate file location " + path + " for profile " + profile.getId()
-                                 + ": " + e.getMessage() )
-                    .setLocation( file.getLocation( missing ? "missing" : "exists" ) )
-                    .setException( e ) );
+        try {
+            path = interpolator.interpolate(path, "");
+        } catch (Exception e) {
+            problems.add(new ModelProblemCollectorRequest(Severity.ERROR, Version.BASE)
+                    .setMessage("Failed to interpolate file location " + path + " for profile " + profile.getId()
+                            + ": " + e.getMessage())
+                    .setLocation(file.getLocation(missing ? "missing" : "exists"))
+                    .setException(e));
             return false;
         }
 
-        path = pathTranslator.alignToBaseDirectory( path, basedir );
+        path = pathTranslator.alignToBaseDirectory(path, basedir);
 
         // replace activation value with interpolated value
-        if ( missing )
-        {
-            file.setMissing( path );
-        }
-        else
-        {
-            file.setExists( path );
+        if (missing) {
+            file.setMissing(path);
+        } else {
+            file.setExists(path);
         }
 
-        File f = new File( path );
+        File f = new File(path);
 
-        if ( !f.isAbsolute() )
-        {
+        if (!f.isAbsolute()) {
             return false;
         }
 
@@ -174,19 +154,16 @@ public class FileProfileActivator
     }
 
     @Override
-    public boolean presentInConfig( Profile profile, ProfileActivationContext context, ModelProblemCollector problems )
-    {
+    public boolean presentInConfig(Profile profile, ProfileActivationContext context, ModelProblemCollector problems) {
         Activation activation = profile.getActivation();
 
-        if ( activation == null )
-        {
+        if (activation == null) {
             return false;
         }
 
         ActivationFile file = activation.getFile();
 
-        if ( file == null )
-        {
+        if (file == null) {
             return false;
         }
         return true;

@@ -26,36 +26,32 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Karl Heinz Marbaise
  */
-public class CleanArgumentTest
-{
+public class CleanArgumentTest {
     @Test
-    public void cleanArgsShouldRemoveWrongSurroundingQuotes()
-    {
+    public void cleanArgsShouldRemoveWrongSurroundingQuotes() {
         String[] args = { "\"-Dfoo=bar", "\"-Dfoo2=bar two\"" };
-        String[] cleanArgs = CleanArgument.cleanArgs( args );
-        assertEquals( args.length, cleanArgs.length );
-        assertEquals( "-Dfoo=bar", cleanArgs[0] );
-        assertEquals( "-Dfoo2=bar two", cleanArgs[1] );
+        String[] cleanArgs = CleanArgument.cleanArgs(args);
+        assertEquals(args.length, cleanArgs.length);
+        assertEquals("-Dfoo=bar", cleanArgs[0]);
+        assertEquals("-Dfoo2=bar two", cleanArgs[1]);
     }
 
     @Test
-    public void testCleanArgsShouldNotTouchCorrectlyQuotedArgumentsUsingDoubleQuotes()
-    {
+    public void testCleanArgsShouldNotTouchCorrectlyQuotedArgumentsUsingDoubleQuotes() {
         String information = "-Dinformation=\"The Information is important.\"";
         String[] args = { information };
-        String[] cleanArgs = CleanArgument.cleanArgs( args );
-        assertEquals( args.length, cleanArgs.length );
-        assertEquals( information, cleanArgs[0] );
+        String[] cleanArgs = CleanArgument.cleanArgs(args);
+        assertEquals(args.length, cleanArgs.length);
+        assertEquals(information, cleanArgs[0]);
     }
 
     @Test
-    public void testCleanArgsShouldNotTouchCorrectlyQuotedArgumentsUsingSingleQuotes()
-    {
+    public void testCleanArgsShouldNotTouchCorrectlyQuotedArgumentsUsingSingleQuotes() {
         String information = "-Dinformation='The Information is important.'";
         String[] args = { information };
-        String[] cleanArgs = CleanArgument.cleanArgs( args );
-        assertEquals( args.length, cleanArgs.length );
-        assertEquals( information, cleanArgs[0] );
+        String[] cleanArgs = CleanArgument.cleanArgs(args);
+        assertEquals(args.length, cleanArgs.length);
+        assertEquals(information, cleanArgs[0]);
     }
 
 }

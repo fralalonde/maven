@@ -22,8 +22,7 @@ package org.apache.maven.repository;
 /**
  * Proxy
  */
-public class Proxy
-{
+public class Proxy {
     public static final String PROXY_SOCKS5 = "SOCKS_5";
 
     public static final String PROXY_SOCKS4 = "SOCKS4";
@@ -56,7 +55,8 @@ public class Proxy
     private String protocol;
 
     /**
-     * The non-proxy hosts. Follows Java system property format: <code>*.foo.com|localhost</code>.
+     * The non-proxy hosts. Follows Java system property format:
+     * <code>*.foo.com|localhost</code>.
      */
     private String nonProxyHosts;
 
@@ -75,8 +75,7 @@ public class Proxy
      *
      * @return proxy server host name
      */
-    public String getHost()
-    {
+    public String getHost() {
         return host;
     }
 
@@ -85,8 +84,7 @@ public class Proxy
      *
      * @param host proxy server host name
      */
-    public void setHost( String host )
-    {
+    public void setHost(String host) {
         this.host = host;
     }
 
@@ -95,8 +93,7 @@ public class Proxy
      *
      * @return user's password at proxy host
      */
-    public String getPassword()
-    {
+    public String getPassword() {
         return password;
     }
 
@@ -105,8 +102,7 @@ public class Proxy
      *
      * @param password password to use to login to a proxy server
      */
-    public void setPassword( String password )
-    {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -115,8 +111,7 @@ public class Proxy
      *
      * @return proxy server port
      */
-    public int getPort()
-    {
+    public int getPort() {
         return port;
     }
 
@@ -125,8 +120,7 @@ public class Proxy
      *
      * @param port proxy server port
      */
-    public void setPort( int port )
-    {
+    public void setPort(int port) {
         this.port = port;
     }
 
@@ -135,8 +129,7 @@ public class Proxy
      *
      * @return username for the proxy server
      */
-    public String getUserName()
-    {
+    public String getUserName() {
         return userName;
     }
 
@@ -145,8 +138,7 @@ public class Proxy
      *
      * @param userName username for the proxy server
      */
-    public void setUserName( String userName )
-    {
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 
@@ -155,46 +147,38 @@ public class Proxy
      *
      * @return the protocol of the proxy server
      */
-    public String getProtocol()
-    {
+    public String getProtocol() {
         return protocol;
     }
 
     /**
      * @param protocol the protocol of the proxy server like <i>SOCKSv4</i>
      */
-    public void setProtocol( String protocol )
-    {
+    public void setProtocol(String protocol) {
         this.protocol = protocol;
     }
 
-    public String getNonProxyHosts()
-    {
+    public String getNonProxyHosts() {
         return nonProxyHosts;
     }
 
-    public void setNonProxyHosts( String nonProxyHosts )
-    {
+    public void setNonProxyHosts(String nonProxyHosts) {
         this.nonProxyHosts = nonProxyHosts;
     }
 
-    public String getNtlmHost()
-    {
+    public String getNtlmHost() {
         return ntlmHost;
     }
 
-    public void setNtlmHost( String ntlmHost )
-    {
+    public void setNtlmHost(String ntlmHost) {
         this.ntlmHost = ntlmHost;
     }
 
-    public void setNtlmDomain( String ntlmDomain )
-    {
+    public void setNtlmDomain(String ntlmDomain) {
         this.ntlmDomain = ntlmDomain;
     }
 
-    public String getNtlmDomain()
-    {
+    public String getNtlmDomain() {
         return ntlmDomain;
     }
 }

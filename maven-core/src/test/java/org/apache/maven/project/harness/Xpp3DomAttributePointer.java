@@ -30,75 +30,63 @@ import org.apache.commons.jxpath.ri.model.NodePointer;
  * @author Benjamin Bentmann
  */
 class Xpp3DomAttributePointer
-    extends NodePointer
-{
+        extends NodePointer {
 
     private Map.Entry<String, String> attrib;
 
-    public Xpp3DomAttributePointer( NodePointer parent, Map.Entry<String, String> attrib )
-    {
-        super( parent );
+    public Xpp3DomAttributePointer(NodePointer parent, Map.Entry<String, String> attrib) {
+        super(parent);
         this.attrib = attrib;
     }
 
     @Override
-    public int compareChildNodePointers( NodePointer pointer1, NodePointer pointer2 )
-    {
+    public int compareChildNodePointers(NodePointer pointer1, NodePointer pointer2) {
         // should never happen because attributes have no children
         return 0;
     }
 
     @Override
-    public Object getValue()
-    {
+    public Object getValue() {
         return attrib.getValue();
     }
 
     @Override
-    public Object getBaseValue()
-    {
+    public Object getBaseValue() {
         return attrib;
     }
 
     @Override
-    public Object getImmediateNode()
-    {
+    public Object getImmediateNode() {
         return attrib;
     }
 
     @Override
-    public int getLength()
-    {
+    public int getLength() {
         return 1;
     }
 
     @Override
-    public QName getName()
-    {
-        return new QName( null, attrib.getKey() );
+    public QName getName() {
+        return new QName(null, attrib.getKey());
     }
 
     @Override
-    public boolean isActual()
-    {
+    public boolean isActual() {
         return true;
     }
 
     @Override
-    public boolean isCollection()
-    {
+    public boolean isCollection() {
         return false;
     }
 
     @Override
-    public boolean isLeaf()
-    {
+    public boolean isLeaf() {
         return true;
     }
 
     @Override
-    public void setValue( Object value )
-    {
+    public void setValue(Object value) {
         throw new UnsupportedOperationException();
     }
 

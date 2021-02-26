@@ -24,14 +24,12 @@ import java.util.Properties;
 /**
  * @since 3.2.3
  */
-public class SystemProperties
-{
+public class SystemProperties {
     /**
      * Thread-safe System.properties copy implementation.
      */
-    public static void addSystemProperties( Properties props )
-    {
-        props.putAll( getSystemProperties() );
+    public static void addSystemProperties(Properties props) {
+        props.putAll(getSystemProperties());
     }
 
     /**
@@ -39,23 +37,23 @@ public class SystemProperties
      *
      * @return {@link System#getProperties()} obtained in a thread-safe manner.
      */
-    public static Properties getSystemProperties()
-    {
-        return copyProperties( System.getProperties() );
+    public static Properties getSystemProperties() {
+        return copyProperties(System.getProperties());
     }
 
     /**
-     * Copies the given {@link Properties} object into a new {@link Properties} object, in a thread-safe manner.
+     * Copies the given {@link Properties} object into a new {@link Properties}
+     * object, in a thread-safe manner.
+     * 
      * @param properties Properties to copy.
      * @return Copy of the given properties.
      */
-    public static Properties copyProperties( Properties properties )
-    {
+    public static Properties copyProperties(Properties properties) {
         final Properties copyProperties = new Properties();
-        // guard against modification/removal of keys in the given properties (MNG-5670, MNG-6053, MNG-6105)
-        synchronized ( properties )
-        {
-            copyProperties.putAll( properties );
+        // guard against modification/removal of keys in the given properties (MNG-5670,
+        // MNG-6053, MNG-6105)
+        synchronized (properties) {
+            copyProperties.putAll(properties);
         }
         return copyProperties;
     }

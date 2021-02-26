@@ -22,14 +22,16 @@ package org.apache.maven.model.building;
 import java.util.List;
 
 /**
- * Extends the ModelproblemCollector by the capacity of returning the collected problems.
+ * Extends the ModelproblemCollector by the capacity of returning the collected
+ * problems.
+ * 
  * @author Milos Kleint
  */
-public interface ModelProblemCollectorExt extends ModelProblemCollector
-{
+public interface ModelProblemCollectorExt extends ModelProblemCollector {
 
     /**
      * The collected problems.
+     * 
      * @return a list of model problems encountered, never {@code null}
      */
     List<ModelProblem> getProblems();

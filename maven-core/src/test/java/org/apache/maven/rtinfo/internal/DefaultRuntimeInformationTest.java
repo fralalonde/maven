@@ -34,42 +34,39 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import javax.inject.Inject;
 
 @PlexusTest
-public class DefaultRuntimeInformationTest
-{
+public class DefaultRuntimeInformationTest {
     @Inject
     RuntimeInformation rtInfo;
 
     @Test
-    public void testGetMavenVersion()
-    {
+    public void testGetMavenVersion() {
         String mavenVersion = rtInfo.getMavenVersion();
-        assertNotNull( mavenVersion );
-        assertTrue( mavenVersion.length() > 0 );
+        assertNotNull(mavenVersion);
+        assertTrue(mavenVersion.length() > 0);
     }
 
     @Test
-    public void testIsMavenVersion()
-    {
-        assertTrue( rtInfo.isMavenVersion( "2.0" ) );
-        assertFalse( rtInfo.isMavenVersion( "9.9" ) );
+    public void testIsMavenVersion() {
+        assertTrue(rtInfo.isMavenVersion("2.0"));
+        assertFalse(rtInfo.isMavenVersion("9.9"));
 
-        assertTrue( rtInfo.isMavenVersion( "[2.0.11,2.1.0),[3.0,)" ) );
-        assertFalse( rtInfo.isMavenVersion( "[9.0,)" ) );
-
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> rtInfo.isMavenVersion( "[3.0," ),
-                "Bad version range wasn't rejected" );
+        assertTrue(rtInfo.isMavenVersion("[2.0.11,2.1.0),[3.0,)"));
+        assertFalse(rtInfo.isMavenVersion("[9.0,)"));
 
         assertThrows(
                 IllegalArgumentException.class,
-                () -> rtInfo.isMavenVersion( "" ),
-                "Bad version range wasn't rejected" );
+                () -> rtInfo.isMavenVersion("[3.0,"),
+                "Bad version range wasn't rejected");
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> rtInfo.isMavenVersion(""),
+                "Bad version range wasn't rejected");
 
         assertThrows(
                 NullPointerException.class,
-                () -> rtInfo.isMavenVersion( null ),
-                "Bad version range wasn't rejected" );
+                () -> rtInfo.isMavenVersion(null),
+                "Bad version range wasn't rejected");
     }
 
 }

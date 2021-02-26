@@ -30,8 +30,7 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
  * @author Jason van Zyl
  */
 @Deprecated
-public interface MavenSettingsBuilder
-{
+public interface MavenSettingsBuilder {
 
     String ROLE = MavenSettingsBuilder.class.getName();
 
@@ -39,43 +38,43 @@ public interface MavenSettingsBuilder
     String ALT_GLOBAL_SETTINGS_XML_LOCATION = "org.apache.maven.global-settings";
     String ALT_LOCAL_REPOSITORY_LOCATION = "maven.repo.local";
 
-    Settings buildSettings( MavenExecutionRequest request )
-        throws IOException, XmlPullParserException;
+    Settings buildSettings(MavenExecutionRequest request)
+            throws IOException, XmlPullParserException;
 
     /**
      * @return a <code>Settings</code> object from the user settings file.
-     * @throws IOException if any
+     * @throws IOException            if any
      * @throws XmlPullParserException if any
      */
     Settings buildSettings()
-        throws IOException, XmlPullParserException;
+            throws IOException, XmlPullParserException;
 
     /**
      * @param useCachedSettings if true, doesn't reload the user settings
      * @return a <code>Settings</code> object from the user settings file.
-     * @throws IOException if any
+     * @throws IOException            if any
      * @throws XmlPullParserException if any
      */
-    Settings buildSettings( boolean useCachedSettings )
-        throws IOException, XmlPullParserException;
+    Settings buildSettings(boolean useCachedSettings)
+            throws IOException, XmlPullParserException;
 
     /**
      * @param userSettingsFile a given user settings file
      * @return a <code>Settings</code> object from the user settings file.
-     * @throws IOException if any
+     * @throws IOException            if any
      * @throws XmlPullParserException if any
      */
-    Settings buildSettings( File userSettingsFile )
-        throws IOException, XmlPullParserException;
+    Settings buildSettings(File userSettingsFile)
+            throws IOException, XmlPullParserException;
 
     /**
-     * @param userSettingsFile a given user settings file
+     * @param userSettingsFile  a given user settings file
      * @param useCachedSettings if true, doesn't reload the user settings
      * @return a <code>Settings</code> object from the user settings file.
-     * @throws IOException if any
+     * @throws IOException            if any
      * @throws XmlPullParserException if any
      */
-    Settings buildSettings( File userSettingsFile, boolean useCachedSettings )
-        throws IOException, XmlPullParserException;
+    Settings buildSettings(File userSettingsFile, boolean useCachedSettings)
+            throws IOException, XmlPullParserException;
 
 }

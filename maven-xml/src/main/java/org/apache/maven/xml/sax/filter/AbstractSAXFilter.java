@@ -24,120 +24,95 @@ import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.XMLFilterImpl;
 
 /**
- * XMLFilter with LexicalHandler.
- * Since some filters collect events before processing them, the LexicalHandler events must be collected too.
- * Otherwise the LexicalHandler events might end up before all collected XMLReader events.
+ * XMLFilter with LexicalHandler. Since some filters collect events before
+ * processing them, the LexicalHandler events must be collected too. Otherwise
+ * the LexicalHandler events might end up before all collected XMLReader events.
  *
  * @author Robert Scholte
  * @since 4.0.0
  */
-public class AbstractSAXFilter extends XMLFilterImpl implements LexicalHandler
-{
+public class AbstractSAXFilter extends XMLFilterImpl implements LexicalHandler {
     private LexicalHandler lexicalHandler;
 
-    public AbstractSAXFilter()
-    {
+    public AbstractSAXFilter() {
         super();
     }
 
-    public AbstractSAXFilter( AbstractSAXFilter parent )
-    {
-        super( parent );
-        parent.setLexicalHandler( this );
+    public AbstractSAXFilter(AbstractSAXFilter parent) {
+        super(parent);
+        parent.setLexicalHandler(this);
     }
 
-    public LexicalHandler getLexicalHandler()
-    {
+    public LexicalHandler getLexicalHandler() {
         return lexicalHandler;
     }
 
-    public void setLexicalHandler( LexicalHandler lexicalHandler )
-    {
+    public void setLexicalHandler(LexicalHandler lexicalHandler) {
         this.lexicalHandler = lexicalHandler;
     }
 
     @Override
-    public void startDTD( String name, String publicId, String systemId )
-        throws SAXException
-    {
-        if ( lexicalHandler != null )
-        {
-            lexicalHandler.startDTD( name, publicId, systemId );
+    public void startDTD(String name, String publicId, String systemId)
+            throws SAXException {
+        if (lexicalHandler != null) {
+            lexicalHandler.startDTD(name, publicId, systemId);
         }
     }
 
     @Override
     public void endDTD()
-        throws SAXException
-    {
-        if ( lexicalHandler != null )
-        {
+            throws SAXException {
+        if (lexicalHandler != null) {
             lexicalHandler.endDTD();
         }
     }
 
     @Override
-    public void startEntity( String name )
-        throws SAXException
-    {
-        if ( lexicalHandler != null )
-        {
-            lexicalHandler.startEntity( name );
+    public void startEntity(String name)
+            throws SAXException {
+        if (lexicalHandler != null) {
+            lexicalHandler.startEntity(name);
         }
     }
 
     @Override
-    public void endEntity( String name )
-        throws SAXException
-    {
-        if ( lexicalHandler != null )
-        {
-            lexicalHandler.endEntity( name );
+    public void endEntity(String name)
+            throws SAXException {
+        if (lexicalHandler != null) {
+            lexicalHandler.endEntity(name);
         }
     }
 
     @Override
     public void startCDATA()
-        throws SAXException
-    {
-        if ( lexicalHandler != null )
-        {
+            throws SAXException {
+        if (lexicalHandler != null) {
             lexicalHandler.startCDATA();
         }
     }
 
     @Override
     public void endCDATA()
-        throws SAXException
-    {
-        if ( lexicalHandler != null )
-        {
+            throws SAXException {
+        if (lexicalHandler != null) {
             lexicalHandler.endCDATA();
         }
     }
 
     @Override
-    public void comment( char[] ch, int start, int length )
-        throws SAXException
-    {
-        if ( lexicalHandler != null )
-        {
-            lexicalHandler.comment( ch, start, length );
+    public void comment(char[] ch, int start, int length)
+            throws SAXException {
+        if (lexicalHandler != null) {
+            lexicalHandler.comment(ch, start, length);
         }
     }
 
-
-    protected static String nullSafeAppend( String originalValue, String charSegment )
-    {
-        if ( originalValue == null )
-        {
+    protected static String nullSafeAppend(String originalValue, String charSegment) {
+        if (originalValue == null) {
             return charSegment;
-        }
-        else
-        {
+        } else {
             return originalValue + charSegment;
         }
     }
-
 
 }

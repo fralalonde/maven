@@ -35,55 +35,45 @@ import java.util.List;
  * @author Kristian Rosenvold
  */
 public class LifecycleTaskSegmentCalculatorStub
-    extends DefaultLifecycleTaskSegmentCalculator
-{
+        extends DefaultLifecycleTaskSegmentCalculator {
     public static final String clean = "clean";
 
     public static final String aggr = "aggr";
 
     public static final String install = "install";
 
-
-    public List<TaskSegment> calculateTaskSegments( MavenSession session, List<String> tasks )
-        throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
-        MojoNotFoundException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
-        PluginVersionResolutionException
-    {
-        List<TaskSegment> taskSegments = new ArrayList<>( tasks.size() );
+    public List<TaskSegment> calculateTaskSegments(MavenSession session, List<String> tasks)
+            throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
+            MojoNotFoundException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
+            PluginVersionResolutionException {
+        List<TaskSegment> taskSegments = new ArrayList<>(tasks.size());
 
         TaskSegment currentSegment = null;
 
-        for ( String task : tasks )
-        {
-            if ( aggr.equals( task ) )
-            {
+        for (String task : tasks) {
+            if (aggr.equals(task)) {
                 boolean aggregating = true;
 
-                if ( currentSegment == null || currentSegment.isAggregating() != aggregating )
-                {
-                    currentSegment = new TaskSegment( aggregating );
-                    taskSegments.add( currentSegment );
+                if (currentSegment == null || currentSegment.isAggregating() != aggregating) {
+                    currentSegment = new TaskSegment(aggregating);
+                    taskSegments.add(currentSegment);
                 }
 
-                currentSegment.getTasks().add( new GoalTask( task ) );
-            }
-            else
-            {
+                currentSegment.getTasks().add(new GoalTask(task));
+            } else {
                 // lifecycle phase
-                if ( currentSegment == null || currentSegment.isAggregating() )
-                {
-                    currentSegment = new TaskSegment( false );
-                    taskSegments.add( currentSegment );
+                if (currentSegment == null || currentSegment.isAggregating()) {
+                    currentSegment = new TaskSegment(false);
+                    taskSegments.add(currentSegment);
                 }
-                currentSegment.getTasks().add( new LifecycleTask( task ) );
+                currentSegment.getTasks().add(new LifecycleTask(task));
             }
         }
 
         return taskSegments;
     }
 
-    public boolean requiresProject( MavenSession session )
-    {
+    public boolean requiresProject(MavenSession session) {
         return true;
     }
 }

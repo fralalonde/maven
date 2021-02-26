@@ -20,12 +20,11 @@ package org.apache.maven.artifact;
  */
 
 /**
- * Exception thrown when the identity of an artifact can not be established,
- * eg. one of groupId, artifactId, version or type is null.
+ * Exception thrown when the identity of an artifact can not be established, eg.
+ * one of groupId, artifactId, version or type is null.
  */
 public class InvalidArtifactRTException
-    extends RuntimeException
-{
+        extends RuntimeException {
 
     private final String groupId;
     private final String artifactId;
@@ -33,12 +32,11 @@ public class InvalidArtifactRTException
     private final String type;
     private final String baseMessage;
 
-    public InvalidArtifactRTException( String groupId,
-                                       String artifactId,
-                                       String version,
-                                       String type,
-                                       String message )
-    {
+    public InvalidArtifactRTException(String groupId,
+            String artifactId,
+            String version,
+            String type,
+            String message) {
         this.groupId = groupId;
         this.artifactId = artifactId;
         this.version = version;
@@ -46,14 +44,13 @@ public class InvalidArtifactRTException
         this.baseMessage = message;
     }
 
-    public InvalidArtifactRTException( String groupId,
-                                       String artifactId,
-                                       String version,
-                                       String type,
-                                       String message,
-                                       Throwable cause )
-    {
-        super( cause );
+    public InvalidArtifactRTException(String groupId,
+            String artifactId,
+            String version,
+            String type,
+            String message,
+            Throwable cause) {
+        super(cause);
 
         this.groupId = groupId;
         this.artifactId = artifactId;
@@ -62,38 +59,31 @@ public class InvalidArtifactRTException
         this.baseMessage = message;
     }
 
-    public String getMessage()
-    {
+    public String getMessage() {
         return "For artifact {" + getArtifactKey() + "}: " + getBaseMessage();
     }
 
-    public String getBaseMessage()
-    {
+    public String getBaseMessage() {
         return baseMessage;
     }
 
-    public String getArtifactId()
-    {
+    public String getArtifactId() {
         return artifactId;
     }
 
-    public String getGroupId()
-    {
+    public String getGroupId() {
         return groupId;
     }
 
-    public String getType()
-    {
+    public String getType() {
         return type;
     }
 
-    public String getVersion()
-    {
+    public String getVersion() {
         return version;
     }
 
-    public String getArtifactKey()
-    {
+    public String getArtifactKey() {
         return groupId + ":" + artifactId + ":" + version + ":" + type;
     }
 

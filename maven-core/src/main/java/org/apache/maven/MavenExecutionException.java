@@ -27,29 +27,24 @@ import org.apache.maven.project.ProjectBuildingException;
  * @author Jason van Zyl
  */
 public class MavenExecutionException
-    extends Exception
-{
+        extends Exception {
     private File pomFile;
 
-    public MavenExecutionException( String message, File pomFile )
-    {
-        super( message );
+    public MavenExecutionException(String message, File pomFile) {
+        super(message);
         this.pomFile = pomFile;
     }
 
-    public MavenExecutionException( String message, File pomFile, ProjectBuildingException cause )
-    {
-        super( message, cause );
+    public MavenExecutionException(String message, File pomFile, ProjectBuildingException cause) {
+        super(message, cause);
         this.pomFile = pomFile;
     }
 
-    public MavenExecutionException( String message, Throwable cause )
-    {
-        super( message, cause );
+    public MavenExecutionException(String message, Throwable cause) {
+        super(message, cause);
     }
 
-    public File getPomFile()
-    {
+    public File getPomFile() {
         return pomFile;
     }
 }

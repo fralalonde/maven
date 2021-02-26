@@ -31,8 +31,7 @@ import org.eclipse.aether.repository.RemoteRepository;
  * @since 3.0
  * @author Benjamin Bentmann
  */
-public interface PluginPrefixRequest
-{
+public interface PluginPrefixRequest {
 
     /**
      * Gets the prefix of the plugin.
@@ -47,39 +46,41 @@ public interface PluginPrefixRequest
      * @param prefix The prefix of the plugin.
      * @return This request, never {@code null}.
      */
-    PluginPrefixRequest setPrefix( String prefix );
+    PluginPrefixRequest setPrefix(String prefix);
 
     /**
      * Gets the list of group ids to scan for the plugin prefix.
      *
-     * @return The list of group ids to scan for the plugin prefix, never {@code null}.
+     * @return The list of group ids to scan for the plugin prefix, never
+     *         {@code null}.
      */
     List<String> getPluginGroups();
 
     /**
      * Sets the list of group ids to scan for the plugin prefix.
      *
-     * @param pluginGroups The list of group ids to scan for the plugin prefix, may be {@code null}.
+     * @param pluginGroups The list of group ids to scan for the plugin prefix, may
+     *                     be {@code null}.
      * @return This request, never {@code null}.
      */
-    PluginPrefixRequest setPluginGroups( List<String> pluginGroups );
+    PluginPrefixRequest setPluginGroups(List<String> pluginGroups);
 
     /**
      * Gets the POM whose build plugins are to be scanned for the prefix.
      *
-     * @return The POM whose build plugins are to be scanned for the prefix or {@code null} to only search the plugin
-     *         repositories.
+     * @return The POM whose build plugins are to be scanned for the prefix or
+     *         {@code null} to only search the plugin repositories.
      */
     Model getPom();
 
     /**
      * Sets the POM whose build plugins are to be scanned for the prefix.
      *
-     * @param pom The POM whose build plugins are to be scanned for the prefix, may be {@code null} to only search the
-     *            plugin repositories.
+     * @param pom The POM whose build plugins are to be scanned for the prefix, may
+     *            be {@code null} to only search the plugin repositories.
      * @return This request, never {@code null}.
      */
-    PluginPrefixRequest setPom( Model pom );
+    PluginPrefixRequest setPom(Model pom);
 
     /**
      * Gets the remote repositories to use.
@@ -89,13 +90,14 @@ public interface PluginPrefixRequest
     List<RemoteRepository> getRepositories();
 
     /**
-     * Sets the remote repositories to use. <em>Note:</em> When creating a request from a project, be sure to use the
-     * plugin repositories and not the regular project repositories.
+     * Sets the remote repositories to use. <em>Note:</em> When creating a request
+     * from a project, be sure to use the plugin repositories and not the regular
+     * project repositories.
      *
      * @param repositories The remote repositories to use.
      * @return This request, never {@code null}.
      */
-    PluginPrefixRequest setRepositories( List<RemoteRepository> repositories );
+    PluginPrefixRequest setRepositories(List<RemoteRepository> repositories);
 
     /**
      * Gets the session to use for repository access.
@@ -110,6 +112,6 @@ public interface PluginPrefixRequest
      * @param repositorySession The repository session to use.
      * @return This request, never {@code null}.
      */
-    PluginPrefixRequest setRepositorySession( RepositorySystemSession repositorySession );
+    PluginPrefixRequest setRepositorySession(RepositorySystemSession repositorySession);
 
 }

@@ -31,8 +31,7 @@ import org.xml.sax.SAXException;
  * @author Robert Scholte
  * @since 4.0.0
  */
-public class ReactorDependencyXMLFilter extends AbstractEventXMLFilter
-{
+public class ReactorDependencyXMLFilter extends AbstractEventXMLFilter {
     private boolean parsingDependency;
 
     // states
@@ -49,122 +48,105 @@ public class ReactorDependencyXMLFilter extends AbstractEventXMLFilter
 
     private final BiFunction<String, String, String> reactorVersionMapper;
 
-    public ReactorDependencyXMLFilter( BiFunction<String, String, String> reactorVersionMapper )
-    {
+    public ReactorDependencyXMLFilter(BiFunction<String, String, String> reactorVersionMapper) {
         this.reactorVersionMapper = reactorVersionMapper;
     }
 
     @Override
-    public void startElement( String uri, String localName, String qName, Attributes atts )
-        throws SAXException
-    {
-        if ( !parsingDependency && "dependency".equals( localName ) )
-        {
+    public void startElement(String uri, String localName, String qName, Attributes atts)
+            throws SAXException {
+        if (!parsingDependency && "dependency".equals(localName)) {
             parsingDependency = true;
         }
 
-        if ( parsingDependency )
-        {
+        if (parsingDependency) {
             state = localName;
 
-            hasVersion |= "version".equals( localName );
+            hasVersion |= "version".equals(localName);
         }
-        super.startElement( uri, localName, qName, atts );
+        super.startElement(uri, localName, qName, atts);
     }
 
     @Override
-    public void characters( char[] ch, int start, int length )
-        throws SAXException
-    {
-        if ( parsingDependency )
-        {
+    public void characters(char[] ch, int start, int length)
+            throws SAXException {
+        if (parsingDependency) {
             final String eventState = state;
-            String value = new String( ch, start, length );
-            switch ( eventState )
-            {
-                case "dependency":
-                    dependencyWhitespace = nullSafeAppend( dependencyWhitespace, value );
-                    break;
-                case "groupId":
-                    groupId = nullSafeAppend( groupId, value );
-                    break;
-                case "artifactId":
-                    artifactId = nullSafeAppend( artifactId, value );
-                    break;
-                default:
-                    break;
+            String value = new String(ch, start, length);
+            switch (eventState) {
+            case "dependency":
+                dependencyWhitespace = nullSafeAppend(dependencyWhitespace, value);
+                break;
+            case "groupId":
+                groupId = nullSafeAppend(groupId, value);
+                break;
+            case "artifactId":
+                artifactId = nullSafeAppend(artifactId, value);
+                break;
+            default:
+                break;
             }
         }
-        super.characters( ch, start, length );
+        super.characters(ch, start, length);
     }
 
     @Override
-    public void endElement( String uri, final String localName, String qName )
-        throws SAXException
-    {
-        if ( parsingDependency )
-        {
-            switch ( localName )
-            {
-                case "dependency":
-                    if ( !hasVersion )
-                    {
-                        String version = getVersion();
+    public void endElement(String uri, final String localName, String qName)
+            throws SAXException {
+        if (parsingDependency) {
+            switch (localName) {
+            case "dependency":
+                if (!hasVersion) {
+                    String version = getVersion();
 
-                        // dependency is not part of reactor, probably it is managed
-                        if ( version != null )
-                        {
-                            try ( Includer i = super.include() )
-                            {
-                                if ( dependencyWhitespace != null )
-                                {
-                                    super.characters( dependencyWhitespace.toCharArray(), 0,
-                                                      dependencyWhitespace.length() );
+                    // dependency is not part of reactor, probably it is managed
+                    if (version != null) {
+                        try (Includer i = super.include()) {
+                            if (dependencyWhitespace != null) {
+                                super.characters(dependencyWhitespace.toCharArray(), 0,
+                                        dependencyWhitespace.length());
 
-                                }
-                                String versionQName = SAXEventUtils.renameQName( qName, "version" );
-
-                                super.startElement( uri, "version", versionQName, null );
-                                super.characters( version.toCharArray(), 0, version.length() );
-                                super.endElement( uri, "version", versionQName );
                             }
+                            String versionQName = SAXEventUtils.renameQName(qName, "version");
+
+                            super.startElement(uri, "version", versionQName, null);
+                            super.characters(version.toCharArray(), 0, version.length());
+                            super.endElement(uri, "version", versionQName);
                         }
                     }
-                    super.executeEvents();
+                }
+                super.executeEvents();
 
-                    parsingDependency = false;
+                parsingDependency = false;
 
-                    // reset
-                    hasVersion = false;
-                    dependencyWhitespace = null;
-                    groupId = null;
-                    artifactId = null;
+                // reset
+                hasVersion = false;
+                dependencyWhitespace = null;
+                groupId = null;
+                artifactId = null;
 
-                    break;
-                default:
-                    break;
+                break;
+            default:
+                break;
             }
         }
 
-        super.endElement( uri, localName, qName );
+        super.endElement(uri, localName, qName);
 
         state = "";
     }
 
-    private String getVersion()
-    {
-        return reactorVersionMapper.apply( groupId, artifactId  );
+    private String getVersion() {
+        return reactorVersionMapper.apply(groupId, artifactId);
     }
 
     @Override
-    protected boolean isParsing()
-    {
+    protected boolean isParsing() {
         return parsingDependency;
     }
 
     @Override
-    protected String getState()
-    {
+    protected String getState() {
         return state;
     }
 

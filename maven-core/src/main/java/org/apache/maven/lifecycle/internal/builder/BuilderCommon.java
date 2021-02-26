@@ -59,17 +59,17 @@ import org.codehaus.plexus.classworlds.realm.ClassRealm;
 import org.codehaus.plexus.logging.Logger;
 
 /**
- * Common code that is shared by the LifecycleModuleBuilder and the LifeCycleWeaveBuilder
+ * Common code that is shared by the LifecycleModuleBuilder and the
+ * LifeCycleWeaveBuilder
  *
  * @since 3.0
- * @author Kristian Rosenvold
- *         Builds one or more lifecycles for a full module
- *         NOTE: This class is not part of any public api and can be changed or deleted without prior notice.
+ * @author Kristian Rosenvold Builds one or more lifecycles for a full module
+ *         NOTE: This class is not part of any public api and can be changed or
+ *         deleted without prior notice.
  */
 @Named
 @Singleton
-public class BuilderCommon
-{
+public class BuilderCommon {
     @Inject
     private LifecycleDebugLogger lifecycleDebugLogger;
 
@@ -82,161 +82,136 @@ public class BuilderCommon
     @Inject
     private Logger logger;
 
-    public BuilderCommon()
-    {
+    public BuilderCommon() {
     }
 
-    public BuilderCommon( LifecycleDebugLogger lifecycleDebugLogger,
-                          LifecycleExecutionPlanCalculator lifeCycleExecutionPlanCalculator, Logger logger )
-    {
+    public BuilderCommon(LifecycleDebugLogger lifecycleDebugLogger,
+            LifecycleExecutionPlanCalculator lifeCycleExecutionPlanCalculator, Logger logger) {
         this.lifecycleDebugLogger = lifecycleDebugLogger;
         this.lifeCycleExecutionPlanCalculator = lifeCycleExecutionPlanCalculator;
         this.logger = logger;
     }
 
-    public MavenExecutionPlan resolveBuildPlan( MavenSession session, MavenProject project, TaskSegment taskSegment,
-                                                Set<Artifact> projectArtifacts )
-        throws PluginNotFoundException, PluginResolutionException, LifecyclePhaseNotFoundException,
-        PluginDescriptorParsingException, MojoNotFoundException, InvalidPluginDescriptorException,
-        NoPluginFoundForPrefixException, LifecycleNotFoundException, PluginVersionResolutionException,
-        LifecycleExecutionException
-    {
-        MavenExecutionPlan executionPlan =
-            lifeCycleExecutionPlanCalculator.calculateExecutionPlan( session, project, taskSegment.getTasks() );
+    public MavenExecutionPlan resolveBuildPlan(MavenSession session, MavenProject project, TaskSegment taskSegment,
+            Set<Artifact> projectArtifacts)
+            throws PluginNotFoundException, PluginResolutionException, LifecyclePhaseNotFoundException,
+            PluginDescriptorParsingException, MojoNotFoundException, InvalidPluginDescriptorException,
+            NoPluginFoundForPrefixException, LifecycleNotFoundException, PluginVersionResolutionException,
+            LifecycleExecutionException {
+        MavenExecutionPlan executionPlan = lifeCycleExecutionPlanCalculator.calculateExecutionPlan(session, project,
+                taskSegment.getTasks());
 
-        lifecycleDebugLogger.debugProjectPlan( project, executionPlan );
+        lifecycleDebugLogger.debugProjectPlan(project, executionPlan);
 
-        // With Maven 4's build/consumer the POM will always rewrite during distribution.
+        // With Maven 4's build/consumer the POM will always rewrite during
+        // distribution.
         // The maven-gpg-plugin uses the original POM, causing an invalid signature.
         // Fail as long as there's no solution available yet
-        if ( Features.buildConsumer().isActive() )
-        {
+        if (Features.buildConsumer().isActive()) {
             Optional<MojoExecution> gpgMojo = executionPlan.getMojoExecutions().stream()
-                            .filter( m -> "maven-gpg-plugin".equals( m.getArtifactId() ) 
-                                       && "org.apache.maven.plugins".equals( m.getGroupId() ) )
-                            .findAny();
+                    .filter(m -> "maven-gpg-plugin".equals(m.getArtifactId())
+                            && "org.apache.maven.plugins".equals(m.getGroupId()))
+                    .findAny();
 
-            if ( gpgMojo.isPresent() )
-            {
-                throw new LifecycleExecutionException( "The maven-gpg-plugin is not supported by Maven 4."
-                    + " Verify if there is a compatible signing solution,"
-                    + " add -D" + Features.buildConsumer().propertyName() + "=false"
-                    + " or use Maven 3." );
+            if (gpgMojo.isPresent()) {
+                throw new LifecycleExecutionException("The maven-gpg-plugin is not supported by Maven 4."
+                        + " Verify if there is a compatible signing solution,"
+                        + " add -D" + Features.buildConsumer().propertyName() + "=false"
+                        + " or use Maven 3.");
             }
         }
 
-        if ( session.getRequest().getDegreeOfConcurrency() > 1 )
-        {
+        if (session.getRequest().getDegreeOfConcurrency() > 1) {
             final Set<Plugin> unsafePlugins = executionPlan.getNonThreadSafePlugins();
-            if ( !unsafePlugins.isEmpty() )
-            {
-                logger.warn( "*****************************************************************" );
-                logger.warn( "* Your build is requesting parallel execution, but project      *" );
-                logger.warn( "* contains the following plugin(s) that have goals not marked   *" );
-                logger.warn( "* as @threadSafe to support parallel building.                  *" );
-                logger.warn( "* While this /may/ work fine, please look for plugin updates    *" );
-                logger.warn( "* and/or request plugins be made thread-safe.                   *" );
-                logger.warn( "* If reporting an issue, report it against the plugin in        *" );
-                logger.warn( "* question, not against maven-core                              *" );
-                logger.warn( "*****************************************************************" );
-                if ( logger.isDebugEnabled() )
-                {
+            if (!unsafePlugins.isEmpty()) {
+                logger.warn("*****************************************************************");
+                logger.warn("* Your build is requesting parallel execution, but project      *");
+                logger.warn("* contains the following plugin(s) that have goals not marked   *");
+                logger.warn("* as @threadSafe to support parallel building.                  *");
+                logger.warn("* While this /may/ work fine, please look for plugin updates    *");
+                logger.warn("* and/or request plugins be made thread-safe.                   *");
+                logger.warn("* If reporting an issue, report it against the plugin in        *");
+                logger.warn("* question, not against maven-core                              *");
+                logger.warn("*****************************************************************");
+                if (logger.isDebugEnabled()) {
                     final Set<MojoDescriptor> unsafeGoals = executionPlan.getNonThreadSafeMojos();
-                    logger.warn( "The following goals are not marked @threadSafe in " + project.getName() + ":" );
-                    for ( MojoDescriptor unsafeGoal : unsafeGoals )
-                    {
-                        logger.warn( unsafeGoal.getId() );
+                    logger.warn("The following goals are not marked @threadSafe in " + project.getName() + ":");
+                    for (MojoDescriptor unsafeGoal : unsafeGoals) {
+                        logger.warn(unsafeGoal.getId());
                     }
-                }
-                else
-                {
-                    logger.warn( "The following plugins are not marked @threadSafe in " + project.getName() + ":" );
-                    for ( Plugin unsafePlugin : unsafePlugins )
-                    {
-                        logger.warn( unsafePlugin.getId() );
+                } else {
+                    logger.warn("The following plugins are not marked @threadSafe in " + project.getName() + ":");
+                    for (Plugin unsafePlugin : unsafePlugins) {
+                        logger.warn(unsafePlugin.getId());
                     }
-                    logger.warn( "Enable debug to see more precisely which goals are not marked @threadSafe." );
+                    logger.warn("Enable debug to see more precisely which goals are not marked @threadSafe.");
                 }
-                logger.warn( "*****************************************************************" );
+                logger.warn("*****************************************************************");
             }
         }
 
         final String defaulModelId = DefaultLifecyclePluginAnalyzer.DEFAULTLIFECYCLEBINDINGS_MODELID;
 
         List<String> unversionedPlugins = executionPlan.getMojoExecutions().stream()
-                         .map( MojoExecution::getPlugin )
-                         .filter( p -> p.getLocation( "version" ) != null ) // versionless cli goal (?)
-                         .filter( p -> p.getLocation( "version" ).getSource() != null ) // versionless in pom (?)
-                         .filter( p -> defaulModelId.equals( p.getLocation( "version" ).getSource().getModelId() ) )
-                         .distinct()
-                         .map( Plugin::getArtifactId ) // managed by us, groupId is always o.a.m.plugins
-                         .collect( Collectors.toList() );
+                .map(MojoExecution::getPlugin)
+                .filter(p -> p.getLocation("version") != null) // versionless cli goal (?)
+                .filter(p -> p.getLocation("version").getSource() != null) // versionless in pom (?)
+                .filter(p -> defaulModelId.equals(p.getLocation("version").getSource().getModelId()))
+                .distinct()
+                .map(Plugin::getArtifactId) // managed by us, groupId is always o.a.m.plugins
+                .collect(Collectors.toList());
 
-        if ( !unversionedPlugins.isEmpty() )
-        {
-            logger.warn( "Version not locked for default bindings plugins " + unversionedPlugins
-                + ", you should define versions in pluginManagement section of your " + "pom.xml or parent" );
+        if (!unversionedPlugins.isEmpty()) {
+            logger.warn("Version not locked for default bindings plugins " + unversionedPlugins
+                    + ", you should define versions in pluginManagement section of your " + "pom.xml or parent");
         }
 
         return executionPlan;
     }
 
-    public void handleBuildError( final ReactorContext buildContext, final MavenSession rootSession,
-                                  final MavenSession currentSession, final MavenProject mavenProject, Throwable t,
-                                  final long buildStartTime )
-    {
+    public void handleBuildError(final ReactorContext buildContext, final MavenSession rootSession,
+            final MavenSession currentSession, final MavenProject mavenProject, Throwable t,
+            final long buildStartTime) {
         // record the error and mark the project as failed
         long buildEndTime = System.currentTimeMillis();
-        buildContext.getResult().addException( t );
-        buildContext.getResult().addBuildSummary( new BuildFailure( mavenProject, buildEndTime - buildStartTime, t ) );
+        buildContext.getResult().addException(t);
+        buildContext.getResult().addBuildSummary(new BuildFailure(mavenProject, buildEndTime - buildStartTime, t));
 
         // notify listeners about "soft" project build failures only
-        if ( t instanceof Exception && !( t instanceof RuntimeException ) )
-        {
-            eventCatapult.fire( ExecutionEvent.Type.ProjectFailed, currentSession, null, (Exception) t );
+        if (t instanceof Exception && !(t instanceof RuntimeException)) {
+            eventCatapult.fire(ExecutionEvent.Type.ProjectFailed, currentSession, null, (Exception) t);
         }
 
         // reactor failure modes
-        if ( t instanceof RuntimeException || !( t instanceof Exception ) )
-        {
+        if (t instanceof RuntimeException || !(t instanceof Exception)) {
             // fail fast on RuntimeExceptions, Errors and "other" Throwables
             // assume these are system errors and further build is meaningless
             buildContext.getReactorBuildStatus().halt();
-        }
-        else if ( MavenExecutionRequest.REACTOR_FAIL_NEVER.equals( rootSession.getReactorFailureBehavior() ) )
-        {
+        } else if (MavenExecutionRequest.REACTOR_FAIL_NEVER.equals(rootSession.getReactorFailureBehavior())) {
             // continue the build
-        }
-        else if ( MavenExecutionRequest.REACTOR_FAIL_AT_END.equals( rootSession.getReactorFailureBehavior() ) )
-        {
+        } else if (MavenExecutionRequest.REACTOR_FAIL_AT_END.equals(rootSession.getReactorFailureBehavior())) {
             // continue the build but ban all projects that depend on the failed one
-            buildContext.getReactorBuildStatus().blackList( mavenProject );
-        }
-        else if ( MavenExecutionRequest.REACTOR_FAIL_FAST.equals( rootSession.getReactorFailureBehavior() ) )
-        {
+            buildContext.getReactorBuildStatus().blackList(mavenProject);
+        } else if (MavenExecutionRequest.REACTOR_FAIL_FAST.equals(rootSession.getReactorFailureBehavior())) {
             buildContext.getReactorBuildStatus().halt();
-        }
-        else
-        {
-            logger.error( "invalid reactor failure behavior " + rootSession.getReactorFailureBehavior() );
+        } else {
+            logger.error("invalid reactor failure behavior " + rootSession.getReactorFailureBehavior());
             buildContext.getReactorBuildStatus().halt();
         }
     }
 
-    public static void attachToThread( MavenProject currentProject )
-    {
+    public static void attachToThread(MavenProject currentProject) {
         ClassRealm projectRealm = currentProject.getClassRealm();
-        if ( projectRealm != null )
-        {
-            Thread.currentThread().setContextClassLoader( projectRealm );
+        if (projectRealm != null) {
+            Thread.currentThread().setContextClassLoader(projectRealm);
         }
     }
 
-    // TODO I'm really wondering where this method belongs; smells like it should be on MavenProject, but for some
+    // TODO I'm really wondering where this method belongs; smells like it should be
+    // on MavenProject, but for some
     // reason it isn't ? This localization is kind-of a code smell.
 
-    public static String getKey( MavenProject project )
-    {
+    public static String getKey(MavenProject project) {
         return project.getGroupId() + ':' + project.getArtifactId() + ':' + project.getVersion();
     }
 

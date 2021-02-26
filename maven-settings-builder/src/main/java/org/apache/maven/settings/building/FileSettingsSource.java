@@ -32,17 +32,15 @@ import org.apache.maven.building.FileSource;
  */
 @Deprecated
 public class FileSettingsSource extends FileSource
-    implements SettingsSource
-{
+        implements SettingsSource {
 
     /**
      * Creates a new settings source backed by the specified file.
      *
      * @param settingsFile The settings file, must not be {@code null}.
      */
-    public FileSettingsSource( File settingsFile )
-    {
-        super( settingsFile );
+    public FileSettingsSource(File settingsFile) {
+        super(settingsFile);
     }
 
     /**
@@ -52,8 +50,7 @@ public class FileSettingsSource extends FileSource
      * @deprecated instead use {@link #getFile()}
      */
     @Deprecated
-    public File getSettingsFile()
-    {
+    public File getSettingsFile() {
         return getFile();
     }
 }

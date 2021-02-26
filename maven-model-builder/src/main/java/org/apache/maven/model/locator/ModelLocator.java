@@ -26,19 +26,21 @@ import java.io.File;
  *
  * @author Benjamin Bentmann
  */
-public interface ModelLocator
-{
+public interface ModelLocator {
 
     /**
-     * Locates the POM file within the specified project directory. In case the given project directory does not exist
-     * or does not contain a POM file, the return value indicates the expected path to the POM file. Sub directories of
-     * the project directory will not be considered when locating the POM file. The return value will be an absolute
-     * path if the project directory is given as an absolute path.
+     * Locates the POM file within the specified project directory. In case the
+     * given project directory does not exist or does not contain a POM file, the
+     * return value indicates the expected path to the POM file. Sub directories of
+     * the project directory will not be considered when locating the POM file. The
+     * return value will be an absolute path if the project directory is given as an
+     * absolute path.
      *
-     * @param projectDirectory The (possibly non-existent) base directory to locate the POM file in, must not be {@code
-     *            null}.
+     * @param projectDirectory The (possibly non-existent) base directory to locate
+     *                         the POM file in, must not be {@code
+     *            null}     .
      * @return The path to the (possibly non-existent) POM file, never {@code null}.
      */
-    File locatePom( File projectDirectory );
+    File locatePom(File projectDirectory);
 
 }

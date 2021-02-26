@@ -46,7 +46,6 @@ import java.nio.file.Path;
 /**
  * @author Hans Dockter
  */
-public interface Downloader
-{
-    void download( URI address, Path destination ) throws IOException;
+public interface Downloader {
+    void download(URI address, Path destination) throws IOException;
 }

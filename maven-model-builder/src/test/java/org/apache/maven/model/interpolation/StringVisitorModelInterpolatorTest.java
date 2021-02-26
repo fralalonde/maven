@@ -19,10 +19,8 @@ package org.apache.maven.model.interpolation;
  * under the License.
  */
 
-public class StringVisitorModelInterpolatorTest extends AbstractModelInterpolatorTest
-{
-    protected ModelInterpolator createInterpolator()
-    {
+public class StringVisitorModelInterpolatorTest extends AbstractModelInterpolatorTest {
+    protected ModelInterpolator createInterpolator() {
         return new StringVisitorModelInterpolator();
     }
 }

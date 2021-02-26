@@ -36,53 +36,46 @@ import org.apache.maven.plugin.version.PluginVersionResolver;
 import org.apache.maven.project.MavenProject;
 
 /**
- * <strong>NOTE:</strong> This class is not part of any public api and can be changed or deleted without prior notice.
+ * <strong>NOTE:</strong> This class is not part of any public api and can be
+ * changed or deleted without prior notice.
+ * 
  * @since 3.0
  * @author Benjamin Bentmann
  * @author Kristian Rosenvold (Extract class)
  */
 @Named
 @Singleton
-public class LifecyclePluginResolver
-{
+public class LifecyclePluginResolver {
     private final PluginVersionResolver pluginVersionResolver;
 
     @Inject
-    public LifecyclePluginResolver( PluginVersionResolver pluginVersionResolver )
-    {
+    public LifecyclePluginResolver(PluginVersionResolver pluginVersionResolver) {
         this.pluginVersionResolver = pluginVersionResolver;
     }
 
-    public void resolveMissingPluginVersions( MavenProject project, MavenSession session )
-        throws PluginVersionResolutionException
-    {
-        Map<String, String> versions = new HashMap<>( 64 );
+    public void resolveMissingPluginVersions(MavenProject project, MavenSession session)
+            throws PluginVersionResolutionException {
+        Map<String, String> versions = new HashMap<>(64);
 
-        for ( Plugin plugin : project.getBuildPlugins() )
-        {
-            if ( plugin.getVersion() == null )
-            {
-                PluginVersionRequest request = new DefaultPluginVersionRequest( plugin, session.getRepositorySession(),
-                                                                                project.getRemotePluginRepositories() );
-                plugin.setVersion( pluginVersionResolver.resolve( request ).getVersion() );
+        for (Plugin plugin : project.getBuildPlugins()) {
+            if (plugin.getVersion() == null) {
+                PluginVersionRequest request = new DefaultPluginVersionRequest(plugin, session.getRepositorySession(),
+                        project.getRemotePluginRepositories());
+                plugin.setVersion(pluginVersionResolver.resolve(request).getVersion());
             }
-            versions.put( plugin.getKey(), plugin.getVersion() );
+            versions.put(plugin.getKey(), plugin.getVersion());
         }
 
         PluginManagement pluginManagement = project.getPluginManagement();
-        if ( pluginManagement != null )
-        {
-            for ( Plugin plugin : pluginManagement.getPlugins() )
-            {
-                if ( plugin.getVersion() == null )
-                {
-                    plugin.setVersion( versions.get( plugin.getKey() ) );
-                    if ( plugin.getVersion() == null )
-                    {
-                        PluginVersionRequest request =
-                            new DefaultPluginVersionRequest( plugin, session.getRepositorySession(),
-                                                             project.getRemotePluginRepositories() );
-                        plugin.setVersion( pluginVersionResolver.resolve( request ).getVersion() );
+        if (pluginManagement != null) {
+            for (Plugin plugin : pluginManagement.getPlugins()) {
+                if (plugin.getVersion() == null) {
+                    plugin.setVersion(versions.get(plugin.getKey()));
+                    if (plugin.getVersion() == null) {
+                        PluginVersionRequest request = new DefaultPluginVersionRequest(plugin,
+                                session.getRepositorySession(),
+                                project.getRemotePluginRepositories());
+                        plugin.setVersion(pluginVersionResolver.resolve(request).getVersion());
                     }
                 }
             }

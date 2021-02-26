@@ -27,49 +27,40 @@ import org.eclipse.aether.artifact.Artifact;
  * @author Benjamin Bentmann
  */
 class ArtifactClassRealmConstituent
-    implements ClassRealmConstituent
-{
+        implements ClassRealmConstituent {
 
     private final Artifact artifact;
 
-    ArtifactClassRealmConstituent( Artifact artifact )
-    {
+    ArtifactClassRealmConstituent(Artifact artifact) {
         this.artifact = artifact;
     }
 
-    public String getGroupId()
-    {
+    public String getGroupId() {
         return artifact.getGroupId();
     }
 
-    public String getArtifactId()
-    {
+    public String getArtifactId() {
         return artifact.getArtifactId();
     }
 
-    public String getType()
-    {
+    public String getType() {
         return artifact.getExtension();
     }
 
-    public String getClassifier()
-    {
+    public String getClassifier() {
         return artifact.getClassifier();
     }
 
-    public String getVersion()
-    {
+    public String getVersion() {
         return artifact.getBaseVersion();
     }
 
-    public File getFile()
-    {
+    public File getFile() {
         return artifact.getFile();
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return artifact.toString();
     }
 

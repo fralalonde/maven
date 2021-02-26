@@ -30,8 +30,7 @@ import org.apache.maven.project.MavenProject;
  * @author Benjamin Bentmann
  */
 class DefaultExecutionEvent
-    implements ExecutionEvent
-{
+        implements ExecutionEvent {
 
     private final Type type;
 
@@ -41,36 +40,30 @@ class DefaultExecutionEvent
 
     private final Exception exception;
 
-    DefaultExecutionEvent( Type type, MavenSession session, MojoExecution mojoExecution, Exception exception )
-    {
+    DefaultExecutionEvent(Type type, MavenSession session, MojoExecution mojoExecution, Exception exception) {
         this.type = type;
         this.session = session;
         this.mojoExecution = mojoExecution;
         this.exception = exception;
     }
 
-    public Type getType()
-    {
+    public Type getType() {
         return type;
     }
 
-    public MavenSession getSession()
-    {
+    public MavenSession getSession() {
         return session;
     }
 
-    public MavenProject getProject()
-    {
+    public MavenProject getProject() {
         return session.getCurrentProject();
     }
 
-    public MojoExecution getMojoExecution()
-    {
+    public MojoExecution getMojoExecution() {
         return mojoExecution;
     }
 
-    public Exception getException()
-    {
+    public Exception getException() {
         return exception;
     }
 

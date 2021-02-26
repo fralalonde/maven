@@ -29,15 +29,17 @@ import org.apache.maven.model.building.ModelProblem;
  *
  * @author Benjamin Bentmann
  */
-public interface ProjectBuildingResult
-{
+public interface ProjectBuildingResult {
 
     /**
-     * Gets the identifier of the project that could not be built. The general format of the identifier is {@code
-     * <groupId>:<artifactId>:<version>} but some of these coordinates may still be unknown at the point the exception
-     * is thrown so this information is merely meant to assist the user.
+     * Gets the identifier of the project that could not be built. The general
+     * format of the identifier is {@code
+     * <groupId>:<artifactId>:<version>} but some of these coordinates may still be
+     * unknown at the point the exception is thrown so this information is merely
+     * meant to assist the user.
      *
-     * @return The identifier of the project or an empty string if not known, never {@code null}.
+     * @return The identifier of the project or an empty string if not known, never
+     *         {@code null}.
      */
     String getProjectId();
 
@@ -51,23 +53,24 @@ public interface ProjectBuildingResult
     /**
      * Gets the project that was built.
      *
-     * @return The project that was built or {@code null} if an error occurred and this result accompanies a
-     *         {@link ProjectBuildingException}.
+     * @return The project that was built or {@code null} if an error occurred and
+     *         this result accompanies a {@link ProjectBuildingException}.
      */
     MavenProject getProject();
 
     /**
      * Gets the problems that were encountered during the project building.
      *
-     * @return The problems that were encountered during the project building, can be empty but never {@code null}.
+     * @return The problems that were encountered during the project building, can
+     *         be empty but never {@code null}.
      */
     List<ModelProblem> getProblems();
 
     /**
      * Gets the result of the dependency resolution for the project.
      *
-     * @return The result of the dependency resolution for the project or {@code null} if the project dependencies were
-     *         not requested.
+     * @return The result of the dependency resolution for the project or
+     *         {@code null} if the project dependencies were not requested.
      */
     DependencyResolutionResult getDependencyResolutionResult();
 

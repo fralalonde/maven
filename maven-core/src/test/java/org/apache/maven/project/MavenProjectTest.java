@@ -37,200 +37,189 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MavenProjectTest
-    extends AbstractMavenProjectTestCase
-{
+        extends AbstractMavenProjectTestCase {
 
     @Test
     public void testShouldInterpretChildPathAdjustmentBasedOnModulePaths()
-        throws IOException
-    {
+            throws IOException {
         Model parentModel = new Model();
-        parentModel.addModule( "../child" );
+        parentModel.addModule("../child");
 
-        MavenProject parentProject = new MavenProject( parentModel );
+        MavenProject parentProject = new MavenProject(parentModel);
 
         Model childModel = new Model();
-        childModel.setArtifactId( "artifact" );
+        childModel.setArtifactId("artifact");
 
-        MavenProject childProject = new MavenProject( childModel );
+        MavenProject childProject = new MavenProject(childModel);
 
-        File childFile =
-            new File( System.getProperty( "java.io.tmpdir" ), "maven-project-tests" + System.currentTimeMillis()
-                + "/child/pom.xml" );
+        File childFile = new File(System.getProperty("java.io.tmpdir"),
+                "maven-project-tests" + System.currentTimeMillis()
+                        + "/child/pom.xml");
 
-        childProject.setFile( childFile );
+        childProject.setFile(childFile);
 
-        String adjustment = parentProject.getModulePathAdjustment( childProject );
+        String adjustment = parentProject.getModulePathAdjustment(childProject);
 
-        assertNotNull( adjustment );
+        assertNotNull(adjustment);
 
-        assertEquals( "..", adjustment );
+        assertEquals("..", adjustment);
     }
 
     @Test
-    public void testIdentityProtoInheritance()
-    {
+    public void testIdentityProtoInheritance() {
         Parent parent = new Parent();
 
-        parent.setGroupId( "test-group" );
-        parent.setVersion( "1000" );
-        parent.setArtifactId( "test-artifact" );
+        parent.setGroupId("test-group");
+        parent.setVersion("1000");
+        parent.setArtifactId("test-artifact");
 
         Model model = new Model();
 
-        model.setParent( parent );
-        model.setArtifactId( "real-artifact" );
+        model.setParent(parent);
+        model.setArtifactId("real-artifact");
 
-        MavenProject project = new MavenProject( model );
+        MavenProject project = new MavenProject(model);
 
-        assertEquals( "test-group", project.getGroupId(), "groupId proto-inheritance failed." );
-        assertEquals( "real-artifact", project.getArtifactId(), "artifactId is masked." );
-        assertEquals( "1000", project.getVersion(), "version proto-inheritance failed." );
+        assertEquals("test-group", project.getGroupId(), "groupId proto-inheritance failed.");
+        assertEquals("real-artifact", project.getArtifactId(), "artifactId is masked.");
+        assertEquals("1000", project.getVersion(), "version proto-inheritance failed.");
 
         // draw the NPE.
         project.getId();
     }
 
     @Test
-    public void testEmptyConstructor()
-    {
+    public void testEmptyConstructor() {
         MavenProject project = new MavenProject();
 
-        assertEquals( MavenProject.EMPTY_PROJECT_GROUP_ID + ":" + MavenProject.EMPTY_PROJECT_ARTIFACT_ID + ":jar:"
-                        + MavenProject.EMPTY_PROJECT_VERSION, project.getId() );
+        assertEquals(MavenProject.EMPTY_PROJECT_GROUP_ID + ":" + MavenProject.EMPTY_PROJECT_ARTIFACT_ID + ":jar:"
+                + MavenProject.EMPTY_PROJECT_VERSION, project.getId());
     }
 
     @Test
     public void testClone()
-        throws Exception
-    {
-        File f = getFileForClasspathResource( "canonical-pom.xml" );
-        MavenProject projectToClone = getProject( f );
+            throws Exception {
+        File f = getFileForClasspathResource("canonical-pom.xml");
+        MavenProject projectToClone = getProject(f);
 
         MavenProject clonedProject = projectToClone.clone();
-        assertEquals( "maven-core", clonedProject.getArtifactId() );
+        assertEquals("maven-core", clonedProject.getArtifactId());
         Map<?, ?> clonedMap = clonedProject.getManagedVersionMap();
-        assertNotNull( clonedMap, "ManagedVersionMap not copied" );
-        assertTrue( clonedMap.isEmpty(), "ManagedVersionMap is not empty" );
+        assertNotNull(clonedMap, "ManagedVersionMap not copied");
+        assertTrue(clonedMap.isEmpty(), "ManagedVersionMap is not empty");
     }
 
     @Test
     public void testCloneWithDependencyManagement()
-        throws Exception
-    {
-        File f = getFileForClasspathResource( "dependencyManagement-pom.xml" );
-        MavenProject projectToClone = getProjectWithDependencies( f );
+            throws Exception {
+        File f = getFileForClasspathResource("dependencyManagement-pom.xml");
+        MavenProject projectToClone = getProjectWithDependencies(f);
         DependencyManagement dep = projectToClone.getDependencyManagement();
-        assertNotNull( dep, "No dependencyManagement" );
+        assertNotNull(dep, "No dependencyManagement");
         List<?> list = dep.getDependencies();
-        assertNotNull( list, "No dependencies" );
-        assertTrue( !list.isEmpty(), "Empty dependency list" );
+        assertNotNull(list, "No dependencies");
+        assertTrue(!list.isEmpty(), "Empty dependency list");
 
         Map<?, ?> map = projectToClone.getManagedVersionMap();
-        assertNotNull( map, "No ManagedVersionMap" );
-        assertTrue( !map.isEmpty(), "ManagedVersionMap is empty" );
+        assertNotNull(map, "No ManagedVersionMap");
+        assertTrue(!map.isEmpty(), "ManagedVersionMap is empty");
 
         MavenProject clonedProject = projectToClone.clone();
-        assertEquals( "maven-core", clonedProject.getArtifactId() );
+        assertEquals("maven-core", clonedProject.getArtifactId());
         Map<?, ?> clonedMap = clonedProject.getManagedVersionMap();
-        assertNotNull( clonedMap, "ManagedVersionMap not copied" );
-        assertTrue( !clonedMap.isEmpty(), "ManagedVersionMap is empty" );
-        assertTrue( clonedMap.containsKey( "maven-test:maven-test-b:jar" ), "ManagedVersionMap does not contain test key" );
+        assertNotNull(clonedMap, "ManagedVersionMap not copied");
+        assertTrue(!clonedMap.isEmpty(), "ManagedVersionMap is empty");
+        assertTrue(clonedMap.containsKey("maven-test:maven-test-b:jar"), "ManagedVersionMap does not contain test key");
     }
 
     @Test
     public void testGetModulePathAdjustment()
-        throws IOException
-    {
+            throws IOException {
         Model moduleModel = new Model();
 
-        MavenProject module = new MavenProject( moduleModel );
-        module.setFile( new File( "module-dir/pom.xml" ) );
+        MavenProject module = new MavenProject(moduleModel);
+        module.setFile(new File("module-dir/pom.xml"));
 
         Model parentModel = new Model();
-        parentModel.addModule( "../module-dir" );
+        parentModel.addModule("../module-dir");
 
-        MavenProject parent = new MavenProject( parentModel );
-        parent.setFile( new File( "parent-dir/pom.xml" ) );
+        MavenProject parent = new MavenProject(parentModel);
+        parent.setFile(new File("parent-dir/pom.xml"));
 
-        String pathAdjustment = parent.getModulePathAdjustment( module );
+        String pathAdjustment = parent.getModulePathAdjustment(module);
 
-        assertEquals( "..", pathAdjustment );
+        assertEquals("..", pathAdjustment);
     }
 
     @Test
     public void testCloneWithDistributionManagement()
-        throws Exception
-    {
+            throws Exception {
 
-        File f = getFileForClasspathResource( "distributionManagement-pom.xml" );
-        MavenProject projectToClone = getProject( f );
+        File f = getFileForClasspathResource("distributionManagement-pom.xml");
+        MavenProject projectToClone = getProject(f);
 
         MavenProject clonedProject = projectToClone.clone();
-        assertNotNull( clonedProject.getDistributionManagementArtifactRepository(), "clonedProject - distributionManagement" );
+        assertNotNull(clonedProject.getDistributionManagementArtifactRepository(),
+                "clonedProject - distributionManagement");
     }
 
     @Test
     public void testCloneWithActiveProfile()
-        throws Exception
-    {
+            throws Exception {
 
-        File f = getFileForClasspathResource( "withActiveByDefaultProfile-pom.xml" );
-        MavenProject projectToClone = getProject( f );
+        File f = getFileForClasspathResource("withActiveByDefaultProfile-pom.xml");
+        MavenProject projectToClone = getProject(f);
         List<Profile> activeProfilesOrig = projectToClone.getActiveProfiles();
 
-        assertEquals( 1, activeProfilesOrig.size(), "Expecting 1 active profile" );
+        assertEquals(1, activeProfilesOrig.size(), "Expecting 1 active profile");
 
         MavenProject clonedProject = projectToClone.clone();
 
         List<Profile> activeProfilesClone = clonedProject.getActiveProfiles();
 
-        assertEquals( 1, activeProfilesClone.size(), "Expecting 1 active profile" );
+        assertEquals(1, activeProfilesClone.size(), "Expecting 1 active profile");
 
-        assertNotSame( activeProfilesOrig, activeProfilesClone,
-                      "The list of active profiles should have been cloned too but is same" );
+        assertNotSame(activeProfilesOrig, activeProfilesClone,
+                "The list of active profiles should have been cloned too but is same");
     }
 
     @Test
     public void testCloneWithBaseDir()
-        throws Exception
-    {
-        File f = getFileForClasspathResource( "canonical-pom.xml" );
-        MavenProject projectToClone = getProject( f );
-        projectToClone.setPomFile( new File( new File( f.getParentFile(), "target" ), "flattened.xml" ) );
+            throws Exception {
+        File f = getFileForClasspathResource("canonical-pom.xml");
+        MavenProject projectToClone = getProject(f);
+        projectToClone.setPomFile(new File(new File(f.getParentFile(), "target"), "flattened.xml"));
         MavenProject clonedProject = projectToClone.clone();
-        assertEquals( projectToClone.getFile(), clonedProject.getFile(), "POM file is preserved across clone" );
-        assertEquals( projectToClone.getBasedir(), clonedProject.getBasedir(), "Base directory is preserved across clone" );
+        assertEquals(projectToClone.getFile(), clonedProject.getFile(), "POM file is preserved across clone");
+        assertEquals(projectToClone.getBasedir(), clonedProject.getBasedir(),
+                "Base directory is preserved across clone");
     }
 
     @Test
     public void testUndefinedOutputDirectory()
-        throws Exception
-    {
+            throws Exception {
         MavenProject p = new MavenProject();
-        assertNoNulls( p.getCompileClasspathElements() );
-        assertNoNulls( p.getSystemClasspathElements() );
-        assertNoNulls( p.getRuntimeClasspathElements() );
-        assertNoNulls( p.getTestClasspathElements() );
+        assertNoNulls(p.getCompileClasspathElements());
+        assertNoNulls(p.getSystemClasspathElements());
+        assertNoNulls(p.getRuntimeClasspathElements());
+        assertNoNulls(p.getTestClasspathElements());
     }
 
     @Test
-    public void testAddDotFile()
-    {
+    public void testAddDotFile() {
         MavenProject project = new MavenProject();
 
-        File basedir = new File( System.getProperty( "java.io.tmpdir" ) );
-        project.setFile( new File( basedir, "file" ) );
+        File basedir = new File(System.getProperty("java.io.tmpdir"));
+        project.setFile(new File(basedir, "file"));
 
-        project.addCompileSourceRoot( basedir.getAbsolutePath() );
-        project.addCompileSourceRoot( "." );
+        project.addCompileSourceRoot(basedir.getAbsolutePath());
+        project.addCompileSourceRoot(".");
 
-        assertEquals( 1, project.getCompileSourceRoots().size() );
+        assertEquals(1, project.getCompileSourceRoots().size());
     }
 
-    private void assertNoNulls( List<String> elements )
-    {
-        assertFalse( elements.contains( null ) );
+    private void assertNoNulls(List<String> elements) {
+        assertFalse(elements.contains(null));
     }
 
 }

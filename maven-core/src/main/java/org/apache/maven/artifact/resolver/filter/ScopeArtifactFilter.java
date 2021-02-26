@@ -27,49 +27,42 @@ import java.util.Objects;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  */
 public class ScopeArtifactFilter
-    extends AbstractScopeArtifactFilter
-{
+        extends AbstractScopeArtifactFilter {
 
     private final String scope;
 
-    public ScopeArtifactFilter( String scope )
-    {
+    public ScopeArtifactFilter(String scope) {
         this.scope = scope;
 
-        addScopeInternal( scope );
+        addScopeInternal(scope);
     }
 
-    public String getScope()
-    {
+    public String getScope() {
         return scope;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 17;
 
-        hash = hash * 31 + ( scope != null ? scope.hashCode() : 0 );
+        hash = hash * 31 + (scope != null ? scope.hashCode() : 0);
 
         return hash;
     }
 
     @Override
-    public boolean equals( Object obj )
-    {
-        if ( this == obj )
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
 
-        if ( !( obj instanceof ScopeArtifactFilter ) )
-        {
+        if (!(obj instanceof ScopeArtifactFilter)) {
             return false;
         }
 
         ScopeArtifactFilter other = (ScopeArtifactFilter) obj;
 
-        return Objects.equals( scope, other.scope );
+        return Objects.equals(scope, other.scope);
     }
 
 }

@@ -25,8 +25,7 @@ import java.util.Map;
 /**
  * LifecycleMapping
  */
-public interface LifecycleMapping
-{
+public interface LifecycleMapping {
 
     @Deprecated
     String ROLE = LifecycleMapping.class.getName();
@@ -34,9 +33,9 @@ public interface LifecycleMapping
     Map<String, Lifecycle> getLifecycles();
 
     @Deprecated
-    List<String> getOptionalMojos( String lifecycle );
+    List<String> getOptionalMojos(String lifecycle);
 
     @Deprecated
-    Map<String, String> getPhases( String lifecycle );
+    Map<String, String> getPhases(String lifecycle);
 
 }

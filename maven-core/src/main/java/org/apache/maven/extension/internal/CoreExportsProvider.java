@@ -31,26 +31,20 @@ import org.eclipse.sisu.Nullable;
  */
 @Named
 @Singleton
-public class CoreExportsProvider
-{
+public class CoreExportsProvider {
 
     private final CoreExports exports;
 
     @Inject
-    public CoreExportsProvider( PlexusContainer container, @Nullable CoreExports exports )
-    {
-        if ( exports == null )
-        {
-            this.exports = new CoreExports( CoreExtensionEntry.discoverFrom( container.getContainerRealm() ) );
-        }
-        else
-        {
+    public CoreExportsProvider(PlexusContainer container, @Nullable CoreExports exports) {
+        if (exports == null) {
+            this.exports = new CoreExports(CoreExtensionEntry.discoverFrom(container.getContainerRealm()));
+        } else {
             this.exports = exports;
         }
     }
 
-    public CoreExports get()
-    {
+    public CoreExports get() {
         return exports;
     }
 }

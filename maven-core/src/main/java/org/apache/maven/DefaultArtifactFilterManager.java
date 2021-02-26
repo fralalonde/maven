@@ -36,31 +36,27 @@ import org.apache.maven.extension.internal.CoreExportsProvider;
  */
 @Named
 @Singleton
-@SuppressWarnings( "deprecation" )
+@SuppressWarnings("deprecation")
 public class DefaultArtifactFilterManager
-    implements ArtifactFilterManager
-{
+        implements ArtifactFilterManager {
 
     // this is a live injected collection
-    protected final List<ArtifactFilterManagerDelegate> delegates;
+    final List<ArtifactFilterManagerDelegate> delegates;
 
     protected Set<String> excludedArtifacts;
 
     private final Set<String> coreArtifacts;
 
     @Inject
-    public DefaultArtifactFilterManager( List<ArtifactFilterManagerDelegate> delegates,
-                                         CoreExportsProvider coreExports )
-    {
+    public DefaultArtifactFilterManager(List<ArtifactFilterManagerDelegate> delegates,
+            CoreExportsProvider coreExports) {
         this.delegates = delegates;
         this.coreArtifacts = coreExports.get().getExportedArtifacts();
     }
 
-    private synchronized Set<String> getExcludedArtifacts()
-    {
-        if ( excludedArtifacts == null )
-        {
-            excludedArtifacts = new LinkedHashSet<>( coreArtifacts );
+    private synchronized Set<String> getExcludedArtifacts() {
+        if (excludedArtifacts == null) {
+            excludedArtifacts = new LinkedHashSet<>(coreArtifacts);
         }
         return excludedArtifacts;
     }
@@ -70,16 +66,14 @@ public class DefaultArtifactFilterManager
      *
      * @see org.apache.maven.ArtifactFilterManager#getArtifactFilter()
      */
-    public ArtifactFilter getArtifactFilter()
-    {
-        Set<String> excludes = new LinkedHashSet<>( getExcludedArtifacts() );
+    public ArtifactFilter getArtifactFilter() {
+        Set<String> excludes = new LinkedHashSet<>(getExcludedArtifacts());
 
-        for ( ArtifactFilterManagerDelegate delegate : delegates )
-        {
-            delegate.addExcludes( excludes );
+        for (ArtifactFilterManagerDelegate delegate : delegates) {
+            delegate.addExcludes(excludes);
         }
 
-        return new ExclusionSetFilter( excludes );
+        return new ExclusionSetFilter(excludes);
     }
 
     /**
@@ -87,23 +81,19 @@ public class DefaultArtifactFilterManager
      *
      * @see org.apache.maven.ArtifactFilterManager#getCoreArtifactFilter()
      */
-    public ArtifactFilter getCoreArtifactFilter()
-    {
-        return new ExclusionSetFilter( getCoreArtifactExcludes() );
+    public ArtifactFilter getCoreArtifactFilter() {
+        return new ExclusionSetFilter(getCoreArtifactExcludes());
     }
 
-    public void excludeArtifact( String artifactId )
-    {
-        getExcludedArtifacts().add( artifactId );
+    public void excludeArtifact(String artifactId) {
+        getExcludedArtifacts().add(artifactId);
     }
 
-    public Set<String> getCoreArtifactExcludes()
-    {
-        Set<String> excludes = new LinkedHashSet<>( coreArtifacts );
+    public Set<String> getCoreArtifactExcludes() {
+        Set<String> excludes = new LinkedHashSet<>(coreArtifacts);
 
-        for ( ArtifactFilterManagerDelegate delegate : delegates )
-        {
-            delegate.addCoreExcludes( excludes );
+        for (ArtifactFilterManagerDelegate delegate : delegates) {
+            delegate.addCoreExcludes(excludes);
         }
 
         return excludes;

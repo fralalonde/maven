@@ -35,47 +35,42 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class RemoteSnapshotMetadataTest
-{
+public class RemoteSnapshotMetadataTest {
     private Locale defaultLocale;
 
     @BeforeEach
-    public void setLocaleToUseBuddhistCalendar()
-    {
+    public void setLocaleToUseBuddhistCalendar() {
         defaultLocale = Locale.getDefault();
-        Locale.setDefault( new Locale( "th", "TH" ) );
+        Locale.setDefault(new Locale("th", "TH"));
     }
 
     @AfterEach
-    public void restoreLocale()
-    {
-        Locale.setDefault( defaultLocale );
+    public void restoreLocale() {
+        Locale.setDefault(defaultLocale);
     }
 
-    static String gregorianDate()
-    {
-        SimpleDateFormat df = new SimpleDateFormat( "yyyyMMdd" );
-        df.setCalendar( new GregorianCalendar() );
-        df.setTimeZone( RemoteSnapshotMetadata.DEFAULT_SNAPSHOT_TIME_ZONE );
-        return df.format( new Date() );
+    static String gregorianDate() {
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+        df.setCalendar(new GregorianCalendar());
+        df.setTimeZone(RemoteSnapshotMetadata.DEFAULT_SNAPSHOT_TIME_ZONE);
+        return df.format(new Date());
     }
 
     @Test
-    public void gregorianCalendarIsUsed()
-    {
+    public void gregorianCalendarIsUsed() {
         String dateBefore = gregorianDate();
 
         RemoteSnapshotMetadata metadata = new RemoteSnapshotMetadata(
-                new DefaultArtifact( "a:b:1-SNAPSHOT" ), false, new Date() );
-        metadata.merge( new Metadata() );
+                new DefaultArtifact("a:b:1-SNAPSHOT"), false, new Date());
+        metadata.merge(new Metadata());
 
         String dateAfter = gregorianDate();
 
         String ts = metadata.metadata.getVersioning().getSnapshot().getTimestamp();
-        String datePart = ts.replaceAll( "\\..*", "" );
+        String datePart = ts.replaceAll("\\..*", "");
 
         /* Allow for this test running across midnight */
-        Set<String> expected = new HashSet<>( Arrays.asList( dateBefore, dateAfter ) );
-        assertTrue( expected.contains( datePart ), "Expected " + datePart + " to be in " + expected );
+        Set<String> expected = new HashSet<>(Arrays.asList(dateBefore, dateAfter));
+        assertTrue(expected.contains(datePart), "Expected " + datePart + " to be in " + expected);
     }
 }

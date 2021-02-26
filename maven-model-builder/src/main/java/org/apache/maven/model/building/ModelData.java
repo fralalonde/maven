@@ -25,13 +25,14 @@ import org.apache.maven.building.Source;
 import org.apache.maven.model.Model;
 
 /**
- * Holds a model along with some auxiliary information. This internal utility class assists the model builder during POM
- * processing by providing a means to transport information that cannot be (easily) extracted from the model itself.
+ * Holds a model along with some auxiliary information. This internal utility
+ * class assists the model builder during POM processing by providing a means to
+ * transport information that cannot be (easily) extracted from the model
+ * itself.
  *
  * @author Benjamin Bentmann
  */
-class ModelData
-{
+class ModelData {
     private final Source source;
 
     private final Model model;
@@ -47,8 +48,7 @@ class ModelData
      *
      * @param model The model to wrap, may be {@code null}.
      */
-    ModelData( Source source, Model model )
-    {
+    ModelData(Source source, Model model) {
         this.source = source;
         this.model = model;
     }
@@ -56,13 +56,14 @@ class ModelData
     /**
      * Creates a new container for the specified model.
      *
-     * @param model The model to wrap, may be {@code null}.
-     * @param groupId The effective group identifier of the model, may be {@code null}.
-     * @param artifactId The effective artifact identifier of the model, may be {@code null}.
-     * @param version The effective version of the model, may be {@code null}.
+     * @param model      The model to wrap, may be {@code null}.
+     * @param groupId    The effective group identifier of the model, may be
+     *                   {@code null}.
+     * @param artifactId The effective artifact identifier of the model, may be
+     *                   {@code null}.
+     * @param version    The effective version of the model, may be {@code null}.
      */
-    ModelData( Source source, Model model, String groupId, String artifactId, String version )
-    {
+    ModelData(Source source, Model model, String groupId, String artifactId, String version) {
         this.source = source;
         this.model = model;
         this.groupId = groupId;
@@ -70,8 +71,7 @@ class ModelData
         this.version = version;
     }
 
-    public Source getSource()
-    {
+    public Source getSource() {
         return source;
     }
 
@@ -80,39 +80,38 @@ class ModelData
      *
      * @return The model or {@code null} if not set.
      */
-    public Model getModel()
-    {
+    public Model getModel() {
         return model;
     }
 
     /**
      * Gets the effective group identifier of the model.
      *
-     * @return The effective group identifier of the model or an empty string if unknown, never {@code null}.
+     * @return The effective group identifier of the model or an empty string if
+     *         unknown, never {@code null}.
      */
-    public String getGroupId()
-    {
-        return ( groupId != null ) ? groupId : "";
+    public String getGroupId() {
+        return (groupId != null) ? groupId : "";
     }
 
     /**
      * Gets the effective artifact identifier of the model.
      *
-     * @return The effective artifact identifier of the model or an empty string if unknown, never {@code null}.
+     * @return The effective artifact identifier of the model or an empty string if
+     *         unknown, never {@code null}.
      */
-    public String getArtifactId()
-    {
-        return ( artifactId != null ) ? artifactId : "";
+    public String getArtifactId() {
+        return (artifactId != null) ? artifactId : "";
     }
 
     /**
      * Gets the effective version of the model.
      *
-     * @return The effective version of the model or an empty string if unknown, never {@code null}.
+     * @return The effective version of the model or an empty string if unknown,
+     *         never {@code null}.
      */
-    public String getVersion()
-    {
-        return ( version != null ) ? version : "";
+    public String getVersion() {
+        return (version != null) ? version : "";
     }
 
     /**
@@ -120,16 +119,15 @@ class ModelData
      *
      * @return The effective identifier of the model, never {@code null}.
      */
-    public String getId()
-    {
-        // if source is null, it is the supermodel, which can be accessed via empty string
-        return Objects.toString( source, "" );
+    public String getId() {
+        // if source is null, it is the supermodel, which can be accessed via empty
+        // string
+        return Objects.toString(source, "");
     }
 
     @Override
-    public String toString()
-    {
-        return String.valueOf( model );
+    public String toString() {
+        return String.valueOf(model);
     }
 
 }

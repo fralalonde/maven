@@ -25,15 +25,12 @@ package org.apache.maven;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  */
 public class BuildFailureException
-    extends Exception
-{
-    public BuildFailureException( String message )
-    {
-        super( message );
+        extends Exception {
+    public BuildFailureException(String message) {
+        super(message);
     }
 
-    public BuildFailureException( String message, Throwable cause )
-    {
-        super( message, cause );
+    public BuildFailureException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

@@ -20,14 +20,12 @@ package org.apache.maven;
  */
 
 /**
- * Signals that the user referenced one or more Maven profiles that could not be located in either the project or the
- * settings.
+ * Signals that the user referenced one or more Maven profiles that could not be
+ * located in either the project or the settings.
  */
 public class MissingProfilesException
-        extends Exception
-{
-    public MissingProfilesException( String message )
-    {
-        super( message );
+        extends Exception {
+    public MissingProfilesException(String message) {
+        super(message);
     }
 }

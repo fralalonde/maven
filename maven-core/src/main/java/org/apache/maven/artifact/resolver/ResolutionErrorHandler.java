@@ -22,10 +22,9 @@ package org.apache.maven.artifact.resolver;
 /**
  * @author Benjamin Bentmann
  */
-public interface ResolutionErrorHandler
-{
+public interface ResolutionErrorHandler {
 
-    void throwErrors( ArtifactResolutionRequest request, ArtifactResolutionResult result )
-        throws ArtifactResolutionException;
+    void throwErrors(ArtifactResolutionRequest request, ArtifactResolutionResult result)
+            throws ArtifactResolutionException;
 
 }

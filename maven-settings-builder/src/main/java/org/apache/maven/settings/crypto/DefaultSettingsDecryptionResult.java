@@ -22,9 +22,9 @@ package org.apache.maven.settings.crypto;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.maven.building.Problem;
 import org.apache.maven.settings.Proxy;
 import org.apache.maven.settings.Server;
-import org.apache.maven.settings.building.SettingsProblem;
 
 /**
  * Collects the output of the settings decrypter.
@@ -32,49 +32,42 @@ import org.apache.maven.settings.building.SettingsProblem;
  * @author Benjamin Bentmann
  */
 class DefaultSettingsDecryptionResult
-    implements SettingsDecryptionResult
-{
+        implements SettingsDecryptionResult {
 
     private List<Server> servers;
 
     private List<Proxy> proxies;
 
-    private List<SettingsProblem> problems;
+    private List<Problem> problems;
 
-    DefaultSettingsDecryptionResult( List<Server> servers, List<Proxy> proxies, List<SettingsProblem> problems )
-    {
-        this.servers = ( servers != null ) ? servers : new ArrayList<>();
-        this.proxies = ( proxies != null ) ? proxies : new ArrayList<>();
-        this.problems = ( problems != null ) ? problems : new ArrayList<>();
+    DefaultSettingsDecryptionResult(List<Server> servers, List<Proxy> proxies, List<Problem> problems) {
+        this.servers = (servers != null) ? servers : new ArrayList<>();
+        this.proxies = (proxies != null) ? proxies : new ArrayList<>();
+        this.problems = (problems != null) ? problems : new ArrayList<>();
     }
 
     @Override
-    public Server getServer()
-    {
-        return servers.isEmpty() ? null : servers.get( 0 );
+    public Server getServer() {
+        return servers.isEmpty() ? null : servers.get(0);
     }
 
     @Override
-    public List<Server> getServers()
-    {
+    public List<Server> getServers() {
         return servers;
     }
 
     @Override
-    public Proxy getProxy()
-    {
-        return proxies.isEmpty() ? null : proxies.get( 0 );
+    public Proxy getProxy() {
+        return proxies.isEmpty() ? null : proxies.get(0);
     }
 
     @Override
-    public List<Proxy> getProxies()
-    {
+    public List<Proxy> getProxies() {
         return proxies;
     }
 
     @Override
-    public List<SettingsProblem> getProblems()
-    {
+    public List<Problem> getProblems() {
         return problems;
     }
 

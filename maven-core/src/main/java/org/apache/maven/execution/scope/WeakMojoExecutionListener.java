@@ -23,24 +23,25 @@ import org.apache.maven.execution.MojoExecutionEvent;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
- * Extension point that allows build extensions observe and possibly veto mojo executions.
+ * Extension point that allows build extensions observe and possibly veto mojo
+ * executions.
  * <p>
- * Unlike {@link org.apache.maven.execution.MojoExecutionListener}, this extension point does not
- * trigger instantiation of the component, hence "weak" class name prefix. Only applies to mojo execution
- * scoped components.
+ * Unlike {@link org.apache.maven.execution.MojoExecutionListener}, this
+ * extension point does not trigger instantiation of the component, hence "weak"
+ * class name prefix. Only applies to mojo execution scoped components.
  * </p>
- * <strong>Note:</strong> This interface is part of work in progress and can be changed or removed without notice.
+ * <strong>Note:</strong> This interface is part of work in progress and can be
+ * changed or removed without notice.
  *
  * @see org.apache.maven.execution.MojoExecutionListener
  * @since 3.1.2
  */
-public interface WeakMojoExecutionListener
-{
-    void beforeMojoExecution( MojoExecutionEvent event )
-        throws MojoExecutionException;
+public interface WeakMojoExecutionListener {
+    void beforeMojoExecution(MojoExecutionEvent event)
+            throws MojoExecutionException;
 
-    void afterMojoExecutionSuccess( MojoExecutionEvent event )
-        throws MojoExecutionException;
+    void afterMojoExecutionSuccess(MojoExecutionEvent event)
+            throws MojoExecutionException;
 
-    void afterExecutionFailure( MojoExecutionEvent event );
+    void afterExecutionFailure(MojoExecutionEvent event);
 }

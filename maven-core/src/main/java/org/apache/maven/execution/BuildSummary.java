@@ -28,8 +28,7 @@ import org.apache.maven.project.MavenProject;
  *
  * @author Benjamin Bentmann
  */
-public abstract class BuildSummary
-{
+public abstract class BuildSummary {
 
     /**
      * The project being summarized.
@@ -45,11 +44,10 @@ public abstract class BuildSummary
      * Creates a new build summary for the specified project.
      *
      * @param project The project being summarized, must not be {@code null}.
-     * @param time The build time of the project in milliseconds.
+     * @param time    The build time of the project in milliseconds.
      */
-    protected BuildSummary( MavenProject project, long time )
-    {
-        this.project = Objects.requireNonNull( project, "project cannot be null" );
+    protected BuildSummary(MavenProject project, long time) {
+        this.project = Objects.requireNonNull(project, "project cannot be null");
         // TODO Validate for < 0?
         this.time = time;
     }
@@ -59,8 +57,7 @@ public abstract class BuildSummary
      *
      * @return The project being summarized, never {@code null}.
      */
-    public MavenProject getProject()
-    {
+    public MavenProject getProject() {
         return project;
     }
 
@@ -69,8 +66,7 @@ public abstract class BuildSummary
      *
      * @return The build time of the project in milliseconds.
      */
-    public long getTime()
-    {
+    public long getTime() {
         return time;
     }
 

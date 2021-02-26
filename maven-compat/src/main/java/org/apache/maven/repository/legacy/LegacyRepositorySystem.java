@@ -60,7 +60,7 @@ import org.apache.maven.repository.ArtifactDoesNotExistException;
 import org.apache.maven.repository.ArtifactTransferFailedException;
 import org.apache.maven.settings.Mirror;
 import org.apache.maven.settings.Server;
-import org.apache.maven.settings.building.SettingsProblem;
+import org.apache.maven.settings.building.Problem;
 import org.apache.maven.settings.crypto.DefaultSettingsDecryptionRequest;
 import org.apache.maven.settings.crypto.SettingsDecrypter;
 import org.apache.maven.settings.crypto.SettingsDecryptionRequest;
@@ -564,7 +564,7 @@ public class LegacyRepositorySystem
 
                     if ( logger.isDebugEnabled() )
                     {
-                        for ( SettingsProblem problem : result.getProblems() )
+                        for ( Problem problem : result.getProblems() )
                         {
                             logger.debug( problem.getMessage(), problem.getException() );
                         }
@@ -670,7 +670,7 @@ public class LegacyRepositorySystem
 
                     if ( logger.isDebugEnabled() )
                     {
-                        for ( SettingsProblem problem : result.getProblems() )
+                        for ( Problem problem : result.getProblems() )
                         {
                             logger.debug( problem.getMessage(), problem.getException() );
                         }

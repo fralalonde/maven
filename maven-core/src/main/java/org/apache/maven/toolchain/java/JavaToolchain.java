@@ -29,8 +29,7 @@ import org.apache.maven.toolchain.Toolchain;
  * @since 2.0.9, renamed from JavaToolChain in 3.2.4
  */
 public interface JavaToolchain
-    extends Toolchain
-{
+        extends Toolchain {
 //    /**
 //     * Returns a list of {@link java.io.File}s which represents the bootstrap libraries for the
 //     * runtime environment. The Bootstrap libraries include libraries in JRE's

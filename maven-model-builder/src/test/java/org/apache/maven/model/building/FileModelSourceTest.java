@@ -29,49 +29,44 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
-
 /**
  * Test that validate the solution of MNG-6261 issue
  *
  */
-public class FileModelSourceTest
-{
+public class FileModelSourceTest {
 
     /**
      * Test of equals method, of class FileModelSource.
      */
     @Test
     public void testEquals()
-            throws Exception
-    {
-        File tempFile = createTempFile( "pomTest" );
-        FileModelSource instance = new FileModelSource( tempFile );
+            throws Exception {
+        File tempFile = createTempFile("pomTest");
+        FileModelSource instance = new FileModelSource(tempFile);
 
-        assertFalse( instance.equals( null ) );
-        assertFalse( instance.equals( new Object() ) );
-        assertTrue( instance.equals( instance ) );
-        assertTrue( instance.equals( new FileModelSource( tempFile ) ) );
+        assertFalse(instance.equals(null));
+        assertFalse(instance.equals(new Object()));
+        assertTrue(instance.equals(instance));
+        assertTrue(instance.equals(new FileModelSource(tempFile)));
     }
 
     @Test
     public void testWindowsPaths()
-            throws Exception
-    {
-        assumeTrue( SystemUtils.IS_OS_WINDOWS );
+            throws Exception {
+        assumeTrue(SystemUtils.IS_OS_WINDOWS);
 
-        File upperCaseFile = createTempFile( "TESTE" );
+        File upperCaseFile = createTempFile("TESTE");
         String absolutePath = upperCaseFile.getAbsolutePath();
-        File lowerCaseFile = new File( absolutePath.toLowerCase() );
+        File lowerCaseFile = new File(absolutePath.toLowerCase());
 
-        FileModelSource upperCaseFileSouce = new FileModelSource( upperCaseFile );
-        FileModelSource lowerCaseFileSouce = new FileModelSource( lowerCaseFile );
+        FileModelSource upperCaseFileSouce = new FileModelSource(upperCaseFile);
+        FileModelSource lowerCaseFileSouce = new FileModelSource(lowerCaseFile);
 
-        assertTrue( upperCaseFileSouce.equals( lowerCaseFileSouce ) );
+        assertTrue(upperCaseFileSouce.equals(lowerCaseFileSouce));
     }
 
-    private File createTempFile( String name ) throws IOException
-    {
-        File tempFile = File.createTempFile( name, ".xml" );
+    private File createTempFile(String name) throws IOException {
+        File tempFile = File.createTempFile(name, ".xml");
         tempFile.deleteOnExit();
         return tempFile;
     }

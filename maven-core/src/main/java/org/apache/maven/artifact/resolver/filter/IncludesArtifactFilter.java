@@ -33,39 +33,32 @@ import org.apache.maven.artifact.Artifact;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  */
 public class IncludesArtifactFilter
-    implements ArtifactFilter
-{
+        implements ArtifactFilter {
     private final Set<String> patterns;
 
-    public IncludesArtifactFilter( List<String> patterns )
-    {
-        this.patterns = new LinkedHashSet<>( patterns );
+    public IncludesArtifactFilter(List<String> patterns) {
+        this.patterns = new LinkedHashSet<>(patterns);
     }
 
-    public boolean include( Artifact artifact )
-    {
+    public boolean include(Artifact artifact) {
         String id = artifact.getGroupId() + ":" + artifact.getArtifactId();
 
         boolean matched = false;
-        for ( Iterator<String> i = patterns.iterator(); i.hasNext() & !matched; )
-        {
+        for (Iterator<String> i = patterns.iterator(); i.hasNext() & !matched;) {
             // TODO what about wildcards? Just specifying groups? versions?
-            if ( id.equals( i.next() ) )
-            {
+            if (id.equals(i.next())) {
                 matched = true;
             }
         }
         return matched;
     }
 
-    public List<String> getPatterns()
-    {
-        return new ArrayList<>( patterns );
+    public List<String> getPatterns() {
+        return new ArrayList<>(patterns);
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 17;
         hash = hash * 31 + patterns.hashCode();
 
@@ -73,21 +66,18 @@ public class IncludesArtifactFilter
     }
 
     @Override
-    public boolean equals( Object obj )
-    {
-        if ( this == obj )
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
 
         // make sure IncludesArtifactFilter is not equal ExcludesArtifactFilter!
-        if ( obj == null || getClass() != obj.getClass() )
-        {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
 
         IncludesArtifactFilter other = (IncludesArtifactFilter) obj;
 
-        return patterns.equals( other.patterns );
+        return patterns.equals(other.patterns);
     }
 }

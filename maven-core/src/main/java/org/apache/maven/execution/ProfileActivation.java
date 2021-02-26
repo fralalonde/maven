@@ -29,37 +29,31 @@ import java.util.function.Predicate;
 import static java.util.stream.Collectors.toSet;
 
 /**
- * Container for storing the request from the user to activate or de-activate certain profiles and optionally fail the
- * build if those profiles do not exist.
+ * Container for storing the request from the user to activate or de-activate
+ * certain profiles and optionally fail the build if those profiles do not
+ * exist.
  */
-public class ProfileActivation
-{
-    private enum ActivationSettings
-    {
-        ACTIVATION_OPTIONAL( true, true ),
-        ACTIVATION_REQUIRED( true, false ),
-        DEACTIVATION_OPTIONAL( false, true ),
-        DEACTIVATION_REQUIRED( false, false );
+public class ProfileActivation {
+    private enum ActivationSettings {
+        ACTIVATION_OPTIONAL(true, true),
+        ACTIVATION_REQUIRED(true, false),
+        DEACTIVATION_OPTIONAL(false, true),
+        DEACTIVATION_REQUIRED(false, false);
 
         /** Should the profile be active? */
         final boolean active;
         /** Should the build continue if the profile is not present? */
         final boolean optional;
 
-        ActivationSettings( final boolean active, final boolean optional )
-        {
+        ActivationSettings(final boolean active, final boolean optional) {
             this.active = active;
             this.optional = optional;
         }
 
-        static ActivationSettings of( final boolean active, final boolean optional )
-        {
-            if ( optional )
-            {
+        static ActivationSettings of(final boolean active, final boolean optional) {
+            if (optional) {
                 return active ? ACTIVATION_OPTIONAL : DEACTIVATION_OPTIONAL;
-            }
-            else
-            {
+            } else {
                 return active ? ACTIVATION_REQUIRED : DEACTIVATION_REQUIRED;
             }
         }
@@ -69,133 +63,134 @@ public class ProfileActivation
 
     /**
      * Mimics the pre-Maven 4 "active profiles" list.
-     * @deprecated Use {@link #getRequiredActiveProfileIds()} and {@link #getOptionalActiveProfileIds()} instead.
+     * 
+     * @deprecated Use {@link #getRequiredActiveProfileIds()} and
+     *             {@link #getOptionalActiveProfileIds()} instead.
      */
     @Deprecated
-    public List<String> getActiveProfiles()
-    {
-        return new ArrayList<>( getProfileIds( pa -> pa.active ) );
+    public List<String> getActiveProfiles() {
+        return new ArrayList<>(getProfileIds(pa -> pa.active));
     }
 
     /**
      * Mimics the pre-Maven 4 "inactive profiles" list.
-     * @deprecated Use {@link #getRequiredInactiveProfileIds()} and {@link #getOptionalInactiveProfileIds()} instead.
+     * 
+     * @deprecated Use {@link #getRequiredInactiveProfileIds()} and
+     *             {@link #getOptionalInactiveProfileIds()} instead.
      */
     @Deprecated
-    public List<String> getInactiveProfiles()
-    {
-        return new ArrayList<>( getProfileIds( pa -> !pa.active ) );
+    public List<String> getInactiveProfiles() {
+        return new ArrayList<>(getProfileIds(pa -> !pa.active));
     }
 
     /**
      * Overwrites the active profiles based on a pre-Maven 4 "active profiles" list.
+     * 
      * @param activeProfileIds A {@link List} of profile IDs that must be activated.
-     * @deprecated Use {@link #activateOptionalProfile(String)} or {@link #activateRequiredProfile(String)} instead.
+     * @deprecated Use {@link #activateOptionalProfile(String)} or
+     *             {@link #activateRequiredProfile(String)} instead.
      */
     @Deprecated
-    public void overwriteActiveProfiles( List<String> activeProfileIds )
-    {
-        getActiveProfiles().forEach( this.activations::remove );
-        activeProfileIds.forEach( this::activateOptionalProfile );
+    public void overwriteActiveProfiles(List<String> activeProfileIds) {
+        getActiveProfiles().forEach(this.activations::remove);
+        activeProfileIds.forEach(this::activateOptionalProfile);
     }
 
     /**
-     * Overwrites the inactive profiles based on a pre-Maven 4 "inactive profiles" list.
-     * @param inactiveProfileIds A {@link List} of profile IDs that must be deactivated.
-     * @deprecated Use {@link #deactivateOptionalProfile(String)} or {@link #deactivateRequiredProfile(String)} instead.
+     * Overwrites the inactive profiles based on a pre-Maven 4 "inactive profiles"
+     * list.
+     * 
+     * @param inactiveProfileIds A {@link List} of profile IDs that must be
+     *                           deactivated.
+     * @deprecated Use {@link #deactivateOptionalProfile(String)} or
+     *             {@link #deactivateRequiredProfile(String)} instead.
      */
     @Deprecated
-    public void overwriteInactiveProfiles( List<String> inactiveProfileIds )
-    {
-        getInactiveProfiles().forEach( this.activations::remove );
-        inactiveProfileIds.forEach( this::deactivateOptionalProfile );
+    public void overwriteInactiveProfiles(List<String> inactiveProfileIds) {
+        getInactiveProfiles().forEach(this.activations::remove);
+        inactiveProfileIds.forEach(this::deactivateOptionalProfile);
     }
 
     /**
      * Mark a profile as required and activated.
+     * 
      * @param id The identifier of the profile.
      */
-    public void activateRequiredProfile( String id )
-    {
-        this.activations.put( id, ActivationSettings.ACTIVATION_REQUIRED );
+    public void activateRequiredProfile(String id) {
+        this.activations.put(id, ActivationSettings.ACTIVATION_REQUIRED);
     }
 
     /**
      * Mark a profile as optional and activated.
+     * 
      * @param id The identifier of the profile.
      */
-    public void activateOptionalProfile( String id )
-    {
-        this.activations.put( id, ActivationSettings.ACTIVATION_OPTIONAL );
+    public void activateOptionalProfile(String id) {
+        this.activations.put(id, ActivationSettings.ACTIVATION_OPTIONAL);
     }
 
     /**
      * Mark a profile as required and deactivated.
+     * 
      * @param id The identifier of the profile.
      */
-    public void deactivateRequiredProfile( String id )
-    {
-        this.activations.put( id, ActivationSettings.DEACTIVATION_REQUIRED );
+    public void deactivateRequiredProfile(String id) {
+        this.activations.put(id, ActivationSettings.DEACTIVATION_REQUIRED);
     }
 
     /**
      * Mark a profile as optional and deactivated.
+     * 
      * @param id The identifier of the profile.
      */
-    public void deactivateOptionalProfile( String id )
-    {
-        this.activations.put( id, ActivationSettings.DEACTIVATION_OPTIONAL );
+    public void deactivateOptionalProfile(String id) {
+        this.activations.put(id, ActivationSettings.DEACTIVATION_OPTIONAL);
     }
 
     /**
      * Adds a profile activation to the request.
-     * @param id The identifier of the profile.
-     * @param active Should the profile be activated?
+     * 
+     * @param id       The identifier of the profile.
+     * @param active   Should the profile be activated?
      * @param optional Can the build continue if the profile does not exist?
      */
-    public void addProfileActivation( String id, boolean active, boolean optional )
-    {
-        final ActivationSettings settings = ActivationSettings.of( active, optional );
-        this.activations.put( id, settings );
+    public void addProfileActivation(String id, boolean active, boolean optional) {
+        final ActivationSettings settings = ActivationSettings.of(active, optional);
+        this.activations.put(id, settings);
     }
 
-    private Set<String> getProfileIds( final Predicate<ActivationSettings> predicate )
-    {
+    private Set<String> getProfileIds(final Predicate<ActivationSettings> predicate) {
         return this.activations.entrySet().stream()
-                .filter( e -> predicate.test( e.getValue() ) )
-                .map( e -> e.getKey() )
-                .collect( toSet() );
+                .filter(e -> predicate.test(e.getValue()))
+                .map(e -> e.getKey())
+                .collect(toSet());
     }
 
     /**
      * @return Required active profile identifiers, never {@code null}.
      */
-    public Set<String> getRequiredActiveProfileIds()
-    {
-        return getProfileIds( pa -> !pa.optional && pa.active );
+    public Set<String> getRequiredActiveProfileIds() {
+        return getProfileIds(pa -> !pa.optional && pa.active);
     }
 
     /**
      * @return Optional active profile identifiers, never {@code null}.
      */
-    public Set<String> getOptionalActiveProfileIds()
-    {
-        return getProfileIds( pa -> pa.optional && pa.active );
+    public Set<String> getOptionalActiveProfileIds() {
+        return getProfileIds(pa -> pa.optional && pa.active);
     }
 
     /**
      * @return Required inactive profile identifiers, never {@code null}.
      */
-    public Set<String> getRequiredInactiveProfileIds()
-    {
-        return getProfileIds( pa -> !pa.optional && !pa.active );
+    public Set<String> getRequiredInactiveProfileIds() {
+        return getProfileIds(pa -> !pa.optional && !pa.active);
     }
 
     /**
      * @return Optional inactive profile identifiers, never {@code null}.
      */
-    public Set<String> getOptionalInactiveProfileIds()
-    {
-        return getProfileIds( pa -> pa.optional && !pa.active );
+    public Set<String> getOptionalInactiveProfileIds() {
+        return getProfileIds(pa -> pa.optional && !pa.active);
     }
 }

@@ -28,17 +28,19 @@ import org.apache.maven.model.building.ModelProblemCollector;
  *
  * @author Benjamin Bentmann
  */
-public interface PluginManagementInjector
-{
+public interface PluginManagementInjector {
 
     /**
-     * Merges default values from the plugin management section of the given model into itself.
+     * Merges default values from the plugin management section of the given model
+     * into itself.
      *
-     * @param model The model into which to merge the values specified by its plugin management section, must not be
-     *            <code>null</code>.
-     * @param request The model building request that holds further settings, must not be {@code null}.
-     * @param problems The container used to collect problems that were encountered, must not be {@code null}.
+     * @param model    The model into which to merge the values specified by its
+     *                 plugin management section, must not be <code>null</code>.
+     * @param request  The model building request that holds further settings, must
+     *                 not be {@code null}.
+     * @param problems The container used to collect problems that were encountered,
+     *                 must not be {@code null}.
      */
-    void injectManagement( Model model, ModelBuildingRequest request, ModelProblemCollector problems );
+    void injectManagement(Model model, ModelBuildingRequest request, ModelProblemCollector problems);
 
 }

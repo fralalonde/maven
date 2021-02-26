@@ -31,29 +31,25 @@ import com.google.inject.AbstractModule;
  * MojoExecutionScopeModule
  */
 public class MojoExecutionScopeModule
-    extends AbstractModule
-{
-    protected final MojoExecutionScope scope;
+        extends AbstractModule {
+    final MojoExecutionScope scope;
 
-    public MojoExecutionScopeModule( PlexusContainer container )
-        throws ComponentLookupException
-    {
-        this( container.lookup( MojoExecutionScope.class ) );
+    public MojoExecutionScopeModule(PlexusContainer container)
+            throws ComponentLookupException {
+        this(container.lookup(MojoExecutionScope.class));
     }
 
-    protected MojoExecutionScopeModule( MojoExecutionScope scope )
-    {
+    protected MojoExecutionScopeModule(MojoExecutionScope scope) {
         this.scope = scope;
     }
 
     @Override
-    protected void configure()
-    {
-        bindScope( MojoExecutionScoped.class, scope );
-        bind( MojoExecutionScope.class ).toInstance( scope );
+    protected void configure() {
+        bindScope(MojoExecutionScoped.class, scope);
+        bind(MojoExecutionScope.class).toInstance(scope);
 
-        bind( MavenProject.class ).toProvider( MojoExecutionScope.<MavenProject>seededKeyProvider() ).in( scope );
-        bind( MojoExecution.class ).toProvider( MojoExecutionScope.<MojoExecution>seededKeyProvider() ).in( scope );
+        bind(MavenProject.class).toProvider(MojoExecutionScope.<MavenProject>seededKeyProvider()).in(scope);
+        bind(MojoExecution.class).toProvider(MojoExecutionScope.<MojoExecution>seededKeyProvider()).in(scope);
     }
 
 }

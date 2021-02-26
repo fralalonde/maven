@@ -28,15 +28,14 @@ import java.lang.annotation.Target;
 import com.google.inject.ScopeAnnotation;
 
 /**
- * Indicates that annotated component should be instantiated before mojo execution starts and discarded after mojo
- * execution completes.
+ * Indicates that annotated component should be instantiated before mojo
+ * execution starts and discarded after mojo execution completes.
  *
  * @author igor
  * @since 3.1.2
  */
-@Target( { TYPE } )
-@Retention( RUNTIME )
+@Target({ TYPE })
+@Retention(RUNTIME)
 @ScopeAnnotation
-public @interface MojoExecutionScoped
-{
+public @interface MojoExecutionScoped {
 }

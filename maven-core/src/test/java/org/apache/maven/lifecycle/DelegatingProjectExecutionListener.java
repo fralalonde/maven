@@ -31,52 +31,41 @@ import org.apache.maven.execution.ProjectExecutionListener;
 @Named
 @Singleton
 public class DelegatingProjectExecutionListener
-    implements ProjectExecutionListener
-{
+        implements ProjectExecutionListener {
     private final List<ProjectExecutionListener> listeners = new CopyOnWriteArrayList<>();
 
-    public void beforeProjectExecution( ProjectExecutionEvent event )
-        throws LifecycleExecutionException
-    {
-        for ( ProjectExecutionListener listener : listeners )
-        {
-            listener.beforeProjectExecution( event );
+    public void beforeProjectExecution(ProjectExecutionEvent event)
+            throws LifecycleExecutionException {
+        for (ProjectExecutionListener listener : listeners) {
+            listener.beforeProjectExecution(event);
         }
     }
 
-    public void beforeProjectLifecycleExecution( ProjectExecutionEvent event )
-        throws LifecycleExecutionException
-    {
-        for ( ProjectExecutionListener listener : listeners )
-        {
-            listener.beforeProjectLifecycleExecution( event );
+    public void beforeProjectLifecycleExecution(ProjectExecutionEvent event)
+            throws LifecycleExecutionException {
+        for (ProjectExecutionListener listener : listeners) {
+            listener.beforeProjectLifecycleExecution(event);
         }
     }
 
-    public void afterProjectExecutionSuccess( ProjectExecutionEvent event )
-        throws LifecycleExecutionException
-    {
-        for ( ProjectExecutionListener listener : listeners )
-        {
-            listener.afterProjectExecutionSuccess( event );
+    public void afterProjectExecutionSuccess(ProjectExecutionEvent event)
+            throws LifecycleExecutionException {
+        for (ProjectExecutionListener listener : listeners) {
+            listener.afterProjectExecutionSuccess(event);
         }
     }
 
-    public void afterProjectExecutionFailure( ProjectExecutionEvent event )
-    {
-        for ( ProjectExecutionListener listener : listeners )
-        {
-            listener.afterProjectExecutionFailure( event );
+    public void afterProjectExecutionFailure(ProjectExecutionEvent event) {
+        for (ProjectExecutionListener listener : listeners) {
+            listener.afterProjectExecutionFailure(event);
         }
     }
 
-    public void addProjectExecutionListener( ProjectExecutionListener listener )
-    {
-        this.listeners.add( listener );
+    public void addProjectExecutionListener(ProjectExecutionListener listener) {
+        this.listeners.add(listener);
     }
 
-    public void removeProjectExecutionListener( ProjectExecutionListener listener )
-    {
-        this.listeners.remove( listener );
+    public void removeProjectExecutionListener(ProjectExecutionListener listener) {
+        this.listeners.remove(listener);
     }
 }

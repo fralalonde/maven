@@ -28,21 +28,24 @@ import org.apache.maven.model.building.ModelProblemCollector;
  *
  * @author Benjamin Bentmann
  */
-public interface InheritanceAssembler
-{
+public interface InheritanceAssembler {
 
     /**
-     * Merges values from the specified parent model into the given child model. Implementations are expected to keep
-     * parent and child completely decoupled by injecting deep copies of objects into the child rather than the original
+     * Merges values from the specified parent model into the given child model.
+     * Implementations are expected to keep parent and child completely decoupled by
+     * injecting deep copies of objects into the child rather than the original
      * objects from the parent.
      *
-     * @param child The child model into which to merge the values inherited from the parent, must not be
-     *            <code>null</code>.
-     * @param parent The (read-only) parent model from which to inherit the values, may be <code>null</code>.
-     * @param request The model building request that holds further settings, must not be {@code null}.
-     * @param problems The container used to collect problems that were encountered, must not be {@code null}.
+     * @param child    The child model into which to merge the values inherited from
+     *                 the parent, must not be <code>null</code>.
+     * @param parent   The (read-only) parent model from which to inherit the
+     *                 values, may be <code>null</code>.
+     * @param request  The model building request that holds further settings, must
+     *                 not be {@code null}.
+     * @param problems The container used to collect problems that were encountered,
+     *                 must not be {@code null}.
      */
-    void assembleModelInheritance( Model child, Model parent, ModelBuildingRequest request,
-                                   ModelProblemCollector problems );
+    void assembleModelInheritance(Model child, Model parent, ModelBuildingRequest request,
+            ModelProblemCollector problems);
 
 }

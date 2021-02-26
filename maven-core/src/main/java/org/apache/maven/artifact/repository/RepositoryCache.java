@@ -20,8 +20,9 @@ package org.apache.maven.artifact.repository;
  */
 
 /**
- * Caches auxiliary data used during repository access like already processed metadata. The data in the cache is meant
- * for exclusive consumption by the repository system and is opaque to the cache implementation.
+ * Caches auxiliary data used during repository access like already processed
+ * metadata. The data in the cache is meant for exclusive consumption by the
+ * repository system and is opaque to the cache implementation.
  *
  * @author Benjamin Bentmann
  */
@@ -30,29 +31,35 @@ package org.apache.maven.artifact.repository;
 // Used by Tycho and will break users and force them to upgrade to Maven 3.1 so we should really leave
 // this here, possibly indefinitely.
 //
-public interface RepositoryCache
-{
+public interface RepositoryCache {
 
     /**
-     * Puts the specified data into the cache. <strong>Warning:</strong> The cache will directly save the provided
-     * reference. If the cached data is mutable, i.e. could be modified after being put into the cache, the caller is
-     * responsible for creating a copy of the original data and store the copy in the cache.
+     * Puts the specified data into the cache. <strong>Warning:</strong> The cache
+     * will directly save the provided reference. If the cached data is mutable,
+     * i.e. could be modified after being put into the cache, the caller is
+     * responsible for creating a copy of the original data and store the copy in
+     * the cache.
      *
-     * @param request The repository request from which this cache was retrieved, must not be {@code null}.
-     * @param key The key to use associate the data with, must not be {@code null}.
-     * @param data The data to store in the cache, may be {@code null}.
+     * @param request The repository request from which this cache was retrieved,
+     *                must not be {@code null}.
+     * @param key     The key to use associate the data with, must not be
+     *                {@code null}.
+     * @param data    The data to store in the cache, may be {@code null}.
      */
-    void put( RepositoryRequest request, Object key, Object data );
+    void put(RepositoryRequest request, Object key, Object data);
 
     /**
-     * Gets the specified data from the cache. <strong>Warning:</strong> The cache will directly return the saved
-     * reference. If the cached data is to be modified after its retrieval, the caller is responsible to create a copy
-     * of the returned data and use this instead of the cache record.
+     * Gets the specified data from the cache. <strong>Warning:</strong> The cache
+     * will directly return the saved reference. If the cached data is to be
+     * modified after its retrieval, the caller is responsible to create a copy of
+     * the returned data and use this instead of the cache record.
      *
-     * @param request The repository request from which this cache was retrieved, must not be {@code null}.
-     * @param key The key to use for lookup of the data, must not be {@code null}.
+     * @param request The repository request from which this cache was retrieved,
+     *                must not be {@code null}.
+     * @param key     The key to use for lookup of the data, must not be
+     *                {@code null}.
      * @return The requested data or {@code null} if none was present in the cache.
      */
-    Object get( RepositoryRequest request, Object key );
+    Object get(RepositoryRequest request, Object key);
 
 }

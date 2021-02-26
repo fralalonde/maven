@@ -24,7 +24,6 @@ package org.apache.maven.exception;
  *
  * @since 3.0-alpha-3
  */
-public interface ExceptionHandler
-{
-    ExceptionSummary handleException( Throwable e );
+public interface ExceptionHandler {
+    ExceptionSummary handleException(Throwable e);
 }

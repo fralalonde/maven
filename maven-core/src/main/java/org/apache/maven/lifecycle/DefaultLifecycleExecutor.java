@@ -59,8 +59,7 @@ import org.apache.maven.project.MavenProject;
 @Named
 @Singleton
 public class DefaultLifecycleExecutor
-    implements LifecycleExecutor
-{
+        implements LifecycleExecutor {
 
     @Inject
     private LifeCyclePluginAnalyzer lifeCyclePluginAnalyzer;
@@ -80,79 +79,78 @@ public class DefaultLifecycleExecutor
     @Inject
     private LifecycleStarter lifecycleStarter;
 
-
-    public void execute( MavenSession session )
-    {
-        lifecycleStarter.execute( session );
+    public void execute(MavenSession session) {
+        lifecycleStarter.execute(session);
     }
 
     @Inject
     private MojoDescriptorCreator mojoDescriptorCreator;
 
-    // These methods deal with construction intact Plugin object that look like they come from a standard
-    // <plugin/> block in a Maven POM. We have to do some wiggling to pull the sources of information
-    // together and this really shows the problem of constructing a sensible default configuration but
+    // These methods deal with construction intact Plugin object that look like they
+    // come from a standard
+    // <plugin/> block in a Maven POM. We have to do some wiggling to pull the
+    // sources of information
+    // together and this really shows the problem of constructing a sensible default
+    // configuration but
     // it's all encapsulated here so it appears normalized to the POM builder.
 
-    // We are going to take the project packaging and find all plugin in the default lifecycle and create
-    // fully populated Plugin objects, including executions with goals and default configuration taken
+    // We are going to take the project packaging and find all plugin in the default
+    // lifecycle and create
+    // fully populated Plugin objects, including executions with goals and default
+    // configuration taken
     // from the plugin.xml inside a plugin.
     //
-    // TODO This whole method could probably removed by injecting lifeCyclePluginAnalyzer straight into client site.
-    // TODO But for some reason the whole plexus appcontext refuses to start when I try this.
+    // TODO This whole method could probably removed by injecting
+    // lifeCyclePluginAnalyzer straight into client site.
+    // TODO But for some reason the whole plexus appcontext refuses to start when I
+    // try this.
 
-    public Set<Plugin> getPluginsBoundByDefaultToAllLifecycles( String packaging )
-    {
-        return lifeCyclePluginAnalyzer.getPluginsBoundByDefaultToAllLifecycles( packaging );
+    public Set<Plugin> getPluginsBoundByDefaultToAllLifecycles(String packaging) {
+        return lifeCyclePluginAnalyzer.getPluginsBoundByDefaultToAllLifecycles(packaging);
     }
 
     // Used by m2eclipse
 
-    @SuppressWarnings( { "UnusedDeclaration" } )
-    public MavenExecutionPlan calculateExecutionPlan( MavenSession session, boolean setup, String... tasks )
-        throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
-        MojoNotFoundException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
-        PluginManagerException, LifecyclePhaseNotFoundException, LifecycleNotFoundException,
-        PluginVersionResolutionException
-    {
-        List<TaskSegment> taskSegments =
-            lifecycleTaskSegmentCalculator.calculateTaskSegments( session, Arrays.asList( tasks ) );
+    @SuppressWarnings({ "UnusedDeclaration" })
+    public MavenExecutionPlan calculateExecutionPlan(MavenSession session, boolean setup, String... tasks)
+            throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
+            MojoNotFoundException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
+            PluginManagerException, LifecyclePhaseNotFoundException, LifecycleNotFoundException,
+            PluginVersionResolutionException {
+        List<TaskSegment> taskSegments = lifecycleTaskSegmentCalculator.calculateTaskSegments(session,
+                Arrays.asList(tasks));
 
-        TaskSegment mergedSegment = new TaskSegment( false );
+        TaskSegment mergedSegment = new TaskSegment(false);
 
-        for ( TaskSegment taskSegment : taskSegments )
-        {
-            mergedSegment.getTasks().addAll( taskSegment.getTasks() );
+        for (TaskSegment taskSegment : taskSegments) {
+            mergedSegment.getTasks().addAll(taskSegment.getTasks());
         }
 
-        return lifecycleExecutionPlanCalculator.calculateExecutionPlan( session, session.getCurrentProject(),
-                                                                        mergedSegment.getTasks(), setup );
+        return lifecycleExecutionPlanCalculator.calculateExecutionPlan(session, session.getCurrentProject(),
+                mergedSegment.getTasks(), setup);
     }
 
-    public MavenExecutionPlan calculateExecutionPlan( MavenSession session, String... tasks )
-        throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
-        MojoNotFoundException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
-        PluginManagerException, LifecyclePhaseNotFoundException, LifecycleNotFoundException,
-        PluginVersionResolutionException
-    {
-        return calculateExecutionPlan( session, true, tasks );
-    }
-
-    // Site 3.x
-    public void calculateForkedExecutions( MojoExecution mojoExecution, MavenSession session )
-        throws MojoNotFoundException, PluginNotFoundException, PluginResolutionException,
-        PluginDescriptorParsingException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
-        LifecyclePhaseNotFoundException, LifecycleNotFoundException, PluginVersionResolutionException
-    {
-        lifecycleExecutionPlanCalculator.calculateForkedExecutions( mojoExecution, session );
+    public MavenExecutionPlan calculateExecutionPlan(MavenSession session, String... tasks)
+            throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
+            MojoNotFoundException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
+            PluginManagerException, LifecyclePhaseNotFoundException, LifecycleNotFoundException,
+            PluginVersionResolutionException {
+        return calculateExecutionPlan(session, true, tasks);
     }
 
     // Site 3.x
-    public List<MavenProject> executeForkedExecutions( MojoExecution mojoExecution, MavenSession session )
-        throws LifecycleExecutionException
-    {
-        return mojoExecutor.executeForkedExecutions( mojoExecution, session,
-                                                     new ProjectIndex( session.getProjects() ) );
+    public void calculateForkedExecutions(MojoExecution mojoExecution, MavenSession session)
+            throws MojoNotFoundException, PluginNotFoundException, PluginResolutionException,
+            PluginDescriptorParsingException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
+            LifecyclePhaseNotFoundException, LifecycleNotFoundException, PluginVersionResolutionException {
+        lifecycleExecutionPlanCalculator.calculateForkedExecutions(mojoExecution, session);
+    }
+
+    // Site 3.x
+    public List<MavenProject> executeForkedExecutions(MojoExecution mojoExecution, MavenSession session)
+            throws LifecycleExecutionException {
+        return mojoExecutor.executeForkedExecutions(mojoExecution, session,
+                new ProjectIndex(session.getProjects()));
     }
 
 }

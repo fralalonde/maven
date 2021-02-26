@@ -36,7 +36,8 @@ import java.util.List;
  * <p>
  * Calculates the task segments in the build
  * </p>
- * <strong>NOTE:</strong> This class is not part of any public api and can be changed or deleted without prior notice.
+ * <strong>NOTE:</strong> This class is not part of any public api and can be
+ * changed or deleted without prior notice.
  *
  * @since 3.0
  * @author Benjamin Bentmann
@@ -44,18 +45,17 @@ import java.util.List;
  * @author jdcasey
  * @author Kristian Rosenvold (extracted interface)
  */
-public interface LifecycleTaskSegmentCalculator
-{
-    List<TaskSegment> calculateTaskSegments( MavenSession session )
-        throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
-        MojoNotFoundException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
-        PluginVersionResolutionException, LifecyclePhaseNotFoundException, LifecycleNotFoundException;
+public interface LifecycleTaskSegmentCalculator {
+    List<TaskSegment> calculateTaskSegments(MavenSession session)
+            throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
+            MojoNotFoundException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
+            PluginVersionResolutionException, LifecyclePhaseNotFoundException, LifecycleNotFoundException;
 
-    List<TaskSegment> calculateTaskSegments( MavenSession session, List<String> tasks )
-        throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
-        MojoNotFoundException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
-        PluginVersionResolutionException;
+    List<TaskSegment> calculateTaskSegments(MavenSession session, List<String> tasks)
+            throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
+            MojoNotFoundException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
+            PluginVersionResolutionException;
 
-    boolean requiresProject( MavenSession session );
+    boolean requiresProject(MavenSession session);
 
 }

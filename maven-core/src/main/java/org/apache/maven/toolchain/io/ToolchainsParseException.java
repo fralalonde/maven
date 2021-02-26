@@ -22,14 +22,14 @@ package org.apache.maven.toolchain.io;
 import java.io.IOException;
 
 /**
- * Signals a failure to parse the toolchains due to invalid syntax (e.g. non-wellformed XML or unknown elements).
+ * Signals a failure to parse the toolchains due to invalid syntax (e.g.
+ * non-wellformed XML or unknown elements).
  *
  * @author Robert Scholte
  * @since 3.3.0
  */
 public class ToolchainsParseException
-    extends IOException
-{
+        extends IOException {
 
     /**
      * The one-based index of the line containing the error.
@@ -44,13 +44,14 @@ public class ToolchainsParseException
     /**
      * Creates a new parser exception with the specified details.
      *
-     * @param message The error message, may be {@code null}.
-     * @param lineNumber The one-based index of the line containing the error or {@code -1} if unknown.
-     * @param columnNumber The one-based index of the column containing the error or {@code -1} if unknown.
+     * @param message      The error message, may be {@code null}.
+     * @param lineNumber   The one-based index of the line containing the error or
+     *                     {@code -1} if unknown.
+     * @param columnNumber The one-based index of the column containing the error or
+     *                     {@code -1} if unknown.
      */
-    public ToolchainsParseException( String message, int lineNumber, int columnNumber )
-    {
-        super( message );
+    public ToolchainsParseException(String message, int lineNumber, int columnNumber) {
+        super(message);
         this.lineNumber = lineNumber;
         this.columnNumber = columnNumber;
     }
@@ -58,15 +59,16 @@ public class ToolchainsParseException
     /**
      * Creates a new parser exception with the specified details.
      *
-     * @param message The error message, may be {@code null}.
-     * @param lineNumber The one-based index of the line containing the error or {@code -1} if unknown.
-     * @param columnNumber The one-based index of the column containing the error or {@code -1} if unknown.
-     * @param cause The nested cause of this error, may be {@code null}.
+     * @param message      The error message, may be {@code null}.
+     * @param lineNumber   The one-based index of the line containing the error or
+     *                     {@code -1} if unknown.
+     * @param columnNumber The one-based index of the column containing the error or
+     *                     {@code -1} if unknown.
+     * @param cause        The nested cause of this error, may be {@code null}.
      */
-    public ToolchainsParseException( String message, int lineNumber, int columnNumber, Throwable cause )
-    {
-        super( message );
-        initCause( cause );
+    public ToolchainsParseException(String message, int lineNumber, int columnNumber, Throwable cause) {
+        super(message);
+        initCause(cause);
         this.lineNumber = lineNumber;
         this.columnNumber = columnNumber;
     }
@@ -74,20 +76,20 @@ public class ToolchainsParseException
     /**
      * Gets the one-based index of the line containing the error.
      *
-     * @return The one-based index of the line containing the error or a non-positive value if unknown.
+     * @return The one-based index of the line containing the error or a
+     *         non-positive value if unknown.
      */
-    public int getLineNumber()
-    {
+    public int getLineNumber() {
         return lineNumber;
     }
 
     /**
      * Gets the one-based index of the column containing the error.
      *
-     * @return The one-based index of the column containing the error or non-positive value if unknown.
+     * @return The one-based index of the column containing the error or
+     *         non-positive value if unknown.
      */
-    public int getColumnNumber()
-    {
+    public int getColumnNumber() {
         return columnNumber;
     }
 

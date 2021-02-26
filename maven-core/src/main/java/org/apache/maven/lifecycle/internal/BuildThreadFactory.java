@@ -23,17 +23,16 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Simple {@link ThreadFactory} implementation that ensures the corresponding threads have a meaningful name.
+ * Simple {@link ThreadFactory} implementation that ensures the corresponding
+ * threads have a meaningful name.
  */
 public class BuildThreadFactory
-    implements ThreadFactory
-{
+        implements ThreadFactory {
     private final AtomicInteger id = new AtomicInteger();
 
     private static final String PREFIX = "BuilderThread";
 
-    public Thread newThread( Runnable r )
-    {
-        return new Thread( r, String.format( "%s-%d", PREFIX, id.getAndIncrement() ) );
+    public Thread newThread(Runnable r) {
+        return new Thread(r, String.format("%s-%d", PREFIX, id.getAndIncrement()));
     }
 }

@@ -20,14 +20,13 @@ package org.apache.maven.artifact.versioning;
  */
 
 /**
- * Describes an artifact version in terms of its components, converts it to/from a string and
- * compares two versions.
+ * Describes an artifact version in terms of its components, converts it to/from
+ * a string and compares two versions.
  *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  */
 public interface ArtifactVersion
-    extends Comparable<ArtifactVersion>
-{
+        extends Comparable<ArtifactVersion> {
     int getMajorVersion();
 
     int getMinorVersion();
@@ -38,5 +37,5 @@ public interface ArtifactVersion
 
     String getQualifier();
 
-    void parseVersion( String version );
+    void parseVersion(String version);
 }

@@ -23,24 +23,22 @@ package org.apache.maven.lifecycle.internal;
  * <p>
  * A task that is a goal
  * </p>
- * <strong>NOTE:</strong> This class is not part of any public api and can be changed or deleted without prior notice.
+ * <strong>NOTE:</strong> This class is not part of any public api and can be
+ * changed or deleted without prior notice.
  *
  * @since 3.0
  * @author Benjamin Bentmann
  */
-public final class GoalTask
-{
+public final class GoalTask {
 
     final String pluginGoal;
 
-    public GoalTask( String pluginGoal )
-    {
+    public GoalTask(String pluginGoal) {
         this.pluginGoal = pluginGoal;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return pluginGoal;
     }
 }

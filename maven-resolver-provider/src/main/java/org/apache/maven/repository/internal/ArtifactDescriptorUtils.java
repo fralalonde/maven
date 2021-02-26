@@ -27,70 +27,61 @@ import org.eclipse.aether.repository.RemoteRepository;
 import org.eclipse.aether.repository.RepositoryPolicy;
 
 /**
- * <strong>Warning:</strong> This is an internal utility class that is only public for technical reasons, it is not part
- * of the public API. In particular, this class can be changed or deleted without prior notice.
+ * <strong>Warning:</strong> This is an internal utility class that is only
+ * public for technical reasons, it is not part of the public API. In
+ * particular, this class can be changed or deleted without prior notice.
  *
  * @author Benjamin Bentmann
  */
-public class ArtifactDescriptorUtils
-{
+public class ArtifactDescriptorUtils {
 
-    public static Artifact toPomArtifact( Artifact artifact )
-    {
+    public static Artifact toPomArtifact(Artifact artifact) {
         Artifact pomArtifact = artifact;
 
-        if ( pomArtifact.getClassifier().length() > 0 || !"pom".equals( pomArtifact.getExtension() ) )
-        {
-            pomArtifact =
-                new DefaultArtifact( artifact.getGroupId(), artifact.getArtifactId(), "pom", artifact.getVersion() );
+        if (pomArtifact.getClassifier().length() > 0 || !"pom".equals(pomArtifact.getExtension())) {
+            pomArtifact = new DefaultArtifact(artifact.getGroupId(), artifact.getArtifactId(), "pom",
+                    artifact.getVersion());
         }
 
         return pomArtifact;
     }
 
-    public static RemoteRepository toRemoteRepository( Repository repository )
-    {
-        RemoteRepository.Builder builder =
-            new RemoteRepository.Builder( repository.getId(), repository.getLayout(), repository.getUrl() );
-        builder.setSnapshotPolicy( toRepositoryPolicy( repository.getSnapshots() ) );
-        builder.setReleasePolicy( toRepositoryPolicy( repository.getReleases() ) );
+    public static RemoteRepository toRemoteRepository(Repository repository) {
+        RemoteRepository.Builder builder = new RemoteRepository.Builder(repository.getId(), repository.getLayout(),
+                repository.getUrl());
+        builder.setSnapshotPolicy(toRepositoryPolicy(repository.getSnapshots()));
+        builder.setReleasePolicy(toRepositoryPolicy(repository.getReleases()));
         return builder.build();
     }
 
-    public static RepositoryPolicy toRepositoryPolicy( org.apache.maven.model.RepositoryPolicy policy )
-    {
+    public static RepositoryPolicy toRepositoryPolicy(org.apache.maven.model.RepositoryPolicy policy) {
         boolean enabled = true;
-        String checksums = toRepositoryChecksumPolicy( ArtifactRepositoryPolicy.DEFAULT_CHECKSUM_POLICY );
+        String checksums = toRepositoryChecksumPolicy(ArtifactRepositoryPolicy.DEFAULT_CHECKSUM_POLICY);
         String updates = RepositoryPolicy.UPDATE_POLICY_DAILY;
 
-        if ( policy != null )
-        {
+        if (policy != null) {
             enabled = policy.isEnabled();
-            if ( policy.getUpdatePolicy() != null )
-            {
+            if (policy.getUpdatePolicy() != null) {
                 updates = policy.getUpdatePolicy();
             }
-            if ( policy.getChecksumPolicy() != null )
-            {
+            if (policy.getChecksumPolicy() != null) {
                 checksums = policy.getChecksumPolicy();
             }
         }
 
-        return new RepositoryPolicy( enabled, updates, checksums );
+        return new RepositoryPolicy(enabled, updates, checksums);
     }
 
-    public static String toRepositoryChecksumPolicy( final String artifactRepositoryPolicy )
-    {
-        switch ( artifactRepositoryPolicy )
-        {
-            case ArtifactRepositoryPolicy.CHECKSUM_POLICY_FAIL:
-                return RepositoryPolicy.CHECKSUM_POLICY_FAIL;
-            case ArtifactRepositoryPolicy.CHECKSUM_POLICY_IGNORE:
-                return RepositoryPolicy.CHECKSUM_POLICY_IGNORE;
-            case ArtifactRepositoryPolicy.CHECKSUM_POLICY_WARN:
-                return RepositoryPolicy.CHECKSUM_POLICY_WARN;
-            default:
-                throw new IllegalArgumentException( "unknown repository checksum policy: " + artifactRepositoryPolicy );
+    public static String toRepositoryChecksumPolicy(final String artifactRepositoryPolicy) {
+        switch (artifactRepositoryPolicy) {
+        case ArtifactRepositoryPolicy.CHECKSUM_POLICY_FAIL:
+            return RepositoryPolicy.CHECKSUM_POLICY_FAIL;
+        case ArtifactRepositoryPolicy.CHECKSUM_POLICY_IGNORE:
+            return RepositoryPolicy.CHECKSUM_POLICY_IGNORE;
+        case ArtifactRepositoryPolicy.CHECKSUM_POLICY_WARN:
+            return RepositoryPolicy.CHECKSUM_POLICY_WARN;
+        default:
+            throw new IllegalArgumentException("unknown repository checksum policy: " + artifactRepositoryPolicy);
         }
     }
 

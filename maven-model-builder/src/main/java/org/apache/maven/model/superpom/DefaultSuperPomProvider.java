@@ -40,8 +40,7 @@ import org.apache.maven.model.building.ModelProcessor;
 @Named
 @Singleton
 public class DefaultSuperPomProvider
-    implements SuperPomProvider
-{
+        implements SuperPomProvider {
 
     /**
      * The cached super POM, lazily created.
@@ -51,45 +50,38 @@ public class DefaultSuperPomProvider
     @Inject
     private ModelProcessor modelProcessor;
 
-    public DefaultSuperPomProvider setModelProcessor( ModelProcessor modelProcessor )
-    {
+    public DefaultSuperPomProvider setModelProcessor(ModelProcessor modelProcessor) {
         this.modelProcessor = modelProcessor;
         return this;
     }
 
     @Override
-    public Model getSuperModel( String version )
-    {
-        if ( superModel == null )
-        {
+    public Model getSuperModel(String version) {
+        if (superModel == null) {
             String resource = "/org/apache/maven/model/pom-" + version + ".xml";
 
-            InputStream is = getClass().getResourceAsStream( resource );
+            InputStream is = getClass().getResourceAsStream(resource);
 
-            if ( is == null )
-            {
-                throw new IllegalStateException( "The super POM " + resource + " was not found"
-                    + ", please verify the integrity of your Maven installation" );
+            if (is == null) {
+                throw new IllegalStateException("The super POM " + resource + " was not found"
+                        + ", please verify the integrity of your Maven installation");
             }
 
-            try
-            {
-                Map<String, Object> options = new HashMap<>( 2 );
-                options.put( "xml:4.0.0", "xml:4.0.0" );
+            try {
+                Map<String, Object> options = new HashMap<>(2);
+                options.put("xml:4.0.0", "xml:4.0.0");
 
                 String modelId = "org.apache.maven:maven-model-builder:"
-                    + this.getClass().getPackage().getImplementationVersion() + ":super-pom";
+                        + this.getClass().getPackage().getImplementationVersion() + ":super-pom";
                 InputSource inputSource = new InputSource();
-                inputSource.setModelId( modelId );
-                inputSource.setLocation( getClass().getResource( resource ).toExternalForm() );
-                options.put( ModelProcessor.INPUT_SOURCE, inputSource );
+                inputSource.setModelId(modelId);
+                inputSource.setLocation(getClass().getResource(resource).toExternalForm());
+                options.put(ModelProcessor.INPUT_SOURCE, inputSource);
 
-                superModel = modelProcessor.read( is, options );
-            }
-            catch ( IOException e )
-            {
-                throw new IllegalStateException( "The super POM " + resource + " is damaged"
-                    + ", please verify the integrity of your Maven installation", e );
+                superModel = modelProcessor.read(is, options);
+            } catch (IOException e) {
+                throw new IllegalStateException("The super POM " + resource + " is damaged"
+                        + ", please verify the integrity of your Maven installation", e);
             }
         }
 

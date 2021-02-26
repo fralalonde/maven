@@ -32,65 +32,53 @@ import org.apache.maven.model.Plugin;
  * PluginArtifact
  */
 public class PluginArtifact
-    extends DefaultArtifact
-    implements ArtifactWithDependencies
-{
+        extends DefaultArtifact
+        implements ArtifactWithDependencies {
     private Plugin plugin;
 
-    public PluginArtifact( Plugin plugin, Artifact pluginArtifact )
-    {
-        super( plugin.getGroupId(), plugin.getArtifactId(), plugin.getVersion(), null, "maven-plugin", null,
-               new PluginArtifactHandler() );
+    public PluginArtifact(Plugin plugin, Artifact pluginArtifact) {
+        super(plugin.getGroupId(), plugin.getArtifactId(), plugin.getVersion(), null, "maven-plugin", null,
+                new PluginArtifactHandler());
         this.plugin = plugin;
-        setFile( pluginArtifact.getFile() );
-        setResolved( true );
+        setFile(pluginArtifact.getFile());
+        setResolved(true);
     }
 
-    public List<Dependency> getDependencies()
-    {
+    public List<Dependency> getDependencies() {
         return plugin.getDependencies();
     }
 
-    public List<Dependency> getManagedDependencies()
-    {
+    public List<Dependency> getManagedDependencies() {
         return Collections.emptyList();
     }
 
     static class PluginArtifactHandler
-        implements ArtifactHandler
-    {
-        public String getClassifier()
-        {
+            implements ArtifactHandler {
+        public String getClassifier() {
             return null;
         }
 
-        public String getDirectory()
-        {
+        public String getDirectory() {
             return null;
         }
 
-        public String getExtension()
-        {
+        public String getExtension() {
             return "jar";
         }
 
-        public String getLanguage()
-        {
+        public String getLanguage() {
             return "none";
         }
 
-        public String getPackaging()
-        {
+        public String getPackaging() {
             return "maven-plugin";
         }
 
-        public boolean isAddedToClasspath()
-        {
+        public boolean isAddedToClasspath() {
             return true;
         }
 
-        public boolean isIncludesDependencies()
-        {
+        public boolean isIncludesDependencies() {
             return false;
         }
     }

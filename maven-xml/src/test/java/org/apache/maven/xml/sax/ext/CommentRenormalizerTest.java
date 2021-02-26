@@ -27,38 +27,35 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import org.xml.sax.ext.LexicalHandler;
 
-public class CommentRenormalizerTest
-{
-    private LexicalHandler lexicalHandler = mock( LexicalHandler.class );
+public class CommentRenormalizerTest {
+    private LexicalHandler lexicalHandler = mock(LexicalHandler.class);
 
     @ParameterizedTest
-    @ValueSource(strings = {"\n", "\r\n", "\r" })
+    @ValueSource(strings = { "\n", "\r\n", "\r" })
     public void singleLine(String lineSeparator)
-        throws Exception
-    {
-        CommentRenormalizer commentRenormalizer = new CommentRenormalizer( lexicalHandler, lineSeparator );
+            throws Exception {
+        CommentRenormalizer commentRenormalizer = new CommentRenormalizer(lexicalHandler, lineSeparator);
 
         char[] ch = "single line".toCharArray();
 
-        commentRenormalizer.comment( ch, 0, ch.length );
+        commentRenormalizer.comment(ch, 0, ch.length);
 
-        verify( lexicalHandler ).comment( ch, 0, ch.length );
+        verify(lexicalHandler).comment(ch, 0, ch.length);
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"\n", "\r\n", "\r" })
+    @ValueSource(strings = { "\n", "\r\n", "\r" })
     public void multiLine(String lineSeparator)
-        throws Exception
-    {
-        CommentRenormalizer commentRenormalizer = new CommentRenormalizer( lexicalHandler, lineSeparator );
+            throws Exception {
+        CommentRenormalizer commentRenormalizer = new CommentRenormalizer(lexicalHandler, lineSeparator);
 
         String text = "I%sam%sthe%sbest%s";
 
-        char[] chIn = String.format( text, "\n", "\n", "\n", "\n" ).toCharArray();
-        char[] chOut = String.format( text, lineSeparator, lineSeparator, lineSeparator, lineSeparator ).toCharArray();
+        char[] chIn = String.format(text, "\n", "\n", "\n", "\n").toCharArray();
+        char[] chOut = String.format(text, lineSeparator, lineSeparator, lineSeparator, lineSeparator).toCharArray();
 
-        commentRenormalizer.comment( chIn, 0, chIn.length );
+        commentRenormalizer.comment(chIn, 0, chIn.length);
 
-        verify( lexicalHandler ).comment( chOut, 0, chOut.length );
+        verify(lexicalHandler).comment(chOut, 0, chOut.length);
     }
 }

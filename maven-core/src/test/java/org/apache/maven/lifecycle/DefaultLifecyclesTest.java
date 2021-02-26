@@ -36,77 +36,69 @@ import static org.hamcrest.Matchers.is;
  * @author Kristian Rosenvold
  */
 @PlexusTest
-public class DefaultLifecyclesTest
-{
+public class DefaultLifecyclesTest {
     @Inject
     private DefaultLifecycles defaultLifeCycles;
 
     @Test
-    public void testDefaultLifecycles()
-    {
+    public void testDefaultLifecycles() {
         final List<Lifecycle> lifecycles = defaultLifeCycles.getLifeCycles();
-        assertThat( lifecycles, hasSize( 4 ) );
-        assertThat( DefaultLifecycles.STANDARD_LIFECYCLES,  arrayWithSize( 4 ) );
+        assertThat(lifecycles, hasSize(4));
+        assertThat(DefaultLifecycles.STANDARD_LIFECYCLES, arrayWithSize(4));
     }
 
     @Test
-    public void testDefaultLifecycle()
-    {
-        final Lifecycle lifecycle = getLifeCycleById( "default" );
-        assertThat( lifecycle.getId(), is( "default" )  );
-        assertThat( lifecycle.getPhases(), hasSize( 23 ) );
+    public void testDefaultLifecycle() {
+        final Lifecycle lifecycle = getLifeCycleById("default");
+        assertThat(lifecycle.getId(), is("default"));
+        assertThat(lifecycle.getPhases(), hasSize(23));
     }
 
     @Test
-    public void testCleanLifecycle()
-    {
-        final Lifecycle lifecycle = getLifeCycleById( "clean" );
-        assertThat( lifecycle.getId(), is( "clean" )  );
-        assertThat( lifecycle.getPhases(), hasSize( 3 ) );
+    public void testCleanLifecycle() {
+        final Lifecycle lifecycle = getLifeCycleById("clean");
+        assertThat(lifecycle.getId(), is("clean"));
+        assertThat(lifecycle.getPhases(), hasSize(3));
     }
 
     @Test
-    public void testSiteLifecycle()
-    {
-        final Lifecycle lifecycle = getLifeCycleById( "site" );
-        assertThat( lifecycle.getId(), is( "site" )  );
-        assertThat( lifecycle.getPhases(), hasSize( 4 ) );
+    public void testSiteLifecycle() {
+        final Lifecycle lifecycle = getLifeCycleById("site");
+        assertThat(lifecycle.getId(), is("site"));
+        assertThat(lifecycle.getPhases(), hasSize(4));
     }
 
     @Test
-    public void testWrapperLifecycle()
-    {
-        final Lifecycle lifecycle = getLifeCycleById( "wrapper" );
-        assertThat( lifecycle.getId(), is( "wrapper" )  );
-        assertThat( lifecycle.getPhases(), hasSize( 1 ) );
+    public void testWrapperLifecycle() {
+        final Lifecycle lifecycle = getLifeCycleById("wrapper");
+        assertThat(lifecycle.getId(), is("wrapper"));
+        assertThat(lifecycle.getPhases(), hasSize(1));
     }
 
     @Test
-    public void testCustomLifecycle()
-    {
+    public void testCustomLifecycle() {
         List<Lifecycle> myLifecycles = new ArrayList<>();
-        Lifecycle myLifecycle = new Lifecycle( "etl",
-                                               Arrays.asList( "extract", "transform", "load" ),
-                                               Collections.emptyMap() );
-        myLifecycles.add( myLifecycle );
-        myLifecycles.addAll( defaultLifeCycles.getLifeCycles() );
+        Lifecycle myLifecycle = new Lifecycle("etl",
+                Arrays.asList("extract", "transform", "load"),
+                Collections.emptyMap());
+        myLifecycles.add(myLifecycle);
+        myLifecycles.addAll(defaultLifeCycles.getLifeCycles());
 
-        DefaultLifecycles dl = new DefaultLifecycles( myLifecycles.stream()
-                                                            .collect( Collectors.toMap( l -> l.getId(), l -> l ) ),
-                                                      null );
+        DefaultLifecycles dl = new DefaultLifecycles(myLifecycles.stream()
+                .collect(Collectors.toMap(l -> l.getId(), l -> l)),
+                null);
 
-        assertThat( dl.getLifeCycles().get( 0 ).getId(), is( "default" ) );
-        assertThat( dl.getLifeCycles().get( 1 ).getId(), is( "clean" ) );
-        assertThat( dl.getLifeCycles().get( 2 ).getId(), is( "site" ) );
-        assertThat( dl.getLifeCycles().get( 3 ).getId(), is( "wrapper" ) );
-        assertThat( dl.getLifeCycles().get( 4 ).getId(), is( "etl" ) );
+        assertThat(dl.getLifeCycles().get(0).getId(), is("default"));
+        assertThat(dl.getLifeCycles().get(1).getId(), is("clean"));
+        assertThat(dl.getLifeCycles().get(2).getId(), is("site"));
+        assertThat(dl.getLifeCycles().get(3).getId(), is("wrapper"));
+        assertThat(dl.getLifeCycles().get(4).getId(), is("etl"));
     }
 
-    private Lifecycle getLifeCycleById( String id )
-    {
+    private Lifecycle getLifeCycleById(String id) {
         return defaultLifeCycles.getLifeCycles().stream()
-                        .filter( l -> id.equals( l.getId() ) )
-                        .findFirst()
-                        .orElseThrow( IllegalArgumentException::new );
+                .filter(l -> id.equals(l.getId()))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
     }
 }

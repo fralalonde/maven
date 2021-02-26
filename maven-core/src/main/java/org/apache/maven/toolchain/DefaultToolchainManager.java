@@ -41,8 +41,7 @@ import org.codehaus.plexus.logging.Logger;
 @Named
 @Singleton
 public class DefaultToolchainManager
-    implements ToolchainManager
-{
+        implements ToolchainManager {
     @Inject
     Logger logger;
 
@@ -50,19 +49,16 @@ public class DefaultToolchainManager
     Map<String, ToolchainFactory> factories;
 
     @Override
-    public Toolchain getToolchainFromBuildContext( String type, MavenSession session )
-    {
-        Map<String, Object> context = retrieveContext( session );
+    public Toolchain getToolchainFromBuildContext(String type, MavenSession session) {
+        Map<String, Object> context = retrieveContext(session);
 
-        ToolchainModel model = (ToolchainModel) context.get( getStorageKey( type ) );
+        ToolchainModel model = (ToolchainModel) context.get(getStorageKey(type));
 
-        if ( model != null )
-        {
-            List<Toolchain> toolchains = selectToolchains( Collections.singletonList( model ), type, null );
+        if (model != null) {
+            List<Toolchain> toolchains = selectToolchains(Collections.singletonList(model), type, null);
 
-            if ( !toolchains.isEmpty() )
-            {
-                return toolchains.get( 0 );
+            if (!toolchains.isEmpty()) {
+                return toolchains.get(0);
             }
         }
 
@@ -70,42 +66,31 @@ public class DefaultToolchainManager
     }
 
     @Override
-    public List<Toolchain> getToolchains( MavenSession session, String type, Map<String, String> requirements )
-    {
-        List<ToolchainModel> models = session.getRequest().getToolchains().get( type );
+    public List<Toolchain> getToolchains(MavenSession session, String type, Map<String, String> requirements) {
+        List<ToolchainModel> models = session.getRequest().getToolchains().get(type);
 
-        return selectToolchains( models, type, requirements );
+        return selectToolchains(models, type, requirements);
     }
 
-    private List<Toolchain> selectToolchains( List<ToolchainModel> models, String type,
-                                              Map<String, String> requirements )
-    {
+    private List<Toolchain> selectToolchains(List<ToolchainModel> models, String type,
+            Map<String, String> requirements) {
         List<Toolchain> toolchains = new ArrayList<>();
 
-        if ( models != null )
-        {
-            ToolchainFactory fact = factories.get( type );
+        if (models != null) {
+            ToolchainFactory fact = factories.get(type);
 
-            if ( fact == null )
-            {
-                logger.error( "Missing toolchain factory for type: " + type
-                    + ". Possibly caused by misconfigured project." );
-            }
-            else
-            {
-                for ( ToolchainModel model : models )
-                {
-                    try
-                    {
-                        ToolchainPrivate toolchain = fact.createToolchain( model );
-                        if ( requirements == null || toolchain.matchesRequirements( requirements ) )
-                        {
-                            toolchains.add( toolchain );
+            if (fact == null) {
+                logger.error("Missing toolchain factory for type: " + type
+                        + ". Possibly caused by misconfigured project.");
+            } else {
+                for (ToolchainModel model : models) {
+                    try {
+                        ToolchainPrivate toolchain = fact.createToolchain(model);
+                        if (requirements == null || toolchain.matchesRequirements(requirements)) {
+                            toolchains.add(toolchain);
                         }
-                    }
-                    catch ( MisconfiguredToolchainException ex )
-                    {
-                        logger.error( "Misconfigured toolchain.", ex );
+                    } catch (MisconfiguredToolchainException ex) {
+                        logger.error("Misconfigured toolchain.", ex);
                     }
                 }
             }
@@ -113,30 +98,26 @@ public class DefaultToolchainManager
         return toolchains;
     }
 
-    Map<String, Object> retrieveContext( MavenSession session )
-    {
+    Map<String, Object> retrieveContext(MavenSession session) {
         Map<String, Object> context = null;
 
-        if ( session != null )
-        {
+        if (session != null) {
             PluginDescriptor desc = new PluginDescriptor();
-            desc.setGroupId( PluginDescriptor.getDefaultPluginGroupId() );
-            desc.setArtifactId( PluginDescriptor.getDefaultPluginArtifactId( "toolchains" ) );
+            desc.setGroupId(PluginDescriptor.getDefaultPluginGroupId());
+            desc.setArtifactId(PluginDescriptor.getDefaultPluginArtifactId("toolchains"));
 
             MavenProject current = session.getCurrentProject();
 
-            if ( current != null )
-            {
-                //TODO why is this using the context
-                context = session.getPluginContext( desc, current );
+            if (current != null) {
+                // TODO why is this using the context
+                context = session.getPluginContext(desc, current);
             }
         }
 
-        return ( context != null ) ? context : new HashMap<>();
+        return (context != null) ? context : new HashMap<>();
     }
 
-    public static final String getStorageKey( String type )
-    {
+    public static final String getStorageKey(String type) {
         return "toolchain-" + type; // NOI18N
     }
 

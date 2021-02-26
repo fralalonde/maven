@@ -25,11 +25,9 @@ import java.io.PrintStream;
  * BatchModeMavenTransferListener
  */
 public class BatchModeMavenTransferListener
-    extends AbstractMavenTransferListener
-{
-    public BatchModeMavenTransferListener( PrintStream out )
-    {
-        super( out );
+        extends AbstractMavenTransferListener {
+    public BatchModeMavenTransferListener(PrintStream out) {
+        super(out);
     }
 
 }

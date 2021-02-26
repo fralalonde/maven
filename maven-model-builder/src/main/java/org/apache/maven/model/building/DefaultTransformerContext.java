@@ -31,8 +31,7 @@ import org.apache.maven.model.Model;
  * @author Robert Scholte
  * @since 4.0.0
  */
-class DefaultTransformerContext implements TransformerContext
-{
+class DefaultTransformerContext implements TransformerContext {
     final Map<String, String> userProperties = new HashMap<>();
 
     final Map<Path, Model> modelByPath = new HashMap<>();
@@ -40,56 +39,47 @@ class DefaultTransformerContext implements TransformerContext
     final Map<GAKey, Model> modelByGA = new HashMap<>();
 
     @Override
-    public String getUserProperty( String key )
-    {
-        return userProperties.get( key );
+    public String getUserProperty(String key) {
+        return userProperties.get(key);
     }
 
     @Override
-    public Model getRawModel( Path p )
-    {
-        return modelByPath.get( p );
+    public Model getRawModel(Path p) {
+        return modelByPath.get(p);
     }
 
     @Override
-    public Model getRawModel( String groupId, String artifactId )
-    {
-        return modelByGA.get( new GAKey( groupId, artifactId ) );
+    public Model getRawModel(String groupId, String artifactId) {
+        return modelByGA.get(new GAKey(groupId, artifactId));
     }
 
-    static class GAKey
-    {
+    static class GAKey {
         private final String groupId;
         private final String artifactId;
         private final int hashCode;
 
-        GAKey( String groupId, String artifactId )
-        {
+        GAKey(String groupId, String artifactId) {
             this.groupId = groupId;
             this.artifactId = artifactId;
-            this.hashCode = Objects.hash( groupId, artifactId );
+            this.hashCode = Objects.hash(groupId, artifactId);
         }
 
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             return hashCode;
         }
 
         @Override
-        public boolean equals( Object obj )
-        {
-            if ( this == obj )
-            {
+        public boolean equals(Object obj) {
+            if (this == obj) {
                 return true;
             }
-            if ( !( obj instanceof GAKey ) )
-            {
+            if (!(obj instanceof GAKey)) {
                 return false;
             }
 
             GAKey other = (GAKey) obj;
-            return Objects.equals( artifactId, other.artifactId ) && Objects.equals( groupId, other.groupId );
+            return Objects.equals(artifactId, other.artifactId) && Objects.equals(groupId, other.groupId);
         }
     }
 }

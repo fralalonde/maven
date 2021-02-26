@@ -29,23 +29,23 @@ import org.xml.sax.XMLFilter;
 
 /**
  * This filter will skip all following filters and write directly to the output.
- * Should be used in case of a DOM that should not be effected by other filters, even though the elements match
+ * Should be used in case of a DOM that should not be effected by other filters,
+ * even though the elements match
  *
  * @author Robert Scholte
  * @since 4.0.0
  */
-class FastForwardFilter extends AbstractSAXFilter
-{
+class FastForwardFilter extends AbstractSAXFilter {
     /**
      * DOM elements of pom
      *
      * <ul>
-     *  <li>execution.configuration</li>
-     *  <li>plugin.configuration</li>
-     *  <li>plugin.goals</li>
-     *  <li>profile.reports</li>
-     *  <li>project.reports</li>
-     *  <li>reportSet.configuration</li>
+     * <li>execution.configuration</li>
+     * <li>plugin.configuration</li>
+     * <li>plugin.goals</li>
+     * <li>profile.reports</li>
+     * <li>project.reports</li>
+     * <li>reportSet.configuration</li>
      * <ul>
      */
     private final Deque<String> state = new ArrayDeque<>();
@@ -54,73 +54,59 @@ class FastForwardFilter extends AbstractSAXFilter
 
     private ContentHandler originalHandler;
 
-    FastForwardFilter()
-    {
+    FastForwardFilter() {
         super();
     }
 
-    FastForwardFilter( AbstractSAXFilter parent )
-    {
-        super( parent );
+    FastForwardFilter(AbstractSAXFilter parent) {
+        super(parent);
     }
 
     @Override
-    public void startElement( String uri, String localName, String qName, Attributes atts )
-        throws SAXException
-    {
-        super.startElement( uri, localName, qName, atts );
-        if ( domDepth > 0 )
-        {
+    public void startElement(String uri, String localName, String qName, Attributes atts)
+            throws SAXException {
+        super.startElement(uri, localName, qName, atts);
+        if (domDepth > 0) {
             domDepth++;
-        }
-        else
-        {
+        } else {
             final String key = state.peek() + '.' + localName;
-            switch ( key )
-            {
-                case "execution.configuration":
-                case "plugin.configuration":
-                case "plugin.goals":
-                case "profile.reports":
-                case "project.reports":
-                case "reportSet.configuration":
-                    domDepth++;
+            switch (key) {
+            case "execution.configuration":
+            case "plugin.configuration":
+            case "plugin.goals":
+            case "profile.reports":
+            case "project.reports":
+            case "reportSet.configuration":
+                domDepth++;
 
-                    originalHandler = getContentHandler();
+                originalHandler = getContentHandler();
 
-                    ContentHandler outputContentHandler = getContentHandler();
-                    while ( outputContentHandler instanceof XMLFilter )
-                    {
-                        outputContentHandler = ( (XMLFilter) outputContentHandler ).getContentHandler();
-                    }
-                    setContentHandler( outputContentHandler );
-                    break;
-                default:
-                    break;
+                ContentHandler outputContentHandler = getContentHandler();
+                while (outputContentHandler instanceof XMLFilter) {
+                    outputContentHandler = ((XMLFilter) outputContentHandler).getContentHandler();
+                }
+                setContentHandler(outputContentHandler);
+                break;
+            default:
+                break;
             }
-            state.push( localName );
+            state.push(localName);
         }
     }
 
     @Override
-    public void endElement( String uri, String localName, String qName )
-        throws SAXException
-    {
-        if ( domDepth > 0 )
-        {
+    public void endElement(String uri, String localName, String qName)
+            throws SAXException {
+        if (domDepth > 0) {
             domDepth--;
 
-            if ( domDepth == 0 )
-            {
-                setContentHandler( originalHandler );
+            if (domDepth == 0) {
+                setContentHandler(originalHandler);
             }
-        }
-        else
-        {
+        } else {
             state.pop();
         }
-        super.endElement( uri, localName, qName );
+        super.endElement(uri, localName, qName);
     }
-
 
 }

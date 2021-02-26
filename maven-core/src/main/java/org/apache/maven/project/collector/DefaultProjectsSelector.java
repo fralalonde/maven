@@ -43,59 +43,52 @@ import java.util.List;
  */
 @Named
 @Singleton
-public class DefaultProjectsSelector implements ProjectsSelector
-{
-    private static final Logger LOGGER = LoggerFactory.getLogger( DefaultProjectsSelector.class );
+public class DefaultProjectsSelector implements ProjectsSelector {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultProjectsSelector.class);
     private final ProjectBuilder projectBuilder;
 
     @Inject
-    public DefaultProjectsSelector( ProjectBuilder projectBuilder )
-    {
+    public DefaultProjectsSelector(ProjectBuilder projectBuilder) {
         this.projectBuilder = projectBuilder;
     }
 
     @Override
-    public List<MavenProject> selectProjects( List<File> files, MavenExecutionRequest request )
-            throws ProjectBuildingException
-    {
+    public List<MavenProject> selectProjects(List<File> files, MavenExecutionRequest request)
+            throws ProjectBuildingException {
         ProjectBuildingRequest projectBuildingRequest = request.getProjectBuildingRequest();
 
-        List<ProjectBuildingResult> results = projectBuilder.build( files, request.isRecursive(),
-                projectBuildingRequest );
+        List<ProjectBuildingResult> results = projectBuilder.build(files, request.isRecursive(),
+                projectBuildingRequest);
 
-        List<MavenProject> projects = new ArrayList<>( results.size() );
+        List<MavenProject> projects = new ArrayList<>(results.size());
 
         boolean problems = false;
 
-        for ( ProjectBuildingResult result : results )
-        {
-            projects.add( result.getProject() );
+        for (ProjectBuildingResult result : results) {
+            projects.add(result.getProject());
 
-            if ( !result.getProblems().isEmpty() && LOGGER.isWarnEnabled() )
-            {
-                LOGGER.warn( "" );
-                LOGGER.warn( "Some problems were encountered while building the effective model for '{}'",
-                        result.getProject().getId() );
+            if (!result.getProblems().isEmpty() && LOGGER.isWarnEnabled()) {
+                LOGGER.warn("");
+                LOGGER.warn("Some problems were encountered while building the effective model for '{}'",
+                        result.getProject().getId());
 
-                for ( ModelProblem problem : result.getProblems() )
-                {
-                    String loc = ModelProblemUtils.formatLocation( problem, result.getProjectId() );
-                    LOGGER.warn( "{}{}", problem.getMessage(), ( StringUtils.isNotEmpty( loc ) ? " @ " + loc : "" ) );
+                for (ModelProblem problem : result.getProblems()) {
+                    String loc = ModelProblemUtils.formatLocation(problem, result.getProjectId());
+                    LOGGER.warn("{}{}", problem.getMessage(), (StringUtils.isNotEmpty(loc) ? " @ " + loc : ""));
                 }
 
                 problems = true;
             }
         }
 
-        if ( problems )
-        {
-            LOGGER.warn( "" );
-            LOGGER.warn( "It is highly recommended to fix these problems"
-                    + " because they threaten the stability of your build." );
-            LOGGER.warn( "" );
-            LOGGER.warn( "For this reason, future Maven versions might no"
-                    + " longer support building such malformed projects." );
-            LOGGER.warn( "" );
+        if (problems) {
+            LOGGER.warn("");
+            LOGGER.warn("It is highly recommended to fix these problems"
+                    + " because they threaten the stability of your build.");
+            LOGGER.warn("");
+            LOGGER.warn("For this reason, future Maven versions might no"
+                    + " longer support building such malformed projects.");
+            LOGGER.warn("");
         }
 
         return projects;

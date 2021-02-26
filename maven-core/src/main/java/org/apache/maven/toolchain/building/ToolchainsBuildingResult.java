@@ -30,8 +30,7 @@ import org.apache.maven.toolchain.model.PersistedToolchains;
  * @author Robert Scholte
  * @since 3.3.0
  */
-public interface ToolchainsBuildingResult
-{
+public interface ToolchainsBuildingResult {
 
     /**
      * Gets the assembled toolchains.

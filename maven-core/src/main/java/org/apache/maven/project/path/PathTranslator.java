@@ -27,15 +27,14 @@ import org.apache.maven.model.Model;
  * @author Jason van Zyl
  */
 @Deprecated
-public interface PathTranslator
-{
+public interface PathTranslator {
     String ROLE = PathTranslator.class.getName();
 
-    void alignToBaseDirectory( Model model, File basedir );
+    void alignToBaseDirectory(Model model, File basedir);
 
-    String alignToBaseDirectory( String path, File basedir );
+    String alignToBaseDirectory(String path, File basedir);
 
-    void unalignFromBaseDirectory( Model model, File basedir );
+    void unalignFromBaseDirectory(Model model, File basedir);
 
-    String unalignFromBaseDirectory( String directory, File basedir );
+    String unalignFromBaseDirectory(String directory, File basedir);
 }

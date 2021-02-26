@@ -22,13 +22,13 @@ package org.apache.maven;
 import java.util.Set;
 
 /**
- * @deprecated use {@code META-INF/maven/extension.xml} to define artifacts exported by Maven core extensions.
+ * @deprecated use {@code META-INF/maven/extension.xml} to define artifacts
+ *             exported by Maven core extensions.
  */
-public interface ArtifactFilterManagerDelegate
-{
+public interface ArtifactFilterManagerDelegate {
 
-    void addExcludes( Set<String> excludes );
+    void addExcludes(Set<String> excludes);
 
-    void addCoreExcludes( Set<String> excludes );
+    void addCoreExcludes(Set<String> excludes);
 
 }

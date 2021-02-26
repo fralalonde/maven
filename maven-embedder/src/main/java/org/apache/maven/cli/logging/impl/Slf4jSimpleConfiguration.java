@@ -30,33 +30,30 @@ import org.slf4j.impl.MavenSlf4jSimpleFriend;
  * @since 3.1.0
  */
 public class Slf4jSimpleConfiguration
-    extends BaseSlf4jConfiguration
-{
+        extends BaseSlf4jConfiguration {
     @Override
-    public void setRootLoggerLevel( Level level )
-    {
+    public void setRootLoggerLevel(Level level) {
         String value;
-        switch ( level )
-        {
-            case DEBUG:
-                value = "debug";
-                break;
+        switch (level) {
+        case DEBUG:
+            value = "debug";
+            break;
 
-            case INFO:
-                value = "info";
-                break;
+        case INFO:
+            value = "info";
+            break;
 
-            default:
-                value = "error";
-                break;
+        default:
+            value = "error";
+            break;
         }
-        System.setProperty( "org.slf4j.simpleLogger.defaultLogLevel", value );
+        System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", value);
     }
 
     @Override
-    public void activate()
-    {
-        // property for root logger level or System.out redirection need to be taken into account
+    public void activate() {
+        // property for root logger level or System.out redirection need to be taken
+        // into account
         MavenSlf4jFriend.reset();
         MavenSlf4jSimpleFriend.init();
     }

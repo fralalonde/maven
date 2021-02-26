@@ -32,61 +32,56 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MavenLoggerFactoryTest
-{
+public class MavenLoggerFactoryTest {
     @Test
-    public void createsSimpleLogger()
-    {
+    public void createsSimpleLogger() {
         MavenLoggerFactory mavenLoggerFactory = new MavenLoggerFactory();
 
-        Logger logger = mavenLoggerFactory.getLogger( "Test" );
+        Logger logger = mavenLoggerFactory.getLogger("Test");
 
-        assertThat( logger, instanceOf( MavenSimpleLogger.class ) );
+        assertThat(logger, instanceOf(MavenSimpleLogger.class));
     }
 
     @Test
-    public void loggerCachingWorks()
-    {
+    public void loggerCachingWorks() {
         MavenLoggerFactory mavenLoggerFactory = new MavenLoggerFactory();
 
-        Logger logger = mavenLoggerFactory.getLogger( "Test" );
-        Logger logger2 = mavenLoggerFactory.getLogger( "Test" );
-        Logger differentLogger = mavenLoggerFactory.getLogger( "TestWithDifferentName" );
+        Logger logger = mavenLoggerFactory.getLogger("Test");
+        Logger logger2 = mavenLoggerFactory.getLogger("Test");
+        Logger differentLogger = mavenLoggerFactory.getLogger("TestWithDifferentName");
 
-        assertNotNull( logger );
-        assertNotNull( differentLogger );
-        assertSame( logger, logger2 );
-        assertNotSame( logger, differentLogger );
+        assertNotNull(logger);
+        assertNotNull(differentLogger);
+        assertSame(logger, logger2);
+        assertNotSame(logger, differentLogger);
     }
 
     @Test
-    public void reportsWhenFailOnSeverityThresholdHasBeenHit()
-    {
+    public void reportsWhenFailOnSeverityThresholdHasBeenHit() {
         MavenLoggerFactory mavenLoggerFactory = new MavenLoggerFactory();
-        mavenLoggerFactory.setLogLevelRecorder( new LogLevelRecorder( "ERROR" ) );
+        mavenLoggerFactory.setLogLevelRecorder(new LogLevelRecorder("ERROR"));
 
-        assertTrue( mavenLoggerFactory.getLogLevelRecorder().isPresent() );
+        assertTrue(mavenLoggerFactory.getLogLevelRecorder().isPresent());
         LogLevelRecorder logLevelRecorder = mavenLoggerFactory.getLogLevelRecorder().get();
 
-        MavenFailOnSeverityLogger logger = (MavenFailOnSeverityLogger) mavenLoggerFactory.getLogger( "Test" );
-        assertFalse( logLevelRecorder.metThreshold() );
+        MavenFailOnSeverityLogger logger = (MavenFailOnSeverityLogger) mavenLoggerFactory.getLogger("Test");
+        assertFalse(logLevelRecorder.metThreshold());
 
-        logger.warn( "This should not hit the fail threshold" );
-        assertFalse( logLevelRecorder.metThreshold() );
+        logger.warn("This should not hit the fail threshold");
+        assertFalse(logLevelRecorder.metThreshold());
 
-        logger.error( "This should hit the fail threshold" );
-        assertTrue( logLevelRecorder.metThreshold() );
+        logger.error("This should hit the fail threshold");
+        assertTrue(logLevelRecorder.metThreshold());
 
-        logger.warn( "This should not reset the fail threshold" );
-        assertTrue( logLevelRecorder.metThreshold() );
+        logger.warn("This should not reset the fail threshold");
+        assertTrue(logLevelRecorder.metThreshold());
     }
 
     @Test
-    public void failOnSeverityThresholdCanOnlyBeSetOnce()
-    {
+    public void failOnSeverityThresholdCanOnlyBeSetOnce() {
         MavenLoggerFactory mavenLoggerFactory = new MavenLoggerFactory();
-        mavenLoggerFactory.setLogLevelRecorder( new LogLevelRecorder( "WARN" ) );
-        assertThrows( IllegalStateException.class,
-                      () -> mavenLoggerFactory.setLogLevelRecorder( new LogLevelRecorder( "ERROR" ) ) );
+        mavenLoggerFactory.setLogLevelRecorder(new LogLevelRecorder("WARN"));
+        assertThrows(IllegalStateException.class,
+                () -> mavenLoggerFactory.setLogLevelRecorder(new LogLevelRecorder("ERROR")));
     }
 }

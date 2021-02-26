@@ -46,42 +46,34 @@ import org.xml.sax.ext.LexicalHandler;
  */
 @Named
 @Singleton
-class BuildModelSourceTransformer extends AbstractModelSourceTransformer
-{
+class BuildModelSourceTransformer extends AbstractModelSourceTransformer {
     @Inject
     @Nullable
     private BuildPomXMLFilterListener xmlFilterListener;
 
-    protected AbstractSAXFilter getSAXFilter( Path pomFile,
-                                              TransformerContext context,
-                                              Consumer<LexicalHandler> lexicalHandlerConsumer )
-        throws TransformerConfigurationException, SAXException, ParserConfigurationException
-    {
-        BuildPomXMLFilterFactory buildPomXMLFilterFactory =
-            new DefaultBuildPomXMLFilterFactory( context, lexicalHandlerConsumer, false );
+    protected AbstractSAXFilter getSAXFilter(Path pomFile,
+            TransformerContext context,
+            Consumer<LexicalHandler> lexicalHandlerConsumer)
+            throws TransformerConfigurationException, SAXException, ParserConfigurationException {
+        BuildPomXMLFilterFactory buildPomXMLFilterFactory = new DefaultBuildPomXMLFilterFactory(context,
+                lexicalHandlerConsumer, false);
 
-        return buildPomXMLFilterFactory.get( pomFile );
+        return buildPomXMLFilterFactory.get(pomFile);
     }
 
     @Override
-    protected OutputStream filterOutputStream( OutputStream outputStream, Path pomFile )
-    {
+    protected OutputStream filterOutputStream(OutputStream outputStream, Path pomFile) {
         OutputStream out;
-        if ( xmlFilterListener != null )
-        {
-            out = new FilterOutputStream( outputStream )
-            {
+        if (xmlFilterListener != null) {
+            out = new FilterOutputStream(outputStream) {
                 @Override
-                public void write( byte[] b, int off, int len )
-                    throws IOException
-                {
-                    super.write( b, off, len );
-                    xmlFilterListener.write( pomFile, b, off, len );
+                public void write(byte[] b, int off, int len)
+                        throws IOException {
+                    super.write(b, off, len);
+                    xmlFilterListener.write(pomFile, b, off, len);
                 }
             };
-        }
-        else
-        {
+        } else {
             out = outputStream;
         }
         return out;

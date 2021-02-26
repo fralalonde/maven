@@ -22,17 +22,16 @@ package org.apache.maven.project;
 import org.apache.maven.artifact.Artifact;
 
 /**
- * This exception is thrown if an application attempts to attach
- * two of the same artifacts to a single project.
+ * This exception is thrown if an application attempts to attach two of the same
+ * artifacts to a single project.
  *
  * @author pgier
- * @author jdcasey
- * TODO Make this a checked exception, and modify the API of MavenProjectHelper.
- * Currently, this modification would create compatibility problems for existing plugins.
+ * @author jdcasey TODO Make this a checked exception, and modify the API of
+ *         MavenProjectHelper. Currently, this modification would create
+ *         compatibility problems for existing plugins.
  */
 public class DuplicateArtifactAttachmentException
-    extends RuntimeException
-{
+        extends RuntimeException {
 
     private static final String DEFAULT_MESSAGE = "Duplicate artifact attachment detected.";
 
@@ -40,25 +39,21 @@ public class DuplicateArtifactAttachmentException
 
     private final MavenProject project;
 
-    public DuplicateArtifactAttachmentException( MavenProject project, Artifact artifact )
-    {
-        super( constructMessage( project, artifact ) );
+    public DuplicateArtifactAttachmentException(MavenProject project, Artifact artifact) {
+        super(constructMessage(project, artifact));
         this.project = project;
         this.artifact = artifact;
     }
 
-    private static String constructMessage( MavenProject project, Artifact artifact )
-    {
+    private static String constructMessage(MavenProject project, Artifact artifact) {
         return DEFAULT_MESSAGE + " (project: " + project.getId() + "; illegal attachment: " + artifact.getId() + ")";
     }
 
-    public MavenProject getProject()
-    {
+    public MavenProject getProject() {
         return project;
     }
 
-    public Artifact getArtifact()
-    {
+    public Artifact getArtifact() {
         return artifact;
     }
 }

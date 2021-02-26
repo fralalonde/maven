@@ -29,8 +29,7 @@ import org.apache.maven.artifact.repository.ArtifactRepository;
 /**
  * ResolutionGroup
  */
-public class ResolutionGroup
-{
+public class ResolutionGroup {
 
     private final Set<Artifact> artifacts;
 
@@ -42,15 +41,13 @@ public class ResolutionGroup
 
     private final Map<String, Artifact> managedVersions;
 
-    public ResolutionGroup( Artifact pomArtifact, Set<Artifact> artifacts,
-                            List<ArtifactRepository> resolutionRepositories )
-    {
-        this( pomArtifact, null, artifacts, null, resolutionRepositories );
+    public ResolutionGroup(Artifact pomArtifact, Set<Artifact> artifacts,
+            List<ArtifactRepository> resolutionRepositories) {
+        this(pomArtifact, null, artifacts, null, resolutionRepositories);
     }
 
-    public ResolutionGroup( Artifact pomArtifact, Artifact relocatedArtifact, Set<Artifact> artifacts,
-                            Map<String, Artifact> managedVersions, List<ArtifactRepository> resolutionRepositories )
-    {
+    public ResolutionGroup(Artifact pomArtifact, Artifact relocatedArtifact, Set<Artifact> artifacts,
+            Map<String, Artifact> managedVersions, List<ArtifactRepository> resolutionRepositories) {
         this.pomArtifact = pomArtifact;
         this.relocatedArtifact = relocatedArtifact;
         this.artifacts = artifacts;
@@ -58,28 +55,23 @@ public class ResolutionGroup
         this.resolutionRepositories = resolutionRepositories;
     }
 
-    public Artifact getPomArtifact()
-    {
+    public Artifact getPomArtifact() {
         return pomArtifact;
     }
 
-    public Artifact getRelocatedArtifact()
-    {
+    public Artifact getRelocatedArtifact() {
         return relocatedArtifact;
     }
 
-    public Set<Artifact> getArtifacts()
-    {
+    public Set<Artifact> getArtifacts() {
         return artifacts;
     }
 
-    public List<ArtifactRepository> getResolutionRepositories()
-    {
+    public List<ArtifactRepository> getResolutionRepositories() {
         return resolutionRepositories;
     }
 
-    public Map<String, Artifact> getManagedVersions()
-    {
+    public Map<String, Artifact> getManagedVersions() {
         return managedVersions;
     }
 

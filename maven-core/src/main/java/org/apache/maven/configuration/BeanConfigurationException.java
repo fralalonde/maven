@@ -25,17 +25,14 @@ package org.apache.maven.configuration;
  * @author Benjamin Bentmann
  */
 public class BeanConfigurationException
-    extends Exception
-{
+        extends Exception {
 
-    public BeanConfigurationException( String message )
-    {
-        super( message );
+    public BeanConfigurationException(String message) {
+        super(message);
     }
 
-    public BeanConfigurationException( String message, Throwable cause )
-    {
-        super( message, cause );
+    public BeanConfigurationException(String message, Throwable cause) {
+        super(message, cause);
     }
 
 }

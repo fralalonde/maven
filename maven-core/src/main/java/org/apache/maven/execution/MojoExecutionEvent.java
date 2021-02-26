@@ -25,17 +25,18 @@ import org.apache.maven.project.MavenProject;
 
 /**
  * <p>
- * Encapsulates parameters of MojoExecutionListener callback methods and is meant to provide API evolution path should
- * it become necessary to introduce new parameters in the existing callbacks in the future.
+ * Encapsulates parameters of MojoExecutionListener callback methods and is
+ * meant to provide API evolution path should it become necessary to introduce
+ * new parameters in the existing callbacks in the future.
  * </p>
- * <strong>Note:</strong> This class is part of work in progress and can be changed or removed without notice.
+ * <strong>Note:</strong> This class is part of work in progress and can be
+ * changed or removed without notice.
  *
  * @see MojoExecutionListener
  * @see org.apache.maven.execution.scope.WeakMojoExecutionListener
  * @since 3.1.2
  */
-public class MojoExecutionEvent
-{
+public class MojoExecutionEvent {
     private final MavenSession session;
 
     private final MavenProject project;
@@ -46,14 +47,12 @@ public class MojoExecutionEvent
 
     private final Throwable cause;
 
-    public MojoExecutionEvent( MavenSession session, MavenProject project, MojoExecution mojoExecution, Mojo mojo )
-    {
-        this( session, project, mojoExecution, mojo, null );
+    public MojoExecutionEvent(MavenSession session, MavenProject project, MojoExecution mojoExecution, Mojo mojo) {
+        this(session, project, mojoExecution, mojo, null);
     }
 
-    public MojoExecutionEvent( MavenSession session, MavenProject project, MojoExecution mojoExecution, Mojo mojo,
-                               Throwable cause )
-    {
+    public MojoExecutionEvent(MavenSession session, MavenProject project, MojoExecution mojoExecution, Mojo mojo,
+            Throwable cause) {
         this.session = session;
         this.project = project;
         this.mojoExecution = mojoExecution;
@@ -61,28 +60,23 @@ public class MojoExecutionEvent
         this.cause = cause;
     }
 
-    public MavenSession getSession()
-    {
+    public MavenSession getSession() {
         return session;
     }
 
-    public MavenProject getProject()
-    {
+    public MavenProject getProject() {
         return project;
     }
 
-    public MojoExecution getExecution()
-    {
+    public MojoExecution getExecution() {
         return mojoExecution;
     }
 
-    public Mojo getMojo()
-    {
+    public Mojo getMojo() {
         return mojo;
     }
 
-    public Throwable getCause()
-    {
+    public Throwable getCause() {
         return cause;
     }
 }

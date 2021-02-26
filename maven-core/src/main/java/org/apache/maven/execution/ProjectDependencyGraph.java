@@ -29,8 +29,7 @@ import org.apache.maven.project.MavenProject;
  * @author Benjamin Bentmann
  * @since 3.0-alpha
  */
-public interface ProjectDependencyGraph
-{
+public interface ProjectDependencyGraph {
 
     /**
      * Gets all collected projects.
@@ -42,33 +41,36 @@ public interface ProjectDependencyGraph
     List<MavenProject> getAllProjects();
 
     /**
-     * Gets all projects in their intended build order, i.e. after topologically sorting the projects according to their
-     * inter-dependencies.
+     * Gets all projects in their intended build order, i.e. after topologically
+     * sorting the projects according to their inter-dependencies.
      *
      * @return The projects in the build order, never {@code null}.
      */
     List<MavenProject> getSortedProjects();
 
     /**
-     * Gets the downstream projects of the specified project. A downstream project is a project that directly or
-     * indirectly depends on the given project.
+     * Gets the downstream projects of the specified project. A downstream project
+     * is a project that directly or indirectly depends on the given project.
      *
-     * @param project The project whose downstream projects should be retrieved, must not be {@code null}.
-     * @param transitive A flag whether to retrieve all direct and indirect downstream projects or just the immediate
-     *            downstream projects.
+     * @param project    The project whose downstream projects should be retrieved,
+     *                   must not be {@code null}.
+     * @param transitive A flag whether to retrieve all direct and indirect
+     *                   downstream projects or just the immediate downstream
+     *                   projects.
      * @return The downstream projects in the build order, never {@code null}.
      */
-    List<MavenProject> getDownstreamProjects( MavenProject project, boolean transitive );
+    List<MavenProject> getDownstreamProjects(MavenProject project, boolean transitive);
 
     /**
-     * Gets the upstream projects of the specified project. An upstream project is a project that directly or indirectly
-     * is a prerequisite of the given project.
+     * Gets the upstream projects of the specified project. An upstream project is a
+     * project that directly or indirectly is a prerequisite of the given project.
      *
-     * @param project The project whose upstream projects should be retrieved, must not be {@code null}.
-     * @param transitive A flag whether to retrieve all direct and indirect upstream projects or just the immediate
-     *            upstream projects.
+     * @param project    The project whose upstream projects should be retrieved,
+     *                   must not be {@code null}.
+     * @param transitive A flag whether to retrieve all direct and indirect upstream
+     *                   projects or just the immediate upstream projects.
      * @return The upstream projects in the build order, never {@code null}.
      */
-    List<MavenProject> getUpstreamProjects( MavenProject project, boolean transitive );
+    List<MavenProject> getUpstreamProjects(MavenProject project, boolean transitive);
 
 }

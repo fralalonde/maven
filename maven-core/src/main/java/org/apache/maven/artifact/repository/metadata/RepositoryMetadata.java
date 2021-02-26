@@ -25,12 +25,11 @@ import org.apache.maven.artifact.repository.ArtifactRepositoryPolicy;
 /**
  * Describes repository directory metadata.
  *
- * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- * TODO not happy about the store method - they use "this"
+ * @author <a href="mailto:brett@apache.org">Brett Porter</a> TODO not happy
+ *         about the store method - they use "this"
  */
 public interface RepositoryMetadata
-    extends org.apache.maven.artifact.metadata.ArtifactMetadata
-{
+        extends org.apache.maven.artifact.metadata.ArtifactMetadata {
 
     int RELEASE = 1;
 
@@ -50,7 +49,7 @@ public interface RepositoryMetadata
      *
      * @param remoteRepository the repository
      */
-    void setRepository( ArtifactRepository remoteRepository );
+    void setRepository(ArtifactRepository remoteRepository);
 
     /**
      * Get the repository metadata associated with this marker.
@@ -64,7 +63,7 @@ public interface RepositoryMetadata
      *
      * @param metadata the metadata
      */
-    void setMetadata( Metadata metadata );
+    void setMetadata(Metadata metadata);
 
     /**
      * Whether this represents a snapshot.
@@ -74,19 +73,21 @@ public interface RepositoryMetadata
     boolean isSnapshot();
 
     /**
-     * Gets the artifact quality this metadata refers to. One of {@link #RELEASE}, {@link #SNAPSHOT} or
-     * {@link #RELEASE_OR_SNAPSHOT}.
+     * Gets the artifact quality this metadata refers to. One of {@link #RELEASE},
+     * {@link #SNAPSHOT} or {@link #RELEASE_OR_SNAPSHOT}.
      *
      * @return The artifact quality this metadata refers to.
      */
     int getNature();
 
     /**
-     * Gets the policy that applies to this metadata regarding the specified repository.
+     * Gets the policy that applies to this metadata regarding the specified
+     * repository.
      *
-     * @param repository The repository for which to determine the policy, must not be {@code null}.
+     * @param repository The repository for which to determine the policy, must not
+     *                   be {@code null}.
      * @return The policy, never {@code null}.
      */
-    ArtifactRepositoryPolicy getPolicy( ArtifactRepository repository );
+    ArtifactRepositoryPolicy getPolicy(ArtifactRepository repository);
 
 }

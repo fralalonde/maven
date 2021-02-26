@@ -25,18 +25,18 @@ package org.apache.maven.plugin.prefix;
  * @since 3.0
  * @author Benjamin Bentmann
  */
-public interface PluginPrefixResolver
-{
+public interface PluginPrefixResolver {
 
     /**
      * Resolves the plugin prefix for the specified request.
      *
-     * @param request The request that holds the details about the plugin and the repositories to consult, must not be
-     *            {@code null}.
+     * @param request The request that holds the details about the plugin and the
+     *                repositories to consult, must not be {@code null}.
      * @return The result of the prefix resolution, never {@code null}.
-     * @throws NoPluginFoundForPrefixException If the plugin prefix could not be resolved.
+     * @throws NoPluginFoundForPrefixException If the plugin prefix could not be
+     *                                         resolved.
      */
-    PluginPrefixResult resolve( PluginPrefixRequest request )
-        throws NoPluginFoundForPrefixException;
+    PluginPrefixResult resolve(PluginPrefixRequest request)
+            throws NoPluginFoundForPrefixException;
 
 }

@@ -25,39 +25,31 @@ import org.apache.maven.execution.MojoExecutionEvent;
 import org.apache.maven.execution.MojoExecutionListener;
 
 class CompoundMojoExecutionListener
-    implements MojoExecutionListener
-{
+        implements MojoExecutionListener {
 
     private final Collection<MojoExecutionListener> listeners;
 
-    CompoundMojoExecutionListener( Collection<MojoExecutionListener> listeners )
-    {
+    CompoundMojoExecutionListener(Collection<MojoExecutionListener> listeners) {
         this.listeners = listeners; // NB this is live injected collection
     }
 
-    public void beforeMojoExecution( MojoExecutionEvent event )
-        throws MojoExecutionException
-    {
-        for ( MojoExecutionListener listener : listeners )
-        {
-            listener.beforeMojoExecution( event );
+    public void beforeMojoExecution(MojoExecutionEvent event)
+            throws MojoExecutionException {
+        for (MojoExecutionListener listener : listeners) {
+            listener.beforeMojoExecution(event);
         }
     }
 
-    public void afterMojoExecutionSuccess( MojoExecutionEvent event )
-        throws MojoExecutionException
-    {
-        for ( MojoExecutionListener listener : listeners )
-        {
-            listener.afterMojoExecutionSuccess( event );
+    public void afterMojoExecutionSuccess(MojoExecutionEvent event)
+            throws MojoExecutionException {
+        for (MojoExecutionListener listener : listeners) {
+            listener.afterMojoExecutionSuccess(event);
         }
     }
 
-    public void afterExecutionFailure( MojoExecutionEvent event )
-    {
-        for ( MojoExecutionListener listener : listeners )
-        {
-            listener.afterExecutionFailure( event );
+    public void afterExecutionFailure(MojoExecutionEvent event) {
+        for (MojoExecutionListener listener : listeners) {
+            listener.afterExecutionFailure(event);
         }
     }
 

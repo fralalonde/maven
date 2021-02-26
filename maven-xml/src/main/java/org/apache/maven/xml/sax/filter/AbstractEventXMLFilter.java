@@ -31,13 +31,13 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 
 /**
- * Builds up a list of SAXEvents, which will be executed with {@link #executeEvents()}
+ * Builds up a list of SAXEvents, which will be executed with
+ * {@link #executeEvents()}
  *
  * @author Robert Scholte
  * @since 4.0.0
  */
-abstract class AbstractEventXMLFilter extends AbstractSAXFilter
-{
+abstract class AbstractEventXMLFilter extends AbstractSAXFilter {
     private Queue<SAXEvent> saxEvents = new ArrayDeque<>();
 
     private SAXEventFactory eventFactory;
@@ -52,226 +52,179 @@ abstract class AbstractEventXMLFilter extends AbstractSAXFilter
 
     protected abstract String getState();
 
-    protected boolean acceptEvent( String state )
-    {
+    protected boolean acceptEvent(String state) {
         return true;
     }
 
-    AbstractEventXMLFilter()
-    {
+    AbstractEventXMLFilter() {
         super();
     }
 
-    AbstractEventXMLFilter( AbstractSAXFilter parent )
-    {
-        super( parent );
+    AbstractEventXMLFilter(AbstractSAXFilter parent) {
+        super(parent);
     }
 
-    private SAXEventFactory getEventFactory()
-    {
-        if ( eventFactory == null )
-        {
-            eventFactory = SAXEventFactory.newInstance( getContentHandler(), getLexicalHandler() );
+    private SAXEventFactory getEventFactory() {
+        if (eventFactory == null) {
+            eventFactory = SAXEventFactory.newInstance(getContentHandler(), getLexicalHandler());
         }
         return eventFactory;
     }
 
-    private void processEvent( final SAXEvent event )
-                    throws SAXException
-    {
-        if ( isParsing() )
-        {
+    private void processEvent(final SAXEvent event)
+            throws SAXException {
+        if (isParsing()) {
             final String eventState = getState();
 
-            if ( !lockCharacters )
-            {
-                charactersSegments.stream().forEach( e ->
-                {
-                    saxEvents.add( () ->
-                    {
-                        if ( acceptEvent( eventState ) )
-                        {
+            if (!lockCharacters) {
+                charactersSegments.stream().forEach(e -> {
+                    saxEvents.add(() -> {
+                        if (acceptEvent(eventState)) {
                             e.execute();
                         }
-                    } );
-                } );
+                    });
+                });
                 charactersSegments.clear();
             }
 
-            saxEvents.add( () ->
-            {
-                if ( acceptEvent( eventState ) )
-                {
+            saxEvents.add(() -> {
+                if (acceptEvent(eventState)) {
                     event.execute();
                 }
-            } );
-        }
-        else
-        {
+            });
+        } else {
             event.execute();
         }
     }
 
     /**
-     * Should be used to include extra events before a closing element.
-     * This is a lightweight solution to keep the correct indentation.
+     * Should be used to include extra events before a closing element. This is a
+     * lightweight solution to keep the correct indentation.
      */
-    protected Includer include()
-    {
+    protected Includer include() {
         this.lockCharacters = true;
 
         return () -> lockCharacters = false;
     }
 
-    protected final void executeEvents() throws SAXException
-    {
+    final void executeEvents() throws SAXException {
         final String eventState = getState();
-        charactersSegments.stream().forEach( e ->
-        {
-            saxEvents.add( () ->
-            {
-                if ( acceptEvent( eventState ) )
-                {
+        charactersSegments.stream().forEach(e -> {
+            saxEvents.add(() -> {
+                if (acceptEvent(eventState)) {
                     e.execute();
                 }
-            } );
-        } );
+            });
+        });
         charactersSegments.clear();
 
         // not with streams due to checked SAXException
-        while ( !saxEvents.isEmpty() )
-        {
+        while (!saxEvents.isEmpty()) {
             saxEvents.poll().execute();
         }
     }
 
     @Override
-    public void setDocumentLocator( Locator locator )
-    {
-        try
-        {
-            processEvent( getEventFactory().setDocumentLocator( locator ) );
-        }
-        catch ( SAXException e )
-        {
+    public void setDocumentLocator(Locator locator) {
+        try {
+            processEvent(getEventFactory().setDocumentLocator(locator));
+        } catch (SAXException e) {
             // noop, setDocumentLocator can never throw a SAXException
         }
     }
 
     @Override
-    public void startDocument() throws SAXException
-    {
-        processEvent( getEventFactory().startDocument() );
+    public void startDocument() throws SAXException {
+        processEvent(getEventFactory().startDocument());
     }
 
     @Override
-    public void endDocument() throws SAXException
-    {
-        processEvent( getEventFactory().endDocument() );
+    public void endDocument() throws SAXException {
+        processEvent(getEventFactory().endDocument());
     }
 
     @Override
-    public void startPrefixMapping( String prefix, String uri ) throws SAXException
-    {
-        processEvent( getEventFactory().startPrefixMapping( prefix, uri ) );
+    public void startPrefixMapping(String prefix, String uri) throws SAXException {
+        processEvent(getEventFactory().startPrefixMapping(prefix, uri));
     }
 
     @Override
-    public void endPrefixMapping( String prefix ) throws SAXException
-    {
-        processEvent( getEventFactory().endPrefixMapping( prefix ) );
+    public void endPrefixMapping(String prefix) throws SAXException {
+        processEvent(getEventFactory().endPrefixMapping(prefix));
     }
 
     @Override
-    public void startElement( String uri, String localName, String qName, Attributes atts ) throws SAXException
-    {
-        processEvent( getEventFactory().startElement( uri, localName, qName, atts ) );
+    public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
+        processEvent(getEventFactory().startElement(uri, localName, qName, atts));
     }
 
     @Override
-    public void endElement( String uri, String localName, String qName ) throws SAXException
-    {
-        processEvent( getEventFactory().endElement( uri, localName, qName ) );
+    public void endElement(String uri, String localName, String qName) throws SAXException {
+        processEvent(getEventFactory().endElement(uri, localName, qName));
     }
 
     @Override
-    public void characters( char[] ch, int start, int length ) throws SAXException
-    {
-        if ( lockCharacters )
-        {
-            processEvent( getEventFactory().characters( ch, start, length ) );
-        }
-        else if ( isParsing() )
-        {
-            this.charactersSegments.add( getEventFactory().characters( ch, start, length ) );
-        }
-        else
-        {
-            super.characters( ch, start, length );
+    public void characters(char[] ch, int start, int length) throws SAXException {
+        if (lockCharacters) {
+            processEvent(getEventFactory().characters(ch, start, length));
+        } else if (isParsing()) {
+            this.charactersSegments.add(getEventFactory().characters(ch, start, length));
+        } else {
+            super.characters(ch, start, length);
         }
     }
 
     @Override
-    public void ignorableWhitespace( char[] ch, int start, int length ) throws SAXException
-    {
-        processEvent( getEventFactory().ignorableWhitespace( ch, start, length ) );
+    public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
+        processEvent(getEventFactory().ignorableWhitespace(ch, start, length));
     }
 
     @Override
-    public void processingInstruction( String target, String data ) throws SAXException
-    {
-        processEvent( getEventFactory().processingInstruction( target, data ) );
+    public void processingInstruction(String target, String data) throws SAXException {
+        processEvent(getEventFactory().processingInstruction(target, data));
     }
 
     @Override
-    public void skippedEntity( String name ) throws SAXException
-    {
-        processEvent( getEventFactory().skippedEntity( name ) );
+    public void skippedEntity(String name) throws SAXException {
+        processEvent(getEventFactory().skippedEntity(name));
     }
 
     @Override
-    public void startDTD( String name, String publicId, String systemId ) throws SAXException
-    {
-        processEvent( getEventFactory().startCDATA() );
+    public void startDTD(String name, String publicId, String systemId) throws SAXException {
+        processEvent(getEventFactory().startCDATA());
     }
 
     @Override
-    public void endDTD() throws SAXException
-    {
-        processEvent( getEventFactory().endDTD() );
+    public void endDTD() throws SAXException {
+        processEvent(getEventFactory().endDTD());
     }
 
     @Override
-    public void startEntity( String name ) throws SAXException
-    {
-        processEvent( getEventFactory().startEntity( name ) );
+    public void startEntity(String name) throws SAXException {
+        processEvent(getEventFactory().startEntity(name));
     }
 
     @Override
-    public void endEntity( String name ) throws SAXException
-    {
-        processEvent( getEventFactory().endEntity( name ) );
+    public void endEntity(String name) throws SAXException {
+        processEvent(getEventFactory().endEntity(name));
     }
 
     @Override
     public void startCDATA()
-        throws SAXException
-    {
-        processEvent( getEventFactory().startCDATA() );
+            throws SAXException {
+        processEvent(getEventFactory().startCDATA());
     }
 
     @Override
     public void endCDATA()
-        throws SAXException
-    {
-        processEvent( getEventFactory().endCDATA() );
+            throws SAXException {
+        processEvent(getEventFactory().endCDATA());
     }
 
     @Override
-    public void comment( char[] ch, int start, int length )
-        throws SAXException
-    {
-        processEvent( getEventFactory().comment( ch, start, length ) );
+    public void comment(char[] ch, int start, int length)
+            throws SAXException {
+        processEvent(getEventFactory().comment(ch, start, length));
     }
 
     /**
@@ -281,8 +234,7 @@ abstract class AbstractEventXMLFilter extends AbstractSAXFilter
      *
      */
     @FunctionalInterface
-    protected interface Includer extends AutoCloseable
-    {
+    protected interface Includer extends AutoCloseable {
         void close();
     }
 }

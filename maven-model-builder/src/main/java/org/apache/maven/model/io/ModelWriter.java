@@ -32,43 +32,47 @@ import org.apache.maven.model.Model;
  *
  * @author Benjamin Bentmann
  */
-public interface ModelWriter
-{
+public interface ModelWriter {
 
     /**
-     * Writes the supplied model to the specified file. Any non-existing parent directories of the output file will be
-     * created automatically.
+     * Writes the supplied model to the specified file. Any non-existing parent
+     * directories of the output file will be created automatically.
      *
-     * @param output The file to serialize the model to, must not be {@code null}.
-     * @param options The options to use for serialization, may be {@code null} to use the default values.
-     * @param model The model to serialize, must not be {@code null}.
+     * @param output  The file to serialize the model to, must not be {@code null}.
+     * @param options The options to use for serialization, may be {@code null} to
+     *                use the default values.
+     * @param model   The model to serialize, must not be {@code null}.
      * @throws IOException If the model could not be serialized.
      */
-    void write( File output, Map<String, Object> options, Model model )
-        throws IOException;
+    void write(File output, Map<String, Object> options, Model model)
+            throws IOException;
 
     /**
-     * Writes the supplied model to the specified character writer. The writer will be automatically closed before the
-     * method returns.
+     * Writes the supplied model to the specified character writer. The writer will
+     * be automatically closed before the method returns.
      *
-     * @param output The writer to serialize the model to, must not be {@code null}.
-     * @param options The options to use for serialization, may be {@code null} to use the default values.
-     * @param model The model to serialize, must not be {@code null}.
+     * @param output  The writer to serialize the model to, must not be
+     *                {@code null}.
+     * @param options The options to use for serialization, may be {@code null} to
+     *                use the default values.
+     * @param model   The model to serialize, must not be {@code null}.
      * @throws IOException If the model could not be serialized.
      */
-    void write( Writer output, Map<String, Object> options, Model model )
-        throws IOException;
+    void write(Writer output, Map<String, Object> options, Model model)
+            throws IOException;
 
     /**
-     * Writes the supplied model to the specified byte stream. The stream will be automatically closed before the method
-     * returns.
+     * Writes the supplied model to the specified byte stream. The stream will be
+     * automatically closed before the method returns.
      *
-     * @param output The stream to serialize the model to, must not be {@code null}.
-     * @param options The options to use for serialization, may be {@code null} to use the default values.
-     * @param model The model to serialize, must not be {@code null}.
+     * @param output  The stream to serialize the model to, must not be
+     *                {@code null}.
+     * @param options The options to use for serialization, may be {@code null} to
+     *                use the default values.
+     * @param model   The model to serialize, must not be {@code null}.
      * @throws IOException If the model could not be serialized.
      */
-    void write( OutputStream output, Map<String, Object> options, Model model )
-        throws IOException;
+    void write(OutputStream output, Map<String, Object> options, Model model)
+            throws IOException;
 
 }

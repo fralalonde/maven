@@ -26,8 +26,7 @@ package org.apache.maven.toolchain;
  * @author Jason van Zyl
  * @since 2.0.9
  */
-public interface Toolchain
-{
+public interface Toolchain {
 
     /**
      * get the type of toolchain.
@@ -40,7 +39,8 @@ public interface Toolchain
      * Gets the platform tool executable.
      *
      * @param toolName the tool platform independent tool name.
-     * @return file representing the tool executable, or null if the tool can not be found
+     * @return file representing the tool executable, or null if the tool can not be
+     *         found
      */
-    String findTool( String toolName );
+    String findTool(String toolName);
 }

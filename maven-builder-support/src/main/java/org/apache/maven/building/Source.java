@@ -23,26 +23,29 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Provides access to the contents of a source independently of the backing store (e.g. file system, database, memory).
+ * Provides access to the contents of a source independently of the backing
+ * store (e.g. file system, database, memory).
  *
  * @author Benjamin Bentmann
  */
-public interface Source
-{
+public interface Source {
 
     /**
-     * Gets a byte stream to the source contents. Closing the returned stream is the responsibility of the caller.
+     * Gets a byte stream to the source contents. Closing the returned stream is the
+     * responsibility of the caller.
      *
      * @return A byte stream to the source contents, never {@code null}.
      */
     InputStream getInputStream()
-        throws IOException;
+            throws IOException;
 
     /**
-     * Provides a user-friendly hint about the location of the source. This could be a local file path, a URI or just an
-     * empty string. The intention is to assist users during error reporting.
+     * Provides a user-friendly hint about the location of the source. This could be
+     * a local file path, a URI or just an empty string. The intention is to assist
+     * users during error reporting.
      *
-     * @return A user-friendly hint about the location of the source, never {@code null}.
+     * @return A user-friendly hint about the location of the source, never
+     *         {@code null}.
      */
     String getLocation();
 

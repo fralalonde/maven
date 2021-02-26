@@ -24,16 +24,13 @@ package org.apache.maven.toolchain;
  * @author mkleint
  */
 public class MisconfiguredToolchainException
-    extends Exception
-{
+        extends Exception {
 
-    public MisconfiguredToolchainException( String message )
-    {
-        super( message );
+    public MisconfiguredToolchainException(String message) {
+        super(message);
     }
 
-    public MisconfiguredToolchainException( String message, Throwable orig )
-    {
-        super( message, orig );
+    public MisconfiguredToolchainException(String message, Throwable orig) {
+        super(message, orig);
     }
 }

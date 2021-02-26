@@ -20,16 +20,14 @@ package org.slf4j;
  */
 
 /**
- * Utility for Maven to access Slf4j internals through package access.
- * Use with precaution, since this is not normally intended for production use.
+ * Utility for Maven to access Slf4j internals through package access. Use with
+ * precaution, since this is not normally intended for production use.
  */
-public class MavenSlf4jFriend
-{
+public class MavenSlf4jFriend {
     /**
      * Reset Slf4j internal state.
      */
-    public static void reset()
-    {
+    public static void reset() {
         LoggerFactory.reset();
     }
 }

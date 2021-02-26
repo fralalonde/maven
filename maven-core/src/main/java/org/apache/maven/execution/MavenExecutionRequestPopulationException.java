@@ -23,21 +23,17 @@ package org.apache.maven.execution;
  * @author Jason van Zyl
  */
 public class MavenExecutionRequestPopulationException
-    extends Exception
-{
-    public MavenExecutionRequestPopulationException( String message )
-    {
-        super( message );
+        extends Exception {
+    public MavenExecutionRequestPopulationException(String message) {
+        super(message);
     }
 
-    public MavenExecutionRequestPopulationException( Throwable cause )
-    {
-        super( cause );
+    public MavenExecutionRequestPopulationException(Throwable cause) {
+        super(cause);
     }
 
-    public MavenExecutionRequestPopulationException( String message,
-                                   Throwable cause )
-    {
-        super( message, cause );
+    public MavenExecutionRequestPopulationException(String message,
+            Throwable cause) {
+        super(message, cause);
     }
 }

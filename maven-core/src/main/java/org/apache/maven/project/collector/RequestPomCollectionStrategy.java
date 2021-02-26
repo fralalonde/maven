@@ -31,24 +31,22 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Strategy to collect projects based on the <code>-f</code> CLI parameter or the pom.xml in the working directory.
+ * Strategy to collect projects based on the <code>-f</code> CLI parameter or
+ * the pom.xml in the working directory.
  */
-@Named( "RequestPomCollectionStrategy" )
+@Named("RequestPomCollectionStrategy")
 @Singleton
-public class RequestPomCollectionStrategy implements ProjectCollectionStrategy
-{
+public class RequestPomCollectionStrategy implements ProjectCollectionStrategy {
     private final ProjectsSelector projectsSelector;
 
     @Inject
-    public RequestPomCollectionStrategy( ProjectsSelector projectsSelector )
-    {
+    public RequestPomCollectionStrategy(ProjectsSelector projectsSelector) {
         this.projectsSelector = projectsSelector;
     }
 
     @Override
-    public List<MavenProject> collectProjects( MavenExecutionRequest request ) throws ProjectBuildingException
-    {
-        List<File> files = Collections.singletonList( request.getPom().getAbsoluteFile() );
-        return projectsSelector.selectProjects( files, request );
+    public List<MavenProject> collectProjects(MavenExecutionRequest request) throws ProjectBuildingException {
+        List<File> files = Collections.singletonList(request.getPom().getAbsoluteFile());
+        return projectsSelector.selectProjects(files, request);
     }
 }

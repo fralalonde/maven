@@ -26,19 +26,16 @@ import org.apache.maven.artifact.Artifact;
 /**
  * Filter to exclude from a list of artifact patterns.
  *
- * @author <a href="mailto:brett@apache.org">Brett Porter</a>
- * TODO I think this is equiv. to exclusion set filter in maven-core
+ * @author <a href="mailto:brett@apache.org">Brett Porter</a> TODO I think this
+ *         is equiv. to exclusion set filter in maven-core
  */
 public class ExcludesArtifactFilter
-    extends IncludesArtifactFilter
-{
-    public ExcludesArtifactFilter( List<String> patterns )
-    {
-        super( patterns );
+        extends IncludesArtifactFilter {
+    public ExcludesArtifactFilter(List<String> patterns) {
+        super(patterns);
     }
 
-    public boolean include( Artifact artifact )
-    {
-        return !super.include( artifact );
+    public boolean include(Artifact artifact) {
+        return !super.include(artifact);
     }
 }

@@ -20,22 +20,21 @@ package org.apache.maven.lifecycle;
  */
 
 /**
- * Signals a failure to execute a lifecycle phase or mojo because a project is required but not present.
+ * Signals a failure to execute a lifecycle phase or mojo because a project is
+ * required but not present.
  *
  * @author Benjamin Bentmann
  */
 public class MissingProjectException
-    extends Exception
-{
+        extends Exception {
 
     /**
      * Creates a new exception.
      *
      * @param message The detail message, may be {@code null}.
      */
-    public MissingProjectException( String message )
-    {
-        super( message );
+    public MissingProjectException(String message) {
+        super(message);
     }
 
 }

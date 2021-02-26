@@ -31,24 +31,20 @@ import org.eclipse.aether.installation.InstallRequest;
 /**
  * @author Benjamin Bentmann
  */
-@Named( "snapshot" )
+@Named("snapshot")
 @Singleton
 public class SnapshotMetadataGeneratorFactory
-    implements MetadataGeneratorFactory
-{
+        implements MetadataGeneratorFactory {
 
-    public MetadataGenerator newInstance( RepositorySystemSession session, InstallRequest request )
-    {
-        return new LocalSnapshotMetadataGenerator( session, request );
+    public MetadataGenerator newInstance(RepositorySystemSession session, InstallRequest request) {
+        return new LocalSnapshotMetadataGenerator(session, request);
     }
 
-    public MetadataGenerator newInstance( RepositorySystemSession session, DeployRequest request )
-    {
-        return new RemoteSnapshotMetadataGenerator( session, request );
+    public MetadataGenerator newInstance(RepositorySystemSession session, DeployRequest request) {
+        return new RemoteSnapshotMetadataGenerator(session, request);
     }
 
-    public float getPriority()
-    {
+    public float getPriority() {
         return 10;
     }
 

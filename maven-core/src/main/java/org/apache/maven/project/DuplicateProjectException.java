@@ -22,13 +22,13 @@ package org.apache.maven.project;
 import java.io.File;
 
 /**
- * Exception that occurs when the project list contains duplicate projects instead of ignoring one.
+ * Exception that occurs when the project list contains duplicate projects
+ * instead of ignoring one.
  *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  */
 public class DuplicateProjectException
-    extends Exception
-{
+        extends Exception {
     private final String projectId;
 
     private final File existingProjectFile;
@@ -36,45 +36,41 @@ public class DuplicateProjectException
     private final File conflictingProjectFile;
 
     /**
-     * @deprecated use {@link #DuplicateProjectException(String, File, File, String)}
+     * @deprecated use
+     *             {@link #DuplicateProjectException(String, File, File, String)}
      */
-    public DuplicateProjectException( String message )
-    {
-        this( null, null, null, message );
+    public DuplicateProjectException(String message) {
+        this(null, null, null, message);
     }
 
     /**
-     * @deprecated use {@link #DuplicateProjectException(String, File, File, String)}
+     * @deprecated use
+     *             {@link #DuplicateProjectException(String, File, File, String)}
      */
-    public DuplicateProjectException( String message, Exception e )
-    {
-        super( message, e );
+    public DuplicateProjectException(String message, Exception e) {
+        super(message, e);
         this.projectId = null;
         this.existingProjectFile = null;
         this.conflictingProjectFile = null;
     }
 
-    public DuplicateProjectException( String projectId, File existingProjectFile, File conflictingProjectFile,
-                                      String message )
-    {
-        super( message );
+    public DuplicateProjectException(String projectId, File existingProjectFile, File conflictingProjectFile,
+            String message) {
+        super(message);
         this.projectId = projectId;
         this.existingProjectFile = existingProjectFile;
         this.conflictingProjectFile = conflictingProjectFile;
     }
 
-    public String getProjectId()
-    {
+    public String getProjectId() {
         return projectId;
     }
 
-    public File getExistingProjectFile()
-    {
+    public File getExistingProjectFile() {
         return existingProjectFile;
     }
 
-    public File getConflictingProjectFile()
-    {
+    public File getConflictingProjectFile() {
         return conflictingProjectFile;
     }
 }

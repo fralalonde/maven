@@ -23,12 +23,10 @@ package org.apache.maven.plugin.descriptor;
  * DuplicateParameterException
  */
 public class DuplicateParameterException
-    extends InvalidPluginDescriptorException
-{
+        extends InvalidPluginDescriptorException {
 
-    public DuplicateParameterException( String message )
-    {
-        super( message );
+    public DuplicateParameterException(String message) {
+        super(message);
     }
 
 }

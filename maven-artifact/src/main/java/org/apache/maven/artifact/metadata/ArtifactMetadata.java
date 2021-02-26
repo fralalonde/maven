@@ -20,11 +20,11 @@ package org.apache.maven.artifact.metadata;
  */
 
 /**
- * Contains metadata about an artifact, and methods to retrieve/store it from an artifact repository.
+ * Contains metadata about an artifact, and methods to retrieve/store it from an
+ * artifact repository.
  */
 @Deprecated
 public interface ArtifactMetadata
-    extends org.apache.maven.repository.legacy.metadata.ArtifactMetadata
-{
-    void merge( ArtifactMetadata metadata );
+        extends org.apache.maven.repository.legacy.metadata.ArtifactMetadata {
+    void merge(ArtifactMetadata metadata);
 }

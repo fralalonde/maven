@@ -34,31 +34,26 @@ import com.google.inject.util.Providers;
  * SessionScope
  */
 public class SessionScope
-    implements Scope
-{
+        implements Scope {
     /**
      * @since 3.3.0
      */
-    public static class Memento
-    {
+    public static class Memento {
         final Map<Key<?>, Provider<?>> seeded;
 
-        Memento( final Map<Key<?>, Provider<?>> seeded )
-        {
-            this.seeded = Collections.unmodifiableMap( new HashMap<>( seeded ) );
+        Memento(final Map<Key<?>, Provider<?>> seeded) {
+            this.seeded = Collections.unmodifiableMap(new HashMap<>(seeded));
         }
     }
 
-    private static final Provider<Object> SEEDED_KEY_PROVIDER = () ->
-    {
+    private static final Provider<Object> SEEDED_KEY_PROVIDER = () -> {
         throw new IllegalStateException();
     };
 
     /**
      * ScopeState
      */
-    private static final class ScopeState
-    {
+    private static final class ScopeState {
         private final Map<Key<?>, Provider<?>> seeded = new HashMap<>();
 
         private final Map<Key<?>, Object> provided = new HashMap<>();
@@ -66,46 +61,38 @@ public class SessionScope
 
     private final ThreadLocal<LinkedList<ScopeState>> values = new ThreadLocal<>();
 
-    public void enter()
-    {
+    public void enter() {
         LinkedList<ScopeState> stack = values.get();
-        if ( stack == null )
-        {
+        if (stack == null) {
             stack = new LinkedList<>();
-            values.set( stack );
+            values.set(stack);
         }
-        stack.addFirst( new ScopeState() );
+        stack.addFirst(new ScopeState());
     }
 
     /**
      * @since 3.3.0
      */
-    public void enter( Memento memento )
-    {
+    public void enter(Memento memento) {
         enter();
-        getScopeState().seeded.putAll( memento.seeded );
+        getScopeState().seeded.putAll(memento.seeded);
     }
 
-    private ScopeState getScopeState()
-    {
+    private ScopeState getScopeState() {
         LinkedList<ScopeState> stack = values.get();
-        if ( stack == null || stack.isEmpty() )
-        {
+        if (stack == null || stack.isEmpty()) {
             throw new IllegalStateException();
         }
         return stack.getFirst();
     }
 
-    public void exit()
-    {
+    public void exit() {
         final LinkedList<ScopeState> stack = values.get();
-        if ( stack == null || stack.isEmpty() )
-        {
+        if (stack == null || stack.isEmpty()) {
             throw new IllegalStateException();
         }
         stack.removeFirst();
-        if ( stack.isEmpty() )
-        {
+        if (stack.isEmpty()) {
             values.remove();
         }
     }
@@ -113,55 +100,46 @@ public class SessionScope
     /**
      * @since 3.3.0
      */
-    public Memento memento()
-    {
+    public Memento memento() {
         LinkedList<ScopeState> stack = values.get();
-        return new Memento( stack != null ? stack.getFirst().seeded : Collections.<Key<?>, Provider<?>>emptyMap() );
+        return new Memento(stack != null ? stack.getFirst().seeded : Collections.<Key<?>, Provider<?>>emptyMap());
     }
 
-    public <T> void seed( Class<T> clazz, Provider<T> value )
-    {
-        getScopeState().seeded.put( Key.get( clazz ), value );
+    public <T> void seed(Class<T> clazz, Provider<T> value) {
+        getScopeState().seeded.put(Key.get(clazz), value);
     }
 
-    public <T> void seed( Class<T> clazz, final T value )
-    {
-        getScopeState().seeded.put( Key.get( clazz ), Providers.of( value ) );
+    public <T> void seed(Class<T> clazz, final T value) {
+        getScopeState().seeded.put(Key.get(clazz), Providers.of(value));
     }
 
-    public <T> Provider<T> scope( final Key<T> key, final Provider<T> unscoped )
-    {
-        return () ->
-        {
+    public <T> Provider<T> scope(final Key<T> key, final Provider<T> unscoped) {
+        return () -> {
             LinkedList<ScopeState> stack = values.get();
-            if ( stack == null || stack.isEmpty() )
-            {
-                throw new OutOfScopeException( "Cannot access " + key + " outside of a scoping block" );
+            if (stack == null || stack.isEmpty()) {
+                throw new OutOfScopeException("Cannot access " + key + " outside of a scoping block");
             }
 
             ScopeState state = stack.getFirst();
 
-            Provider<?> seeded = state.seeded.get( key );
+            Provider<?> seeded = state.seeded.get(key);
 
-            if ( seeded != null )
-            {
+            if (seeded != null) {
                 return (T) seeded.get();
             }
 
-            T provided = (T) state.provided.get( key );
-            if ( provided == null && unscoped != null )
-            {
+            T provided = (T) state.provided.get(key);
+            if (provided == null && unscoped != null) {
                 provided = unscoped.get();
-                state.provided.put( key, provided );
+                state.provided.put(key, provided);
             }
 
             return provided;
         };
     }
 
-    @SuppressWarnings( { "unchecked" } )
-    public static <T> Provider<T> seededKeyProvider()
-    {
+    @SuppressWarnings({ "unchecked" })
+    public static <T> Provider<T> seededKeyProvider() {
         return (Provider<T>) SEEDED_KEY_PROVIDER;
     }
 }

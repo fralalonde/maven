@@ -27,11 +27,10 @@ import org.apache.maven.session.scope.internal.SessionScope;
  *
  * @since 3.0
  * @author Jason van Zyl
- * @author Kristian Rosenvold
- *         NOTE: This class is not part of any public api and can be changed or deleted without prior notice.
+ * @author Kristian Rosenvold NOTE: This class is not part of any public api and
+ *         can be changed or deleted without prior notice.
  */
-public class ReactorContext
-{
+public class ReactorContext {
     private final MavenExecutionResult result;
 
     private final ProjectIndex projectIndex;
@@ -42,10 +41,9 @@ public class ReactorContext
 
     private final SessionScope.Memento sessionScope;
 
-    public ReactorContext( MavenExecutionResult result, ProjectIndex projectIndex,
-                           ClassLoader originalContextClassLoader, ReactorBuildStatus reactorBuildStatus,
-                           SessionScope.Memento sessionScope )
-    {
+    public ReactorContext(MavenExecutionResult result, ProjectIndex projectIndex,
+            ClassLoader originalContextClassLoader, ReactorBuildStatus reactorBuildStatus,
+            SessionScope.Memento sessionScope) {
         this.result = result;
         this.projectIndex = projectIndex;
         this.originalContextClassLoader = originalContextClassLoader;
@@ -53,31 +51,26 @@ public class ReactorContext
         this.sessionScope = sessionScope;
     }
 
-    public ReactorBuildStatus getReactorBuildStatus()
-    {
+    public ReactorBuildStatus getReactorBuildStatus() {
         return reactorBuildStatus;
     }
 
-    public MavenExecutionResult getResult()
-    {
+    public MavenExecutionResult getResult() {
         return result;
     }
 
-    public ProjectIndex getProjectIndex()
-    {
+    public ProjectIndex getProjectIndex() {
         return projectIndex;
     }
 
-    public ClassLoader getOriginalContextClassLoader()
-    {
+    public ClassLoader getOriginalContextClassLoader() {
         return originalContextClassLoader;
     }
 
     /**
      * @since 3.3.0
      */
-    public SessionScope.Memento getSessionScopeMemento()
-    {
+    public SessionScope.Memento getSessionScopeMemento() {
         return sessionScope;
     }
 }

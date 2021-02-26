@@ -31,8 +31,7 @@ import org.apache.maven.project.MavenProject;
  * @author Benjamin Bentmann
  */
 public class DefaultRepositoryRequest
-    implements RepositoryRequest
-{
+        implements RepositoryRequest {
 
     private boolean offline;
 
@@ -45,87 +44,75 @@ public class DefaultRepositoryRequest
     /**
      * Creates an empty repository request.
      */
-    public DefaultRepositoryRequest()
-    {
+    public DefaultRepositoryRequest() {
         // enables no-arg constructor
     }
 
     /**
      * Creates a shallow copy of the specified repository request.
      *
-     * @param repositoryRequest The repository request to copy from, must not be {@code null}.
+     * @param repositoryRequest The repository request to copy from, must not be
+     *                          {@code null}.
      */
-    public DefaultRepositoryRequest( RepositoryRequest repositoryRequest )
-    {
-        setLocalRepository( repositoryRequest.getLocalRepository() );
-        setRemoteRepositories( repositoryRequest.getRemoteRepositories() );
-        setOffline( repositoryRequest.isOffline() );
-        setForceUpdate( repositoryRequest.isForceUpdate() );
+    public DefaultRepositoryRequest(RepositoryRequest repositoryRequest) {
+        setLocalRepository(repositoryRequest.getLocalRepository());
+        setRemoteRepositories(repositoryRequest.getRemoteRepositories());
+        setOffline(repositoryRequest.isOffline());
+        setForceUpdate(repositoryRequest.isForceUpdate());
     }
 
-    public static RepositoryRequest getRepositoryRequest( MavenSession session, MavenProject project )
-    {
+    public static RepositoryRequest getRepositoryRequest(MavenSession session, MavenProject project) {
         RepositoryRequest request = new DefaultRepositoryRequest();
 
-        request.setLocalRepository( session.getLocalRepository() );
-        if ( project != null )
-        {
-            request.setRemoteRepositories( project.getPluginArtifactRepositories() );
+        request.setLocalRepository(session.getLocalRepository());
+        if (project != null) {
+            request.setRemoteRepositories(project.getPluginArtifactRepositories());
         }
-        request.setOffline( session.isOffline() );
-        request.setForceUpdate( session.getRequest().isUpdateSnapshots() );
+        request.setOffline(session.isOffline());
+        request.setForceUpdate(session.getRequest().isUpdateSnapshots());
 
         return request;
     }
 
-    public boolean isOffline()
-    {
+    public boolean isOffline() {
         return offline;
     }
 
-    public DefaultRepositoryRequest setOffline( boolean offline )
-    {
+    public DefaultRepositoryRequest setOffline(boolean offline) {
         this.offline = offline;
 
         return this;
     }
 
-    public boolean isForceUpdate()
-    {
+    public boolean isForceUpdate() {
         return forceUpdate;
     }
 
-    public DefaultRepositoryRequest setForceUpdate( boolean forceUpdate )
-    {
+    public DefaultRepositoryRequest setForceUpdate(boolean forceUpdate) {
         this.forceUpdate = forceUpdate;
 
         return this;
     }
 
-    public ArtifactRepository getLocalRepository()
-    {
+    public ArtifactRepository getLocalRepository() {
         return localRepository;
     }
 
-    public DefaultRepositoryRequest setLocalRepository( ArtifactRepository localRepository )
-    {
+    public DefaultRepositoryRequest setLocalRepository(ArtifactRepository localRepository) {
         this.localRepository = localRepository;
 
         return this;
     }
 
-    public List<ArtifactRepository> getRemoteRepositories()
-    {
-        if ( remoteRepositories == null )
-        {
+    public List<ArtifactRepository> getRemoteRepositories() {
+        if (remoteRepositories == null) {
             remoteRepositories = new ArrayList<>();
         }
 
         return remoteRepositories;
     }
 
-    public DefaultRepositoryRequest setRemoteRepositories( List<ArtifactRepository> remoteRepositories )
-    {
+    public DefaultRepositoryRequest setRemoteRepositories(List<ArtifactRepository> remoteRepositories) {
         this.remoteRepositories = remoteRepositories;
 
         return this;

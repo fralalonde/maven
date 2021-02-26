@@ -27,8 +27,7 @@ import org.apache.maven.model.Model;
  * @author Benjamin Bentmann
  */
 class DefaultModelBuildingEvent
-    implements ModelBuildingEvent
-{
+        implements ModelBuildingEvent {
 
     private final Model model;
 
@@ -36,28 +35,24 @@ class DefaultModelBuildingEvent
 
     private final ModelProblemCollector problems;
 
-    DefaultModelBuildingEvent( Model model, ModelBuildingRequest request, ModelProblemCollector problems )
-    {
+    DefaultModelBuildingEvent(Model model, ModelBuildingRequest request, ModelProblemCollector problems) {
         this.model = model;
         this.request = request;
         this.problems = problems;
     }
 
     @Override
-    public Model getModel()
-    {
+    public Model getModel() {
         return model;
     }
 
     @Override
-    public ModelBuildingRequest getRequest()
-    {
+    public ModelBuildingRequest getRequest() {
         return request;
     }
 
     @Override
-    public ModelProblemCollector getProblems()
-    {
+    public ModelProblemCollector getProblems() {
         return problems;
     }
 

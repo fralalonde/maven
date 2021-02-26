@@ -34,50 +34,43 @@ import org.apache.maven.model.building.ModelProblemCollector;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 
 /**
- * Handles expansion of general build plugin configuration into individual executions.
+ * Handles expansion of general build plugin configuration into individual
+ * executions.
  *
  * @author Benjamin Bentmann
  */
 @Named
 @Singleton
 public class DefaultPluginConfigurationExpander
-    implements PluginConfigurationExpander
-{
+        implements PluginConfigurationExpander {
 
     @Override
-    public void expandPluginConfiguration( Model model, ModelBuildingRequest request, ModelProblemCollector problems )
-    {
+    public void expandPluginConfiguration(Model model, ModelBuildingRequest request, ModelProblemCollector problems) {
         Build build = model.getBuild();
 
-        if ( build != null )
-        {
-            expand( build.getPlugins() );
+        if (build != null) {
+            expand(build.getPlugins());
 
             PluginManagement pluginManagement = build.getPluginManagement();
 
-            if ( pluginManagement != null )
-            {
-                expand( pluginManagement.getPlugins() );
+            if (pluginManagement != null) {
+                expand(pluginManagement.getPlugins());
             }
         }
     }
 
-    private void expand( List<Plugin> plugins )
-    {
-        for ( Plugin plugin : plugins )
-        {
+    private void expand(List<Plugin> plugins) {
+        for (Plugin plugin : plugins) {
             Xpp3Dom pluginConfiguration = (Xpp3Dom) plugin.getConfiguration();
 
-            if ( pluginConfiguration != null )
-            {
-                for ( PluginExecution execution : plugin.getExecutions() )
-                {
+            if (pluginConfiguration != null) {
+                for (PluginExecution execution : plugin.getExecutions()) {
                     Xpp3Dom executionConfiguration = (Xpp3Dom) execution.getConfiguration();
 
-                    executionConfiguration =
-                        Xpp3Dom.mergeXpp3Dom( executionConfiguration, new Xpp3Dom( pluginConfiguration ) );
+                    executionConfiguration = Xpp3Dom.mergeXpp3Dom(executionConfiguration,
+                            new Xpp3Dom(pluginConfiguration));
 
-                    execution.setConfiguration( executionConfiguration );
+                    execution.setConfiguration(executionConfiguration);
                 }
             }
         }

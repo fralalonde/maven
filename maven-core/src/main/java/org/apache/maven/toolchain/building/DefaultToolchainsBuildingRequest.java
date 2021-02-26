@@ -28,34 +28,29 @@ import org.apache.maven.building.Source;
  * @since 3.3.0
  */
 public class DefaultToolchainsBuildingRequest
-    implements ToolchainsBuildingRequest
-{
+        implements ToolchainsBuildingRequest {
     private Source globalToolchainsSource;
 
     private Source userToolchainsSource;
 
     @Override
-    public Source getGlobalToolchainsSource()
-    {
+    public Source getGlobalToolchainsSource() {
         return globalToolchainsSource;
     }
 
     @Override
-    public ToolchainsBuildingRequest setGlobalToolchainsSource( Source globalToolchainsSource )
-    {
+    public ToolchainsBuildingRequest setGlobalToolchainsSource(Source globalToolchainsSource) {
         this.globalToolchainsSource = globalToolchainsSource;
         return this;
     }
 
     @Override
-    public Source getUserToolchainsSource()
-    {
+    public Source getUserToolchainsSource() {
         return userToolchainsSource;
     }
 
     @Override
-    public ToolchainsBuildingRequest setUserToolchainsSource( Source userToolchainsSource )
-    {
+    public ToolchainsBuildingRequest setUserToolchainsSource(Source userToolchainsSource) {
         this.userToolchainsSource = userToolchainsSource;
         return this;
     }

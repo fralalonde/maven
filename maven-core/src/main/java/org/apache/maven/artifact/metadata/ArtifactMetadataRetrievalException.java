@@ -26,33 +26,37 @@ import org.apache.maven.artifact.Artifact;
  */
 @Deprecated
 public class ArtifactMetadataRetrievalException
-    extends org.apache.maven.repository.legacy.metadata.ArtifactMetadataRetrievalException
-{
+        extends org.apache.maven.repository.legacy.metadata.ArtifactMetadataRetrievalException {
 
-    /** @deprecated use {@link #ArtifactMetadataRetrievalException(String, Throwable, Artifact)} */
+    /**
+     * @deprecated use
+     *             {@link #ArtifactMetadataRetrievalException(String, Throwable, Artifact)}
+     */
     @Deprecated
-    public ArtifactMetadataRetrievalException( String message )
-    {
-        super( message, null, null );
+    public ArtifactMetadataRetrievalException(String message) {
+        super(message, null, null);
     }
 
-    /** @deprecated use {@link #ArtifactMetadataRetrievalException(String, Throwable, Artifact)} */
+    /**
+     * @deprecated use
+     *             {@link #ArtifactMetadataRetrievalException(String, Throwable, Artifact)}
+     */
     @Deprecated
-    public ArtifactMetadataRetrievalException( Throwable cause )
-    {
-        super( null, cause, null );
+    public ArtifactMetadataRetrievalException(Throwable cause) {
+        super(null, cause, null);
     }
 
-    /** @deprecated use {@link #ArtifactMetadataRetrievalException(String, Throwable, Artifact)} */
+    /**
+     * @deprecated use
+     *             {@link #ArtifactMetadataRetrievalException(String, Throwable, Artifact)}
+     */
     @Deprecated
-    public ArtifactMetadataRetrievalException( String message,
-                                               Throwable cause )
-    {
-        super( message, cause, null );
+    public ArtifactMetadataRetrievalException(String message,
+            Throwable cause) {
+        super(message, cause, null);
     }
 
-    public ArtifactMetadataRetrievalException( String message, Throwable cause, Artifact artifact )
-    {
-        super( message, cause, artifact );
+    public ArtifactMetadataRetrievalException(String message, Throwable cause, Artifact artifact) {
+        super(message, cause, artifact);
     }
 }

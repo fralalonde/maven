@@ -26,12 +26,11 @@ import org.apache.maven.artifact.handler.ArtifactHandler;
 /**
  * @author Jason van Zyl
  */
-public interface ArtifactHandlerManager
-{
+public interface ArtifactHandlerManager {
     String ROLE = ArtifactHandlerManager.class.getName();
 
-    ArtifactHandler getArtifactHandler( String type );
+    ArtifactHandler getArtifactHandler(String type);
 
     @Deprecated
-    void addHandlers( Map<String, ArtifactHandler> handlers );
+    void addHandlers(Map<String, ArtifactHandler> handlers);
 }

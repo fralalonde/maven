@@ -23,15 +23,12 @@ package org.apache.maven.repository;
  * ArtifactDoesNotExistException
  */
 public class ArtifactDoesNotExistException
-    extends Exception
-{
-    public ArtifactDoesNotExistException( final String message )
-    {
-        super( message );
+        extends Exception {
+    public ArtifactDoesNotExistException(final String message) {
+        super(message);
     }
 
-    public ArtifactDoesNotExistException( final String message, final Throwable cause )
-    {
-        super( message, cause );
+    public ArtifactDoesNotExistException(final String message, final Throwable cause) {
+        super(message, cause);
     }
 }

@@ -29,40 +29,33 @@ import org.eclipse.aether.repository.ArtifactRepository;
  * @author Benjamin Bentmann
  */
 class DefaultPluginVersionResult
-    implements PluginVersionResult
-{
+        implements PluginVersionResult {
 
     private String version;
 
     private ArtifactRepository repository;
 
-    DefaultPluginVersionResult()
-    {
+    DefaultPluginVersionResult() {
         // does nothing
     }
 
-    DefaultPluginVersionResult( String version )
-    {
+    DefaultPluginVersionResult(String version) {
         this.version = version;
     }
 
-    public String getVersion()
-    {
+    public String getVersion() {
         return version;
     }
 
-    public void setVersion( String version )
-    {
+    public void setVersion(String version) {
         this.version = version;
     }
 
-    public ArtifactRepository getRepository()
-    {
+    public ArtifactRepository getRepository() {
         return repository;
     }
 
-    public void setRepository( ArtifactRepository repository )
-    {
+    public void setRepository(ArtifactRepository repository) {
         this.repository = repository;
     }
 

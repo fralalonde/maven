@@ -27,22 +27,19 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class MavenRepositorySystemUtilsTest
-{
+public class MavenRepositorySystemUtilsTest {
 
     @Test
-    public void testGetRepositorySystem()
-    {
+    public void testGetRepositorySystem() {
         ServiceLocator locator = MavenRepositorySystemUtils.newServiceLocator();
-        RepositorySystem repoSys = locator.getService( RepositorySystem.class );
-        assertNotNull( repoSys );
+        RepositorySystem repoSys = locator.getService(RepositorySystem.class);
+        assertNotNull(repoSys);
     }
 
     @Test
-    public void testGetMetadataGeneratorFactories()
-    {
+    public void testGetMetadataGeneratorFactories() {
         ServiceLocator locator = MavenRepositorySystemUtils.newServiceLocator();
-        assertEquals( 2, locator.getServices( MetadataGeneratorFactory.class ).size() );
+        assertEquals(2, locator.getServices(MetadataGeneratorFactory.class).size());
     }
 
 }

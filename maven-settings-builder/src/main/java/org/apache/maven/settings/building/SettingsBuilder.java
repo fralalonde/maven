@@ -20,21 +20,23 @@ package org.apache.maven.settings.building;
  */
 
 /**
- * Builds the effective settings from a user settings file and/or a global settings file.
+ * Builds the effective settings from a user settings file and/or a global
+ * settings file.
  *
  * @author Benjamin Bentmann
  */
-public interface SettingsBuilder
-{
+public interface SettingsBuilder {
 
     /**
      * Builds the effective settings of the specified settings files.
      *
-     * @param request The settings building request that holds the parameters, must not be {@code null}.
+     * @param request The settings building request that holds the parameters, must
+     *                not be {@code null}.
      * @return The result of the settings building, never {@code null}.
-     * @throws SettingsBuildingException If the effective settings could not be built.
+     * @throws SettingsBuildingException If the effective settings could not be
+     *                                   built.
      */
-    SettingsBuildingResult build( SettingsBuildingRequest request )
-        throws SettingsBuildingException;
+    SettingsBuildingResult build(SettingsBuildingRequest request)
+            throws SettingsBuildingException;
 
 }

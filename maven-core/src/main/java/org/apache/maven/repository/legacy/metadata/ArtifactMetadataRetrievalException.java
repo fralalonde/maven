@@ -27,42 +27,45 @@ import org.apache.maven.artifact.Artifact;
  * @author <a href="mailto:jason@maven.org">Jason van Zyl</a>
  */
 public class ArtifactMetadataRetrievalException
-    extends Exception
-{
+        extends Exception {
     private Artifact artifact;
 
-    /** @deprecated use {@link #ArtifactMetadataRetrievalException(String, Throwable, Artifact)} */
+    /**
+     * @deprecated use
+     *             {@link #ArtifactMetadataRetrievalException(String, Throwable, Artifact)}
+     */
     @Deprecated
-    public ArtifactMetadataRetrievalException( String message )
-    {
-        this( message, null, null );
+    public ArtifactMetadataRetrievalException(String message) {
+        this(message, null, null);
     }
 
-    /** @deprecated use {@link #ArtifactMetadataRetrievalException(String, Throwable, Artifact)} */
+    /**
+     * @deprecated use
+     *             {@link #ArtifactMetadataRetrievalException(String, Throwable, Artifact)}
+     */
     @Deprecated
-    public ArtifactMetadataRetrievalException( Throwable cause )
-    {
-        this( null, cause, null );
+    public ArtifactMetadataRetrievalException(Throwable cause) {
+        this(null, cause, null);
     }
 
-    /** @deprecated use {@link #ArtifactMetadataRetrievalException(String, Throwable, Artifact)} */
+    /**
+     * @deprecated use
+     *             {@link #ArtifactMetadataRetrievalException(String, Throwable, Artifact)}
+     */
     @Deprecated
-    public ArtifactMetadataRetrievalException( String message,
-                                               Throwable cause )
-    {
-        this( message, cause, null );
+    public ArtifactMetadataRetrievalException(String message,
+            Throwable cause) {
+        this(message, cause, null);
     }
 
-    public ArtifactMetadataRetrievalException( String message,
-                                               Throwable cause,
-                                               Artifact artifact )
-    {
-        super( message, cause );
+    public ArtifactMetadataRetrievalException(String message,
+            Throwable cause,
+            Artifact artifact) {
+        super(message, cause);
         this.artifact = artifact;
     }
 
-    public Artifact getArtifact()
-    {
+    public Artifact getArtifact() {
         return artifact;
     }
 }

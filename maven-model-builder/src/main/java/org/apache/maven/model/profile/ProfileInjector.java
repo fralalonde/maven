@@ -29,18 +29,23 @@ import org.apache.maven.model.building.ModelProblemCollector;
  *
  * @author Benjamin Bentmann
  */
-public interface ProfileInjector
-{
+public interface ProfileInjector {
 
     /**
-     * Merges values from the specified profile into the given model. Implementations are expected to keep the profile
-     * and model completely decoupled by injecting deep copies rather than the original objects from the profile.
+     * Merges values from the specified profile into the given model.
+     * Implementations are expected to keep the profile and model completely
+     * decoupled by injecting deep copies rather than the original objects from the
+     * profile.
      *
-     * @param model The model into which to merge the values defined by the profile, must not be <code>null</code>.
-     * @param profile The (read-only) profile whose values should be injected, may be <code>null</code>.
-     * @param request The model building request that holds further settings, must not be {@code null}.
-     * @param problems The container used to collect problems that were encountered, must not be {@code null}.
+     * @param model    The model into which to merge the values defined by the
+     *                 profile, must not be <code>null</code>.
+     * @param profile  The (read-only) profile whose values should be injected, may
+     *                 be <code>null</code>.
+     * @param request  The model building request that holds further settings, must
+     *                 not be {@code null}.
+     * @param problems The container used to collect problems that were encountered,
+     *                 must not be {@code null}.
      */
-    void injectProfile( Model model, Profile profile, ModelBuildingRequest request, ModelProblemCollector problems );
+    void injectProfile(Model model, Profile profile, ModelBuildingRequest request, ModelProblemCollector problems);
 
 }

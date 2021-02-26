@@ -28,8 +28,7 @@ import org.apache.commons.jxpath.JXPathNotFoundException;
 import org.apache.commons.jxpath.ri.JXPathContextReferenceImpl;
 import org.apache.maven.project.MavenProject;
 
-public class PomTestWrapper
-{
+public class PomTestWrapper {
 
     private File pomFile;
 
@@ -37,75 +36,59 @@ public class PomTestWrapper
 
     private MavenProject mavenProject;
 
-    static
-    {
-        JXPathContextReferenceImpl.addNodePointerFactory( new Xpp3DomPointerFactory() );
+    static {
+        JXPathContextReferenceImpl.addNodePointerFactory(new Xpp3DomPointerFactory());
     }
 
-    public PomTestWrapper( File pomFile, MavenProject mavenProject )
-    {
-        this.mavenProject = Objects.requireNonNull( mavenProject, "mavenProject cannot be null" );
+    public PomTestWrapper(File pomFile, MavenProject mavenProject) {
+        this.mavenProject = Objects.requireNonNull(mavenProject, "mavenProject cannot be null");
         this.pomFile = pomFile;
-        context = JXPathContext.newContext( mavenProject.getModel() );
+        context = JXPathContext.newContext(mavenProject.getModel());
     }
 
-    public PomTestWrapper( MavenProject mavenProject )
-    {
-        this.mavenProject = Objects.requireNonNull( mavenProject, "mavenProject cannot be null" );
-        context = JXPathContext.newContext( mavenProject.getModel() );
+    public PomTestWrapper(MavenProject mavenProject) {
+        this.mavenProject = Objects.requireNonNull(mavenProject, "mavenProject cannot be null");
+        context = JXPathContext.newContext(mavenProject.getModel());
     }
 
-    public MavenProject getMavenProject()
-    {
+    public MavenProject getMavenProject() {
         return mavenProject;
     }
 
-    public File getBasedir()
-    {
-        return ( pomFile != null ) ? pomFile.getParentFile() : null;
+    public File getBasedir() {
+        return (pomFile != null) ? pomFile.getParentFile() : null;
     }
 
-    public void setValueOnModel( String expression, Object value )
-    {
-        context.setValue( expression, value );
+    public void setValueOnModel(String expression, Object value) {
+        context.setValue(expression, value);
     }
 
     /*
-    public int containerCountForUri( String uri )
-        throws IOException
-    {
-        Validate.notEmpty( uri, "uri can neither be null nor empty " );
-        ModelDataSource source = new DefaultModelDataSource();
-        source.init( domainModel.getModelProperties(), null );
-        return source.queryFor( uri ).size();
-    }
-    */
+     * public int containerCountForUri( String uri ) throws IOException {
+     * Validate.notEmpty( uri, "uri can neither be null nor empty " );
+     * ModelDataSource source = new DefaultModelDataSource(); source.init(
+     * domainModel.getModelProperties(), null ); return source.queryFor( uri
+     * ).size(); }
+     */
 
-    public Iterator<?> getIteratorForXPathExpression( String expression )
-    {
-        return context.iterate( expression );
+    public Iterator<?> getIteratorForXPathExpression(String expression) {
+        return context.iterate(expression);
     }
 
-    public boolean containsXPathExpression( String expression )
-    {
-        return context.getValue( expression ) != null;
+    public boolean containsXPathExpression(String expression) {
+        return context.getValue(expression) != null;
     }
 
-    public Object getValue( String expression )
-    {
-        try
-        {
-            return context.getValue( expression );
-        }
-        catch ( JXPathNotFoundException e )
-        {
+    public Object getValue(String expression) {
+        try {
+            return context.getValue(expression);
+        } catch (JXPathNotFoundException e) {
             return null;
         }
     }
 
-    public boolean xPathExpressionEqualsValue( String expression, String value )
-    {
-        return context.getValue( expression ) != null && context.getValue( expression ).equals( value );
+    public boolean xPathExpressionEqualsValue(String expression, String value) {
+        return context.getValue(expression) != null && context.getValue(expression).equals(value);
     }
 
 }

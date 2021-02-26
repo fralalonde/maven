@@ -22,32 +22,37 @@ package org.apache.maven.model.building;
 import java.net.URI;
 
 /**
- * Provides access to the contents of a POM independently of the backing store (e.g. file system, database, memory).
+ * Provides access to the contents of a POM independently of the backing store
+ * (e.g. file system, database, memory).
  * <p>
- * Unlike {@link ModelSource}, this interface supports loading of parent POM(s) from the same backing store and allows
- * construction of MavenProject instances without the need to have parent POM(s) available from local or remote
+ * Unlike {@link ModelSource}, this interface supports loading of parent POM(s)
+ * from the same backing store and allows construction of MavenProject instances
+ * without the need to have parent POM(s) available from local or remote
  * repositories.
  * <p>
- * ModelSource2 instances are cached in {@link ModelBuildingRequest#getModelCache()}. Implementations must guarantee
- * that the connection to the backing store remains active until request's {@link ModelCache} is discarded or flushed.
+ * ModelSource2 instances are cached in
+ * {@link ModelBuildingRequest#getModelCache()}. Implementations must guarantee
+ * that the connection to the backing store remains active until request's
+ * {@link ModelCache} is discarded or flushed.
  */
 public interface ModelSource2
-    extends ModelSource
-{
+        extends ModelSource {
     /**
-     * Returns model source identified by a path relative to this model source POM. Implementation <strong>MUST</strong>
-     * be able to accept <code>relPath</code> parameter values that
+     * Returns model source identified by a path relative to this model source POM.
+     * Implementation <strong>MUST</strong> be able to accept <code>relPath</code>
+     * parameter values that
      * <ul>
      * <li>use either / or \ file path separator</li>
      * <li>have .. parent directory references</li>
-     * <li>point either at file or directory, in the latter case POM file name 'pom.xml' needs to be used by the
-     * requested model source.</li>
+     * <li>point either at file or directory, in the latter case POM file name
+     * 'pom.xml' needs to be used by the requested model source.</li>
      * </ul>
      *
-     * @param relPath is the path of the requested model source relative to this model source POM.
+     * @param relPath is the path of the requested model source relative to this
+     *                model source POM.
      * @return related model source or <code>null</code> if no such model source.
      */
-    ModelSource2 getRelatedSource( String relPath );
+    ModelSource2 getRelatedSource(String relPath);
 
     /**
      * Returns location of the POM, never <code>null</code>.

@@ -32,74 +32,61 @@ import org.apache.maven.project.MavenProject;
  * ProjectArtifact
  */
 public class ProjectArtifact
-    extends DefaultArtifact
-    implements ArtifactWithDependencies
-{
+        extends DefaultArtifact
+        implements ArtifactWithDependencies {
     private MavenProject project;
 
-    public ProjectArtifact( MavenProject project )
-    {
-        super( project.getGroupId(), project.getArtifactId(), project.getVersion(), null, "pom", null,
-               new PomArtifactHandler() );
+    public ProjectArtifact(MavenProject project) {
+        super(project.getGroupId(), project.getArtifactId(), project.getVersion(), null, "pom", null,
+                new PomArtifactHandler());
         this.project = project;
-        setFile( project.getFile() );
-        setResolved( true );
+        setFile(project.getFile());
+        setResolved(true);
     }
 
-    public MavenProject getProject()
-    {
+    public MavenProject getProject() {
         return project;
     }
 
-    public List<Dependency> getDependencies()
-    {
+    public List<Dependency> getDependencies() {
         return project.getDependencies();
     }
 
-    public List<Dependency> getManagedDependencies()
-    {
+    public List<Dependency> getManagedDependencies() {
         DependencyManagement depMngt = project.getDependencyManagement();
-        return ( depMngt != null )
-                   ? Collections.unmodifiableList( depMngt.getDependencies() )
-                   : Collections.<Dependency>emptyList();
+        return (depMngt != null)
+                ? Collections.unmodifiableList(depMngt.getDependencies())
+                : Collections.<Dependency>emptyList();
 
     }
 
     static class PomArtifactHandler
-        implements ArtifactHandler
-    {
-        public String getClassifier()
-        {
+            implements ArtifactHandler {
+        public String getClassifier() {
             return null;
         }
 
-        public String getDirectory()
-        {
+        public String getDirectory() {
             return null;
         }
 
-        public String getExtension()
-        {
+        public String getExtension() {
             return "pom";
         }
 
-        public String getLanguage()
-        {
+        public String getLanguage() {
             return "none";
         }
 
-        public String getPackaging()
-        {
+        public String getPackaging() {
             return "pom";
         }
 
-        public boolean isAddedToClasspath()
-        {
+        public boolean isAddedToClasspath() {
             return false;
         }
 
-        public boolean isIncludesDependencies()
-        {
+        public boolean isIncludesDependencies() {
             return false;
         }
     }

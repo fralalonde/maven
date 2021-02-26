@@ -27,28 +27,26 @@ import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.classworlds.realm.ClassRealm;
 
 /**
- * Caches extension class realms. <strong>Warning:</strong> This is an internal utility interface that is only public
- * for technical reasons, it is not part of the public API. In particular, this interface can be changed or deleted
+ * Caches extension class realms. <strong>Warning:</strong> This is an internal
+ * utility interface that is only public for technical reasons, it is not part
+ * of the public API. In particular, this interface can be changed or deleted
  * without prior notice.
  *
  * @author Igor Fedorenko
  * @author Benjamin Bentmann
  */
-public interface ExtensionRealmCache
-{
+public interface ExtensionRealmCache {
     /**
      * A cache key.
      */
-    interface Key
-    {
+    interface Key {
         // marker interface for cache keys
     }
 
     /**
      * CacheRecord
      */
-    class CacheRecord
-    {
+    class CacheRecord {
 
         private final ClassRealm realm;
 
@@ -56,46 +54,44 @@ public interface ExtensionRealmCache
 
         private final List<Artifact> artifacts;
 
-        CacheRecord( ClassRealm realm, ExtensionDescriptor descriptor, List<Artifact> artifacts )
-        {
+        CacheRecord(ClassRealm realm, ExtensionDescriptor descriptor, List<Artifact> artifacts) {
             this.realm = realm;
             this.descriptor = descriptor;
             this.artifacts = artifacts;
         }
 
-        public ClassRealm getRealm()
-        {
+        public ClassRealm getRealm() {
             return realm;
         }
 
-        public ExtensionDescriptor getDescriptor()
-        {
+        public ExtensionDescriptor getDescriptor() {
             return descriptor;
         }
 
-        public List<Artifact> getArtifacts()
-        {
+        public List<Artifact> getArtifacts() {
             return artifacts;
         }
     }
 
-    Key createKey( List<Artifact> extensionArtifacts );
+    Key createKey(List<Artifact> extensionArtifacts);
 
-    CacheRecord get( Key key );
+    CacheRecord get(Key key);
 
-    CacheRecord put( Key key, ClassRealm extensionRealm, ExtensionDescriptor extensionDescriptor,
-                     List<Artifact> artifacts );
+    CacheRecord put(Key key, ClassRealm extensionRealm, ExtensionDescriptor extensionDescriptor,
+            List<Artifact> artifacts);
 
     void flush();
 
     /**
-     * Registers the specified cache record for usage with the given project. Integrators can use the information
-     * collected from this method in combination with a custom cache implementation to dispose unused records from the
-     * cache.
+     * Registers the specified cache record for usage with the given project.
+     * Integrators can use the information collected from this method in combination
+     * with a custom cache implementation to dispose unused records from the cache.
      *
-     * @param project The project that employs the plugin realm, must not be {@code null}.
-     * @param record The cache record being used for the project, must not be {@code null}.
+     * @param project The project that employs the plugin realm, must not be
+     *                {@code null}.
+     * @param record  The cache record being used for the project, must not be
+     *                {@code null}.
      */
-    void register( MavenProject project, Key key, CacheRecord record );
+    void register(MavenProject project, Key key, CacheRecord record);
 
 }

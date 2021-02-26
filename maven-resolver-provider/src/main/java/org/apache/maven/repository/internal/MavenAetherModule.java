@@ -39,42 +39,39 @@ import com.google.inject.Provides;
 import com.google.inject.name.Names;
 
 /**
- * @deprecated As of Maven Resolver 1.0.3, please use class {@link MavenResolverModule}.
+ * @deprecated As of Maven Resolver 1.0.3, please use class
+ *             {@link MavenResolverModule}.
  */
 @Deprecated
 public final class MavenAetherModule
-    extends AbstractModule
-{
+        extends AbstractModule {
 
     @Override
-    protected void configure()
-    {
-        install( new AetherModule() );
-        bind( ArtifactDescriptorReader.class ) //
-        .to( DefaultArtifactDescriptorReader.class ).in( Singleton.class );
-        bind( VersionResolver.class ) //
-        .to( DefaultVersionResolver.class ).in( Singleton.class );
-        bind( VersionRangeResolver.class ) //
-        .to( DefaultVersionRangeResolver.class ).in( Singleton.class );
-        bind( MetadataGeneratorFactory.class ).annotatedWith( Names.named( "snapshot" ) ) //
-        .to( SnapshotMetadataGeneratorFactory.class ).in( Singleton.class );
-        bind( MetadataGeneratorFactory.class ).annotatedWith( Names.named( "versions" ) ) //
-        .to( VersionsMetadataGeneratorFactory.class ).in( Singleton.class );
-        bind( ModelBuilder.class ) //
-        .toInstance( new DefaultModelBuilderFactory().newInstance() );
+    protected void configure() {
+        install(new AetherModule());
+        bind(ArtifactDescriptorReader.class) //
+                .to(DefaultArtifactDescriptorReader.class).in(Singleton.class);
+        bind(VersionResolver.class) //
+                .to(DefaultVersionResolver.class).in(Singleton.class);
+        bind(VersionRangeResolver.class) //
+                .to(DefaultVersionRangeResolver.class).in(Singleton.class);
+        bind(MetadataGeneratorFactory.class).annotatedWith(Names.named("snapshot")) //
+                .to(SnapshotMetadataGeneratorFactory.class).in(Singleton.class);
+        bind(MetadataGeneratorFactory.class).annotatedWith(Names.named("versions")) //
+                .to(VersionsMetadataGeneratorFactory.class).in(Singleton.class);
+        bind(ModelBuilder.class) //
+                .toInstance(new DefaultModelBuilderFactory().newInstance());
     }
 
     @Provides
     @Singleton
-    Set<MetadataGeneratorFactory> provideMetadataGeneratorFactories( @Named( "snapshot" )
-                                                                     MetadataGeneratorFactory snapshot,
-                                                                     @Named( "versions" )
-                                                                     MetadataGeneratorFactory versions )
-    {
+    Set<MetadataGeneratorFactory> provideMetadataGeneratorFactories(
+            @Named("snapshot") MetadataGeneratorFactory snapshot,
+            @Named("versions") MetadataGeneratorFactory versions) {
         Set<MetadataGeneratorFactory> factories = new HashSet<>();
-        factories.add( snapshot );
-        factories.add( versions );
-        return Collections.unmodifiableSet( factories );
+        factories.add(snapshot);
+        factories.add(versions);
+        return Collections.unmodifiableSet(factories);
     }
 
 }

@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.apache.maven.execution.MavenSession;
 
-
 /**
  * Public API for a toolchain-aware plugin to get expected toolchain instance.
  *
@@ -32,8 +31,7 @@ import org.apache.maven.execution.MavenSession;
  * @author Robert Scholte
  * @since 2.0.9
  */
-public interface ToolchainManager
-{
+public interface ToolchainManager {
 
     // NOTE: Some plugins like Surefire access this field directly!
     @Deprecated
@@ -41,24 +39,24 @@ public interface ToolchainManager
 
     /**
      * Retrieve toolchain of specified type from build context. It is expected that
-     * <code>maven-toolchains-plugin</code> contains the configuration to select the appropriate
-     * toolchain and is executed at the beginning of the build.
+     * <code>maven-toolchains-plugin</code> contains the configuration to select the
+     * appropriate toolchain and is executed at the beginning of the build.
      *
-     * @param type the type, must not be {@code null}
+     * @param type    the type, must not be {@code null}
      * @param context the Maven session, must not be {@code null}
      * @return the toolchain selected by <code>maven-toolchains-plugin</code>
      */
-    Toolchain getToolchainFromBuildContext( String type, MavenSession context );
+    Toolchain getToolchainFromBuildContext(String type, MavenSession context);
 
     /**
-     * Select all toolchains available in user settings matching the type and requirements,
-     * independently from <code>maven-toolchains-plugin</code>.
+     * Select all toolchains available in user settings matching the type and
+     * requirements, independently from <code>maven-toolchains-plugin</code>.
      *
-     * @param session the Maven session, must not be {@code null}
-     * @param type the type, must not be {@code null}
+     * @param session      the Maven session, must not be {@code null}
+     * @param type         the type, must not be {@code null}
      * @param requirements the requirements, may be {@code null}
      * @return the matching toolchains, never {@code null}
      * @since 3.3.0
      */
-    List<Toolchain> getToolchains( MavenSession session, String type, Map<String, String> requirements );
+    List<Toolchain> getToolchains(MavenSession session, String type, Map<String, String> requirements);
 }

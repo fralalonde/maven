@@ -28,19 +28,16 @@ import org.codehaus.plexus.component.composition.CycleDetectedInComponentGraphEx
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  */
 public class CycleDetectedInPluginGraphException
-    extends Exception
-{
+        extends Exception {
     private final Plugin plugin;
 
-    public CycleDetectedInPluginGraphException( Plugin plugin, CycleDetectedInComponentGraphException e )
-    {
-        super( "A cycle was detected in the component graph of the plugin: " + plugin.getArtifactId() );
+    public CycleDetectedInPluginGraphException(Plugin plugin, CycleDetectedInComponentGraphException e) {
+        super("A cycle was detected in the component graph of the plugin: " + plugin.getArtifactId());
 
         this.plugin = plugin;
     }
 
-    public Plugin getPlugin()
-    {
+    public Plugin getPlugin() {
         return plugin;
     }
 }

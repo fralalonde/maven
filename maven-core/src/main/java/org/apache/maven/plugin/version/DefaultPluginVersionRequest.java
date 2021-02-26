@@ -36,8 +36,7 @@ import org.eclipse.aether.repository.RemoteRepository;
  * @author Benjamin Bentmann
  */
 public class DefaultPluginVersionRequest
-    implements PluginVersionRequest
-{
+        implements PluginVersionRequest {
 
     private String groupId;
 
@@ -52,111 +51,98 @@ public class DefaultPluginVersionRequest
     /**
      * Creates an empty request.
      */
-    public DefaultPluginVersionRequest()
-    {
+    public DefaultPluginVersionRequest() {
     }
 
     /**
-     * Creates a request for the specified plugin by copying settings from the specified build session. If the session
-     * has a current project, its plugin repositories will be used as well.
+     * Creates a request for the specified plugin by copying settings from the
+     * specified build session. If the session has a current project, its plugin
+     * repositories will be used as well.
      *
-     * @param plugin The plugin for which to resolve a version, must not be {@code null}.
+     * @param plugin  The plugin for which to resolve a version, must not be
+     *                {@code null}.
      * @param session The Maven session to use, must not be {@code null}.
      */
-    public DefaultPluginVersionRequest( Plugin plugin, MavenSession session )
-    {
-        setGroupId( plugin.getGroupId() );
-        setArtifactId( plugin.getArtifactId() );
+    public DefaultPluginVersionRequest(Plugin plugin, MavenSession session) {
+        setGroupId(plugin.getGroupId());
+        setArtifactId(plugin.getArtifactId());
 
-        setRepositorySession( session.getRepositorySession() );
+        setRepositorySession(session.getRepositorySession());
 
         MavenProject project = session.getCurrentProject();
-        if ( project != null )
-        {
-            setRepositories( project.getRemotePluginRepositories() );
+        if (project != null) {
+            setRepositories(project.getRemotePluginRepositories());
         }
     }
 
     /**
-     * Creates a request for the specified plugin using the given repository session and plugin repositories.
+     * Creates a request for the specified plugin using the given repository session
+     * and plugin repositories.
      *
-     * @param plugin The plugin for which to resolve a version, must not be {@code null}.
-     * @param session The repository session to use, must not be {@code null}.
+     * @param plugin       The plugin for which to resolve a version, must not be
+     *                     {@code null}.
+     * @param session      The repository session to use, must not be {@code null}.
      * @param repositories The plugin repositories to query, may be {@code null}.
      */
-    public DefaultPluginVersionRequest( Plugin plugin, RepositorySystemSession session,
-                                        List<RemoteRepository> repositories )
-    {
-        setGroupId( plugin.getGroupId() );
-        setArtifactId( plugin.getArtifactId() );
+    public DefaultPluginVersionRequest(Plugin plugin, RepositorySystemSession session,
+            List<RemoteRepository> repositories) {
+        setGroupId(plugin.getGroupId());
+        setArtifactId(plugin.getArtifactId());
 
-        setRepositorySession( session );
+        setRepositorySession(session);
 
-        setRepositories( repositories );
+        setRepositories(repositories);
     }
 
-    public String getGroupId()
-    {
+    public String getGroupId() {
         return groupId;
     }
 
-    public DefaultPluginVersionRequest setGroupId( String groupId )
-    {
+    public DefaultPluginVersionRequest setGroupId(String groupId) {
         this.groupId = groupId;
 
         return this;
     }
 
-    public String getArtifactId()
-    {
+    public String getArtifactId() {
         return artifactId;
     }
 
-    public DefaultPluginVersionRequest setArtifactId( String artifactId )
-    {
+    public DefaultPluginVersionRequest setArtifactId(String artifactId) {
         this.artifactId = artifactId;
 
         return this;
     }
 
-    public Model getPom()
-    {
+    public Model getPom() {
         return pom;
     }
 
-    public DefaultPluginVersionRequest setPom( Model pom )
-    {
+    public DefaultPluginVersionRequest setPom(Model pom) {
         this.pom = pom;
 
         return this;
     }
 
-    public List<RemoteRepository> getRepositories()
-    {
+    public List<RemoteRepository> getRepositories() {
         return repositories;
     }
 
-    public DefaultPluginVersionRequest setRepositories( List<RemoteRepository> repositories )
-    {
-        if ( repositories != null )
-        {
-            this.repositories = Collections.unmodifiableList( repositories );
-        }
-        else
-        {
+    public DefaultPluginVersionRequest setRepositories(List<RemoteRepository> repositories) {
+        if (repositories != null) {
+            this.repositories = Collections.unmodifiableList(repositories);
+        } else {
             this.repositories = Collections.emptyList();
         }
 
         return this;
     }
 
-    public RepositorySystemSession getRepositorySession()
-    {
+    public RepositorySystemSession getRepositorySession() {
         return session;
     }
 
-    public DefaultPluginVersionRequest setRepositorySession( RepositorySystemSession session )
-    {
+    public DefaultPluginVersionRequest setRepositorySession(RepositorySystemSession session) {
         this.session = session;
 
         return this;

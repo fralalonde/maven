@@ -25,16 +25,13 @@ package org.apache.maven.artifact.repository.metadata;
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  */
 public class RepositoryMetadataInstallationException
-    extends Throwable
-{
-    public RepositoryMetadataInstallationException( String message )
-    {
-        super( message );
+        extends Throwable {
+    public RepositoryMetadataInstallationException(String message) {
+        super(message);
     }
 
-    public RepositoryMetadataInstallationException( String message,
-                                                    Exception e )
-    {
-        super( message, e );
+    public RepositoryMetadataInstallationException(String message,
+            Exception e) {
+        super(message, e);
     }
 }

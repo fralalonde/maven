@@ -27,39 +27,31 @@ import java.util.List;
 /**
  * Filter to exclude from a list of artifact patterns.
  */
-public class ExclusionArtifactFilter implements ArtifactFilter
-{
+public class ExclusionArtifactFilter implements ArtifactFilter {
     private static final String WILDCARD = "*";
 
     private final List<Exclusion> exclusions;
 
-    public ExclusionArtifactFilter( List<Exclusion> exclusions )
-    {
+    public ExclusionArtifactFilter(List<Exclusion> exclusions) {
         this.exclusions = exclusions;
     }
 
     @Override
-    public boolean include( Artifact artifact )
-    {
-        for ( Exclusion exclusion : exclusions )
-        {
-            if ( WILDCARD.equals( exclusion.getGroupId() ) && WILDCARD.equals( exclusion.getArtifactId() ) )
-            {
+    public boolean include(Artifact artifact) {
+        for (Exclusion exclusion : exclusions) {
+            if (WILDCARD.equals(exclusion.getGroupId()) && WILDCARD.equals(exclusion.getArtifactId())) {
                 return false;
             }
-            if ( WILDCARD.equals( exclusion.getGroupId() )
-                && exclusion.getArtifactId().equals( artifact.getArtifactId() ) )
-            {
+            if (WILDCARD.equals(exclusion.getGroupId())
+                    && exclusion.getArtifactId().equals(artifact.getArtifactId())) {
                 return false;
             }
-            if ( WILDCARD.equals( exclusion.getArtifactId() )
-                && exclusion.getGroupId().equals( artifact.getGroupId() ) )
-            {
+            if (WILDCARD.equals(exclusion.getArtifactId())
+                    && exclusion.getGroupId().equals(artifact.getGroupId())) {
                 return false;
             }
-            if ( exclusion.getGroupId().equals( artifact.getGroupId() )
-                && exclusion.getArtifactId().equals( artifact.getArtifactId() ) )
-            {
+            if (exclusion.getGroupId().equals(artifact.getGroupId())
+                    && exclusion.getArtifactId().equals(artifact.getArtifactId())) {
                 return false;
             }
         }

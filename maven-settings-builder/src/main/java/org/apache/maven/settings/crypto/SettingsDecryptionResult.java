@@ -21,20 +21,20 @@ package org.apache.maven.settings.crypto;
 
 import java.util.List;
 
+import org.apache.maven.building.Problem;
 import org.apache.maven.settings.Proxy;
 import org.apache.maven.settings.Server;
-import org.apache.maven.settings.building.SettingsProblem;
 
 /**
  * Collects the output of the settings decrypter.
  *
  * @author Benjamin Bentmann
  */
-public interface SettingsDecryptionResult
-{
+public interface SettingsDecryptionResult {
 
     /**
-     * Gets the decrypted server. This is a convenience method to retrieve the first element from {@link #getServers()}.
+     * Gets the decrypted server. This is a convenience method to retrieve the first
+     * element from {@link #getServers()}.
      *
      * @return The decrypted server or {@code null}.
      */
@@ -48,7 +48,8 @@ public interface SettingsDecryptionResult
     List<Server> getServers();
 
     /**
-     * Gets the decrypted proxy. This is a convenience method to retrieve the first element from {@link #getProxies()}.
+     * Gets the decrypted proxy. This is a convenience method to retrieve the first
+     * element from {@link #getProxies()}.
      *
      * @return The decrypted proxy or {@code null}.
      */
@@ -64,8 +65,9 @@ public interface SettingsDecryptionResult
     /**
      * Gets the problems that were encountered during the settings decryption.
      *
-     * @return The problems that were encountered during the decryption, can be empty but never {@code null}.
+     * @return The problems that were encountered during the decryption, can be
+     *         empty but never {@code null}.
      */
-    List<SettingsProblem> getProblems();
+    List<Problem> getProblems();
 
 }

@@ -42,8 +42,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-public class DefaultToolchainManagerPrivateTest
-{
+public class DefaultToolchainManagerPrivateTest {
     // Mocks to inject into toolchainManager
     @Mock
     private Logger logger;
@@ -58,106 +57,101 @@ public class DefaultToolchainManagerPrivateTest
     private ToolchainFactory toolchainFactory_rareType;
 
     @BeforeEach
-    public void setUp()
-    {
+    public void setUp() {
         toolchainManager = new DefaultToolchainManagerPrivate();
 
-        MockitoAnnotations.initMocks( this );
+        MockitoAnnotations.initMocks(this);
 
         toolchainManager.factories = new HashMap<>();
-        toolchainManager.factories.put( "basic", toolchainFactory_basicType );
-        toolchainManager.factories.put( "rare", toolchainFactory_rareType );
+        toolchainManager.factories.put("basic", toolchainFactory_basicType);
+        toolchainManager.factories.put("rare", toolchainFactory_rareType);
     }
 
     @Test
     public void testToolchainsForAvailableType()
-        throws Exception
-    {
+            throws Exception {
         // prepare
-        MavenSession session = mock( MavenSession.class );
+        MavenSession session = mock(MavenSession.class);
         MavenExecutionRequest req = new DefaultMavenExecutionRequest();
-        when( session.getRequest() ).thenReturn( req );
+        when(session.getRequest()).thenReturn(req);
 
-        ToolchainPrivate basicToolchain = mock( ToolchainPrivate.class );
-        when( toolchainFactory_basicType.createDefaultToolchain() ).thenReturn( basicToolchain );
-        ToolchainPrivate rareToolchain = mock( ToolchainPrivate.class );
-        when( toolchainFactory_rareType.createDefaultToolchain() ).thenReturn( rareToolchain );
+        ToolchainPrivate basicToolchain = mock(ToolchainPrivate.class);
+        when(toolchainFactory_basicType.createDefaultToolchain()).thenReturn(basicToolchain);
+        ToolchainPrivate rareToolchain = mock(ToolchainPrivate.class);
+        when(toolchainFactory_rareType.createDefaultToolchain()).thenReturn(rareToolchain);
 
         // execute
-        ToolchainPrivate[] toolchains = toolchainManager.getToolchainsForType( "basic", session );
+        ToolchainPrivate[] toolchains = toolchainManager.getToolchainsForType("basic", session);
 
         // verify
-        verify( logger, never() ).error( anyString() );
-        assertEquals( 1, toolchains.length );
+        verify(logger, never()).error(anyString());
+        assertEquals(1, toolchains.length);
     }
 
     @Test
     public void testToolchainsForUnknownType()
-        throws Exception
-    {
+            throws Exception {
         // prepare
-        MavenSession session = mock( MavenSession.class );
+        MavenSession session = mock(MavenSession.class);
         MavenExecutionRequest req = new DefaultMavenExecutionRequest();
-        when( session.getRequest() ).thenReturn( req );
+        when(session.getRequest()).thenReturn(req);
 
-        ToolchainPrivate basicToolchain = mock( ToolchainPrivate.class );
-        when( toolchainFactory_basicType.createDefaultToolchain() ).thenReturn( basicToolchain );
-        ToolchainPrivate rareToolchain = mock( ToolchainPrivate.class );
-        when( toolchainFactory_rareType.createDefaultToolchain() ).thenReturn( rareToolchain );
+        ToolchainPrivate basicToolchain = mock(ToolchainPrivate.class);
+        when(toolchainFactory_basicType.createDefaultToolchain()).thenReturn(basicToolchain);
+        ToolchainPrivate rareToolchain = mock(ToolchainPrivate.class);
+        when(toolchainFactory_rareType.createDefaultToolchain()).thenReturn(rareToolchain);
 
         // execute
-        ToolchainPrivate[] toolchains = toolchainManager.getToolchainsForType( "unknown", session );
+        ToolchainPrivate[] toolchains = toolchainManager.getToolchainsForType("unknown", session);
 
         // verify
-        verify( logger ).error( "Missing toolchain factory for type: unknown. Possibly caused by misconfigured project." );
-        assertEquals( 0, toolchains.length );
+        verify(logger).error("Missing toolchain factory for type: unknown. Possibly caused by misconfigured project.");
+        assertEquals(0, toolchains.length);
     }
 
     @Test
     public void testToolchainsForConfiguredType()
-        throws Exception
-    {
+            throws Exception {
         // prepare
-        MavenSession session = mock( MavenSession.class );
+        MavenSession session = mock(MavenSession.class);
         MavenExecutionRequest req = new DefaultMavenExecutionRequest();
-        when( session.getRequest() ).thenReturn( req );
+        when(session.getRequest()).thenReturn(req);
         Map<String, List<ToolchainModel>> groupedToolchains = new HashMap<>();
-        req.setToolchains( groupedToolchains );
+        req.setToolchains(groupedToolchains);
 
         List<ToolchainModel> basicToolchains = new ArrayList<>();
         ToolchainModel basicToolchainModel = new ToolchainModel();
-        basicToolchainModel.setType( "basic" );
-        basicToolchains.add( basicToolchainModel );
-        basicToolchains.add( basicToolchainModel );
-        groupedToolchains.put( "basic", basicToolchains );
+        basicToolchainModel.setType("basic");
+        basicToolchains.add(basicToolchainModel);
+        basicToolchains.add(basicToolchainModel);
+        groupedToolchains.put("basic", basicToolchains);
 
         List<ToolchainModel> rareToolchains = new ArrayList<>();
         ToolchainModel rareToolchainModel = new ToolchainModel();
-        rareToolchainModel.setType( "rare" );
-        rareToolchains.add( rareToolchainModel );
-        groupedToolchains.put( "rare", rareToolchains );
+        rareToolchainModel.setType("rare");
+        rareToolchains.add(rareToolchainModel);
+        groupedToolchains.put("rare", rareToolchains);
 
         // execute
-        ToolchainPrivate[] toolchains = toolchainManager.getToolchainsForType( "basic", session );
+        ToolchainPrivate[] toolchains = toolchainManager.getToolchainsForType("basic", session);
 
         // verify
-        verify( logger, never() ).error( anyString() );
-        assertEquals( 2, toolchains.length );
+        verify(logger, never()).error(anyString());
+        assertEquals(2, toolchains.length);
     }
 
     @Test
     public void testMisconfiguredToolchain()
-        throws Exception
-    {
+            throws Exception {
         // prepare
-        MavenSession session = mock( MavenSession.class );
+        MavenSession session = mock(MavenSession.class);
         MavenExecutionRequest req = new DefaultMavenExecutionRequest();
-        when( session.getRequest() ).thenReturn( req );
+        when(session.getRequest()).thenReturn(req);
 
         // execute
         ToolchainPrivate[] basics = toolchainManager.getToolchainsForType("basic", session);
 
         // verify
-        assertEquals( 0, basics.length );
+        assertEquals(0, basics.length);
     }
 }

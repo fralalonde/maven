@@ -24,34 +24,30 @@ import org.xml.sax.XMLReader;
 /**
  * Filter to adjust pom on filesystem before being processed for effective pom.
  * There should only be 1 BuildPomXMLFilter, so the same is being used by both
- * org.apache.maven.model.building.DefaultModelBuilder.transformData(InputStream) and
+ * org.apache.maven.model.building.DefaultModelBuilder.transformData(InputStream)
+ * and
  * org.apache.maven.internal.aether.DefaultRepositorySystemSessionFactory.newFileTransformerManager()
  *
  *
  * @author Robert Scholte
  * @since 4.0.0
  */
-public class BuildPomXMLFilter extends AbstractSAXFilter
-{
-    BuildPomXMLFilter()
-    {
+public class BuildPomXMLFilter extends AbstractSAXFilter {
+    BuildPomXMLFilter() {
         super();
     }
 
-    BuildPomXMLFilter( AbstractSAXFilter parent )
-    {
-        super( parent );
+    BuildPomXMLFilter(AbstractSAXFilter parent) {
+        super(parent);
     }
 
     /**
      * Don't allow overwriting parent
      */
     @Override
-    public final void setParent( XMLReader parent )
-    {
-        if ( getParent() == null )
-        {
-            super.setParent( parent );
+    public final void setParent(XMLReader parent) {
+        if (getParent() == null) {
+            super.setParent(parent);
         }
     }
 }

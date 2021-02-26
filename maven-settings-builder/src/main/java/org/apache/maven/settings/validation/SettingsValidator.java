@@ -19,23 +19,23 @@ package org.apache.maven.settings.validation;
  * under the License.
  */
 
+import org.apache.maven.building.ProblemCollector;
 import org.apache.maven.settings.Settings;
-import org.apache.maven.settings.building.SettingsProblemCollector;
 
 /**
  * Validate a model settings
  *
  * @author Milos Kleint
  */
-public interface SettingsValidator
-{
+public interface SettingsValidator {
 
     /**
      * Validate the specified settings.
      *
      * @param settings The settings to validate, must not be {@code null}.
-     * @param problems The container used to collect problems that were encountered, must not be {@code null}.
+     * @param problems The container used to collect problems that were encountered,
+     *                 must not be {@code null}.
      */
-    void validate( Settings settings, SettingsProblemCollector problems );
+    void validate(Settings settings, ProblemCollector problems);
 
 }

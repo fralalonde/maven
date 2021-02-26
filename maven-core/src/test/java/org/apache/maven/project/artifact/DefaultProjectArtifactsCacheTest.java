@@ -28,45 +28,45 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-public class DefaultProjectArtifactsCacheTest
-{
+
+public class DefaultProjectArtifactsCacheTest {
 
     private ProjectArtifactsCache cache;
 
     @BeforeEach
     public void setUp()
-        throws Exception
-    {
+            throws Exception {
         cache = new DefaultProjectArtifactsCache();
     }
 
     @Test
-    public void testProjectDependencyOrder() throws Exception
-    {
-        ProjectArtifactsCache.Key project1 = new ProjectArtifactsCache.Key(){};
+    public void testProjectDependencyOrder() throws Exception {
+        ProjectArtifactsCache.Key project1 = new ProjectArtifactsCache.Key() {
+        };
 
-        Set<Artifact> artifacts = new LinkedHashSet<>( 4 );
-        artifacts.add( new DefaultArtifact( "g", "a1", "v", "compile", "jar", "", null ) );
-        artifacts.add( new DefaultArtifact( "g", "a2", "v", "compile", "jar", "", null ) );
-        artifacts.add( new DefaultArtifact( "g", "a3", "v", "compile", "jar", "", null ) );
-        artifacts.add( new DefaultArtifact( "g", "a4", "v", "compile", "jar", "", null ) );
+        Set<Artifact> artifacts = new LinkedHashSet<>(4);
+        artifacts.add(new DefaultArtifact("g", "a1", "v", "compile", "jar", "", null));
+        artifacts.add(new DefaultArtifact("g", "a2", "v", "compile", "jar", "", null));
+        artifacts.add(new DefaultArtifact("g", "a3", "v", "compile", "jar", "", null));
+        artifacts.add(new DefaultArtifact("g", "a4", "v", "compile", "jar", "", null));
 
-        cache.put( project1, artifacts );
+        cache.put(project1, artifacts);
 
-        assertArrayEquals( artifacts.toArray( new Artifact[0] ),
-                           cache.get( project1 ).getArtifacts().toArray( new Artifact[0] ) );
+        assertArrayEquals(artifacts.toArray(new Artifact[0]),
+                cache.get(project1).getArtifacts().toArray(new Artifact[0]));
 
-        ProjectArtifactsCache.Key project2 = new ProjectArtifactsCache.Key(){};
+        ProjectArtifactsCache.Key project2 = new ProjectArtifactsCache.Key() {
+        };
 
-        Set<Artifact> reversedArtifacts = new LinkedHashSet<>( 4 );
-        artifacts.add( new DefaultArtifact( "g", "a4", "v", "compile", "jar", "", null ) );
-        artifacts.add( new DefaultArtifact( "g", "a3", "v", "compile", "jar", "", null ) );
-        artifacts.add( new DefaultArtifact( "g", "a2", "v", "compile", "jar", "", null ) );
-        artifacts.add( new DefaultArtifact( "g", "a1", "v", "compile", "jar", "", null ) );
+        Set<Artifact> reversedArtifacts = new LinkedHashSet<>(4);
+        artifacts.add(new DefaultArtifact("g", "a4", "v", "compile", "jar", "", null));
+        artifacts.add(new DefaultArtifact("g", "a3", "v", "compile", "jar", "", null));
+        artifacts.add(new DefaultArtifact("g", "a2", "v", "compile", "jar", "", null));
+        artifacts.add(new DefaultArtifact("g", "a1", "v", "compile", "jar", "", null));
 
-        cache.put( project2, reversedArtifacts );
+        cache.put(project2, reversedArtifacts);
 
-        assertArrayEquals( reversedArtifacts.toArray( new Artifact[0] ),
-                           cache.get( project2 ).getArtifacts().toArray( new Artifact[0] ) );
+        assertArrayEquals(reversedArtifacts.toArray(new Artifact[0]),
+                cache.get(project2).getArtifacts().toArray(new Artifact[0]));
     }
 }

@@ -32,44 +32,35 @@ import org.apache.maven.plugin.MojoExecutionException;
 @Named
 @Singleton
 public class DelegatingMojoExecutionListener
-    implements MojoExecutionListener
-{
+        implements MojoExecutionListener {
     private final List<MojoExecutionListener> listeners = new CopyOnWriteArrayList<>();
 
-    public void beforeMojoExecution( MojoExecutionEvent event )
-        throws MojoExecutionException
-    {
-        for ( MojoExecutionListener listener : listeners )
-        {
-            listener.beforeMojoExecution( event );
+    public void beforeMojoExecution(MojoExecutionEvent event)
+            throws MojoExecutionException {
+        for (MojoExecutionListener listener : listeners) {
+            listener.beforeMojoExecution(event);
         }
     }
 
-    public void afterMojoExecutionSuccess( MojoExecutionEvent event )
-        throws MojoExecutionException
-    {
-        for ( MojoExecutionListener listener : listeners )
-        {
-            listener.afterMojoExecutionSuccess( event );
+    public void afterMojoExecutionSuccess(MojoExecutionEvent event)
+            throws MojoExecutionException {
+        for (MojoExecutionListener listener : listeners) {
+            listener.afterMojoExecutionSuccess(event);
         }
     }
 
-    public void afterExecutionFailure( MojoExecutionEvent event )
-    {
-        for ( MojoExecutionListener listener : listeners )
-        {
-            listener.afterExecutionFailure( event );
+    public void afterExecutionFailure(MojoExecutionEvent event) {
+        for (MojoExecutionListener listener : listeners) {
+            listener.afterExecutionFailure(event);
         }
     }
 
-    public void addMojoExecutionListener( MojoExecutionListener listener )
-    {
-        this.listeners.add( listener );
+    public void addMojoExecutionListener(MojoExecutionListener listener) {
+        this.listeners.add(listener);
     }
 
-    public void removeMojoExecutionListener( MojoExecutionListener listener )
-    {
-        this.listeners.remove( listener );
+    public void removeMojoExecutionListener(MojoExecutionListener listener) {
+        this.listeners.remove(listener);
     }
 
 }

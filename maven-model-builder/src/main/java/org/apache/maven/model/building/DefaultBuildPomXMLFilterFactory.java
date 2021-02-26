@@ -19,7 +19,6 @@ package org.apache.maven.model.building;
  * under the License.
  */
 
-
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.function.BiFunction;
@@ -37,78 +36,69 @@ import org.xml.sax.ext.LexicalHandler;
  * @author Robert Scholte
  * @since 4.0.0
  */
-public class DefaultBuildPomXMLFilterFactory extends BuildPomXMLFilterFactory
-{
+public class DefaultBuildPomXMLFilterFactory extends BuildPomXMLFilterFactory {
     private final TransformerContext context;
 
     /**
      *
-     * @param context a set of data to extract values from as required for the build pom
+     * @param context                a set of data to extract values from as
+     *                               required for the build pom
      * @param lexicalHandlerConsumer the lexical handler consumer
-     * @param consume {@code true} if this factory is being used for creating the consumer pom, otherwise {@code false}
+     * @param consume                {@code true} if this factory is being used for
+     *                               creating the consumer pom, otherwise
+     *                               {@code false}
      */
-    public DefaultBuildPomXMLFilterFactory( TransformerContext context,
-                                            Consumer<LexicalHandler> lexicalHandlerConsumer,
-                                            boolean consume )
-    {
-        super( lexicalHandlerConsumer, consume );
+    public DefaultBuildPomXMLFilterFactory(TransformerContext context,
+            Consumer<LexicalHandler> lexicalHandlerConsumer,
+            boolean consume) {
+        super(lexicalHandlerConsumer, consume);
         this.context = context;
     }
 
     @Override
-    protected Function<Path, Optional<RelativeProject>> getRelativePathMapper()
-    {
-        return p -> Optional.ofNullable( context.getRawModel( p ) ).map( m -> toRelativeProject( m ) );
+    protected Function<Path, Optional<RelativeProject>> getRelativePathMapper() {
+        return p -> Optional.ofNullable(context.getRawModel(p)).map(m -> toRelativeProject(m));
     }
 
     @Override
-    protected BiFunction<String, String, String> getDependencyKeyToVersionMapper()
-    {
-        return (g, a) -> Optional.ofNullable( context.getRawModel( g, a ) )
-                            .map( m -> toVersion( m ) )
-                            .orElse( null );
+    protected BiFunction<String, String, String> getDependencyKeyToVersionMapper() {
+        return (g, a) -> Optional.ofNullable(context.getRawModel(g, a))
+                .map(m -> toVersion(m))
+                .orElse(null);
     }
 
     @Override
-    protected Optional<String> getChangelist()
-    {
-        return Optional.ofNullable( context.getUserProperty( "changelist" ) );
+    protected Optional<String> getChangelist() {
+        return Optional.ofNullable(context.getUserProperty("changelist"));
     }
 
     @Override
-    protected Optional<String> getRevision()
-    {
-        return Optional.ofNullable( context.getUserProperty( "revision" ) );
+    protected Optional<String> getRevision() {
+        return Optional.ofNullable(context.getUserProperty("revision"));
     }
 
     @Override
-    protected Optional<String> getSha1()
-    {
-        return Optional.ofNullable( context.getUserProperty( "sha1" ) );
+    protected Optional<String> getSha1() {
+        return Optional.ofNullable(context.getUserProperty("sha1"));
     }
 
-    private static RelativeProject toRelativeProject( final Model m )
-    {
+    private static RelativeProject toRelativeProject(final Model m) {
         String groupId = m.getGroupId();
-        if ( groupId == null && m.getParent() != null )
-        {
+        if (groupId == null && m.getParent() != null) {
             groupId = m.getParent().getGroupId();
         }
 
         String version = m.getVersion();
-        if ( version == null && m.getParent() != null )
-        {
+        if (version == null && m.getParent() != null) {
             version = m.getParent().getVersion();
         }
 
-        return new RelativeProject( groupId, m.getArtifactId(), version );
+        return new RelativeProject(groupId, m.getArtifactId(), version);
     }
 
-    private static String toVersion( final Model m )
-    {
+    private static String toVersion(final Model m) {
         String version = m.getVersion();
-        if ( version == null && m.getParent() != null )
-        {
+        if (version == null && m.getParent() != null) {
             version = m.getParent().getVersion();
         }
 

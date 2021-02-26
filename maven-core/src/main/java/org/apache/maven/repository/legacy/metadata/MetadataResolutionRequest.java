@@ -31,23 +31,24 @@ import org.apache.maven.artifact.repository.RepositoryRequest;
  * @author Benjamin Bentmann
  */
 public interface MetadataResolutionRequest
-    extends RepositoryRequest
-{
+        extends RepositoryRequest {
 
     /**
      * Indicates whether network access to remote repositories has been disabled.
      *
-     * @return {@code true} if remote access has been disabled, {@code false} otherwise.
+     * @return {@code true} if remote access has been disabled, {@code false}
+     *         otherwise.
      */
     boolean isOffline();
 
     /**
      * Enables/disables network access to remote repositories.
      *
-     * @param offline {@code true} to disable remote access, {@code false} to allow network access.
+     * @param offline {@code true} to disable remote access, {@code false} to allow
+     *                network access.
      * @return This request, never {@code null}.
      */
-    MetadataResolutionRequest setOffline( boolean offline );
+    MetadataResolutionRequest setOffline(boolean offline);
 
     /**
      * Gets the artifact to resolve metadata for.
@@ -62,12 +63,13 @@ public interface MetadataResolutionRequest
      * @param artifact The artifact for which to resolve metadata.
      * @return This request, never {@code null}.
      */
-    MetadataResolutionRequest setArtifact( Artifact artifact );
+    MetadataResolutionRequest setArtifact(Artifact artifact);
 
     /**
      * Gets the local repository to use for the resolution.
      *
-     * @return The local repository to use for the resolution or {@code null} if not set.
+     * @return The local repository to use for the resolution or {@code null} if not
+     *         set.
      */
     ArtifactRepository getLocalRepository();
 
@@ -77,12 +79,13 @@ public interface MetadataResolutionRequest
      * @param localRepository The local repository to use for the resolution.
      * @return This request, never {@code null}.
      */
-    MetadataResolutionRequest setLocalRepository( ArtifactRepository localRepository );
+    MetadataResolutionRequest setLocalRepository(ArtifactRepository localRepository);
 
     /**
      * Gets the remote repositories to use for the resolution.
      *
-     * @return The remote repositories to use for the resolution, never {@code null}.
+     * @return The remote repositories to use for the resolution, never
+     *         {@code null}.
      */
     List<ArtifactRepository> getRemoteRepositories();
 
@@ -92,22 +95,24 @@ public interface MetadataResolutionRequest
      * @param remoteRepositories The remote repositories to use for the resolution.
      * @return This request, never {@code null}.
      */
-    MetadataResolutionRequest setRemoteRepositories( List<ArtifactRepository> remoteRepositories );
+    MetadataResolutionRequest setRemoteRepositories(List<ArtifactRepository> remoteRepositories);
 
     /**
      * Determines whether the managed version information should be retrieved.
      *
-     * @return {@code true} if the dependency management information should be retrieved, {@code false} otherwise.
+     * @return {@code true} if the dependency management information should be
+     *         retrieved, {@code false} otherwise.
      */
     boolean isResolveManagedVersions();
 
     /**
      * Enables/disables resolution of the dependency management information.
      *
-     * @param resolveManagedVersions {@code true} if the dependency management information should be retrieved, {@code
-     *            false} otherwise.
+     * @param resolveManagedVersions {@code true} if the dependency management
+     *                               information should be retrieved, {@code
+     *            false}          otherwise.
      * @return This request, never {@code null}.
      */
-    MetadataResolutionRequest setResolveManagedVersions( boolean resolveManagedVersions );
+    MetadataResolutionRequest setResolveManagedVersions(boolean resolveManagedVersions);
 
 }

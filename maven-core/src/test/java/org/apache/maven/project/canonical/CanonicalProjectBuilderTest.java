@@ -36,21 +36,19 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @author Jason van Zyl
  */
 public class CanonicalProjectBuilderTest
-    extends AbstractMavenProjectTestCase
-{
+        extends AbstractMavenProjectTestCase {
     @Test
     public void testProjectBuilder()
-        throws Exception
-    {
-        File f = getFileForClasspathResource( "canonical-pom.xml" );
+            throws Exception {
+        File f = getFileForClasspathResource("canonical-pom.xml");
 
-        MavenProject project = getProject( f );
+        MavenProject project = getProject(f);
 
         // ----------------------------------------------------------------------
         // Top-level elements
         // ----------------------------------------------------------------------
 
-        assertEquals( "4.0.0", project.getModelVersion() );
+        assertEquals("4.0.0", project.getModelVersion());
 
         // ----------------------------------------------------------------------
         // Plugins
@@ -63,27 +61,25 @@ public class CanonicalProjectBuilderTest
         String key = "org.apache.maven.plugins:maven-plexus-plugin";
 
         Plugin plugin = null;
-        for ( Plugin check : plugins )
-        {
-            if ( key.equals( check.getKey() ) )
-            {
+        for (Plugin check : plugins) {
+            if (key.equals(check.getKey())) {
                 plugin = check;
                 break;
             }
         }
 
-        assertNotNull( plugin );
+        assertNotNull(plugin);
 
-        assertEquals( "1.0", plugin.getVersion() );
+        assertEquals("1.0", plugin.getVersion());
 
         Xpp3Dom configuration = (Xpp3Dom) plugin.getConfiguration();
 
-        assertEquals( "src/conf/plexus.conf", configuration.getChild( "plexusConfiguration" ).getValue() );
+        assertEquals("src/conf/plexus.conf", configuration.getChild("plexusConfiguration").getValue());
 
-        assertEquals( "src/conf/plexus.properties",
-                      configuration.getChild( "plexusConfigurationPropertiesFile" ).getValue() );
+        assertEquals("src/conf/plexus.properties",
+                configuration.getChild("plexusConfigurationPropertiesFile").getValue());
 
-        assertEquals( "Continuum", configuration.getChild( "plexusApplicationName" ).getValue() );
+        assertEquals("Continuum", configuration.getChild("plexusApplicationName").getValue());
 
         // ----------------------------------------------------------------------
         // Goal specific configuration
@@ -91,15 +87,15 @@ public class CanonicalProjectBuilderTest
 
         List<PluginExecution> executions = plugin.getExecutions();
 
-        PluginExecution execution = executions.get( 0 );
+        PluginExecution execution = executions.get(0);
 
-        String g0 = execution.getGoals().get( 0 );
+        String g0 = execution.getGoals().get(0);
 
-        assertEquals( "plexus:runtime", g0 );
+        assertEquals("plexus:runtime", g0);
 
         configuration = (Xpp3Dom) execution.getConfiguration();
 
-        assertEquals( "ContinuumPro", configuration.getChild( "plexusApplicationName" ).getValue() );
+        assertEquals("ContinuumPro", configuration.getChild("plexusApplicationName").getValue());
 
         // Plugin1 [antlr]
     }

@@ -32,39 +32,38 @@ import org.apache.maven.settings.Settings;
 import org.apache.maven.settings.SettingsUtils;
 
 /**
- * Adapt a {@link MavenExecutionRequest} to a {@link Settings} object for use in the Maven core.
- * We want to make sure that what is ask for in the execution request overrides what is in the settings.
- * The CLI feeds into an execution request so if a particular value is present in the execution request
- * then we will take that over the value coming from the user settings.
+ * Adapt a {@link MavenExecutionRequest} to a {@link Settings} object for use in
+ * the Maven core. We want to make sure that what is ask for in the execution
+ * request overrides what is in the settings. The CLI feeds into an execution
+ * request so if a particular value is present in the execution request then we
+ * will take that over the value coming from the user settings.
  *
  * @author Jason van Zyl
  */
 class SettingsAdapter
-    extends Settings
-{
+        extends Settings {
 
     private MavenExecutionRequest request;
 
     private RuntimeInfo runtimeInfo;
 
-    SettingsAdapter( MavenExecutionRequest request )
-    {
+    SettingsAdapter(MavenExecutionRequest request) {
         this.request = request;
 
         /*
-         * NOTE: Plugins like maven-release-plugin query the path to the settings.xml to pass it into a forked Maven and
-         * the CLI will fail when called with a non-existing settings, so be sure to only point at actual files. Having
-         * a null file should be harmless as this case matches general Maven 2.x behavior...
+         * NOTE: Plugins like maven-release-plugin query the path to the settings.xml to
+         * pass it into a forked Maven and the CLI will fail when called with a
+         * non-existing settings, so be sure to only point at actual files. Having a
+         * null file should be harmless as this case matches general Maven 2.x
+         * behavior...
          */
         File userSettings = request.getUserSettingsFile();
-        this.runtimeInfo = new RuntimeInfo( ( userSettings != null && userSettings.isFile() ) ? userSettings : null );
+        this.runtimeInfo = new RuntimeInfo((userSettings != null && userSettings.isFile()) ? userSettings : null);
     }
 
     @Override
-    public String getLocalRepository()
-    {
-        if ( request.getLocalRepositoryPath() != null )
-        {
+    public String getLocalRepository() {
+        if (request.getLocalRepositoryPath() != null) {
             return request.getLocalRepositoryPath().getAbsolutePath();
         }
 
@@ -72,55 +71,46 @@ class SettingsAdapter
     }
 
     @Override
-    public boolean isInteractiveMode()
-    {
+    public boolean isInteractiveMode() {
         return request.isInteractiveMode();
     }
 
     @Override
-    public boolean isOffline()
-    {
+    public boolean isOffline() {
         return request.isOffline();
     }
 
     @Override
-    public List<Proxy> getProxies()
-    {
+    public List<Proxy> getProxies() {
         return request.getProxies();
     }
 
     @Override
-    public List<Server> getServers()
-    {
+    public List<Server> getServers() {
         return request.getServers();
     }
 
     @Override
-    public List<Mirror> getMirrors()
-    {
+    public List<Mirror> getMirrors() {
         return request.getMirrors();
     }
 
     @Override
-    public List<Profile> getProfiles()
-    {
+    public List<Profile> getProfiles() {
         List<Profile> result = new ArrayList<>();
-        for ( org.apache.maven.model.Profile profile : request.getProfiles() )
-        {
-            result.add( SettingsUtils.convertToSettingsProfile( profile ) );
+        for (org.apache.maven.model.Profile profile : request.getProfiles()) {
+            result.add(SettingsUtils.convertToSettingsProfile(profile));
         }
         return result;
     }
 
     @Override
-    public List<String> getActiveProfiles()
-    {
+    public List<String> getActiveProfiles() {
         return request.getActiveProfiles();
     }
 
     @Override
-    public List<String> getPluginGroups()
-    {
+    public List<String> getPluginGroups() {
         return request.getPluginGroups();
     }
 }

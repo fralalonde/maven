@@ -32,15 +32,13 @@ import org.apache.maven.building.UrlSource;
  */
 @Deprecated
 public class UrlModelSource extends UrlSource
-    implements ModelSource
-{
+        implements ModelSource {
     /**
      * Creates a new model source backed by the specified URL.
      *
      * @param pomUrl The POM file, must not be {@code null}.
      */
-    public UrlModelSource( URL pomUrl )
-    {
-        super( pomUrl );
+    public UrlModelSource(URL pomUrl) {
+        super(pomUrl);
     }
 }

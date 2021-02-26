@@ -42,56 +42,45 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 @Named
 @Singleton
 public class DefaultSettingsReader
-    implements SettingsReader
-{
+        implements SettingsReader {
 
     @Override
-    public Settings read( File input, Map<String, ?> options )
-        throws IOException
-    {
-        Objects.requireNonNull( input, "input cannot be null" );
+    public Settings read(File input, Map<String, ?> options)
+            throws IOException {
+        Objects.requireNonNull(input, "input cannot be null");
 
-        Settings settings = read( ReaderFactory.newXmlReader( input ), options );
+        Settings settings = read(ReaderFactory.newXmlReader(input), options);
 
         return settings;
     }
 
     @Override
-    public Settings read( Reader input, Map<String, ?> options )
-        throws IOException
-    {
-        Objects.requireNonNull( input, "input cannot be null" );
+    public Settings read(Reader input, Map<String, ?> options)
+            throws IOException {
+        Objects.requireNonNull(input, "input cannot be null");
 
-        try ( Reader in = input )
-        {
-            return new SettingsXpp3Reader().read( in, isStrict( options ) );
-        }
-        catch ( XmlPullParserException e )
-        {
-            throw new SettingsParseException( e.getMessage(), e.getLineNumber(), e.getColumnNumber(), e );
+        try (Reader in = input) {
+            return new SettingsXpp3Reader().read(in, isStrict(options));
+        } catch (XmlPullParserException e) {
+            throw new SettingsParseException(e.getMessage(), e.getLineNumber(), e.getColumnNumber(), e);
         }
     }
 
     @Override
-    public Settings read( InputStream input, Map<String, ?> options )
-        throws IOException
-    {
-        Objects.requireNonNull( input, "input cannot be null" );
+    public Settings read(InputStream input, Map<String, ?> options)
+            throws IOException {
+        Objects.requireNonNull(input, "input cannot be null");
 
-        try ( InputStream in = input )
-        {
-            return new SettingsXpp3Reader().read( in, isStrict( options ) );
-        }
-        catch ( XmlPullParserException e )
-        {
-            throw new SettingsParseException( e.getMessage(), e.getLineNumber(), e.getColumnNumber(), e );
+        try (InputStream in = input) {
+            return new SettingsXpp3Reader().read(in, isStrict(options));
+        } catch (XmlPullParserException e) {
+            throw new SettingsParseException(e.getMessage(), e.getLineNumber(), e.getColumnNumber(), e);
         }
     }
 
-    private boolean isStrict( Map<String, ?> options )
-    {
-        Object value = ( options != null ) ? options.get( IS_STRICT ) : null;
-        return value == null || Boolean.parseBoolean( value.toString() );
+    private boolean isStrict(Map<String, ?> options) {
+        Object value = (options != null) ? options.get(IS_STRICT) : null;
+        return value == null || Boolean.parseBoolean(value.toString());
     }
 
 }

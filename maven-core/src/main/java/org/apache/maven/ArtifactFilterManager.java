@@ -26,13 +26,12 @@ import org.apache.maven.artifact.resolver.filter.ArtifactFilter;
 /**
  * ArtifactFilterManager
  */
-public interface ArtifactFilterManager
-{
+public interface ArtifactFilterManager {
     /**
      * Returns a filter for core + extension artifacts.
      *
-     * @deprecated use {@code META-INF/maven/extension.xml} to define artifacts exported by Maven core and plugin
-     *             extensions.
+     * @deprecated use {@code META-INF/maven/extension.xml} to define artifacts
+     *             exported by Maven core and plugin extensions.
      */
     ArtifactFilter getArtifactFilter();
 
@@ -42,12 +41,13 @@ public interface ArtifactFilterManager
     ArtifactFilter getCoreArtifactFilter();
 
     /**
-     * Exclude an extension artifact (doesn't affect getArtifactFilter's result, only getExtensionArtifactFilter).
+     * Exclude an extension artifact (doesn't affect getArtifactFilter's result,
+     * only getExtensionArtifactFilter).
      *
-     * @deprecated use {@code META-INF/maven/extension.xml} to define artifacts exported by Maven core and plugin
-     *             extensions.
+     * @deprecated use {@code META-INF/maven/extension.xml} to define artifacts
+     *             exported by Maven core and plugin extensions.
      */
-    void excludeArtifact( String artifactId );
+    void excludeArtifact(String artifactId);
 
     Set<String> getCoreArtifactExcludes();
 

@@ -23,15 +23,13 @@ package org.apache.maven.plugin.descriptor;
  * DuplicateMojoDescriptorException
  */
 public class DuplicateMojoDescriptorException
-    extends InvalidPluginDescriptorException
-{
+        extends InvalidPluginDescriptorException {
 
-    public DuplicateMojoDescriptorException( String goalPrefix, String goal, String existingImplementation,
-                                             String newImplementation )
-    {
-        super( "Goal: " + goal + " already exists in the plugin descriptor for prefix: " + goalPrefix
-            + System.lineSeparator() + "Existing implementation is: " + existingImplementation
-            + System.lineSeparator() + "Conflicting implementation is: " + newImplementation );
+    public DuplicateMojoDescriptorException(String goalPrefix, String goal, String existingImplementation,
+            String newImplementation) {
+        super("Goal: " + goal + " already exists in the plugin descriptor for prefix: " + goalPrefix
+                + System.lineSeparator() + "Existing implementation is: " + existingImplementation
+                + System.lineSeparator() + "Conflicting implementation is: " + newImplementation);
     }
 
 }

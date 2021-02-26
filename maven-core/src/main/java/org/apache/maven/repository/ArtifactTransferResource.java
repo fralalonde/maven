@@ -24,14 +24,14 @@ package org.apache.maven.repository;
  *
  * @author Benjamin Bentmann
  */
-public interface ArtifactTransferResource
-{
+public interface ArtifactTransferResource {
 
     /**
-     * The base URL of the repository, e.g. "http://repo1.maven.org/maven2/". Unless the URL is unknown, it will be
-     * terminated by a trailing slash.
+     * The base URL of the repository, e.g. "http://repo1.maven.org/maven2/". Unless
+     * the URL is unknown, it will be terminated by a trailing slash.
      *
-     * @return The base URL of the repository or an empty string if unknown, never {@code null}.
+     * @return The base URL of the repository or an empty string if unknown, never
+     *         {@code null}.
      */
     String getRepositoryUrl();
 

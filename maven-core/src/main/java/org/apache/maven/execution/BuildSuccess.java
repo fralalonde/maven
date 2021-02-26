@@ -27,18 +27,16 @@ import org.apache.maven.project.MavenProject;
  * @author Benjamin Bentmann
  */
 public class BuildSuccess
-    extends BuildSummary
-{
+        extends BuildSummary {
 
     /**
      * Creates a new build summary for the specified project.
      *
      * @param project The project being summarized, must not be {@code null}.
-     * @param time The build time of the project in milliseconds.
+     * @param time    The build time of the project in milliseconds.
      */
-    public BuildSuccess( MavenProject project, long time )
-    {
-        super( project, time );
+    public BuildSuccess(MavenProject project, long time) {
+        super(project, time);
     }
 
 }

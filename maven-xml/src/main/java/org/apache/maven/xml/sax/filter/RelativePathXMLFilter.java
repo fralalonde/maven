@@ -29,78 +29,66 @@ import org.xml.sax.SAXException;
  * @since 4.0.0
  */
 class RelativePathXMLFilter
-    extends AbstractEventXMLFilter
-{
+        extends AbstractEventXMLFilter {
     private boolean parsingParent;
 
     private String state;
 
-    RelativePathXMLFilter()
-    {
+    RelativePathXMLFilter() {
         super();
     }
 
-    RelativePathXMLFilter( AbstractSAXFilter parent )
-    {
-        super( parent );
+    RelativePathXMLFilter(AbstractSAXFilter parent) {
+        super(parent);
     }
 
     @Override
-    public void startElement( String uri, final String localName, String qName, Attributes atts )
-        throws SAXException
-    {
-        if ( !parsingParent && "parent".equals( localName ) )
-        {
+    public void startElement(String uri, final String localName, String qName, Attributes atts)
+            throws SAXException {
+        if (!parsingParent && "parent".equals(localName)) {
             parsingParent = true;
         }
 
-        if ( parsingParent )
-        {
+        if (parsingParent) {
             state = localName;
         }
 
-        super.startElement( uri, localName, qName, atts );
+        super.startElement(uri, localName, qName, atts);
     }
 
     @Override
-    public void endElement( String uri, String localName, String qName )
-        throws SAXException
-    {
-        if ( parsingParent )
-        {
-            switch ( localName )
-            {
-                case "parent":
-                    executeEvents();
+    public void endElement(String uri, String localName, String qName)
+            throws SAXException {
+        if (parsingParent) {
+            switch (localName) {
+            case "parent":
+                executeEvents();
 
-                    parsingParent = false;
-                    break;
-                default:
-                    break;
+                parsingParent = false;
+                break;
+            default:
+                break;
             }
         }
 
-        super.endElement( uri, localName, qName );
+        super.endElement(uri, localName, qName);
 
         // for this simple structure resetting to parent it sufficient
         state = "parent";
     }
 
     @Override
-    protected boolean isParsing()
-    {
+    protected boolean isParsing() {
         return parsingParent;
     }
 
     @Override
-    protected String getState()
-    {
+    protected String getState() {
         return state;
     }
 
     @Override
-    protected boolean acceptEvent( String state )
-    {
-        return !"relativePath".equals( state );
+    protected boolean acceptEvent(String state) {
+        return !"relativePath".equals(state);
     }
 }

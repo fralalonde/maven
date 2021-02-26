@@ -23,16 +23,13 @@ package org.apache.maven.repository;
  * ArtifactTransferFailedException
  */
 public class ArtifactTransferFailedException
-    extends Exception
-{
-    public ArtifactTransferFailedException( final String message )
-    {
-        super( message );
+        extends Exception {
+    public ArtifactTransferFailedException(final String message) {
+        super(message);
     }
 
-    public ArtifactTransferFailedException( final String message, final Throwable cause )
-    {
-        super( message, cause );
+    public ArtifactTransferFailedException(final String message, final Throwable cause) {
+        super(message, cause);
     }
 
 }

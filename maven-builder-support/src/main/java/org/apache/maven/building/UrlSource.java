@@ -30,8 +30,7 @@ import java.util.Objects;
  * @author Benjamin Bentmann
  */
 public class UrlSource
-    implements Source
-{
+        implements Source {
 
     private final URL url;
 
@@ -42,22 +41,19 @@ public class UrlSource
      *
      * @param url The file, must not be {@code null}.
      */
-    public UrlSource( URL url )
-    {
-        this.url = Objects.requireNonNull( url, "url cannot be null" );
-        this.hashCode = Objects.hashCode( url );
+    public UrlSource(URL url) {
+        this.url = Objects.requireNonNull(url, "url cannot be null");
+        this.hashCode = Objects.hashCode(url);
     }
 
     @Override
     public InputStream getInputStream()
-        throws IOException
-    {
+            throws IOException {
         return url.openStream();
     }
 
     @Override
-    public String getLocation()
-    {
+    public String getLocation() {
         return url.toString();
     }
 
@@ -66,42 +62,35 @@ public class UrlSource
      *
      * @return The underlying URL, never {@code null}.
      */
-    public URL getUrl()
-    {
+    public URL getUrl() {
         return url;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return getLocation();
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return hashCode;
     }
 
     @Override
-    public boolean equals( Object obj )
-    {
-        if ( this == obj )
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
 
-        if ( obj == null )
-        {
+        if (obj == null) {
             return false;
         }
 
-        if ( !UrlSource.class.equals( obj.getClass() ) )
-        {
+        if (!UrlSource.class.equals(obj.getClass())) {
             return false;
         }
 
         UrlSource other = (UrlSource) obj;
-        return this.url.equals( other.url );
+        return this.url.equals(other.url);
     }
 }

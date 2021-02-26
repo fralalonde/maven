@@ -25,12 +25,10 @@ import org.apache.maven.model.Plugin;
  * Signals a plugin which is not compatible with the current Maven runtime.
  */
 public class PluginIncompatibleException
-    extends PluginManagerException
-{
+        extends PluginManagerException {
 
-    public PluginIncompatibleException( Plugin plugin, String message )
-    {
-        super( plugin, message, (Throwable) null );
+    public PluginIncompatibleException(Plugin plugin, String message) {
+        super(plugin, message, (Throwable) null);
     }
 
 }

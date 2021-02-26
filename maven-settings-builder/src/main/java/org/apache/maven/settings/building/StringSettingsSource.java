@@ -30,28 +30,27 @@ import org.apache.maven.building.StringSource;
  */
 @Deprecated
 public class StringSettingsSource extends StringSource
-    implements SettingsSource
-{
+        implements SettingsSource {
 
     /**
      * Creates a new settings source backed by the specified string.
      *
-     * @param settings The settings' string representation, may be empty or {@code null}.
+     * @param settings The settings' string representation, may be empty or
+     *                 {@code null}.
      */
-    public StringSettingsSource( CharSequence settings )
-    {
-        this( settings, null );
+    public StringSettingsSource(CharSequence settings) {
+        this(settings, null);
     }
 
     /**
      * Creates a new settings source backed by the specified string.
      *
-     * @param settings The settings' string representation, may be empty or {@code null}.
+     * @param settings The settings' string representation, may be empty or
+     *                 {@code null}.
      * @param location The location to report for this use, may be {@code null}.
      */
-    public StringSettingsSource( CharSequence settings, String location )
-    {
-        super( settings, location );
+    public StringSettingsSource(CharSequence settings, String location) {
+        super(settings, location);
     }
 
     /**
@@ -61,8 +60,7 @@ public class StringSettingsSource extends StringSource
      * @deprecated instead use {@link #getContent()}
      */
     @Deprecated
-    public String getSettings()
-    {
+    public String getSettings() {
         return getContent();
     }
 

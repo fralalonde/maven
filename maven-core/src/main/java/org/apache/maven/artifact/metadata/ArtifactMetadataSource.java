@@ -27,30 +27,29 @@ import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.repository.legacy.metadata.MetadataResolutionRequest;
 
 /**
- * Provides some metadata operations, like querying the remote repository for a list of versions available for an
- * artifact - deprecated
+ * Provides some metadata operations, like querying the remote repository for a
+ * list of versions available for an artifact - deprecated
  */
 @Deprecated
 public interface ArtifactMetadataSource
-    extends org.apache.maven.repository.legacy.metadata.ArtifactMetadataSource
-{
+        extends org.apache.maven.repository.legacy.metadata.ArtifactMetadataSource {
 
-    ResolutionGroup retrieve( MetadataResolutionRequest request )
-        throws ArtifactMetadataRetrievalException;
+    ResolutionGroup retrieve(MetadataResolutionRequest request)
+            throws ArtifactMetadataRetrievalException;
 
-    ResolutionGroup retrieve( Artifact artifact, ArtifactRepository localRepository,
-                              List<ArtifactRepository> remoteRepositories )
-        throws ArtifactMetadataRetrievalException;
+    ResolutionGroup retrieve(Artifact artifact, ArtifactRepository localRepository,
+            List<ArtifactRepository> remoteRepositories)
+            throws ArtifactMetadataRetrievalException;
 
-    List<ArtifactVersion> retrieveAvailableVersions( MetadataResolutionRequest request )
-        throws ArtifactMetadataRetrievalException;
+    List<ArtifactVersion> retrieveAvailableVersions(MetadataResolutionRequest request)
+            throws ArtifactMetadataRetrievalException;
 
-    List<ArtifactVersion> retrieveAvailableVersions( Artifact artifact, ArtifactRepository localRepository,
-                                                     List<ArtifactRepository> remoteRepositories )
-        throws ArtifactMetadataRetrievalException;
+    List<ArtifactVersion> retrieveAvailableVersions(Artifact artifact, ArtifactRepository localRepository,
+            List<ArtifactRepository> remoteRepositories)
+            throws ArtifactMetadataRetrievalException;
 
-    List<ArtifactVersion> retrieveAvailableVersionsFromDeploymentRepository( Artifact artifact,
-                                                                             ArtifactRepository localRepository,
-                                                                             ArtifactRepository remoteRepository )
-        throws ArtifactMetadataRetrievalException;
+    List<ArtifactVersion> retrieveAvailableVersionsFromDeploymentRepository(Artifact artifact,
+            ArtifactRepository localRepository,
+            ArtifactRepository remoteRepository)
+            throws ArtifactMetadataRetrievalException;
 }

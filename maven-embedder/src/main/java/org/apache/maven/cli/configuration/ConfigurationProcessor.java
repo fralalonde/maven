@@ -24,8 +24,7 @@ import org.apache.maven.cli.CliRequest;
 /**
  * ConfigurationProcessor
  */
-public interface ConfigurationProcessor
-{
-    void process( CliRequest request )
-        throws Exception;
+public interface ConfigurationProcessor {
+    void process(CliRequest request)
+            throws Exception;
 }

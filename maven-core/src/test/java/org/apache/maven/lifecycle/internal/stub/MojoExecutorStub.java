@@ -33,34 +33,29 @@ import java.util.List;
  * @author Kristian Rosenvold
  */
 public class MojoExecutorStub
-    extends MojoExecutor
-{ // This is being lazy instead of making interface
+        extends MojoExecutor { // This is being lazy instead of making interface
 
-    public List<MojoExecution> executions = Collections.synchronizedList(new ArrayList<>() );
+    public List<MojoExecution> executions = Collections.synchronizedList(new ArrayList<>());
 
     @Override
-    public void execute( MavenSession session, MojoExecution mojoExecution, ProjectIndex projectIndex,
-                         DependencyContext dependencyContext, PhaseRecorder phaseRecorder )
-        throws LifecycleExecutionException
-    {
-        executions.add( mojoExecution );
+    public void execute(MavenSession session, MojoExecution mojoExecution, ProjectIndex projectIndex,
+            DependencyContext dependencyContext, PhaseRecorder phaseRecorder)
+            throws LifecycleExecutionException {
+        executions.add(mojoExecution);
     }
 
     @Override
-    public void execute( MavenSession session, List<MojoExecution> mojoExecutions, ProjectIndex projectIndex )
-        throws LifecycleExecutionException
-    {
+    public void execute(MavenSession session, List<MojoExecution> mojoExecutions, ProjectIndex projectIndex)
+            throws LifecycleExecutionException {
         executions.addAll(mojoExecutions);
     }
 
-
-    public static MojoDescriptor createMojoDescriptor( String mojoDescription )
-    {
+    public static MojoDescriptor createMojoDescriptor(String mojoDescription) {
         final PluginDescriptor descriptor = new PluginDescriptor();
-        descriptor.setArtifactId( mojoDescription );
+        descriptor.setArtifactId(mojoDescription);
         final MojoDescriptor mojoDescriptor = new MojoDescriptor();
-        mojoDescriptor.setDescription( mojoDescription );
-        mojoDescriptor.setPluginDescriptor( descriptor );
+        mojoDescriptor.setDescription(mojoDescription);
+        mojoDescriptor.setPluginDescriptor(descriptor);
         return mojoDescriptor;
     }
 

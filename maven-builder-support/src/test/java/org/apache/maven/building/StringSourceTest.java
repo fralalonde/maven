@@ -26,39 +26,34 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class StringSourceTest
-{
+public class StringSourceTest {
     @Test
     public void testGetInputStream()
-        throws Exception
-    {
-        StringSource source = new StringSource( "Hello World!" );
+            throws Exception {
+        StringSource source = new StringSource("Hello World!");
 
-        try ( InputStream is = source.getInputStream();
-              Scanner scanner = new Scanner( is ) )
-        {
-            assertEquals( "Hello World!", scanner.nextLine() );
+        try (InputStream is = source.getInputStream();
+                Scanner scanner = new Scanner(is)) {
+            assertEquals("Hello World!", scanner.nextLine());
         }
     }
 
     @Test
-    public void testGetLocation()
-    {
-        StringSource source = new StringSource( "Hello World!" );
-        assertEquals( "(memory)", source.getLocation() );
+    public void testGetLocation() {
+        StringSource source = new StringSource("Hello World!");
+        assertEquals("(memory)", source.getLocation());
 
-        source = new StringSource( "Hello World!", "LOCATION" );
-        assertEquals( "LOCATION", source.getLocation() );
+        source = new StringSource("Hello World!", "LOCATION");
+        assertEquals("LOCATION", source.getLocation());
     }
 
     @Test
-    public void testGetContent()
-    {
-        StringSource source = new StringSource( null );
-        assertEquals( "", source.getContent() );
+    public void testGetContent() {
+        StringSource source = new StringSource(null);
+        assertEquals("", source.getContent());
 
-        source = new StringSource( "Hello World!", "LOCATION" );
-        assertEquals( "Hello World!", source.getContent() );
+        source = new StringSource("Hello World!", "LOCATION");
+        assertEquals("Hello World!", source.getContent());
     }
 
 }

@@ -49,188 +49,151 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.ext.LexicalHandler;
 
 /**
- * Offers a transformation implementation based on PipelineStreams.
- * Subclasses are responsible for providing the right SAXFilter.
+ * Offers a transformation implementation based on PipelineStreams. Subclasses
+ * are responsible for providing the right SAXFilter.
  *
  * @author Robert Scholte
  * @since 4.0.0
  */
 public abstract class AbstractModelSourceTransformer
-    implements ModelSourceTransformer
-{
+        implements ModelSourceTransformer {
     private static final AtomicInteger TRANSFORM_THREAD_COUNTER = new AtomicInteger();
 
     private final TransformerFactory transformerFactory = Factories.newTransformerFactory();
 
-    protected abstract AbstractSAXFilter getSAXFilter( Path pomFile,
-                                                       TransformerContext context,
-                                                       Consumer<LexicalHandler> lexicalHandlerConsumer )
-        throws TransformerConfigurationException, SAXException, ParserConfigurationException;
+    protected abstract AbstractSAXFilter getSAXFilter(Path pomFile,
+            TransformerContext context,
+            Consumer<LexicalHandler> lexicalHandlerConsumer)
+            throws TransformerConfigurationException, SAXException, ParserConfigurationException;
 
-    protected OutputStream filterOutputStream( OutputStream outputStream, Path pomFile )
-    {
+    protected OutputStream filterOutputStream(OutputStream outputStream, Path pomFile) {
         return outputStream;
     }
 
-    public SAXTransformerFactory getTransformerFactory()
-    {
-        return ( SAXTransformerFactory ) transformerFactory;
+    public SAXTransformerFactory getTransformerFactory() {
+        return (SAXTransformerFactory) transformerFactory;
     }
 
-    protected TransformerHandler getTransformerHandler( Path pomFile )
-        throws IOException, org.apache.maven.model.building.TransformerException
-    {
+    protected TransformerHandler getTransformerHandler(Path pomFile)
+            throws IOException, org.apache.maven.model.building.TransformerException {
         return null;
     }
 
     @Override
-    public final InputStream transform( Path pomFile, TransformerContext context )
-        throws IOException, org.apache.maven.model.building.TransformerException
-    {
-        final TransformerHandler transformerHandler = getTransformerHandler( pomFile );
+    public final InputStream transform(Path pomFile, TransformerContext context)
+            throws IOException, org.apache.maven.model.building.TransformerException {
+        final TransformerHandler transformerHandler = getTransformerHandler(pomFile);
 
         final PipedOutputStream pout = new PipedOutputStream();
-        OutputStream out = filterOutputStream( pout, pomFile );
+        OutputStream out = filterOutputStream(pout, pomFile);
 
         final javax.xml.transform.Result result;
         final Consumer<LexicalHandler> lexConsumer;
-        if ( transformerHandler == null )
-        {
-            result = new StreamResult( out );
+        if (transformerHandler == null) {
+            result = new StreamResult(out);
             lexConsumer = null;
-        }
-        else
-        {
-            result = new SAXResult( transformerHandler );
-            lexConsumer = l -> ( (SAXResult) result ).setLexicalHandler( new CommentRenormalizer( l ) );
-            transformerHandler.setResult( new StreamResult( out ) );
+        } else {
+            result = new SAXResult(transformerHandler);
+            lexConsumer = l -> ((SAXResult) result).setLexicalHandler(new CommentRenormalizer(l));
+            transformerHandler.setResult(new StreamResult(out));
         }
 
         final AbstractSAXFilter filter;
-        try
-        {
-            filter = getSAXFilter( pomFile, context, lexConsumer );
-            filter.setLexicalHandler( transformerHandler );
+        try {
+            filter = getSAXFilter(pomFile, context, lexConsumer);
+            filter.setLexicalHandler(transformerHandler);
             // By default errors are written to stderr.
             // Hence set custom errorHandler to reduce noice
-            filter.setErrorHandler( new ErrorHandler()
-            {
+            filter.setErrorHandler(new ErrorHandler() {
                 @Override
-                public void warning( SAXParseException exception )
-                    throws SAXException
-                {
+                public void warning(SAXParseException exception)
+                        throws SAXException {
                     throw exception;
                 }
 
                 @Override
-                public void fatalError( SAXParseException exception )
-                    throws SAXException
-                {
+                public void fatalError(SAXParseException exception)
+                        throws SAXException {
                     throw exception;
                 }
 
                 @Override
-                public void error( SAXParseException exception )
-                    throws SAXException
-                {
+                public void error(SAXParseException exception)
+                        throws SAXException {
                     throw exception;
                 }
-            } );
-        }
-        catch ( TransformerConfigurationException | SAXException | ParserConfigurationException e )
-        {
-            throw new org.apache.maven.model.building.TransformerException( e );
+            });
+        } catch (TransformerConfigurationException | SAXException | ParserConfigurationException e) {
+            throw new org.apache.maven.model.building.TransformerException(e);
         }
 
-        final SAXSource transformSource =
-            new SAXSource( filter, new org.xml.sax.InputSource( Files.newInputStream( pomFile ) ) );
+        final SAXSource transformSource = new SAXSource(filter,
+                new org.xml.sax.InputSource(Files.newInputStream(pomFile)));
 
         IOExceptionHandler eh = new IOExceptionHandler();
 
         // Ensure pipedStreams are connected before the transformThread starts!!
-        final PipedInputStream pipedInputStream = new PipedInputStream( pout );
+        final PipedInputStream pipedInputStream = new PipedInputStream(pout);
 
-        Thread transformThread = new Thread( () ->
-        {
-            try ( PipedOutputStream pos = pout )
-            {
-                transformerFactory.newTransformer().transform( transformSource, result );
+        Thread transformThread = new Thread(() -> {
+            try (PipedOutputStream pos = pout) {
+                transformerFactory.newTransformer().transform(transformSource, result);
+            } catch (TransformerException | IOException e) {
+                eh.uncaughtException(Thread.currentThread(), e);
             }
-            catch ( TransformerException | IOException e )
-            {
-                eh.uncaughtException( Thread.currentThread(), e );
-            }
-        }, "TransformThread-" + TRANSFORM_THREAD_COUNTER.incrementAndGet() );
-        transformThread.setUncaughtExceptionHandler( eh );
-        transformThread.setDaemon( true );
+        }, "TransformThread-" + TRANSFORM_THREAD_COUNTER.incrementAndGet());
+        transformThread.setUncaughtExceptionHandler(eh);
+        transformThread.setDaemon(true);
         transformThread.start();
 
-        return new ThreadAwareInputStream( pipedInputStream, eh );
+        return new ThreadAwareInputStream(pipedInputStream, eh);
     }
 
     private static class IOExceptionHandler
-        implements Thread.UncaughtExceptionHandler, AutoCloseable
-    {
+            implements Thread.UncaughtExceptionHandler, AutoCloseable {
         private volatile Throwable cause;
 
         @Override
-        public void uncaughtException( Thread t, Throwable e )
-        {
-            try
-            {
+        public void uncaughtException(Thread t, Throwable e) {
+            try {
                 throw e;
-            }
-            catch ( TransformerException | IOException | RuntimeException | Error allGood )
-            {
+            } catch (TransformerException | IOException | RuntimeException | Error allGood) {
                 // all good
                 this.cause = e;
-            }
-            catch ( Throwable notGood )
-            {
-                throw new AssertionError( "Unexpected Exception", e );
+            } catch (Throwable notGood) {
+                throw new AssertionError("Unexpected Exception", e);
             }
         }
 
         @Override
         public void close()
-            throws IOException
-        {
-            if ( cause != null )
-            {
-                try
-                {
+                throws IOException {
+            if (cause != null) {
+                try {
                     throw cause;
-                }
-                catch ( IOException | RuntimeException | Error e )
-                {
+                } catch (IOException | RuntimeException | Error e) {
                     throw e;
-                }
-                catch ( Throwable t )
-                {
+                } catch (Throwable t) {
                     // Any checked exception
-                    throw new RuntimeException( "Failed to transform pom", t );
+                    throw new RuntimeException("Failed to transform pom", t);
                 }
             }
         }
     }
 
     private class ThreadAwareInputStream
-        extends FilterInputStream
-    {
+            extends FilterInputStream {
         final IOExceptionHandler h;
 
-        protected ThreadAwareInputStream( InputStream in, IOExceptionHandler h )
-        {
-            super( in );
+        protected ThreadAwareInputStream(InputStream in, IOExceptionHandler h) {
+            super(in);
             this.h = h;
         }
 
         @Override
         public void close()
-            throws IOException
-        {
-            try ( IOExceptionHandler eh = h )
-            {
+                throws IOException {
+            try (IOExceptionHandler eh = h) {
                 super.close();
             }
         }

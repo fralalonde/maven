@@ -28,96 +28,82 @@ import org.apache.maven.plugin.version.PluginVersionNotFoundException;
 import org.apache.maven.plugin.version.PluginVersionResolutionException;
 
 /**
- * Signifies a failure to load a plugin. This is used to abstract the specific errors which may be
- * encountered at lower levels, and provide a dependable interface to the plugin-loading framework.
+ * Signifies a failure to load a plugin. This is used to abstract the specific
+ * errors which may be encountered at lower levels, and provide a dependable
+ * interface to the plugin-loading framework.
  *
  * @author jdcasey
  *
  */
 public class PluginLoaderException
-    extends Exception
-{
+        extends Exception {
 
     private String pluginKey;
 
-    public PluginLoaderException( Plugin plugin, String message, ArtifactResolutionException cause )
-    {
-        super( message, cause );
+    public PluginLoaderException(Plugin plugin, String message, ArtifactResolutionException cause) {
+        super(message, cause);
         pluginKey = plugin.getKey();
     }
 
-    public PluginLoaderException( Plugin plugin, String message, ArtifactNotFoundException cause )
-    {
-        super( message, cause );
+    public PluginLoaderException(Plugin plugin, String message, ArtifactNotFoundException cause) {
+        super(message, cause);
         pluginKey = plugin.getKey();
     }
 
-    public PluginLoaderException( Plugin plugin, String message, PluginNotFoundException cause )
-    {
-        super( message, cause );
+    public PluginLoaderException(Plugin plugin, String message, PluginNotFoundException cause) {
+        super(message, cause);
         pluginKey = plugin.getKey();
     }
 
-    public PluginLoaderException( Plugin plugin, String message, PluginVersionResolutionException cause )
-    {
-        super( message, cause );
+    public PluginLoaderException(Plugin plugin, String message, PluginVersionResolutionException cause) {
+        super(message, cause);
         pluginKey = plugin.getKey();
     }
 
-    public PluginLoaderException( Plugin plugin, String message, InvalidVersionSpecificationException cause )
-    {
-        super( message, cause );
+    public PluginLoaderException(Plugin plugin, String message, InvalidVersionSpecificationException cause) {
+        super(message, cause);
         pluginKey = plugin.getKey();
     }
 
-    public PluginLoaderException( Plugin plugin, String message, InvalidPluginException cause )
-    {
-        super( message, cause );
+    public PluginLoaderException(Plugin plugin, String message, InvalidPluginException cause) {
+        super(message, cause);
         pluginKey = plugin.getKey();
     }
 
-    public PluginLoaderException( Plugin plugin, String message, PluginManagerException cause )
-    {
-        super( message, cause );
+    public PluginLoaderException(Plugin plugin, String message, PluginManagerException cause) {
+        super(message, cause);
         pluginKey = plugin.getKey();
     }
 
-    public PluginLoaderException( Plugin plugin, String message, PluginVersionNotFoundException cause )
-    {
-        super( message, cause );
+    public PluginLoaderException(Plugin plugin, String message, PluginVersionNotFoundException cause) {
+        super(message, cause);
         pluginKey = plugin.getKey();
     }
 
-    public PluginLoaderException( Plugin plugin, String message )
-    {
-        super( message );
+    public PluginLoaderException(Plugin plugin, String message) {
+        super(message);
         pluginKey = plugin.getKey();
     }
 
-    public PluginLoaderException( String message )
-    {
-        super( message );
+    public PluginLoaderException(String message) {
+        super(message);
     }
 
-    public PluginLoaderException( String message, Throwable cause )
-    {
-        super( message, cause );
+    public PluginLoaderException(String message, Throwable cause) {
+        super(message, cause);
     }
 
-    public PluginLoaderException( ReportPlugin plugin, String message, Throwable cause )
-    {
-        super( message, cause );
+    public PluginLoaderException(ReportPlugin plugin, String message, Throwable cause) {
+        super(message, cause);
         pluginKey = plugin.getKey();
     }
 
-    public PluginLoaderException( ReportPlugin plugin, String message )
-    {
-        super( message );
+    public PluginLoaderException(ReportPlugin plugin, String message) {
+        super(message);
         pluginKey = plugin.getKey();
     }
 
-    public String getPluginKey()
-    {
+    public String getPluginKey() {
         return pluginKey;
     }
 

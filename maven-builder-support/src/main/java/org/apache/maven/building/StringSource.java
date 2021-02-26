@@ -30,8 +30,7 @@ import java.nio.charset.StandardCharsets;
  * @author Benjamin Bentmann
  */
 public class StringSource
-    implements Source
-{
+        implements Source {
     private final String content;
 
     private final String location;
@@ -43,34 +42,30 @@ public class StringSource
      *
      * @param content The String representation, may be empty or {@code null}.
      */
-    public StringSource( CharSequence content )
-    {
-        this( content, null );
+    public StringSource(CharSequence content) {
+        this(content, null);
     }
 
     /**
      * Creates a new source backed by the specified string.
      *
-     * @param content The String representation, may be empty or {@code null}.
+     * @param content  The String representation, may be empty or {@code null}.
      * @param location The location to report for this use, may be {@code null}.
      */
-    public StringSource( CharSequence content, String location )
-    {
-        this.content = ( content != null ) ? content.toString() : "";
-        this.location = ( location != null ) ? location : "(memory)";
+    public StringSource(CharSequence content, String location) {
+        this.content = (content != null) ? content.toString() : "";
+        this.location = (location != null) ? location : "(memory)";
         this.hashCode = this.content.hashCode();
     }
 
     @Override
     public InputStream getInputStream()
-        throws IOException
-    {
-        return new ByteArrayInputStream( content.getBytes( StandardCharsets.UTF_8 ) );
+            throws IOException {
+        return new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
     }
 
     @Override
-    public String getLocation()
-    {
+    public String getLocation() {
         return location;
     }
 
@@ -79,42 +74,35 @@ public class StringSource
      *
      * @return The underlying character stream, never {@code null}.
      */
-    public String getContent()
-    {
+    public String getContent() {
         return content;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return getLocation();
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return hashCode;
     }
 
     @Override
-    public boolean equals( Object obj )
-    {
-        if ( this == obj )
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
 
-        if ( obj == null )
-        {
+        if (obj == null) {
             return false;
         }
 
-        if ( !StringSource.class.equals( obj.getClass() ) )
-        {
+        if (!StringSource.class.equals(obj.getClass())) {
             return false;
         }
 
         StringSource other = (StringSource) obj;
-        return this.content.equals( other.content );
+        return this.content.equals(other.content);
     }
 }

@@ -66,143 +66,121 @@ import org.apache.maven.model.validation.DefaultModelValidator;
 import org.apache.maven.model.validation.ModelValidator;
 
 /**
- * A factory to create model builder instances when no dependency injection is available. <em>Note:</em> This class is
- * only meant as a utility for developers that want to employ the model builder outside of the Maven build system, Maven
- * plugins should always acquire model builder instances via dependency injection. Developers might want to subclass
- * this factory to provide custom implementations for some of the components used by the model builder.
+ * A factory to create model builder instances when no dependency injection is
+ * available. <em>Note:</em> This class is only meant as a utility for
+ * developers that want to employ the model builder outside of the Maven build
+ * system, Maven plugins should always acquire model builder instances via
+ * dependency injection. Developers might want to subclass this factory to
+ * provide custom implementations for some of the components used by the model
+ * builder.
  *
  * @author Benjamin Bentmann
  */
-public class DefaultModelBuilderFactory
-{
+public class DefaultModelBuilderFactory {
 
-    protected ModelProcessor newModelProcessor()
-    {
+    protected ModelProcessor newModelProcessor() {
         DefaultModelProcessor processor = new DefaultModelProcessor();
-        processor.setModelLocator( newModelLocator() );
-        processor.setModelReader( newModelReader() );
+        processor.setModelLocator(newModelLocator());
+        processor.setModelReader(newModelReader());
         return processor;
     }
 
-    protected ModelLocator newModelLocator()
-    {
+    protected ModelLocator newModelLocator() {
         return new DefaultModelLocator();
     }
 
-    protected ModelReader newModelReader()
-    {
+    protected ModelReader newModelReader() {
         DefaultModelReader reader = new DefaultModelReader();
-        reader.setTransformer( newModelSourceTransformer() );
+        reader.setTransformer(newModelSourceTransformer());
         return reader;
     }
 
-    protected ProfileSelector newProfileSelector()
-    {
+    protected ProfileSelector newProfileSelector() {
         DefaultProfileSelector profileSelector = new DefaultProfileSelector();
 
-        for ( ProfileActivator activator : newProfileActivators() )
-        {
-            profileSelector.addProfileActivator( activator );
+        for (ProfileActivator activator : newProfileActivators()) {
+            profileSelector.addProfileActivator(activator);
         }
 
         return profileSelector;
     }
 
-    protected ProfileActivator[] newProfileActivators()
-    {
+    protected ProfileActivator[] newProfileActivators() {
         return new ProfileActivator[] { new JdkVersionProfileActivator(), new OperatingSystemProfileActivator(),
-            new PropertyProfileActivator(), new FileProfileActivator().setPathTranslator( newPathTranslator() ) };
+                new PropertyProfileActivator(), new FileProfileActivator().setPathTranslator(newPathTranslator()) };
     }
 
-    protected UrlNormalizer newUrlNormalizer()
-    {
+    protected UrlNormalizer newUrlNormalizer() {
         return new DefaultUrlNormalizer();
     }
 
-    protected PathTranslator newPathTranslator()
-    {
+    protected PathTranslator newPathTranslator() {
         return new DefaultPathTranslator();
     }
 
-    protected ModelInterpolator newModelInterpolator()
-    {
+    protected ModelInterpolator newModelInterpolator() {
         UrlNormalizer normalizer = newUrlNormalizer();
         PathTranslator pathTranslator = newPathTranslator();
-        return new StringVisitorModelInterpolator().setPathTranslator( pathTranslator ).setUrlNormalizer( normalizer );
+        return new StringVisitorModelInterpolator().setPathTranslator(pathTranslator).setUrlNormalizer(normalizer);
     }
 
-    protected ModelValidator newModelValidator()
-    {
+    protected ModelValidator newModelValidator() {
         return new DefaultModelValidator();
     }
 
-    protected ModelNormalizer newModelNormalizer()
-    {
+    protected ModelNormalizer newModelNormalizer() {
         return new DefaultModelNormalizer();
     }
 
-    protected ModelPathTranslator newModelPathTranslator()
-    {
-        return new DefaultModelPathTranslator().setPathTranslator( newPathTranslator() );
+    protected ModelPathTranslator newModelPathTranslator() {
+        return new DefaultModelPathTranslator().setPathTranslator(newPathTranslator());
     }
 
-    protected ModelUrlNormalizer newModelUrlNormalizer()
-    {
-        return new DefaultModelUrlNormalizer().setUrlNormalizer( newUrlNormalizer() );
+    protected ModelUrlNormalizer newModelUrlNormalizer() {
+        return new DefaultModelUrlNormalizer().setUrlNormalizer(newUrlNormalizer());
     }
 
-    protected InheritanceAssembler newInheritanceAssembler()
-    {
+    protected InheritanceAssembler newInheritanceAssembler() {
         return new DefaultInheritanceAssembler();
     }
 
-    protected ProfileInjector newProfileInjector()
-    {
+    protected ProfileInjector newProfileInjector() {
         return new DefaultProfileInjector();
     }
 
-    protected SuperPomProvider newSuperPomProvider()
-    {
-        return new DefaultSuperPomProvider().setModelProcessor( newModelProcessor() );
+    protected SuperPomProvider newSuperPomProvider() {
+        return new DefaultSuperPomProvider().setModelProcessor(newModelProcessor());
     }
 
-    protected DependencyManagementImporter newDependencyManagementImporter()
-    {
+    protected DependencyManagementImporter newDependencyManagementImporter() {
         return new DefaultDependencyManagementImporter();
     }
 
-    protected DependencyManagementInjector newDependencyManagementInjector()
-    {
+    protected DependencyManagementInjector newDependencyManagementInjector() {
         return new DefaultDependencyManagementInjector();
     }
 
-    protected LifecycleBindingsInjector newLifecycleBindingsInjector()
-    {
+    protected LifecycleBindingsInjector newLifecycleBindingsInjector() {
         return new StubLifecycleBindingsInjector();
     }
 
-    protected PluginManagementInjector newPluginManagementInjector()
-    {
+    protected PluginManagementInjector newPluginManagementInjector() {
         return new DefaultPluginManagementInjector();
     }
 
-    protected PluginConfigurationExpander newPluginConfigurationExpander()
-    {
+    protected PluginConfigurationExpander newPluginConfigurationExpander() {
         return new DefaultPluginConfigurationExpander();
     }
 
-    protected ReportConfigurationExpander newReportConfigurationExpander()
-    {
+    protected ReportConfigurationExpander newReportConfigurationExpander() {
         return new DefaultReportConfigurationExpander();
     }
 
-    protected ReportingConverter newReportingConverter()
-    {
+    protected ReportingConverter newReportingConverter() {
         return new DefaultReportingConverter();
     }
 
-    private ModelSourceTransformer newModelSourceTransformer()
-    {
+    private ModelSourceTransformer newModelSourceTransformer() {
         return new DefaultModelSourceTransformer();
     }
 
@@ -211,38 +189,35 @@ public class DefaultModelBuilderFactory
      *
      * @return The new model builder instance, never {@code null}.
      */
-    public DefaultModelBuilder newInstance()
-    {
+    public DefaultModelBuilder newInstance() {
         DefaultModelBuilder modelBuilder = new DefaultModelBuilder();
 
-        modelBuilder.setModelProcessor( newModelProcessor() );
-        modelBuilder.setModelValidator( newModelValidator() );
-        modelBuilder.setModelNormalizer( newModelNormalizer() );
-        modelBuilder.setModelPathTranslator( newModelPathTranslator() );
-        modelBuilder.setModelUrlNormalizer( newModelUrlNormalizer() );
-        modelBuilder.setModelInterpolator( newModelInterpolator() );
-        modelBuilder.setInheritanceAssembler( newInheritanceAssembler() );
-        modelBuilder.setProfileInjector( newProfileInjector() );
-        modelBuilder.setProfileSelector( newProfileSelector() );
-        modelBuilder.setSuperPomProvider( newSuperPomProvider() );
-        modelBuilder.setDependencyManagementImporter( newDependencyManagementImporter() );
-        modelBuilder.setDependencyManagementInjector( newDependencyManagementInjector() );
-        modelBuilder.setLifecycleBindingsInjector( newLifecycleBindingsInjector() );
-        modelBuilder.setPluginManagementInjector( newPluginManagementInjector() );
-        modelBuilder.setPluginConfigurationExpander( newPluginConfigurationExpander() );
-        modelBuilder.setReportConfigurationExpander( newReportConfigurationExpander() );
-        modelBuilder.setReportingConverter( newReportingConverter() );
+        modelBuilder.setModelProcessor(newModelProcessor());
+        modelBuilder.setModelValidator(newModelValidator());
+        modelBuilder.setModelNormalizer(newModelNormalizer());
+        modelBuilder.setModelPathTranslator(newModelPathTranslator());
+        modelBuilder.setModelUrlNormalizer(newModelUrlNormalizer());
+        modelBuilder.setModelInterpolator(newModelInterpolator());
+        modelBuilder.setInheritanceAssembler(newInheritanceAssembler());
+        modelBuilder.setProfileInjector(newProfileInjector());
+        modelBuilder.setProfileSelector(newProfileSelector());
+        modelBuilder.setSuperPomProvider(newSuperPomProvider());
+        modelBuilder.setDependencyManagementImporter(newDependencyManagementImporter());
+        modelBuilder.setDependencyManagementInjector(newDependencyManagementInjector());
+        modelBuilder.setLifecycleBindingsInjector(newLifecycleBindingsInjector());
+        modelBuilder.setPluginManagementInjector(newPluginManagementInjector());
+        modelBuilder.setPluginConfigurationExpander(newPluginConfigurationExpander());
+        modelBuilder.setReportConfigurationExpander(newReportConfigurationExpander());
+        modelBuilder.setReportingConverter(newReportingConverter());
 
         return modelBuilder;
     }
 
     private static class StubLifecycleBindingsInjector
-        implements LifecycleBindingsInjector
-    {
+            implements LifecycleBindingsInjector {
 
         @Override
-        public void injectLifecycleBindings( Model model, ModelBuildingRequest request, ModelProblemCollector problems )
-        {
+        public void injectLifecycleBindings(Model model, ModelBuildingRequest request, ModelProblemCollector problems) {
         }
 
     }

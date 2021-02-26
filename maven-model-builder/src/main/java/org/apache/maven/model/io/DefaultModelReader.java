@@ -50,110 +50,86 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 @Named
 @Singleton
 public class DefaultModelReader
-    implements ModelReader
-{
+        implements ModelReader {
     @Inject
     private ModelSourceTransformer transformer;
 
-    public void setTransformer( ModelSourceTransformer transformer )
-    {
+    public void setTransformer(ModelSourceTransformer transformer) {
         this.transformer = transformer;
     }
 
     @Override
-    public Model read( File input, Map<String, ?> options )
-        throws IOException
-    {
-        Objects.requireNonNull( input, "input cannot be null" );
+    public Model read(File input, Map<String, ?> options)
+            throws IOException {
+        Objects.requireNonNull(input, "input cannot be null");
 
-        TransformerContext context = getTransformerContext( options );
+        TransformerContext context = getTransformerContext(options);
 
         final InputStream is;
-        if ( context == null )
-        {
-            is = new FileInputStream( input );
-        }
-        else
-        {
-            try
-            {
-                is = transformer.transform( input.toPath(), context );
-            }
-            catch ( TransformerException e )
-            {
-                throw new IOException( "Failed to transform " + input,  e );
+        if (context == null) {
+            is = new FileInputStream(input);
+        } else {
+            try {
+                is = transformer.transform(input.toPath(), context);
+            } catch (TransformerException e) {
+                throw new IOException("Failed to transform " + input, e);
             }
         }
 
-        try ( InputStream in = is )
-        {
-            Model model = read( is, options );
+        try (InputStream in = is) {
+            Model model = read(is, options);
 
-            model.setPomFile( input );
+            model.setPomFile(input);
 
             return model;
         }
     }
 
     @Override
-    public Model read( Reader input, Map<String, ?> options )
-        throws IOException
-    {
-        Objects.requireNonNull( input, "input cannot be null" );
+    public Model read(Reader input, Map<String, ?> options)
+            throws IOException {
+        Objects.requireNonNull(input, "input cannot be null");
 
-        try ( Reader in = input )
-        {
-            return read( in, isStrict( options ), getSource( options ) );
+        try (Reader in = input) {
+            return read(in, isStrict(options), getSource(options));
         }
     }
 
     @Override
-    public Model read( InputStream input, Map<String, ?> options )
-        throws IOException
-    {
-        Objects.requireNonNull( input, "input cannot be null" );
+    public Model read(InputStream input, Map<String, ?> options)
+            throws IOException {
+        Objects.requireNonNull(input, "input cannot be null");
 
-        try ( XmlStreamReader in = ReaderFactory.newXmlReader( input ) )
-        {
-            return read( in, isStrict( options ), getSource( options ) );
+        try (XmlStreamReader in = ReaderFactory.newXmlReader(input)) {
+            return read(in, isStrict(options), getSource(options));
         }
     }
 
-    private boolean isStrict( Map<String, ?> options )
-    {
-        Object value = ( options != null ) ? options.get( IS_STRICT ) : null;
-        return value == null || Boolean.parseBoolean( value.toString() );
+    private boolean isStrict(Map<String, ?> options) {
+        Object value = (options != null) ? options.get(IS_STRICT) : null;
+        return value == null || Boolean.parseBoolean(value.toString());
     }
 
-    private InputSource getSource( Map<String, ?> options )
-    {
-        Object value = ( options != null ) ? options.get( INPUT_SOURCE ) : null;
+    private InputSource getSource(Map<String, ?> options) {
+        Object value = (options != null) ? options.get(INPUT_SOURCE) : null;
         return (InputSource) value;
     }
 
-    private TransformerContext getTransformerContext( Map<String, ?> options )
-    {
-        Object value = ( options != null ) ? options.get( TRANSFORMER_CONTEXT ) : null;
+    private TransformerContext getTransformerContext(Map<String, ?> options) {
+        Object value = (options != null) ? options.get(TRANSFORMER_CONTEXT) : null;
         return (TransformerContext) value;
     }
 
-    private Model read( Reader reader, boolean strict, InputSource source )
-        throws IOException
-    {
-        try
-        {
-            if ( source != null )
-            {
-                return new MavenXpp3ReaderEx().read( reader, strict, source );
+    private Model read(Reader reader, boolean strict, InputSource source)
+            throws IOException {
+        try {
+            if (source != null) {
+                return new MavenXpp3ReaderEx().read(reader, strict, source);
+            } else {
+                return new MavenXpp3Reader().read(reader, strict);
             }
-            else
-            {
-                return new MavenXpp3Reader().read( reader, strict );
-            }
-        }
-        catch ( XmlPullParserException e )
-        {
-            throw new ModelParseException( e.getMessage(), e.getLineNumber(), e.getColumnNumber(), e );
+        } catch (XmlPullParserException e) {
+            throw new ModelParseException(e.getMessage(), e.getLineNumber(), e.getColumnNumber(), e);
         }
     }
 

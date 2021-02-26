@@ -35,81 +35,72 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Hans Dockter
  */
-public class PathAssemblerTest
-{
+public class PathAssemblerTest {
     public static final String TEST_MAVEN_USER_HOME = "someUserHome";
 
-    private PathAssembler pathAssembler = new PathAssembler( Paths.get( TEST_MAVEN_USER_HOME ) );
+    private PathAssembler pathAssembler = new PathAssembler(Paths.get(TEST_MAVEN_USER_HOME));
 
     final WrapperConfiguration configuration = new WrapperConfiguration();
 
     @BeforeEach
-    public void setup()
-    {
-        configuration.setDistributionBase( PathAssembler.MAVEN_USER_HOME_STRING );
-        configuration.setDistributionPath( "somePath" );
-        configuration.setZipBase( PathAssembler.MAVEN_USER_HOME_STRING );
-        configuration.setZipPath( "somePath" );
+    public void setup() {
+        configuration.setDistributionBase(PathAssembler.MAVEN_USER_HOME_STRING);
+        configuration.setDistributionPath("somePath");
+        configuration.setZipBase(PathAssembler.MAVEN_USER_HOME_STRING);
+        configuration.setZipPath("somePath");
     }
 
     @Test
     public void distributionDirWithMavenUserHomeBase()
-        throws Exception
-    {
-        configuration.setDistribution( new URI( "http://server/dist/maven-0.9-bin.zip" ) );
+            throws Exception {
+        configuration.setDistribution(new URI("http://server/dist/maven-0.9-bin.zip"));
 
-        Path distributionDir = pathAssembler.getDistribution( configuration ).getDistributionDir();
-        assertThat( distributionDir, is( Paths.get( TEST_MAVEN_USER_HOME, "/somePath/maven-0.9-bin" ) ) );
+        Path distributionDir = pathAssembler.getDistribution(configuration).getDistributionDir();
+        assertThat(distributionDir, is(Paths.get(TEST_MAVEN_USER_HOME, "/somePath/maven-0.9-bin")));
     }
 
     @Test
     public void distributionDirWithProjectBase()
-        throws Exception
-    {
-        configuration.setDistributionBase( PathAssembler.PROJECT_STRING );
-        configuration.setDistribution( new URI( "http://server/dist/maven-0.9-bin.zip" ) );
+            throws Exception {
+        configuration.setDistributionBase(PathAssembler.PROJECT_STRING);
+        configuration.setDistribution(new URI("http://server/dist/maven-0.9-bin.zip"));
 
-        Path distributionDir = pathAssembler.getDistribution( configuration ).getDistributionDir();
-        assertThat( distributionDir, equalTo( Paths.get( currentDirPath(), "/somePath/maven-0.9-bin" ) ) );
+        Path distributionDir = pathAssembler.getDistribution(configuration).getDistributionDir();
+        assertThat(distributionDir, equalTo(Paths.get(currentDirPath(), "/somePath/maven-0.9-bin")));
     }
 
     @Test
     public void distributionDirWithUnknownBase()
-        throws Exception
-    {
-        configuration.setDistribution( new URI( "http://server/dist/maven-1.0.zip" ) );
-        configuration.setDistributionBase( "unknownBase" );
+            throws Exception {
+        configuration.setDistribution(new URI("http://server/dist/maven-1.0.zip"));
+        configuration.setDistributionBase("unknownBase");
 
-        RuntimeException e =
-            assertThrows( RuntimeException.class, () -> pathAssembler.getDistribution( configuration ) );
-        assertEquals( "Base: unknownBase is unknown", e.getMessage() );
+        RuntimeException e = assertThrows(RuntimeException.class, () -> pathAssembler.getDistribution(configuration));
+        assertEquals("Base: unknownBase is unknown", e.getMessage());
     }
 
     @Test
     public void distZipWithMavenUserHomeBase()
-        throws Exception
-    {
-        configuration.setDistribution( new URI( "http://server/dist/maven-1.0.zip" ) );
+            throws Exception {
+        configuration.setDistribution(new URI("http://server/dist/maven-1.0.zip"));
 
-        Path dist = pathAssembler.getDistribution( configuration ).getZipFile();
-        assertThat( dist.getFileName().toString(), equalTo( "maven-1.0.zip" ) );
-        assertThat( dist.getParent(), equalTo( Paths.get( TEST_MAVEN_USER_HOME, "/somePath/maven-1.0" ) ) );
+        Path dist = pathAssembler.getDistribution(configuration).getZipFile();
+        assertThat(dist.getFileName().toString(), equalTo("maven-1.0.zip"));
+        assertThat(dist.getParent(), equalTo(Paths.get(TEST_MAVEN_USER_HOME, "/somePath/maven-1.0")));
     }
 
     @Test
     public void distZipWithProjectBase()
-        throws Exception
-    {
-        configuration.setZipBase( PathAssembler.PROJECT_STRING );
-        configuration.setDistribution( new URI( "http://server/dist/maven-1.0.zip" ) );
+            throws Exception {
+        configuration.setZipBase(PathAssembler.PROJECT_STRING);
+        configuration.setDistribution(new URI("http://server/dist/maven-1.0.zip"));
 
-        Path dist = pathAssembler.getDistribution( configuration ).getZipFile();
-        assertThat( dist.getFileName().toString(), equalTo( "maven-1.0.zip" ) );
-        assertThat( dist.getParent(), equalTo( Paths.get( currentDirPath(), "/somePath/maven-1.0" ) ) );
+        Path dist = pathAssembler.getDistribution(configuration).getZipFile();
+        assertThat(dist.getFileName().toString(), equalTo("maven-1.0.zip"));
+        assertThat(dist.getParent(), equalTo(Paths.get(currentDirPath(), "/somePath/maven-1.0")));
     }
 
-    private String currentDirPath()
-    {
-        return System.getProperty( "user.dir" );
+    private String currentDirPath() {
+        return System.getProperty("user.dir");
     }
 }

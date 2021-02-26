@@ -25,19 +25,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
- * Default ModelSourceTransformer, provides pomFile as inputStream and ignores the context
+ * Default ModelSourceTransformer, provides pomFile as inputStream and ignores
+ * the context
  *
  * @author Robert Scholte
  * @since 4.0.0
  */
-public class DefaultModelSourceTransformer implements ModelSourceTransformer
-{
+public class DefaultModelSourceTransformer implements ModelSourceTransformer {
 
     @Override
-    public InputStream transform( Path pomFile, TransformerContext context )
-        throws IOException, TransformerException
-    {
-        return Files.newInputStream( pomFile );
+    public InputStream transform(Path pomFile, TransformerContext context)
+            throws IOException, TransformerException {
+        return Files.newInputStream(pomFile);
     }
 
 }

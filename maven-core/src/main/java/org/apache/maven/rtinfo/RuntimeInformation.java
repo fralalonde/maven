@@ -24,26 +24,30 @@ package org.apache.maven.rtinfo;
  *
  * @since 3.0.2
  */
-public interface RuntimeInformation
-{
+public interface RuntimeInformation {
 
     /**
      * Retrieves the current Maven version, for example "3.0.2".
      *
-     * @return The current Maven version or an empty string if unknown, never {@code null}.
+     * @return The current Maven version or an empty string if unknown, never
+     *         {@code null}.
      */
     String getMavenVersion();
 
     /**
-     * Checks whether the current Maven runtime matches the specified version range. A version range can either use the
-     * usual mathematical syntax "[2.0.10,2.1.0),[3.0,)" or use a single version "2.2.1". The latter is a short form for
-     * "[2.2.1,)", i.e. denotes the minimum version required.
+     * Checks whether the current Maven runtime matches the specified version range.
+     * A version range can either use the usual mathematical syntax
+     * "[2.0.10,2.1.0),[3.0,)" or use a single version "2.2.1". The latter is a
+     * short form for "[2.2.1,)", i.e. denotes the minimum version required.
      *
-     * @param versionRange The version range to match the current Maven runtime against, must not be {@code null}.
-     * @return {@code true} if the current Maven runtime matches the specified version range, {@code false} otherwise.
-     * @throws IllegalArgumentException If the specified version range is {@code null}, empty or otherwise not a valid
-     *             version specification.
+     * @param versionRange The version range to match the current Maven runtime
+     *                     against, must not be {@code null}.
+     * @return {@code true} if the current Maven runtime matches the specified
+     *         version range, {@code false} otherwise.
+     * @throws IllegalArgumentException If the specified version range is
+     *                                  {@code null}, empty or otherwise not a valid
+     *                                  version specification.
      */
-    boolean isMavenVersion( String versionRange );
+    boolean isMavenVersion(String versionRange);
 
 }

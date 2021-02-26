@@ -30,60 +30,48 @@ import java.util.concurrent.TimeUnit;
  * @author Kristian Rosenvold
  */
 public class CompletionServiceStub
-    implements CompletionService<ProjectSegment>
-{
-    List<FutureTask<ProjectSegment>> projectBuildFutureTasks =
-        Collections.synchronizedList(new ArrayList<>() );
+        implements CompletionService<ProjectSegment> {
+    List<FutureTask<ProjectSegment>> projectBuildFutureTasks = Collections.synchronizedList(new ArrayList<>());
 
     final boolean finishImmediately;
 
-
-    public int size()
-    {
+    public int size() {
         return projectBuildFutureTasks.size();
     }
 
-    public CompletionServiceStub( boolean finishImmediately )
-    {
+    public CompletionServiceStub(boolean finishImmediately) {
         this.finishImmediately = finishImmediately;
     }
 
-    public Future<ProjectSegment> submit( Callable<ProjectSegment> task )
-    {
-        FutureTask<ProjectSegment> projectBuildFutureTask = new FutureTask<>( task );
-        projectBuildFutureTasks.add( projectBuildFutureTask );
-        if ( finishImmediately )
-        {
+    public Future<ProjectSegment> submit(Callable<ProjectSegment> task) {
+        FutureTask<ProjectSegment> projectBuildFutureTask = new FutureTask<>(task);
+        projectBuildFutureTasks.add(projectBuildFutureTask);
+        if (finishImmediately) {
             projectBuildFutureTask.run();
         }
         return projectBuildFutureTask;
     }
 
-    public Future<ProjectSegment> submit( Runnable task, ProjectSegment result )
-    {
-        FutureTask<ProjectSegment> projectBuildFutureTask = new FutureTask<>( task, result );
-        projectBuildFutureTasks.add( projectBuildFutureTask );
-        if ( finishImmediately )
-        {
+    public Future<ProjectSegment> submit(Runnable task, ProjectSegment result) {
+        FutureTask<ProjectSegment> projectBuildFutureTask = new FutureTask<>(task, result);
+        projectBuildFutureTasks.add(projectBuildFutureTask);
+        if (finishImmediately) {
             projectBuildFutureTask.run();
         }
         return projectBuildFutureTask;
     }
 
     public Future<ProjectSegment> take()
-        throws InterruptedException
-    {
+            throws InterruptedException {
         return null;
     }
 
-    public Future<ProjectSegment> poll()
-    {
+    public Future<ProjectSegment> poll() {
         return null;
     }
 
-    public Future<ProjectSegment> poll( long timeout, TimeUnit unit )
-        throws InterruptedException
-    {
+    public Future<ProjectSegment> poll(long timeout, TimeUnit unit)
+            throws InterruptedException {
         return null;
     }
 }

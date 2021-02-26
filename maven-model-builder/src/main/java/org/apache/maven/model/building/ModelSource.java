@@ -22,17 +22,18 @@ package org.apache.maven.model.building;
 import org.apache.maven.building.Source;
 
 /**
- * Provides access to the contents of a POM independently of the backing store (e.g. file system, database, memory).
+ * Provides access to the contents of a POM independently of the backing store
+ * (e.g. file system, database, memory).
  * <p>
- * This interface does not support loading of parent POM(s) from the same backing store, integrators are strongly
- * encouraged to implement {@link ModelSource2} instead of implementing this interface directly.
+ * This interface does not support loading of parent POM(s) from the same
+ * backing store, integrators are strongly encouraged to implement
+ * {@link ModelSource2} instead of implementing this interface directly.
  *
  * @author Benjamin Bentmann
  * @see ModelSource2
  * @deprecated instead use {@link Source}
  */
 @Deprecated
-public interface ModelSource extends Source
-{
+public interface ModelSource extends Source {
 
 }

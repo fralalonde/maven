@@ -29,60 +29,49 @@ import org.xml.sax.SAXException;
  * @since 4.0.0
  */
 class ModulesXMLFilter
-    extends AbstractEventXMLFilter
-{
+        extends AbstractEventXMLFilter {
     private boolean parsingModules;
 
     private String state;
 
-    ModulesXMLFilter()
-    {
+    ModulesXMLFilter() {
         super();
     }
 
-    ModulesXMLFilter( AbstractSAXFilter parent )
-    {
-        super( parent );
+    ModulesXMLFilter(AbstractSAXFilter parent) {
+        super(parent);
     }
 
     @Override
-    public void startElement( String uri, String localName, String qName, Attributes atts )
-        throws SAXException
-    {
-        if ( !parsingModules && "modules".equals( localName ) )
-        {
+    public void startElement(String uri, String localName, String qName, Attributes atts)
+            throws SAXException {
+        if (!parsingModules && "modules".equals(localName)) {
             parsingModules = true;
         }
 
-        if ( parsingModules )
-        {
+        if (parsingModules) {
             state = localName;
         }
 
-        super.startElement( uri, localName, qName, atts );
+        super.startElement(uri, localName, qName, atts);
     }
 
     @Override
-    public void endElement( String uri, String localName, String qName )
-        throws SAXException
-    {
-        if ( parsingModules )
-        {
-            switch ( localName )
-            {
-                case "modules":
-                    executeEvents();
+    public void endElement(String uri, String localName, String qName)
+            throws SAXException {
+        if (parsingModules) {
+            switch (localName) {
+            case "modules":
+                executeEvents();
 
-                    parsingModules = false;
-                    break;
-                default:
-                    super.endElement( uri, localName, qName );
-                    break;
+                parsingModules = false;
+                break;
+            default:
+                super.endElement(uri, localName, qName);
+                break;
             }
-        }
-        else
-        {
-            super.endElement( uri, localName, qName );
+        } else {
+            super.endElement(uri, localName, qName);
         }
 
         // for this simple structure resetting to modules it sufficient
@@ -90,20 +79,17 @@ class ModulesXMLFilter
     }
 
     @Override
-    protected boolean isParsing()
-    {
+    protected boolean isParsing() {
         return parsingModules;
     }
 
     @Override
-    protected String getState()
-    {
+    protected String getState() {
         return state;
     }
 
     @Override
-    protected boolean acceptEvent( String state )
-    {
+    protected boolean acceptEvent(String state) {
         return false;
     }
 }

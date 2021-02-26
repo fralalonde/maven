@@ -30,8 +30,7 @@ import org.apache.maven.model.building.ModelProblem.Version;
  *
  * @author mkleint
  */
-public final class ModelProblemCollectorRequest
-{
+public final class ModelProblemCollectorRequest {
 
     private final ModelProblem.Severity severity;
     private final ModelProblem.Version version;
@@ -41,54 +40,46 @@ public final class ModelProblemCollectorRequest
 
     /**
      * Create a new request with mandatory parameters.
+     * 
      * @param severity
      * @param version
      */
-    public ModelProblemCollectorRequest( Severity severity, Version version )
-    {
-        this.severity = Objects.requireNonNull( severity, "severity cannot be null" );
-        this.version = Objects.requireNonNull( version, "version cannot be null" );
+    public ModelProblemCollectorRequest(Severity severity, Version version) {
+        this.severity = Objects.requireNonNull(severity, "severity cannot be null");
+        this.version = Objects.requireNonNull(version, "version cannot be null");
     }
 
-    public Severity getSeverity()
-    {
+    public Severity getSeverity() {
         return severity;
     }
 
-    public Version getVersion()
-    {
+    public Version getVersion() {
         return version;
     }
 
-    public Exception getException()
-    {
+    public Exception getException() {
         return exception;
     }
 
-    public ModelProblemCollectorRequest setException( Exception exception )
-    {
+    public ModelProblemCollectorRequest setException(Exception exception) {
         this.exception = exception;
         return this;
     }
 
-    public String getMessage()
-    {
+    public String getMessage() {
         return message;
     }
 
-    public ModelProblemCollectorRequest setMessage( String message )
-    {
+    public ModelProblemCollectorRequest setMessage(String message) {
         this.message = message;
         return this;
     }
 
-    public InputLocation getLocation()
-    {
+    public InputLocation getLocation() {
         return location;
     }
 
-    public ModelProblemCollectorRequest setLocation( InputLocation location )
-    {
+    public ModelProblemCollectorRequest setLocation(InputLocation location) {
         this.location = location;
         return this;
     }

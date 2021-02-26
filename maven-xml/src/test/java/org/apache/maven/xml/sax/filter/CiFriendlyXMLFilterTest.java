@@ -29,40 +29,36 @@ import org.junit.jupiter.api.BeforeEach;
 
 import org.xml.sax.SAXException;
 
-public class CiFriendlyXMLFilterTest extends AbstractXMLFilterTests
-{
+public class CiFriendlyXMLFilterTest extends AbstractXMLFilterTests {
     private CiFriendlyXMLFilter filter;
 
     @BeforeEach
-    public void setUp()
-    {
-        filter = new CiFriendlyXMLFilter( true );
-        filter.setChangelist( "CHANGELIST" );
+    public void setUp() {
+        filter = new CiFriendlyXMLFilter(true);
+        filter.setChangelist("CHANGELIST");
     }
 
     @Override
     protected AbstractSAXFilter getFilter()
-        throws TransformerException, SAXException, ParserConfigurationException
-    {
+            throws TransformerException, SAXException, ParserConfigurationException {
         return filter;
     }
 
     @Test
-    public void changelist() throws Exception
-    {
+    public void changelist() throws Exception {
         String input = "<project>"
-            + "  <groupId>GROUPID</groupId>"
-            + "  <artifactId>ARTIFACTID</artifactId>"
-            +   "<version>${changelist}</version>"
-            + "</project>";
+                + "  <groupId>GROUPID</groupId>"
+                + "  <artifactId>ARTIFACTID</artifactId>"
+                + "<version>${changelist}</version>"
+                + "</project>";
         String expected = "<project>"
-                        + "  <groupId>GROUPID</groupId>"
-                        + "  <artifactId>ARTIFACTID</artifactId>"
-                        +   "<version>CHANGELIST</version>"
-                        + "</project>";
+                + "  <groupId>GROUPID</groupId>"
+                + "  <artifactId>ARTIFACTID</artifactId>"
+                + "<version>CHANGELIST</version>"
+                + "</project>";
 
-        String actual = transform( input );
+        String actual = transform(input);
 
-        assertEquals( expected, actual );
+        assertEquals(expected, actual);
     }
 }

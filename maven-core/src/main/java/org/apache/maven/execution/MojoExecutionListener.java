@@ -23,20 +23,21 @@ import org.apache.maven.plugin.MojoExecutionException;
 
 /**
  * <p>
- * Extension point that allows build extensions observe and possibly veto mojo executions.
+ * Extension point that allows build extensions observe and possibly veto mojo
+ * executions.
  * </p>
- * <strong>Note:</strong> This interface is part of work in progress and can be changed or removed without notice.
+ * <strong>Note:</strong> This interface is part of work in progress and can be
+ * changed or removed without notice.
  *
  * @see org.apache.maven.execution.scope.WeakMojoExecutionListener
  * @since 3.1.2
  */
-public interface MojoExecutionListener
-{
-    void beforeMojoExecution( MojoExecutionEvent event )
-        throws MojoExecutionException;
+public interface MojoExecutionListener {
+    void beforeMojoExecution(MojoExecutionEvent event)
+            throws MojoExecutionException;
 
-    void afterMojoExecutionSuccess( MojoExecutionEvent event )
-        throws MojoExecutionException;
+    void afterMojoExecutionSuccess(MojoExecutionEvent event)
+            throws MojoExecutionException;
 
-    void afterExecutionFailure( MojoExecutionEvent event );
+    void afterExecutionFailure(MojoExecutionEvent event);
 }

@@ -23,38 +23,34 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.ext.LexicalHandler;
 
 /**
- * XML Filter to transform pom.xml to consumer pom.
- * This often means stripping of build-specific information.
- * When extra information is required during filtering it is probably a member of the BuildPomXMLFilter
+ * XML Filter to transform pom.xml to consumer pom. This often means stripping
+ * of build-specific information. When extra information is required during
+ * filtering it is probably a member of the BuildPomXMLFilter
  *
- * This filter is used at one location:
- * - org.apache.maven.internal.aether.DefaultRepositorySystemSessionFactory when publishing POM files.
+ * This filter is used at one location: -
+ * org.apache.maven.internal.aether.DefaultRepositorySystemSessionFactory when
+ * publishing POM files.
  *
  * @author Robert Scholte
  * @since 4.0.0
  */
-public class ConsumerPomXMLFilter extends AbstractSAXFilter
-{
-    ConsumerPomXMLFilter( AbstractSAXFilter filter )
-    {
-        super( filter );
+public class ConsumerPomXMLFilter extends AbstractSAXFilter {
+    ConsumerPomXMLFilter(AbstractSAXFilter filter) {
+        super(filter);
     }
 
     /**
      * Don't allow overwriting parent
      */
     @Override
-    public final void setParent( XMLReader parent )
-    {
-        if ( getParent() == null )
-        {
-            super.setParent( parent );
+    public final void setParent(XMLReader parent) {
+        if (getParent() == null) {
+            super.setParent(parent);
         }
     }
 
     @Override
-    public LexicalHandler getLexicalHandler()
-    {
-        return ( (AbstractSAXFilter) getParent() ).getLexicalHandler();
+    public LexicalHandler getLexicalHandler() {
+        return ((AbstractSAXFilter) getParent()).getLexicalHandler();
     }
 }
