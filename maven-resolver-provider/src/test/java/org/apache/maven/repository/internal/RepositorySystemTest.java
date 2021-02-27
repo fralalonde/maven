@@ -1,5 +1,10 @@
 package org.apache.maven.repository.internal;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,10 +23,8 @@ package org.apache.maven.repository.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.util.Arrays;
 import java.util.List;
-
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.collection.CollectRequest;
@@ -34,17 +37,10 @@ import org.eclipse.aether.resolution.ArtifactRequest;
 import org.eclipse.aether.resolution.ArtifactResult;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 public class RepositorySystemTest
         extends AbstractRepositoryTestCase {
     @Test
-    public void testResolveVersionRange()
-            throws Exception {
+    public void testResolveVersionRange() {
         // VersionRangeResult resolveVersionRange( RepositorySystemSession session,
         // VersionRangeRequest request )
         // throws VersionRangeResolutionException;
@@ -52,8 +48,7 @@ public class RepositorySystemTest
     }
 
     @Test
-    public void testResolveVersion()
-            throws Exception {
+    public void testResolveVersion() {
         // VersionResult resolveVersion( RepositorySystemSession session, VersionRequest
         // request )
         // throws VersionResolutionException;
@@ -192,15 +187,13 @@ public class RepositorySystemTest
     }
 
     @Test
-    public void testResolveMetadata()
-            throws Exception {
+    public void testResolveMetadata() {
         // List<MetadataResult> resolveMetadata( RepositorySystemSession session,
         // Collection<? extends MetadataRequest> requests );
     }
 
     @Test
-    public void testInstall()
-            throws Exception {
+    public void testInstall() {
         // InstallResult install( RepositorySystemSession session, InstallRequest
         // request )
         // throws InstallationException;
@@ -208,22 +201,19 @@ public class RepositorySystemTest
     }
 
     @Test
-    public void testDeploy()
-            throws Exception {
+    public void testDeploy() {
         // DeployResult deploy( RepositorySystemSession session, DeployRequest request )
         // throws DeploymentException;
     }
 
     @Test
-    public void testNewLocalRepositoryManager()
-            throws Exception {
+    public void testNewLocalRepositoryManager() {
         // LocalRepositoryManager newLocalRepositoryManager( LocalRepository
         // localRepository );
     }
 
     @Test
-    public void testNewSyncContext()
-            throws Exception {
+    public void testNewSyncContext() {
         // SyncContext newSyncContext( RepositorySystemSession session, boolean shared
         // );
     }

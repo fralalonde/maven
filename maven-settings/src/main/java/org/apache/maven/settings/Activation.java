@@ -7,220 +7,196 @@ package org.apache.maven.settings;
 
 /**
  * 
- *         
- *         The conditions within the build runtime environment
- * which will trigger
- *         the automatic inclusion of the parent build profile.
- *         
- *       
+ * 
+ * The conditions within the build runtime environment which will trigger the
+ * automatic inclusion of the parent build profile.
+ * 
+ * 
  * 
  * @version $Revision$ $Date$
  */
-@SuppressWarnings( "all" )
+@SuppressWarnings("all")
 public class Activation
-    implements java.io.Serializable, java.lang.Cloneable
-{
+        implements java.io.Serializable, java.lang.Cloneable {
 
-      //--------------------------/
-     //- Class/Member Variables -/
-    //--------------------------/
+    // --------------------------/
+    // - Class/Member Variables -/
+    // --------------------------/
 
     /**
      * 
-     *             Flag specifying whether this profile is active
-     * as a default.
-     *           
+     * Flag specifying whether this profile is active as a default.
+     * 
      */
     private boolean activeByDefault = false;
 
     /**
      * 
-     *             
-     *             Specifies that this profile will be activated
-     * when a matching JDK is detected.
-     *             
-     *           
+     * 
+     * Specifies that this profile will be activated when a matching JDK is
+     * detected.
+     * 
+     * 
      */
     private String jdk;
 
     /**
      * 
-     *             
-     *             Specifies that this profile will be activated
-     * when matching OS attributes are detected.
-     *             
-     *           
+     * 
+     * Specifies that this profile will be activated when matching OS attributes are
+     * detected.
+     * 
+     * 
      */
     private ActivationOS os;
 
     /**
      * 
-     *             
-     *             Specifies that this profile will be activated
-     * when this System property is specified.
-     *             
-     *           
+     * 
+     * Specifies that this profile will be activated when this System property is
+     * specified.
+     * 
+     * 
      */
     private ActivationProperty property;
 
     /**
      * 
-     *             
-     *             Specifies that this profile will be activated
-     * based on existence of a file.
-     *             
-     *           
+     * 
+     * Specifies that this profile will be activated based on existence of a file.
+     * 
+     * 
      */
     private ActivationFile file;
 
-
-      //-----------/
-     //- Methods -/
-    //-----------/
+    // -----------/
+    // - Methods -/
+    // -----------/
 
     /**
      * Method clone.
      * 
      * @return Activation
      */
-    public Activation clone()
-    {
-        try
-        {
+    public Activation clone() {
+        try {
             Activation copy = (Activation) super.clone();
 
-            if ( this.os != null )
-            {
+            if (this.os != null) {
                 copy.os = (ActivationOS) this.os.clone();
             }
 
-            if ( this.property != null )
-            {
+            if (this.property != null) {
                 copy.property = (ActivationProperty) this.property.clone();
             }
 
-            if ( this.file != null )
-            {
+            if (this.file != null) {
                 copy.file = (ActivationFile) this.file.clone();
             }
 
             return copy;
+        } catch (java.lang.Exception ex) {
+            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException(getClass().getName()
+                    + " does not support clone()").initCause(ex);
         }
-        catch ( java.lang.Exception ex )
-        {
-            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException( getClass().getName()
-                + " does not support clone()" ).initCause( ex );
-        }
-    } //-- Activation clone()
+    } // -- Activation clone()
 
     /**
-     * Get specifies that this profile will be activated based on
-     * existence of a file.
+     * Get specifies that this profile will be activated based on existence of a
+     * file.
      * 
      * @return ActivationFile
      */
-    public ActivationFile getFile()
-    {
+    public ActivationFile getFile() {
         return this.file;
-    } //-- ActivationFile getFile()
+    } // -- ActivationFile getFile()
 
     /**
-     * Get specifies that this profile will be activated when a
-     * matching JDK is detected.
+     * Get specifies that this profile will be activated when a matching JDK is
+     * detected.
      * 
      * @return String
      */
-    public String getJdk()
-    {
+    public String getJdk() {
         return this.jdk;
-    } //-- String getJdk()
+    } // -- String getJdk()
 
     /**
-     * Get specifies that this profile will be activated when
-     * matching OS attributes are detected.
+     * Get specifies that this profile will be activated when matching OS attributes
+     * are detected.
      * 
      * @return ActivationOS
      */
-    public ActivationOS getOs()
-    {
+    public ActivationOS getOs() {
         return this.os;
-    } //-- ActivationOS getOs()
+    } // -- ActivationOS getOs()
 
     /**
-     * Get specifies that this profile will be activated when this
-     * System property is specified.
+     * Get specifies that this profile will be activated when this System property
+     * is specified.
      * 
      * @return ActivationProperty
      */
-    public ActivationProperty getProperty()
-    {
+    public ActivationProperty getProperty() {
         return this.property;
-    } //-- ActivationProperty getProperty()
+    } // -- ActivationProperty getProperty()
 
     /**
-     * Get flag specifying whether this profile is active as a
-     * default.
+     * Get flag specifying whether this profile is active as a default.
      * 
      * @return boolean
      */
-    public boolean isActiveByDefault()
-    {
+    public boolean isActiveByDefault() {
         return this.activeByDefault;
-    } //-- boolean isActiveByDefault()
+    } // -- boolean isActiveByDefault()
 
     /**
-     * Set flag specifying whether this profile is active as a
-     * default.
+     * Set flag specifying whether this profile is active as a default.
      * 
      * @param activeByDefault
      */
-    public void setActiveByDefault( boolean activeByDefault )
-    {
+    public void setActiveByDefault(boolean activeByDefault) {
         this.activeByDefault = activeByDefault;
-    } //-- void setActiveByDefault( boolean )
+    } // -- void setActiveByDefault( boolean )
 
     /**
-     * Set specifies that this profile will be activated based on
-     * existence of a file.
+     * Set specifies that this profile will be activated based on existence of a
+     * file.
      * 
      * @param file
      */
-    public void setFile( ActivationFile file )
-    {
+    public void setFile(ActivationFile file) {
         this.file = file;
-    } //-- void setFile( ActivationFile )
+    } // -- void setFile( ActivationFile )
 
     /**
-     * Set specifies that this profile will be activated when a
-     * matching JDK is detected.
+     * Set specifies that this profile will be activated when a matching JDK is
+     * detected.
      * 
      * @param jdk
      */
-    public void setJdk( String jdk )
-    {
+    public void setJdk(String jdk) {
         this.jdk = jdk;
-    } //-- void setJdk( String )
+    } // -- void setJdk( String )
 
     /**
-     * Set specifies that this profile will be activated when
-     * matching OS attributes are detected.
+     * Set specifies that this profile will be activated when matching OS attributes
+     * are detected.
      * 
      * @param os
      */
-    public void setOs( ActivationOS os )
-    {
+    public void setOs(ActivationOS os) {
         this.os = os;
-    } //-- void setOs( ActivationOS )
+    } // -- void setOs( ActivationOS )
 
     /**
-     * Set specifies that this profile will be activated when this
-     * System property is specified.
+     * Set specifies that this profile will be activated when this System property
+     * is specified.
      * 
      * @param property
      */
-    public void setProperty( ActivationProperty property )
-    {
+    public void setProperty(ActivationProperty property) {
         this.property = property;
-    } //-- void setProperty( ActivationProperty )
+    } // -- void setProperty( ActivationProperty )
 
 }

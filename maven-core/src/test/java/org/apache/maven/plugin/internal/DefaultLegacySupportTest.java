@@ -1,4 +1,6 @@
 package org.apache.maven.plugin.internal;
+
+import static org.junit.jupiter.api.Assertions.assertNull;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,15 +19,11 @@ package org.apache.maven.plugin.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.util.concurrent.CountDownLatch;
-
 import org.apache.maven.execution.DefaultMavenExecutionRequest;
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.apache.maven.execution.MavenSession;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @author Kristian Rosenvold

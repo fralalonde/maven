@@ -7,187 +7,164 @@ package org.apache.maven.settings;
 
 /**
  * 
- *         
- *         Repository contains the information needed
- *         for establishing connections with remote repository
- *         
- *       .
+ * 
+ * Repository contains the information needed for establishing connections with
+ * remote repository
+ * 
+ * .
  * 
  * @version $Revision$ $Date$
  */
-@SuppressWarnings( "all" )
+@SuppressWarnings("all")
 public class RepositoryBase
-    implements java.io.Serializable, java.lang.Cloneable
-{
+        implements java.io.Serializable, java.lang.Cloneable {
 
-      //--------------------------/
-     //- Class/Member Variables -/
-    //--------------------------/
+    // --------------------------/
+    // - Class/Member Variables -/
+    // --------------------------/
 
     /**
      * 
-     *             
-     *             A unique identifier for a repository.
-     *             
-     *           
+     * 
+     * A unique identifier for a repository.
+     * 
+     * 
      */
     private String id;
 
     /**
      * 
-     *             
-     *             Human readable name of the repository.
-     *             
-     *           
+     * 
+     * Human readable name of the repository.
+     * 
+     * 
      */
     private String name;
 
     /**
      * 
-     *             
-     *             The url of the repository.
-     *             
-     *           
+     * 
+     * The url of the repository.
+     * 
+     * 
      */
     private String url;
 
     /**
      * 
-     *             The type of layout this repository uses for
-     * locating and
-     *             storing artifacts - can be "legacy" or
-     * "default".
-     *           
+     * The type of layout this repository uses for locating and storing artifacts -
+     * can be "legacy" or "default".
+     * 
      */
     private String layout = "default";
 
-
-      //-----------/
-     //- Methods -/
-    //-----------/
+    // -----------/
+    // - Methods -/
+    // -----------/
 
     /**
      * Method clone.
      * 
      * @return RepositoryBase
      */
-    public RepositoryBase clone()
-    {
-        try
-        {
+    public RepositoryBase clone() {
+        try {
             RepositoryBase copy = (RepositoryBase) super.clone();
 
             return copy;
+        } catch (java.lang.Exception ex) {
+            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException(getClass().getName()
+                    + " does not support clone()").initCause(ex);
         }
-        catch ( java.lang.Exception ex )
-        {
-            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException( getClass().getName()
-                + " does not support clone()" ).initCause( ex );
-        }
-    } //-- RepositoryBase clone()
+    } // -- RepositoryBase clone()
 
     /**
      * Get a unique identifier for a repository.
      * 
      * @return String
      */
-    public String getId()
-    {
+    public String getId() {
         return this.id;
-    } //-- String getId()
+    } // -- String getId()
 
     /**
-     * Get the type of layout this repository uses for locating and
-     *             storing artifacts - can be "legacy" or
-     * "default".
+     * Get the type of layout this repository uses for locating and storing
+     * artifacts - can be "legacy" or "default".
      * 
      * @return String
      */
-    public String getLayout()
-    {
+    public String getLayout() {
         return this.layout;
-    } //-- String getLayout()
+    } // -- String getLayout()
 
     /**
      * Get human readable name of the repository.
      * 
      * @return String
      */
-    public String getName()
-    {
+    public String getName() {
         return this.name;
-    } //-- String getName()
+    } // -- String getName()
 
     /**
      * Get the url of the repository.
      * 
      * @return String
      */
-    public String getUrl()
-    {
+    public String getUrl() {
         return this.url;
-    } //-- String getUrl()
+    } // -- String getUrl()
 
     /**
      * Set a unique identifier for a repository.
      * 
      * @param id
      */
-    public void setId( String id )
-    {
+    public void setId(String id) {
         this.id = id;
-    } //-- void setId( String )
+    } // -- void setId( String )
 
     /**
-     * Set the type of layout this repository uses for locating and
-     *             storing artifacts - can be "legacy" or
-     * "default".
+     * Set the type of layout this repository uses for locating and storing
+     * artifacts - can be "legacy" or "default".
      * 
      * @param layout
      */
-    public void setLayout( String layout )
-    {
+    public void setLayout(String layout) {
         this.layout = layout;
-    } //-- void setLayout( String )
+    } // -- void setLayout( String )
 
     /**
      * Set human readable name of the repository.
      * 
      * @param name
      */
-    public void setName( String name )
-    {
+    public void setName(String name) {
         this.name = name;
-    } //-- void setName( String )
+    } // -- void setName( String )
 
     /**
      * Set the url of the repository.
      * 
      * @param url
      */
-    public void setUrl( String url )
-    {
+    public void setUrl(String url) {
         this.url = url;
-    } //-- void setUrl( String )
+    } // -- void setUrl( String )
 
-    
-            
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
-    public boolean equals( Object obj )
-    {
-        RepositoryBase other =  (RepositoryBase) obj;
+    public boolean equals(Object obj) {
+        RepositoryBase other = (RepositoryBase) obj;
 
         boolean retValue = false;
 
-        if ( id != null )
-        {
-            retValue = id.equals( other.id );
+        if (id != null) {
+            retValue = id.equals(other.id);
         }
 
         return retValue;
     }
-            
-          
+
 }

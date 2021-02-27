@@ -39,10 +39,7 @@ public interface BeanConfigurationValuePreprocessor {
      * @param value The configuration value to preprocess, must not be {@code null}.
      * @param type  The target type of the value, may be {@code null}.
      * @return The processed configuration value or {@code null} if none.
-     * @throws BeanConfigurationException If an error occurred while preprocessing
-     *                                    the value.
      */
-    Object preprocessValue(String value, Class<?> type)
-            throws BeanConfigurationException;
+    Object preprocessValue(String value, Class<?> type);
 
 }

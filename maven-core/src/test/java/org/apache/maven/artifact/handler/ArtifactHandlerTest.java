@@ -1,5 +1,7 @@
 package org.apache.maven.artifact.handler;
 
+import static org.apache.maven.test.PlexusExtension.getTestFile;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,20 +20,13 @@ package org.apache.maven.artifact.handler;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.io.File;
 import java.util.List;
-
 import javax.inject.Inject;
-
-import org.apache.maven.test.PlexusExtension;
 import org.apache.maven.test.PlexusTest;
 import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.util.FileUtils;
 import org.junit.jupiter.api.Test;
-
-import static org.apache.maven.test.PlexusExtension.getTestFile;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @PlexusTest
 public class ArtifactHandlerTest {

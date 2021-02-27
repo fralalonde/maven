@@ -1,5 +1,6 @@
 package org.apache.maven.building;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,13 +19,9 @@ package org.apache.maven.building;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.io.InputStream;
 import java.util.Scanner;
-
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StringSourceTest {
     @Test

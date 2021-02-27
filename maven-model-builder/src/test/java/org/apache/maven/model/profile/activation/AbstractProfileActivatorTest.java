@@ -1,5 +1,6 @@
 package org.apache.maven.model.profile.activation;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,18 +19,14 @@ package org.apache.maven.model.profile.activation;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.util.Objects;
 import java.util.Properties;
-
 import org.apache.maven.model.Profile;
 import org.apache.maven.model.building.SimpleProblemCollector;
 import org.apache.maven.model.profile.DefaultProfileActivationContext;
 import org.apache.maven.model.profile.ProfileActivationContext;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Provides common services to test {@link ProfileActivator} implementations.

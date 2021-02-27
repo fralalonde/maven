@@ -1,5 +1,9 @@
 package org.apache.maven.execution;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,18 +22,12 @@ package org.apache.maven.execution;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.artifact.ArtifactUtils;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.maven.project.DuplicateProjectException;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.ProjectSorter;
 import org.codehaus.plexus.util.dag.CycleDetectedException;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * ReactorManager - unused
@@ -49,17 +47,17 @@ public class ReactorManager {
     // make projects that depend on me, and projects that I depend on
     public static final String MAKE_BOTH_MODE = "make-both";
 
-    private List<String> blackList = new ArrayList<>();
+    private final List<String> blackList = new ArrayList<>();
 
-    private Map<String, BuildFailure> buildFailuresByProject = new HashMap<>();
+    private final Map<String, BuildFailure> buildFailuresByProject = new HashMap<>();
 
-    private Map<String, Map<String, Map>> pluginContextsByProjectAndPluginKey = new HashMap<>();
+    private final Map<String, Map<String, Map>> pluginContextsByProjectAndPluginKey = new HashMap<>();
 
     private String failureBehavior = FAIL_FAST;
 
     private final ProjectSorter sorter;
 
-    private Map<String, BuildSuccess> buildSuccessesByProject = new HashMap<>();
+    private final Map<String, BuildSuccess> buildSuccessesByProject = new HashMap<>();
 
     public ReactorManager(List<MavenProject> projects)
             throws CycleDetectedException, DuplicateProjectException {
@@ -83,8 +81,8 @@ public class ReactorManager {
             this.failureBehavior = failureBehavior;
         } else {
             throw new IllegalArgumentException(
-                    "Invalid failure behavior (must be one of: \'" + FAIL_FAST + "\', \'" + FAIL_AT_END + "\', \'"
-                            + FAIL_NEVER + "\').");
+                    "Invalid failure behavior (must be one of: '" + FAIL_FAST + "', '" + FAIL_AT_END + "', '"
+                            + FAIL_NEVER + "').");
         }
     }
 

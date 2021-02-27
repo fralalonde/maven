@@ -1,5 +1,14 @@
 package org.apache.maven.toolchain.building;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,7 +27,6 @@ package org.apache.maven.toolchain.building;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.building.StringSource;
 import org.apache.maven.toolchain.io.DefaultToolchainsReader;
 import org.apache.maven.toolchain.io.DefaultToolchainsWriter;
@@ -27,23 +35,12 @@ import org.apache.maven.toolchain.model.PersistedToolchains;
 import org.apache.maven.toolchain.model.ToolchainModel;
 import org.codehaus.plexus.interpolation.os.OperatingSystemUtils;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
 
 public class DefaultToolchainsBuilderTest {
     private static final String LS = System.lineSeparator();
@@ -89,7 +86,7 @@ public class DefaultToolchainsBuilderTest {
         toolchain.addProvide("key", "user_value");
         userResult.addToolchain(toolchain);
         doReturn(userResult).when(toolchainsReader).read(any(InputStream.class),
-                ArgumentMatchers.<String, Object>anyMap());
+                ArgumentMatchers.anyMap());
 
         ToolchainsBuildingResult result = toolchainBuilder.build(request);
         assertNotNull(result.getEffectiveToolchains());
@@ -113,7 +110,7 @@ public class DefaultToolchainsBuilderTest {
         toolchain.addProvide("key", "global_value");
         globalResult.addToolchain(toolchain);
         doReturn(globalResult).when(toolchainsReader).read(any(InputStream.class),
-                ArgumentMatchers.<String, Object>anyMap());
+                ArgumentMatchers.anyMap());
 
         ToolchainsBuildingResult result = toolchainBuilder.build(request);
         assertNotNull(result.getEffectiveToolchains());
@@ -144,7 +141,7 @@ public class DefaultToolchainsBuilderTest {
         globalToolchain.addProvide("key", "global_value");
         globalResult.addToolchain(globalToolchain);
         doReturn(globalResult).doReturn(userResult).when(toolchainsReader).read(any(InputStream.class),
-                ArgumentMatchers.<String, Object>anyMap());
+                ArgumentMatchers.anyMap());
 
         ToolchainsBuildingResult result = toolchainBuilder.build(request);
         assertNotNull(result.getEffectiveToolchains());
@@ -165,7 +162,7 @@ public class DefaultToolchainsBuilderTest {
         request.setGlobalToolchainsSource(new StringSource(""));
         ToolchainsParseException parseException = new ToolchainsParseException("MESSAGE", 4, 2);
         doThrow(parseException).when(toolchainsReader).read(any(InputStream.class),
-                ArgumentMatchers.<String, Object>anyMap());
+                ArgumentMatchers.anyMap());
 
         try {
             toolchainBuilder.build(request);
@@ -181,7 +178,7 @@ public class DefaultToolchainsBuilderTest {
         request.setGlobalToolchainsSource(new StringSource("", "LOCATION"));
         IOException ioException = new IOException("MESSAGE");
         doThrow(ioException).when(toolchainsReader).read(any(InputStream.class),
-                ArgumentMatchers.<String, Object>anyMap());
+                ArgumentMatchers.anyMap());
 
         try {
             toolchainBuilder.build(request);
@@ -209,7 +206,7 @@ public class DefaultToolchainsBuilderTest {
         toolchain.setConfiguration(configuration);
         persistedToolchains.addToolchain(toolchain);
         doReturn(persistedToolchains).when(toolchainsReader).read(any(InputStream.class),
-                ArgumentMatchers.<String, Object>anyMap());
+                ArgumentMatchers.anyMap());
 
         ToolchainsBuildingResult result = toolchainBuilder.build(request);
         String interpolatedValue = "testValue";
@@ -235,7 +232,7 @@ public class DefaultToolchainsBuilderTest {
 
         persistedToolchains.addToolchain(toolchain);
         doReturn(persistedToolchains).when(toolchainsReader).read(any(InputStream.class),
-                ArgumentMatchers.<String, Object>anyMap());
+                ArgumentMatchers.anyMap());
 
         ToolchainsBuildingResult result = toolchainBuilder.build(request);
         assertEquals("${env.testNonExistingKey}",
@@ -257,7 +254,7 @@ public class DefaultToolchainsBuilderTest {
 
         persistedToolchains.addToolchain(toolchain);
         doReturn(persistedToolchains).when(toolchainsReader).read(any(InputStream.class),
-                ArgumentMatchers.<String, Object>anyMap());
+                ArgumentMatchers.anyMap());
 
         ToolchainsBuildingResult result = toolchainBuilder.build(request);
         String interpolatedValue = "<test&Value>";

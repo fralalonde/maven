@@ -1,5 +1,13 @@
 package org.apache.maven.lifecycle.internal;
 
+import static org.apache.maven.lifecycle.internal.stub.ProjectDependencyGraphStub.A;
+import static org.apache.maven.lifecycle.internal.stub.ProjectDependencyGraphStub.B;
+import static org.apache.maven.lifecycle.internal.stub.ProjectDependencyGraphStub.C;
+import static org.apache.maven.lifecycle.internal.stub.ProjectDependencyGraphStub.X;
+import static org.apache.maven.lifecycle.internal.stub.ProjectDependencyGraphStub.Y;
+import static org.apache.maven.lifecycle.internal.stub.ProjectDependencyGraphStub.Z;
+import static org.apache.maven.lifecycle.internal.stub.ProjectDependencyGraphStub.getProjectBuildList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
  * agreements. See the NOTICE file distributed with this work for additional information regarding
@@ -14,9 +22,7 @@ package org.apache.maven.lifecycle.internal;
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 import java.util.List;
-
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.execution.ProjectDependencyGraph;
 import org.apache.maven.lifecycle.LifecycleNotFoundException;
@@ -32,15 +38,6 @@ import org.apache.maven.plugin.prefix.NoPluginFoundForPrefixException;
 import org.apache.maven.plugin.version.PluginVersionResolutionException;
 import org.apache.maven.project.MavenProject;
 import org.junit.jupiter.api.Test;
-
-import static org.apache.maven.lifecycle.internal.stub.ProjectDependencyGraphStub.A;
-import static org.apache.maven.lifecycle.internal.stub.ProjectDependencyGraphStub.B;
-import static org.apache.maven.lifecycle.internal.stub.ProjectDependencyGraphStub.C;
-import static org.apache.maven.lifecycle.internal.stub.ProjectDependencyGraphStub.X;
-import static org.apache.maven.lifecycle.internal.stub.ProjectDependencyGraphStub.Y;
-import static org.apache.maven.lifecycle.internal.stub.ProjectDependencyGraphStub.Z;
-import static org.apache.maven.lifecycle.internal.stub.ProjectDependencyGraphStub.getProjectBuildList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Kristian Rosenvold

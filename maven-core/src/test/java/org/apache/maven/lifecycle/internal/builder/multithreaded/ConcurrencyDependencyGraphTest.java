@@ -1,4 +1,6 @@
 package org.apache.maven.lifecycle.internal.builder.multithreaded;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
  * agreements. See the NOTICE file distributed with this work for additional information regarding
@@ -13,17 +15,13 @@ package org.apache.maven.lifecycle.internal.builder.multithreaded;
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 import java.util.List;
 import java.util.Set;
-
 import org.apache.maven.execution.ProjectDependencyGraph;
 import org.apache.maven.lifecycle.internal.ProjectBuildList;
 import org.apache.maven.lifecycle.internal.stub.ProjectDependencyGraphStub;
 import org.apache.maven.project.MavenProject;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ConcurrencyDependencyGraphTest {
 

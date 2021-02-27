@@ -1,5 +1,6 @@
 package org.apache.maven.settings;
 
+import java.util.List;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,11 +19,8 @@ package org.apache.maven.settings;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.model.ActivationFile;
 import org.apache.maven.settings.merge.MavenSettingsMerger;
-
-import java.util.List;
 
 /**
  * Several convenience methods to handle settings

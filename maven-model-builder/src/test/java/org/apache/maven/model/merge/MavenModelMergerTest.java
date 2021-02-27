@@ -1,5 +1,7 @@
 package org.apache.maven.model.merge;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,16 +20,11 @@ package org.apache.maven.model.merge;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.util.Collections;
-
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Prerequisites;
 import org.apache.maven.model.Profile;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class MavenModelMergerTest {
     private MavenModelMerger modelMerger = new MavenModelMerger();

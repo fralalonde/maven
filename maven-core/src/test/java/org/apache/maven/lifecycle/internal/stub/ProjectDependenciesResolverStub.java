@@ -15,6 +15,11 @@
 
 package org.apache.maven.lifecycle.internal.stub;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.apache.maven.ProjectDependenciesResolver;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
@@ -28,43 +33,32 @@ import org.eclipse.aether.graph.DefaultDependencyNode;
 import org.eclipse.aether.graph.Dependency;
 import org.eclipse.aether.graph.DependencyNode;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 /**
  * @author Kristian Rosenvold
  */
 public class ProjectDependenciesResolverStub
         implements ProjectDependenciesResolver, org.apache.maven.project.ProjectDependenciesResolver {
-    public Set<Artifact> resolve(MavenProject project, Collection<String> scopesToResolve, MavenSession session)
-            throws ArtifactResolutionException, ArtifactNotFoundException {
+    public Set<Artifact> resolve(MavenProject project, Collection<String> scopesToResolve, MavenSession session) {
         return new HashSet<>();
     }
 
     public Set<Artifact> resolve(MavenProject project, Collection<String> scopesToCollect,
-            Collection<String> scopesToResolve, MavenSession session)
-            throws ArtifactResolutionException, ArtifactNotFoundException {
+            Collection<String> scopesToResolve, MavenSession session) {
         return new HashSet<>();
     }
 
     public Set<Artifact> resolve(Collection<? extends MavenProject> projects, Collection<String> scopes,
-            MavenSession session)
-            throws ArtifactResolutionException, ArtifactNotFoundException {
+            MavenSession session) {
         return new HashSet<>();
     }
 
     public Set<Artifact> resolve(MavenProject project, Collection<String> scopesToCollect,
             Collection<String> scopesToResolve, MavenSession session,
-            Set<Artifact> ignoreableArtifacts)
-            throws ArtifactResolutionException, ArtifactNotFoundException {
+            Set<Artifact> ignoreableArtifacts) {
         return new HashSet<>();
     }
 
-    public DependencyResolutionResult resolve(DependencyResolutionRequest request)
-            throws DependencyResolutionException {
+    public DependencyResolutionResult resolve(DependencyResolutionRequest request) {
         return new DependencyResolutionResult() {
 
             public List<Dependency> getUnresolvedDependencies() {

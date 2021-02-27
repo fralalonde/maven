@@ -18,15 +18,30 @@ package org.apache.maven.plugin;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.execution.MojoExecutionEvent;
 import org.apache.maven.execution.MojoExecutionListener;
@@ -71,15 +86,13 @@ public class DefaultBuildPluginManager
      * @param repositories
      * @param session
      * @return PluginDescriptor The component descriptor for the Maven plugin.
-     * @throws PluginNotFoundException          The plugin could not be found in any
-     *                                          repositories.
      * @throws PluginResolutionException        The plugin could be found but could
      *                                          not be resolved.
      * @throws InvalidPluginDescriptorException
      */
     public PluginDescriptor loadPlugin(Plugin plugin, List<RemoteRepository> repositories,
             RepositorySystemSession session)
-            throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
+            throws PluginResolutionException, PluginDescriptorParsingException,
             InvalidPluginDescriptorException {
         return mavenPluginManager.getPluginDescriptor(plugin, repositories, session);
     }
@@ -215,7 +228,7 @@ public class DefaultBuildPluginManager
 
     public MojoDescriptor getMojoDescriptor(Plugin plugin, String goal, List<RemoteRepository> repositories,
             RepositorySystemSession session)
-            throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
+            throws PluginResolutionException, PluginDescriptorParsingException,
             MojoNotFoundException, InvalidPluginDescriptorException {
         return mavenPluginManager.getMojoDescriptor(plugin, goal, repositories, session);
     }

@@ -7,72 +7,63 @@ package org.apache.maven.settings;
 
 /**
  * 
- *         
- *         Base class for <code>Mirror</code>,
- * <code>Profile</code>, <code>Proxy</code> and
- * <code>Server</code>.
- *         
+ * 
+ * Base class for <code>Mirror</code>, <code>Profile</code>, <code>Proxy</code>
+ * and <code>Server</code>.
+ * 
  * 
  * @version $Revision$ $Date$
  */
-@SuppressWarnings( "all" )
+@SuppressWarnings("all")
 public class IdentifiableBase
-    extends TrackableBase
-    implements java.io.Serializable, java.lang.Cloneable
-{
+        extends TrackableBase
+        implements java.io.Serializable, java.lang.Cloneable {
 
-      //--------------------------/
-     //- Class/Member Variables -/
-    //--------------------------/
+    // --------------------------/
+    // - Class/Member Variables -/
+    // --------------------------/
 
     /**
      * Field id.
      */
     private String id = "default";
 
-
-      //-----------/
-     //- Methods -/
-    //-----------/
+    // -----------/
+    // - Methods -/
+    // -----------/
 
     /**
      * Method clone.
      * 
      * @return IdentifiableBase
      */
-    public IdentifiableBase clone()
-    {
-        try
-        {
+    public IdentifiableBase clone() {
+        try {
             IdentifiableBase copy = (IdentifiableBase) super.clone();
 
             return copy;
+        } catch (java.lang.Exception ex) {
+            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException(getClass().getName()
+                    + " does not support clone()").initCause(ex);
         }
-        catch ( java.lang.Exception ex )
-        {
-            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException( getClass().getName()
-                + " does not support clone()" ).initCause( ex );
-        }
-    } //-- IdentifiableBase clone()
+    } // -- IdentifiableBase clone()
 
     /**
      * Get the id field.
      * 
      * @return String
      */
-    public String getId()
-    {
+    public String getId() {
         return this.id;
-    } //-- String getId()
+    } // -- String getId()
 
     /**
      * Set the id field.
      * 
      * @param id
      */
-    public void setId( String id )
-    {
+    public void setId(String id) {
         this.id = id;
-    } //-- void setId( String )
+    } // -- void setId( String )
 
 }

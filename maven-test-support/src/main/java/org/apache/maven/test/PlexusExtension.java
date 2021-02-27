@@ -69,8 +69,7 @@ public class PlexusExtension implements BeforeEachCallback, AfterEachCallback {
     private static String basedir;
 
     @Override
-    public void beforeEach(ExtensionContext context)
-            throws Exception {
+    public void beforeEach(ExtensionContext context) {
         basedir = getBasedir();
         this.context = context;
 
@@ -150,8 +149,7 @@ public class PlexusExtension implements BeforeEachCallback, AfterEachCallback {
     }
 
     @Override
-    public void afterEach(ExtensionContext context)
-            throws Exception {
+    public void afterEach(ExtensionContext context) {
         if (container != null) {
             container.dispose();
 
@@ -172,8 +170,7 @@ public class PlexusExtension implements BeforeEachCallback, AfterEachCallback {
         return getConfiguration(null);
     }
 
-    protected InputStream getConfiguration(String subname)
-            throws Exception {
+    protected InputStream getConfiguration(String subname) {
         return getResourceAsStream(getConfigurationName(subname));
     }
 

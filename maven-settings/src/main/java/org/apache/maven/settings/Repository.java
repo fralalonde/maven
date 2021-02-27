@@ -7,127 +7,101 @@ package org.apache.maven.settings;
 
 /**
  * 
- *         Repository contains the information needed for
- * establishing
- *         connections with remote repository
- *       .
+ * Repository contains the information needed for establishing connections with
+ * remote repository .
  * 
  * @version $Revision$ $Date$
  */
-@SuppressWarnings( "all" )
+@SuppressWarnings("all")
 public class Repository
-    extends RepositoryBase
-    implements java.io.Serializable, java.lang.Cloneable
-{
+        extends RepositoryBase
+        implements java.io.Serializable, java.lang.Cloneable {
 
-      //--------------------------/
-     //- Class/Member Variables -/
-    //--------------------------/
+    // --------------------------/
+    // - Class/Member Variables -/
+    // --------------------------/
 
     /**
      * 
-     *             How to handle downloading of releases from this
-     * repository
-     *           .
+     * How to handle downloading of releases from this repository .
      */
     private RepositoryPolicy releases;
 
     /**
      * 
-     *             How to handle downloading of snapshots from this
-     * repository
-     *           .
+     * How to handle downloading of snapshots from this repository .
      */
     private RepositoryPolicy snapshots;
 
-
-      //-----------/
-     //- Methods -/
-    //-----------/
+    // -----------/
+    // - Methods -/
+    // -----------/
 
     /**
      * Method clone.
      * 
      * @return Repository
      */
-    public Repository clone()
-    {
-        try
-        {
+    public Repository clone() {
+        try {
             Repository copy = (Repository) super.clone();
 
-            if ( this.releases != null )
-            {
+            if (this.releases != null) {
                 copy.releases = (RepositoryPolicy) this.releases.clone();
             }
 
-            if ( this.snapshots != null )
-            {
+            if (this.snapshots != null) {
                 copy.snapshots = (RepositoryPolicy) this.snapshots.clone();
             }
 
             return copy;
+        } catch (java.lang.Exception ex) {
+            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException(getClass().getName()
+                    + " does not support clone()").initCause(ex);
         }
-        catch ( java.lang.Exception ex )
-        {
-            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException( getClass().getName()
-                + " does not support clone()" ).initCause( ex );
-        }
-    } //-- Repository clone()
+    } // -- Repository clone()
 
     /**
-     * Get how to handle downloading of releases from this
-     * repository.
+     * Get how to handle downloading of releases from this repository.
      * 
      * @return RepositoryPolicy
      */
-    public RepositoryPolicy getReleases()
-    {
+    public RepositoryPolicy getReleases() {
         return this.releases;
-    } //-- RepositoryPolicy getReleases()
+    } // -- RepositoryPolicy getReleases()
 
     /**
-     * Get how to handle downloading of snapshots from this
-     * repository.
+     * Get how to handle downloading of snapshots from this repository.
      * 
      * @return RepositoryPolicy
      */
-    public RepositoryPolicy getSnapshots()
-    {
+    public RepositoryPolicy getSnapshots() {
         return this.snapshots;
-    } //-- RepositoryPolicy getSnapshots()
+    } // -- RepositoryPolicy getSnapshots()
 
     /**
-     * Set how to handle downloading of releases from this
-     * repository.
+     * Set how to handle downloading of releases from this repository.
      * 
      * @param releases
      */
-    public void setReleases( RepositoryPolicy releases )
-    {
+    public void setReleases(RepositoryPolicy releases) {
         this.releases = releases;
-    } //-- void setReleases( RepositoryPolicy )
+    } // -- void setReleases( RepositoryPolicy )
 
     /**
-     * Set how to handle downloading of snapshots from this
-     * repository.
+     * Set how to handle downloading of snapshots from this repository.
      * 
      * @param snapshots
      */
-    public void setSnapshots( RepositoryPolicy snapshots )
-    {
+    public void setSnapshots(RepositoryPolicy snapshots) {
         this.snapshots = snapshots;
-    } //-- void setSnapshots( RepositoryPolicy )
+    } // -- void setSnapshots( RepositoryPolicy )
 
-    
-            
     /**
      * @see org.apache.maven.settings.RepositoryBase#equals(java.lang.Object)
      */
-    public boolean equals( Object obj )
-    {
-        return super.equals( obj );
+    public boolean equals(Object obj) {
+        return super.equals(obj);
     }
-            
-          
+
 }

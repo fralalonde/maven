@@ -1,5 +1,6 @@
 package org.apache.maven;
 
+import javax.inject.Inject;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
  * agreements. See the NOTICE file distributed with this work for additional information regarding
@@ -14,11 +15,8 @@ package org.apache.maven;
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 import org.apache.maven.exception.ExceptionHandler;
 import org.junit.jupiter.api.Test;
-
-import javax.inject.Inject;
 
 public class MavenTest
         extends AbstractCoreMavenComponentTestCase {
@@ -33,8 +31,7 @@ public class MavenTest
     }
 
     @Test
-    public void testLifecycleExecutionUsingADefaultLifecyclePhase()
-            throws Exception {
+    public void testLifecycleExecutionUsingADefaultLifecyclePhase() {
         /*
          * File pom = getProject( "project-with-additional-lifecycle-elements" );
          * MavenExecutionRequest request = createMavenExecutionRequest( pom );

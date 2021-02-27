@@ -1,5 +1,6 @@
 package org.apache.maven.cli.configuration;
 
+import static org.apache.maven.cli.ResolveFile.resolveFile;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,23 +19,20 @@ package org.apache.maven.cli.configuration;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.maven.artifact.InvalidRepositoryException;
 import org.apache.maven.bridge.MavenRepositorySystem;
+import org.apache.maven.building.Problem;
 import org.apache.maven.building.Source;
 import org.apache.maven.cli.CLIManager;
 import org.apache.maven.cli.CliRequest;
 import org.apache.maven.execution.MavenExecutionRequest;
-import org.apache.maven.execution.MavenExecutionRequestPopulationException;
 import org.apache.maven.settings.Mirror;
 import org.apache.maven.settings.Proxy;
 import org.apache.maven.settings.Repository;
@@ -48,8 +46,6 @@ import org.apache.maven.settings.building.SettingsBuildingResult;
 import org.apache.maven.settings.crypto.SettingsDecrypter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static org.apache.maven.cli.ResolveFile.resolveFile;
 
 /**
  * SettingsXmlConfigurationProcessor
@@ -148,10 +144,9 @@ public class SettingsXmlConfigurationProcessor
         }
     }
 
-    private MavenExecutionRequest populateFromSettings(MavenExecutionRequest request, Settings settings)
-            throws MavenExecutionRequestPopulationException {
+    private void populateFromSettings(MavenExecutionRequest request, Settings settings) {
         if (settings == null) {
-            return request;
+            return;
         }
 
         request.setOffline(settings.isOffline());
@@ -231,7 +226,6 @@ public class SettingsXmlConfigurationProcessor
                 }
             }
         }
-        return request;
     }
 
     private Object getLocation(Source source, File defaultLocation) {

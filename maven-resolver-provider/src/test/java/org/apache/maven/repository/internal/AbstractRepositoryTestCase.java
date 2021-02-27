@@ -1,5 +1,6 @@
 package org.apache.maven.repository.internal;
 
+import static org.apache.maven.test.PlexusExtension.getTestFile;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,24 +19,18 @@ package org.apache.maven.repository.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.net.MalformedURLException;
-
 import javax.inject.Inject;
-
-import org.apache.maven.test.PlexusTest;
 import org.apache.maven.repository.internal.util.ConsoleRepositoryListener;
 import org.apache.maven.repository.internal.util.ConsoleTransferListener;
+import org.apache.maven.test.PlexusTest;
 import org.codehaus.plexus.PlexusContainer;
 import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.RepositorySystem;
 import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.repository.LocalRepository;
 import org.eclipse.aether.repository.RemoteRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-
-import static org.apache.maven.test.PlexusExtension.getTestFile;
 
 @PlexusTest
 public abstract class AbstractRepositoryTestCase {
@@ -48,8 +43,7 @@ public abstract class AbstractRepositoryTestCase {
     protected RepositorySystemSession session;
 
     @BeforeEach
-    public void setUp()
-            throws Exception {
+    public void setUp() {
         session = newMavenRepositorySystemSession(system);
     }
 

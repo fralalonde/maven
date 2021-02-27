@@ -1,17 +1,14 @@
 package org.apache.maven.execution;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
-
 import javax.inject.Inject;
-
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.settings.Profile;
 import org.apache.maven.settings.Repository;
 import org.apache.maven.settings.Settings;
 import org.apache.maven.test.PlexusTest;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one

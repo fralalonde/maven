@@ -1,5 +1,7 @@
 package org.apache.maven.toolchain.merge;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.io.InputStream;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,7 +20,6 @@ package org.apache.maven.toolchain.merge;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.toolchain.model.PersistedToolchains;
 import org.apache.maven.toolchain.model.ToolchainModel;
 import org.apache.maven.toolchain.model.TrackableBase;
@@ -26,14 +27,10 @@ import org.apache.maven.toolchain.model.io.xpp3.MavenToolchainsXpp3Reader;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.junit.jupiter.api.Test;
 
-import java.io.InputStream;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public class MavenToolchainMergerTest {
-    private MavenToolchainMerger merger = new MavenToolchainMerger();
+    private final MavenToolchainMerger merger = new MavenToolchainMerger();
 
-    private MavenToolchainsXpp3Reader reader = new MavenToolchainsXpp3Reader();
+    private final MavenToolchainsXpp3Reader reader = new MavenToolchainsXpp3Reader();
 
     @Test
     public void testMergeNulls() {

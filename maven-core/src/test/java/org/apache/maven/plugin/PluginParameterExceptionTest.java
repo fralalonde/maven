@@ -1,5 +1,6 @@
 package org.apache.maven.plugin;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,15 +19,11 @@ package org.apache.maven.plugin;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.util.Collections;
-
 import org.apache.maven.plugin.descriptor.MojoDescriptor;
 import org.apache.maven.plugin.descriptor.Parameter;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * MNG-3131

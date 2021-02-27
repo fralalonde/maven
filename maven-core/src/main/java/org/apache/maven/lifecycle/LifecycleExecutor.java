@@ -1,5 +1,7 @@
 package org.apache.maven.lifecycle;
 
+import java.util.List;
+import java.util.Set;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,7 +20,6 @@ package org.apache.maven.lifecycle;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.plugin.InvalidPluginDescriptorException;
@@ -31,9 +32,6 @@ import org.apache.maven.plugin.PluginResolutionException;
 import org.apache.maven.plugin.prefix.NoPluginFoundForPrefixException;
 import org.apache.maven.plugin.version.PluginVersionResolutionException;
 import org.apache.maven.project.MavenProject;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * A facade that provides lifecycle services to components outside Maven core.
@@ -77,7 +75,7 @@ public interface LifecycleExecutor {
     MavenExecutionPlan calculateExecutionPlan(MavenSession session, boolean setup, String... tasks)
             throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
             MojoNotFoundException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
-            PluginManagerException, LifecyclePhaseNotFoundException, LifecycleNotFoundException,
+            LifecyclePhaseNotFoundException, LifecycleNotFoundException,
             PluginVersionResolutionException;
 
     void execute(MavenSession session);

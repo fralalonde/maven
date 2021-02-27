@@ -18,9 +18,25 @@ package org.apache.maven.repository.legacy.metadata;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import java.util.List;
-
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.repository.RepositoryRequest;
@@ -61,9 +77,8 @@ public interface MetadataResolutionRequest
      * Sets the artifact for which to resolve metadata.
      *
      * @param artifact The artifact for which to resolve metadata.
-     * @return This request, never {@code null}.
      */
-    MetadataResolutionRequest setArtifact(Artifact artifact);
+    void setArtifact(Artifact artifact);
 
     /**
      * Gets the local repository to use for the resolution.
@@ -93,9 +108,8 @@ public interface MetadataResolutionRequest
      * Sets the remote repositories to use for the resolution.
      *
      * @param remoteRepositories The remote repositories to use for the resolution.
-     * @return This request, never {@code null}.
      */
-    MetadataResolutionRequest setRemoteRepositories(List<ArtifactRepository> remoteRepositories);
+    void setRemoteRepositories(List<ArtifactRepository> remoteRepositories);
 
     /**
      * Determines whether the managed version information should be retrieved.
@@ -111,8 +125,7 @@ public interface MetadataResolutionRequest
      * @param resolveManagedVersions {@code true} if the dependency management
      *                               information should be retrieved, {@code
      *            false}          otherwise.
-     * @return This request, never {@code null}.
      */
-    MetadataResolutionRequest setResolveManagedVersions(boolean resolveManagedVersions);
+    void setResolveManagedVersions(boolean resolveManagedVersions);
 
 }

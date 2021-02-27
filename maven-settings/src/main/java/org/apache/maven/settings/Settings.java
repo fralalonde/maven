@@ -7,58 +7,55 @@ package org.apache.maven.settings;
 
 /**
  * 
- *         Root element of the user configuration file.
- *       
+ * Root element of the user configuration file.
+ * 
  * 
  * @version $Revision$ $Date$
  */
-@SuppressWarnings( "all" )
+@SuppressWarnings("all")
 public class Settings
-    extends TrackableBase
-    implements java.io.Serializable, java.lang.Cloneable
-{
+        extends TrackableBase
+        implements java.io.Serializable, java.lang.Cloneable {
 
-      //--------------------------/
-     //- Class/Member Variables -/
-    //--------------------------/
+    // --------------------------/
+    // - Class/Member Variables -/
+    // --------------------------/
 
     /**
      * 
-     *             
-     *             The local repository.<br><b>Default value
-     * is:</b> <code>${user.home}/.m2/repository</code>
-     *             
-     *           
+     * 
+     * The local repository.<br>
+     * <b>Default value is:</b> <code>${user.home}/.m2/repository</code>
+     * 
+     * 
      */
     private String localRepository;
 
     /**
      * 
-     *             
-     *             Whether Maven should attempt to interact with
-     * the user for input.
-     *             
-     *           
+     * 
+     * Whether Maven should attempt to interact with the user for input.
+     * 
+     * 
      */
     private boolean interactiveMode = true;
 
     /**
      * 
-     *             
-     *             Whether Maven should use the plugin-registry.xml
-     * file to manage plugin versions.
-     *             
-     *           
+     * 
+     * Whether Maven should use the plugin-registry.xml file to manage plugin
+     * versions.
+     * 
+     * 
      */
     private boolean usePluginRegistry = false;
 
     /**
      * 
-     *             
-     *             Indicate whether maven should operate in offline
-     * mode full-time.
-     *             
-     *           
+     * 
+     * Indicate whether maven should operate in offline mode full-time.
+     * 
+     * 
      */
     private boolean offline = false;
 
@@ -97,479 +94,408 @@ public class Settings
      */
     private String modelEncoding = "UTF-8";
 
-
-      //-----------/
-     //- Methods -/
-    //-----------/
+    // -----------/
+    // - Methods -/
+    // -----------/
 
     /**
      * Method addActiveProfile.
      * 
      * @param string
      */
-    public void addActiveProfile( String string )
-    {
-        getActiveProfiles().add( string );
-    } //-- void addActiveProfile( String )
+    public void addActiveProfile(String string) {
+        getActiveProfiles().add(string);
+    } // -- void addActiveProfile( String )
 
     /**
      * Method addMirror.
      * 
      * @param mirror
      */
-    public void addMirror( Mirror mirror )
-    {
-        getMirrors().add( mirror );
-    } //-- void addMirror( Mirror )
+    public void addMirror(Mirror mirror) {
+        getMirrors().add(mirror);
+    } // -- void addMirror( Mirror )
 
     /**
      * Method addPluginGroup.
      * 
      * @param string
      */
-    public void addPluginGroup( String string )
-    {
-        getPluginGroups().add( string );
-    } //-- void addPluginGroup( String )
+    public void addPluginGroup(String string) {
+        getPluginGroups().add(string);
+    } // -- void addPluginGroup( String )
 
     /**
      * Method addProfile.
      * 
      * @param profile
      */
-    public void addProfile( Profile profile )
-    {
-        getProfiles().add( profile );
-    } //-- void addProfile( Profile )
+    public void addProfile(Profile profile) {
+        getProfiles().add(profile);
+    } // -- void addProfile( Profile )
 
     /**
      * Method addProxy.
      * 
      * @param proxy
      */
-    public void addProxy( Proxy proxy )
-    {
-        getProxies().add( proxy );
-    } //-- void addProxy( Proxy )
+    public void addProxy(Proxy proxy) {
+        getProxies().add(proxy);
+    } // -- void addProxy( Proxy )
 
     /**
      * Method addServer.
      * 
      * @param server
      */
-    public void addServer( Server server )
-    {
-        getServers().add( server );
-    } //-- void addServer( Server )
+    public void addServer(Server server) {
+        getServers().add(server);
+    } // -- void addServer( Server )
 
     /**
      * Method clone.
      * 
      * @return Settings
      */
-    public Settings clone()
-    {
-        try
-        {
+    public Settings clone() {
+        try {
             Settings copy = (Settings) super.clone();
 
-            if ( this.proxies != null )
-            {
+            if (this.proxies != null) {
                 copy.proxies = new java.util.ArrayList<Proxy>();
-                for ( Proxy item : this.proxies )
-                {
-                    copy.proxies.add( ( (Proxy) item).clone() );
+                for (Proxy item : this.proxies) {
+                    copy.proxies.add(((Proxy) item).clone());
                 }
             }
 
-            if ( this.servers != null )
-            {
+            if (this.servers != null) {
                 copy.servers = new java.util.ArrayList<Server>();
-                for ( Server item : this.servers )
-                {
-                    copy.servers.add( ( (Server) item).clone() );
+                for (Server item : this.servers) {
+                    copy.servers.add(((Server) item).clone());
                 }
             }
 
-            if ( this.mirrors != null )
-            {
+            if (this.mirrors != null) {
                 copy.mirrors = new java.util.ArrayList<Mirror>();
-                for ( Mirror item : this.mirrors )
-                {
-                    copy.mirrors.add( ( (Mirror) item).clone() );
+                for (Mirror item : this.mirrors) {
+                    copy.mirrors.add(((Mirror) item).clone());
                 }
             }
 
-            if ( this.profiles != null )
-            {
+            if (this.profiles != null) {
                 copy.profiles = new java.util.ArrayList<Profile>();
-                for ( Profile item : this.profiles )
-                {
-                    copy.profiles.add( ( (Profile) item).clone() );
+                for (Profile item : this.profiles) {
+                    copy.profiles.add(((Profile) item).clone());
                 }
             }
 
-            if ( this.activeProfiles != null )
-            {
+            if (this.activeProfiles != null) {
                 copy.activeProfiles = new java.util.ArrayList<String>();
-                copy.activeProfiles.addAll( this.activeProfiles );
+                copy.activeProfiles.addAll(this.activeProfiles);
             }
 
-            if ( this.pluginGroups != null )
-            {
+            if (this.pluginGroups != null) {
                 copy.pluginGroups = new java.util.ArrayList<String>();
-                copy.pluginGroups.addAll( this.pluginGroups );
+                copy.pluginGroups.addAll(this.pluginGroups);
             }
 
             return copy;
+        } catch (java.lang.Exception ex) {
+            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException(getClass().getName()
+                    + " does not support clone()").initCause(ex);
         }
-        catch ( java.lang.Exception ex )
-        {
-            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException( getClass().getName()
-                + " does not support clone()" ).initCause( ex );
-        }
-    } //-- Settings clone()
+    } // -- Settings clone()
 
     /**
      * Method getActiveProfiles.
      * 
      * @return List
      */
-    public java.util.List<String> getActiveProfiles()
-    {
-        if ( this.activeProfiles == null )
-        {
+    public java.util.List<String> getActiveProfiles() {
+        if (this.activeProfiles == null) {
             this.activeProfiles = new java.util.ArrayList<String>();
         }
 
         return this.activeProfiles;
-    } //-- java.util.List<String> getActiveProfiles()
+    } // -- java.util.List<String> getActiveProfiles()
 
     /**
-     * Get the local repository.<br><b>Default value is:</b>
-     * <code>${user.home}/.m2/repository</code>
+     * Get the local repository.<br>
+     * <b>Default value is:</b> <code>${user.home}/.m2/repository</code>
      * 
      * @return String
      */
-    public String getLocalRepository()
-    {
+    public String getLocalRepository() {
         return this.localRepository;
-    } //-- String getLocalRepository()
+    } // -- String getLocalRepository()
 
     /**
      * Method getMirrors.
      * 
      * @return List
      */
-    public java.util.List<Mirror> getMirrors()
-    {
-        if ( this.mirrors == null )
-        {
+    public java.util.List<Mirror> getMirrors() {
+        if (this.mirrors == null) {
             this.mirrors = new java.util.ArrayList<Mirror>();
         }
 
         return this.mirrors;
-    } //-- java.util.List<Mirror> getMirrors()
+    } // -- java.util.List<Mirror> getMirrors()
 
     /**
      * Get the modelEncoding field.
      * 
      * @return String
      */
-    public String getModelEncoding()
-    {
+    public String getModelEncoding() {
         return this.modelEncoding;
-    } //-- String getModelEncoding()
+    } // -- String getModelEncoding()
 
     /**
      * Method getPluginGroups.
      * 
      * @return List
      */
-    public java.util.List<String> getPluginGroups()
-    {
-        if ( this.pluginGroups == null )
-        {
+    public java.util.List<String> getPluginGroups() {
+        if (this.pluginGroups == null) {
             this.pluginGroups = new java.util.ArrayList<String>();
         }
 
         return this.pluginGroups;
-    } //-- java.util.List<String> getPluginGroups()
+    } // -- java.util.List<String> getPluginGroups()
 
     /**
      * Method getProfiles.
      * 
      * @return List
      */
-    public java.util.List<Profile> getProfiles()
-    {
-        if ( this.profiles == null )
-        {
+    public java.util.List<Profile> getProfiles() {
+        if (this.profiles == null) {
             this.profiles = new java.util.ArrayList<Profile>();
         }
 
         return this.profiles;
-    } //-- java.util.List<Profile> getProfiles()
+    } // -- java.util.List<Profile> getProfiles()
 
     /**
      * Method getProxies.
      * 
      * @return List
      */
-    public java.util.List<Proxy> getProxies()
-    {
-        if ( this.proxies == null )
-        {
+    public java.util.List<Proxy> getProxies() {
+        if (this.proxies == null) {
             this.proxies = new java.util.ArrayList<Proxy>();
         }
 
         return this.proxies;
-    } //-- java.util.List<Proxy> getProxies()
+    } // -- java.util.List<Proxy> getProxies()
 
     /**
      * Method getServers.
      * 
      * @return List
      */
-    public java.util.List<Server> getServers()
-    {
-        if ( this.servers == null )
-        {
+    public java.util.List<Server> getServers() {
+        if (this.servers == null) {
             this.servers = new java.util.ArrayList<Server>();
         }
 
         return this.servers;
-    } //-- java.util.List<Server> getServers()
+    } // -- java.util.List<Server> getServers()
 
     /**
-     * Get whether Maven should attempt to interact with the user
-     * for input.
+     * Get whether Maven should attempt to interact with the user for input.
      * 
      * @return boolean
      */
-    public boolean isInteractiveMode()
-    {
+    public boolean isInteractiveMode() {
         return this.interactiveMode;
-    } //-- boolean isInteractiveMode()
+    } // -- boolean isInteractiveMode()
 
     /**
-     * Get indicate whether maven should operate in offline mode
-     * full-time.
+     * Get indicate whether maven should operate in offline mode full-time.
      * 
      * @return boolean
      */
-    public boolean isOffline()
-    {
+    public boolean isOffline() {
         return this.offline;
-    } //-- boolean isOffline()
+    } // -- boolean isOffline()
 
     /**
-     * Get whether Maven should use the plugin-registry.xml file to
-     * manage plugin versions.
+     * Get whether Maven should use the plugin-registry.xml file to manage plugin
+     * versions.
      * 
      * @return boolean
      */
-    public boolean isUsePluginRegistry()
-    {
+    public boolean isUsePluginRegistry() {
         return this.usePluginRegistry;
-    } //-- boolean isUsePluginRegistry()
+    } // -- boolean isUsePluginRegistry()
 
     /**
      * Method removeActiveProfile.
      * 
      * @param string
      */
-    public void removeActiveProfile( String string )
-    {
-        getActiveProfiles().remove( string );
-    } //-- void removeActiveProfile( String )
+    public void removeActiveProfile(String string) {
+        getActiveProfiles().remove(string);
+    } // -- void removeActiveProfile( String )
 
     /**
      * Method removeMirror.
      * 
      * @param mirror
      */
-    public void removeMirror( Mirror mirror )
-    {
-        getMirrors().remove( mirror );
-    } //-- void removeMirror( Mirror )
+    public void removeMirror(Mirror mirror) {
+        getMirrors().remove(mirror);
+    } // -- void removeMirror( Mirror )
 
     /**
      * Method removePluginGroup.
      * 
      * @param string
      */
-    public void removePluginGroup( String string )
-    {
-        getPluginGroups().remove( string );
-    } //-- void removePluginGroup( String )
+    public void removePluginGroup(String string) {
+        getPluginGroups().remove(string);
+    } // -- void removePluginGroup( String )
 
     /**
      * Method removeProfile.
      * 
      * @param profile
      */
-    public void removeProfile( Profile profile )
-    {
-        getProfiles().remove( profile );
-    } //-- void removeProfile( Profile )
+    public void removeProfile(Profile profile) {
+        getProfiles().remove(profile);
+    } // -- void removeProfile( Profile )
 
     /**
      * Method removeProxy.
      * 
      * @param proxy
      */
-    public void removeProxy( Proxy proxy )
-    {
-        getProxies().remove( proxy );
-    } //-- void removeProxy( Proxy )
+    public void removeProxy(Proxy proxy) {
+        getProxies().remove(proxy);
+    } // -- void removeProxy( Proxy )
 
     /**
      * Method removeServer.
      * 
      * @param server
      */
-    public void removeServer( Server server )
-    {
-        getServers().remove( server );
-    } //-- void removeServer( Server )
+    public void removeServer(Server server) {
+        getServers().remove(server);
+    } // -- void removeServer( Server )
 
     /**
-     * Set list of manually-activated build profiles, specified in
-     * the order in which
-     *             they should be applied.
+     * Set list of manually-activated build profiles, specified in the order in
+     * which they should be applied.
      * 
      * @param activeProfiles
      */
-    public void setActiveProfiles( java.util.List<String> activeProfiles )
-    {
+    public void setActiveProfiles(java.util.List<String> activeProfiles) {
         this.activeProfiles = activeProfiles;
-    } //-- void setActiveProfiles( java.util.List )
+    } // -- void setActiveProfiles( java.util.List )
 
     /**
-     * Set whether Maven should attempt to interact with the user
-     * for input.
+     * Set whether Maven should attempt to interact with the user for input.
      * 
      * @param interactiveMode
      */
-    public void setInteractiveMode( boolean interactiveMode )
-    {
+    public void setInteractiveMode(boolean interactiveMode) {
         this.interactiveMode = interactiveMode;
-    } //-- void setInteractiveMode( boolean )
+    } // -- void setInteractiveMode( boolean )
 
     /**
-     * Set the local repository.<br><b>Default value is:</b>
-     * <code>${user.home}/.m2/repository</code>
+     * Set the local repository.<br>
+     * <b>Default value is:</b> <code>${user.home}/.m2/repository</code>
      * 
      * @param localRepository
      */
-    public void setLocalRepository( String localRepository )
-    {
+    public void setLocalRepository(String localRepository) {
         this.localRepository = localRepository;
-    } //-- void setLocalRepository( String )
+    } // -- void setLocalRepository( String )
 
     /**
      * Set configuration of download mirrors for repositories.
      * 
      * @param mirrors
      */
-    public void setMirrors( java.util.List<Mirror> mirrors )
-    {
+    public void setMirrors(java.util.List<Mirror> mirrors) {
         this.mirrors = mirrors;
-    } //-- void setMirrors( java.util.List )
+    } // -- void setMirrors( java.util.List )
 
     /**
      * Set the modelEncoding field.
      * 
      * @param modelEncoding
      */
-    public void setModelEncoding( String modelEncoding )
-    {
+    public void setModelEncoding(String modelEncoding) {
         this.modelEncoding = modelEncoding;
-    } //-- void setModelEncoding( String )
+    } // -- void setModelEncoding( String )
 
     /**
-     * Set indicate whether maven should operate in offline mode
-     * full-time.
+     * Set indicate whether maven should operate in offline mode full-time.
      * 
      * @param offline
      */
-    public void setOffline( boolean offline )
-    {
+    public void setOffline(boolean offline) {
         this.offline = offline;
-    } //-- void setOffline( boolean )
+    } // -- void setOffline( boolean )
 
     /**
-     * Set list of groupIds to search for a plugin when that plugin
-     *             groupId is not explicitly provided.
+     * Set list of groupIds to search for a plugin when that plugin groupId is not
+     * explicitly provided.
      * 
      * @param pluginGroups
      */
-    public void setPluginGroups( java.util.List<String> pluginGroups )
-    {
+    public void setPluginGroups(java.util.List<String> pluginGroups) {
         this.pluginGroups = pluginGroups;
-    } //-- void setPluginGroups( java.util.List )
+    } // -- void setPluginGroups( java.util.List )
 
     /**
-     * Set configuration of build profiles for adjusting the build
-     *             according to environmental parameters.
+     * Set configuration of build profiles for adjusting the build according to
+     * environmental parameters.
      * 
      * @param profiles
      */
-    public void setProfiles( java.util.List<Profile> profiles )
-    {
+    public void setProfiles(java.util.List<Profile> profiles) {
         this.profiles = profiles;
-    } //-- void setProfiles( java.util.List )
+    } // -- void setProfiles( java.util.List )
 
     /**
-     * Set configuration for different proxy profiles. Multiple
-     * proxy profiles
-     *             might come in handy for anyone working from a
-     * notebook or other
-     *             mobile platform, to enable easy switching of
-     * entire proxy
-     *             configurations by simply specifying the profile
-     * id, again either from
-     *             the command line or from the defaults section
+     * Set configuration for different proxy profiles. Multiple proxy profiles might
+     * come in handy for anyone working from a notebook or other mobile platform, to
+     * enable easy switching of entire proxy configurations by simply specifying the
+     * profile id, again either from the command line or from the defaults section
      * below.
      * 
      * @param proxies
      */
-    public void setProxies( java.util.List<Proxy> proxies )
-    {
+    public void setProxies(java.util.List<Proxy> proxies) {
         this.proxies = proxies;
-    } //-- void setProxies( java.util.List )
+    } // -- void setProxies( java.util.List )
 
     /**
-     * Set configuration of server-specific settings, mainly
-     * authentication
-     *             method. This allows configuration of
-     * authentication on a per-server
-     *             basis.
+     * Set configuration of server-specific settings, mainly authentication method.
+     * This allows configuration of authentication on a per-server basis.
      * 
      * @param servers
      */
-    public void setServers( java.util.List<Server> servers )
-    {
+    public void setServers(java.util.List<Server> servers) {
         this.servers = servers;
-    } //-- void setServers( java.util.List )
+    } // -- void setServers( java.util.List )
 
     /**
-     * Set whether Maven should use the plugin-registry.xml file to
-     * manage plugin versions.
+     * Set whether Maven should use the plugin-registry.xml file to manage plugin
+     * versions.
      * 
      * @param usePluginRegistry
      */
-    public void setUsePluginRegistry( boolean usePluginRegistry )
-    {
+    public void setUsePluginRegistry(boolean usePluginRegistry) {
         this.usePluginRegistry = usePluginRegistry;
-    } //-- void setUsePluginRegistry( boolean )
+    } // -- void setUsePluginRegistry( boolean )
 
-    
-            
-    public Boolean getInteractiveMode()
-    {
-        return Boolean.valueOf( isInteractiveMode() );
+    public Boolean getInteractiveMode() {
+        return Boolean.valueOf(isInteractiveMode());
     }
 
     private Proxy activeProxy;
@@ -577,25 +503,19 @@ public class Settings
     /**
      * Reset the <code>activeProxy</code> field to <code>null</code>
      */
-    public void flushActiveProxy()
-    {
+    public void flushActiveProxy() {
         this.activeProxy = null;
     }
 
     /**
      * @return the first active proxy
      */
-    public synchronized Proxy getActiveProxy()
-    {
-        if ( activeProxy == null )
-        {
+    public synchronized Proxy getActiveProxy() {
+        if (activeProxy == null) {
             java.util.List<Proxy> proxies = getProxies();
-            if ( proxies != null && !proxies.isEmpty() )
-            {
-                for ( Proxy proxy : proxies )
-                {
-                    if ( proxy.isActive() )
-                    {
+            if (proxies != null && !proxies.isEmpty()) {
+                for (Proxy proxy : proxies) {
+                    if (proxy.isActive()) {
                         activeProxy = proxy;
                         break;
                     }
@@ -606,17 +526,13 @@ public class Settings
         return activeProxy;
     }
 
-    public Server getServer( String serverId )
-    {
+    public Server getServer(String serverId) {
         Server match = null;
 
         java.util.List<Server> servers = getServers();
-        if ( servers != null && serverId != null )
-        {
-            for ( Server server : servers )
-            {
-                if ( serverId.equals( server.getId() ) )
-                {
+        if (servers != null && serverId != null) {
+            for (Server server : servers) {
+                if (serverId.equals(server.getId())) {
                     match = server;
                     break;
                 }
@@ -627,17 +543,13 @@ public class Settings
     }
 
     @Deprecated
-    public Mirror getMirrorOf( String repositoryId )
-    {
+    public Mirror getMirrorOf(String repositoryId) {
         Mirror match = null;
 
         java.util.List<Mirror> mirrors = getMirrors();
-        if ( mirrors != null && repositoryId != null )
-        {
-            for ( Mirror mirror : mirrors )
-            {
-                if ( repositoryId.equals( mirror.getMirrorOf() ) )
-                {
+        if (mirrors != null && repositoryId != null) {
+            for (Mirror mirror : mirrors) {
+                if (repositoryId.equals(mirror.getMirrorOf())) {
                     match = mirror;
                     break;
                 }
@@ -652,8 +564,7 @@ public class Settings
     /**
      * Reset the <code>profileMap</code> field to <code>null</code>
      */
-    public void flushProfileMap()
-    {
+    public void flushProfileMap() {
         this.profileMap = null;
     }
 
@@ -661,23 +572,18 @@ public class Settings
      * @return a Map of profiles field with <code>Profile#getId()</code> as key
      * @see org.apache.maven.settings.Profile#getId()
      */
-    public java.util.Map<String, Profile> getProfilesAsMap()
-    {
-        if ( profileMap == null )
-        {
+    public java.util.Map<String, Profile> getProfilesAsMap() {
+        if (profileMap == null) {
             profileMap = new java.util.LinkedHashMap<String, Profile>();
 
-            if ( getProfiles() != null )
-            {
-                for ( Profile profile : getProfiles() )
-                {
-                    profileMap.put( profile.getId(), profile );
+            if (getProfiles() != null) {
+                for (Profile profile : getProfiles()) {
+                    profileMap.put(profile.getId(), profile);
                 }
             }
         }
 
         return profileMap;
     }
-            
-          
+
 }

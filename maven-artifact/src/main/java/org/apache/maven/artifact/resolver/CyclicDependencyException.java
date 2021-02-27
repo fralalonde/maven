@@ -43,12 +43,10 @@ import org.apache.maven.artifact.Artifact;
  *
  * @author <a href="mailto:brett@apache.org">Brett Porter</a>
  */
-public class CyclicDependencyException
-        extends ArtifactResolutionException {
-    private Artifact artifact;
+public class CyclicDependencyException extends ArtifactResolutionException {
+    private final Artifact artifact;
 
-    public CyclicDependencyException(String message,
-            Artifact artifact) {
+    public CyclicDependencyException(String message, Artifact artifact) {
         super(message, artifact);
         this.artifact = artifact;
     }

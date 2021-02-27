@@ -1,5 +1,9 @@
 package org.apache.maven.artifact.repository.metadata;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,7 +22,6 @@ package org.apache.maven.artifact.repository.metadata;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.metadata.ArtifactMetadata;
 import org.apache.maven.artifact.repository.ArtifactRepository;
@@ -28,11 +31,6 @@ import org.apache.maven.artifact.repository.metadata.io.xpp3.MetadataXpp3Writer;
 import org.codehaus.plexus.util.ReaderFactory;
 import org.codehaus.plexus.util.WriterFactory;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
 
 /**
  * Shared methods of the repository metadata handling.
@@ -123,7 +121,7 @@ public abstract class AbstractRepositoryMetadata
     }
 
     public String toString() {
-        return "repository metadata for: \'" + getKey() + "\'";
+        return "repository metadata for: '" + getKey() + "'";
     }
 
     protected static Metadata createMetadata(Artifact artifact, Versioning versioning) {
@@ -166,14 +164,12 @@ public abstract class AbstractRepositoryMetadata
     }
 
     public String extendedToString() {
-        StringBuilder buffer = new StringBuilder(256);
 
-        buffer.append(LS).append("Repository Metadata").append(LS).append("--------------------------");
-        buffer.append(LS).append("GroupId: ").append(getGroupId());
-        buffer.append(LS).append("ArtifactId: ").append(getArtifactId());
-        buffer.append(LS).append("Metadata Type: ").append(getClass().getName());
-
-        return buffer.toString();
+        String buffer = LS + "Repository Metadata" + LS + "--------------------------" +
+                LS + "GroupId: " + getGroupId() +
+                LS + "ArtifactId: " + getArtifactId() +
+                LS + "Metadata Type: " + getClass().getName();
+        return buffer;
     }
 
     public int getNature() {

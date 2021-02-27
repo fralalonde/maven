@@ -18,7 +18,24 @@ package org.apache.maven.lifecycle.internal.builder.multithreaded;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -28,11 +45,9 @@ import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.lifecycle.internal.BuildThreadFactory;
 import org.apache.maven.lifecycle.internal.LifecycleModuleBuilder;
@@ -80,7 +95,7 @@ public class MultiThreadedBuilder
     @Override
     public void build(MavenSession session, ReactorContext reactorContext, ProjectBuildList projectBuilds,
             List<TaskSegment> taskSegments, ReactorBuildStatus reactorBuildStatus)
-            throws ExecutionException, InterruptedException {
+            throws InterruptedException {
         int nThreads = Math.min(session.getRequest().getDegreeOfConcurrency(), session.getProjects().size());
         boolean parallel = nThreads >= 2;
         // Propagate the parallel flag to the root session and all of the cloned
@@ -154,14 +169,11 @@ public class MultiThreadedBuilder
                         service.submit(cb);
                     }
                 }
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 rootSession.getResult().addException(e);
                 break;
-            } catch (ExecutionException e) {
-                // TODO MNG-5766 changes likely made this redundant
-                rootSession.getResult().addException(e);
-                break;
-            }
+            } // TODO MNG-5766 changes likely made this redundant
+
         }
     }
 

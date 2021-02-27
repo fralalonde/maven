@@ -18,9 +18,25 @@ package org.apache.maven.lifecycle.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import java.io.File;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,10 +45,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import org.apache.maven.RepositoryUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.ArtifactUtils;
@@ -110,7 +124,7 @@ public class LifecycleDependencyResolver {
                 Thread.currentThread().setContextClassLoader(projectRealm);
             }
 
-            if (project.getDependencyArtifacts() == null) {
+            if (project.getArtifacts() == null) {
                 try {
                     project.setDependencyArtifacts(artifactFactory.createArtifacts(project));
                 } catch (InvalidDependencyVersionException e) {
@@ -146,7 +160,7 @@ public class LifecycleDependencyResolver {
 
             Map<String, Artifact> map = new HashMap<>();
             for (Artifact artifact : resolvedArtifacts) {
-                /**
+                /*
                  * MNG-6300: resolvedArtifacts can be cache result; this ensures reactor files
                  * are always up to date During lifecycle the Artifact.getFile() can change from
                  * target/classes to the actual jar. This clearly shows that target/classes
@@ -162,7 +176,7 @@ public class LifecycleDependencyResolver {
 
             project.setResolvedArtifacts(resolvedArtifacts);
 
-            for (Artifact artifact : project.getDependencyArtifacts()) {
+            for (Artifact artifact : project.getArtifacts()) {
                 if (artifact.getFile() == null) {
                     Artifact resolved = map.get(artifact.getDependencyConflictId());
                     if (resolved != null) {
@@ -301,7 +315,7 @@ public class LifecycleDependencyResolver {
     private static class ReactorDependencyFilter
             implements DependencyFilter {
 
-        private Set<String> keys = new HashSet<>();
+        private final Set<String> keys = new HashSet<>();
 
         ReactorDependencyFilter(Collection<Artifact> artifacts) {
             for (Artifact artifact : artifacts) {

@@ -1,5 +1,6 @@
 package org.apache.maven.artifact.resolver.filter;
 
+import java.util.List;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,11 +19,8 @@ package org.apache.maven.artifact.resolver.filter;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.model.Exclusion;
-
-import java.util.List;
 
 /**
  * Filter to exclude from a list of artifact patterns.

@@ -1,5 +1,10 @@
 package org.apache.maven.toolchain;
 
+import java.io.File;
+import java.io.Reader;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,18 +23,10 @@ package org.apache.maven.toolchain;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.toolchain.model.PersistedToolchains;
 import org.apache.maven.toolchain.model.io.xpp3.MavenToolchainsXpp3Reader;
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.util.ReaderFactory;
-
-import java.io.File;
-import java.io.Reader;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
 
 /**
  * @author Benjamin Bentmann

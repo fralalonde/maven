@@ -35,8 +35,8 @@ public class ComparableVersionIT {
     @Test
     public void test()
             throws Exception {
-        Files.walkFileTree(Paths.get("target"), new SimpleFileVisitor<Path>() {
-            Pattern mavenArtifactJar = Pattern.compile("maven-artifact-[\\d.]+(-SNAPSHOT)?\\.jar");
+        Files.walkFileTree(Paths.get("target"), new SimpleFileVisitor<>() {
+            final Pattern mavenArtifactJar = Pattern.compile("maven-artifact-[\\d.]+(-SNAPSHOT)?\\.jar");
 
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
@@ -62,8 +62,7 @@ public class ComparableVersionIT {
             }
 
             @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
-                    throws IOException {
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
                 if (Paths.get("target").equals(dir)) {
                     return FileVisitResult.CONTINUE;
                 } else {

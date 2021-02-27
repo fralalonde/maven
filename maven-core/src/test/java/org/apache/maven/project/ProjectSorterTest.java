@@ -1,5 +1,6 @@
 package org.apache.maven.project;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,16 +19,12 @@ package org.apache.maven.project;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.apache.maven.model.Build;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Extension;
@@ -79,11 +76,11 @@ public class ProjectSorterTest {
         return plugin;
     }
 
-    private Extension createExtension(String groupId, String artifactId, String version) {
+    private Extension createExtension() {
         Extension extension = new Extension();
-        extension.setGroupId(groupId);
-        extension.setArtifactId(artifactId);
-        extension.setVersion(version);
+        extension.setGroupId("other.group");
+        extension.setArtifactId("other-artifact");
+        extension.setVersion("1.0");
         return extension;
     }
 
@@ -143,7 +140,7 @@ public class ProjectSorterTest {
 
         Build build = project.getModel().getBuild();
 
-        Extension extension = createExtension("other.group", "other-artifact", "1.0");
+        Extension extension = createExtension();
 
         build.addExtension(extension);
 
@@ -183,8 +180,7 @@ public class ProjectSorterTest {
     }
 
     @Test
-    public void testMatchingIdsAndVersions()
-            throws Exception {
+    public void testMatchingIdsAndVersions() {
         List<MavenProject> projects = new ArrayList<>();
         MavenProject project1 = createProject("groupId", "artifactId", "1.0");
         projects.add(project1);

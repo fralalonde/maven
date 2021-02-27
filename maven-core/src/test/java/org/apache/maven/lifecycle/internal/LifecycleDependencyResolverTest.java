@@ -1,5 +1,7 @@
 package org.apache.maven.lifecycle.internal;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,24 +20,18 @@ package org.apache.maven.lifecycle.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
-
+import javax.inject.Inject;
 import org.apache.maven.AbstractCoreMavenComponentTestCase;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.project.MavenProject;
-
-import javax.inject.Inject;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LifecycleDependencyResolverTest extends AbstractCoreMavenComponentTestCase {
     @Inject
@@ -65,7 +61,7 @@ public class LifecycleDependencyResolverTest extends AbstractCoreMavenComponentT
         MavenProject lib = session.getProjects().get(1);
         MavenProject war = session.getProjects().get(2);
 
-        assertEquals(null, war.getArtifactMap().get("org.apache.maven.its.mng6300:mng6300-lib").getFile());
+        assertNull(war.getArtifactMap().get("org.apache.maven.its.mng6300:mng6300-lib").getFile());
 
         lib.getArtifact().setFile(new File("lib.jar"));
 

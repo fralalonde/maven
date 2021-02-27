@@ -1,5 +1,8 @@
 package org.apache.maven.repository.internal;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import com.google.inject.name.Names;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,15 +21,11 @@ package org.apache.maven.repository.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import javax.inject.Named;
 import javax.inject.Singleton;
-import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
-import com.google.inject.name.Names;
 import org.apache.maven.model.building.DefaultModelBuilderFactory;
 import org.apache.maven.model.building.ModelBuilder;
 import org.eclipse.aether.impl.ArtifactDescriptorReader;

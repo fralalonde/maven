@@ -1,5 +1,8 @@
 package org.apache.maven.plugin;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,9 +21,8 @@ package org.apache.maven.plugin;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.util.List;
-
+import javax.inject.Inject;
 import org.apache.maven.AbstractCoreMavenComponentTestCase;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.DefaultRepositoryRequest;
@@ -32,15 +34,7 @@ import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.classworlds.realm.ClassRealm;
 import org.codehaus.plexus.component.repository.ComponentDescriptor;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
-
-import javax.inject.Inject;
 
 public class PluginManagerTest
         extends AbstractCoreMavenComponentTestCase {
@@ -108,8 +102,7 @@ public class PluginManagerTest
     // the plugin manager provides.
 
     @Test
-    public void testRemoteResourcesPlugin()
-            throws Exception {
+    public void testRemoteResourcesPlugin() {
         // TODO turn an equivalent back on when the RR plugin is released.
 
         /*
@@ -140,8 +133,7 @@ public class PluginManagerTest
 
     // TODO this will be the basis of the customizable lifecycle execution so need
     // to figure this out quickly.
-    public void testSurefirePlugin()
-            throws Exception {
+    public void testSurefirePlugin() {
         /*
          * MavenSession session = createMavenSession( getProject(
          * "project-with-inheritance" ) ); String goal = "test";
@@ -170,8 +162,7 @@ public class PluginManagerTest
     }
 
     @Test
-    public void testMojoConfigurationIsMergedCorrectly()
-            throws Exception {
+    public void testMojoConfigurationIsMergedCorrectly() {
     }
 
     /**
@@ -181,8 +172,7 @@ public class PluginManagerTest
      * We need to make sure the version that they specify takes precedence.
      */
     @Test
-    public void testMojoWhereInternallyStatedDependencyIsOverriddenByProject()
-            throws Exception {
+    public void testMojoWhereInternallyStatedDependencyIsOverriddenByProject() {
     }
 
     /**
@@ -190,8 +180,7 @@ public class PluginManagerTest
      * used on projects in the current build.
      */
     @Test
-    public void testMojoThatIsPresentInTheCurrentBuild()
-            throws Exception {
+    public void testMojoThatIsPresentInTheCurrentBuild() {
     }
 
     /**
@@ -199,8 +188,7 @@ public class PluginManagerTest
      * something at the end with the results of each project.
      */
     @Test
-    public void testAggregatorMojo()
-            throws Exception {
+    public void testAggregatorMojo() {
     }
 
     /**
@@ -208,8 +196,7 @@ public class PluginManagerTest
      * before it can do anything useful.
      */
     @Test
-    public void testMojoThatRequiresExecutionToAGivenPhaseBeforeExecutingItself()
-            throws Exception {
+    public void testMojoThatRequiresExecutionToAGivenPhaseBeforeExecutingItself() {
     }
 
     // test that mojo which does not require dependency resolution trigger no

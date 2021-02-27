@@ -7,164 +7,142 @@ package org.apache.maven.settings;
 
 /**
  * 
- *         
- *         This is an activator which will detect an operating
- * system's attributes in order to activate
- *         its profile.
- *         
- *       
+ * 
+ * This is an activator which will detect an operating system's attributes in
+ * order to activate its profile.
+ * 
+ * 
  * 
  * @version $Revision$ $Date$
  */
-@SuppressWarnings( "all" )
+@SuppressWarnings("all")
 public class ActivationOS
-    implements java.io.Serializable, java.lang.Cloneable
-{
+        implements java.io.Serializable, java.lang.Cloneable {
 
-      //--------------------------/
-     //- Class/Member Variables -/
-    //--------------------------/
+    // --------------------------/
+    // - Class/Member Variables -/
+    // --------------------------/
 
     /**
      * 
-     *             The name of the OS to be used to activate a
-     * profile.
-     *           
+     * The name of the OS to be used to activate a profile.
+     * 
      */
     private String name;
 
     /**
      * 
-     *             The general family of the OS to be used to
-     * activate a
-     *             profile (e.g. 'windows')
-     *           .
+     * The general family of the OS to be used to activate a profile (e.g.
+     * 'windows') .
      */
     private String family;
 
     /**
      * 
-     *             The architecture of the OS to be used to
-     * activate a profile.
-     *           
+     * The architecture of the OS to be used to activate a profile.
+     * 
      */
     private String arch;
 
     /**
      * 
-     *             The version of the OS to be used to activate a
-     * profile.
-     *           
+     * The version of the OS to be used to activate a profile.
+     * 
      */
     private String version;
 
-
-      //-----------/
-     //- Methods -/
-    //-----------/
+    // -----------/
+    // - Methods -/
+    // -----------/
 
     /**
      * Method clone.
      * 
      * @return ActivationOS
      */
-    public ActivationOS clone()
-    {
-        try
-        {
+    public ActivationOS clone() {
+        try {
             ActivationOS copy = (ActivationOS) super.clone();
 
             return copy;
+        } catch (java.lang.Exception ex) {
+            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException(getClass().getName()
+                    + " does not support clone()").initCause(ex);
         }
-        catch ( java.lang.Exception ex )
-        {
-            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException( getClass().getName()
-                + " does not support clone()" ).initCause( ex );
-        }
-    } //-- ActivationOS clone()
+    } // -- ActivationOS clone()
 
     /**
-     * Get the architecture of the OS to be used to activate a
-     * profile.
+     * Get the architecture of the OS to be used to activate a profile.
      * 
      * @return String
      */
-    public String getArch()
-    {
+    public String getArch() {
         return this.arch;
-    } //-- String getArch()
+    } // -- String getArch()
 
     /**
-     * Get the general family of the OS to be used to activate a
-     *             profile (e.g. 'windows').
+     * Get the general family of the OS to be used to activate a profile (e.g.
+     * 'windows').
      * 
      * @return String
      */
-    public String getFamily()
-    {
+    public String getFamily() {
         return this.family;
-    } //-- String getFamily()
+    } // -- String getFamily()
 
     /**
      * Get the name of the OS to be used to activate a profile.
      * 
      * @return String
      */
-    public String getName()
-    {
+    public String getName() {
         return this.name;
-    } //-- String getName()
+    } // -- String getName()
 
     /**
      * Get the version of the OS to be used to activate a profile.
      * 
      * @return String
      */
-    public String getVersion()
-    {
+    public String getVersion() {
         return this.version;
-    } //-- String getVersion()
+    } // -- String getVersion()
 
     /**
-     * Set the architecture of the OS to be used to activate a
-     * profile.
+     * Set the architecture of the OS to be used to activate a profile.
      * 
      * @param arch
      */
-    public void setArch( String arch )
-    {
+    public void setArch(String arch) {
         this.arch = arch;
-    } //-- void setArch( String )
+    } // -- void setArch( String )
 
     /**
-     * Set the general family of the OS to be used to activate a
-     *             profile (e.g. 'windows').
+     * Set the general family of the OS to be used to activate a profile (e.g.
+     * 'windows').
      * 
      * @param family
      */
-    public void setFamily( String family )
-    {
+    public void setFamily(String family) {
         this.family = family;
-    } //-- void setFamily( String )
+    } // -- void setFamily( String )
 
     /**
      * Set the name of the OS to be used to activate a profile.
      * 
      * @param name
      */
-    public void setName( String name )
-    {
+    public void setName(String name) {
         this.name = name;
-    } //-- void setName( String )
+    } // -- void setName( String )
 
     /**
      * Set the version of the OS to be used to activate a profile.
      * 
      * @param version
      */
-    public void setVersion( String version )
-    {
+    public void setVersion(String version) {
         this.version = version;
-    } //-- void setVersion( String )
+    } // -- void setVersion( String )
 
 }

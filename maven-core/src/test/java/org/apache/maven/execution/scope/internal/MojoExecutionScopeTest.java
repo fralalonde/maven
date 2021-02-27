@@ -14,17 +14,15 @@
  */
 package org.apache.maven.execution.scope.internal;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.google.inject.Key;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.maven.execution.MojoExecutionEvent;
 import org.apache.maven.execution.scope.WeakMojoExecutionListener;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class MojoExecutionScopeTest {
     @Test
@@ -62,14 +60,12 @@ public class MojoExecutionScopeTest {
         final AtomicInteger afterExecutionFailure = new AtomicInteger();
         final WeakMojoExecutionListener instance = new WeakMojoExecutionListener() {
             @Override
-            public void beforeMojoExecution(MojoExecutionEvent event)
-                    throws MojoExecutionException {
+            public void beforeMojoExecution(MojoExecutionEvent event) {
                 beforeExecution.incrementAndGet();
             }
 
             @Override
-            public void afterMojoExecutionSuccess(MojoExecutionEvent event)
-                    throws MojoExecutionException {
+            public void afterMojoExecutionSuccess(MojoExecutionEvent event) {
                 afterExecutionSuccess.incrementAndGet();
             }
 

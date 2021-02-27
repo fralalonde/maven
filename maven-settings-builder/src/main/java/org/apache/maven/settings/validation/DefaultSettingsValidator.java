@@ -18,20 +18,35 @@ package org.apache.maven.settings.validation;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.inject.Named;
 import javax.inject.Singleton;
-
 import org.apache.maven.building.Problem.Severity;
 import org.apache.maven.building.ProblemCollector;
 import org.apache.maven.settings.Mirror;
 import org.apache.maven.settings.Profile;
-import org.apache.maven.settings.Repository;
 import org.apache.maven.settings.Proxy;
+import org.apache.maven.settings.Repository;
 import org.apache.maven.settings.Server;
 import org.apache.maven.settings.Settings;
 import org.codehaus.plexus.util.StringUtils;
@@ -95,8 +110,7 @@ public class DefaultSettingsValidator
             for (Mirror mirror : mirrors) {
                 validateStringNotEmpty(problems, "mirrors.mirror.id", mirror.getId(), mirror.getUrl());
 
-                validateBannedCharacters(problems, "mirrors.mirror.id", Severity.WARNING, mirror.getId(), null,
-                        ILLEGAL_REPO_ID_CHARS);
+                validateBannedCharacters(problems, "mirrors.mirror.id", mirror.getId());
 
                 if ("local".equals(mirror.getId())) {
                     addViolation(problems, Severity.WARNING, "mirrors.mirror.id", null, "must not be 'local'"
@@ -150,8 +164,7 @@ public class DefaultSettingsValidator
         for (Repository repository : repositories) {
             validateStringNotEmpty(problems, prefix + ".id", repository.getId(), repository.getUrl());
 
-            validateBannedCharacters(problems, prefix + ".id", Severity.WARNING, repository.getId(), null,
-                    ILLEGAL_REPO_ID_CHARS);
+            validateBannedCharacters(problems, prefix + ".id", repository.getId());
 
             if ("local".equals(repository.getId())) {
                 addViolation(problems, Severity.WARNING, prefix + ".id", null, "must not be 'local'"
@@ -185,19 +198,18 @@ public class DefaultSettingsValidator
      * <li><code>string.length > 0</code>
      * </ul>
      */
-    private static boolean validateStringNotEmpty(ProblemCollector problems, String fieldName, String string,
+    private static void validateStringNotEmpty(ProblemCollector problems, String fieldName, String string,
             String sourceHint) {
         if (!validateNotNull(problems, fieldName, string, sourceHint)) {
-            return false;
+            return;
         }
 
         if (string.length() > 0) {
-            return true;
+            return;
         }
 
         addViolation(problems, Severity.ERROR, fieldName, sourceHint, "is missing");
 
-        return false;
     }
 
     /**
@@ -218,21 +230,20 @@ public class DefaultSettingsValidator
         return false;
     }
 
-    private static boolean validateBannedCharacters(ProblemCollector problems, String fieldName,
-            Severity severity, String string, String sourceHint,
-            String banned) {
+    private static void validateBannedCharacters(ProblemCollector problems, String fieldName,
+            String string) {
         if (string != null) {
             for (int i = string.length() - 1; i >= 0; i--) {
-                if (banned.indexOf(string.charAt(i)) >= 0) {
-                    addViolation(problems, severity, fieldName, sourceHint,
-                            "must not contain any of these characters " + banned + " but found "
+                if (DefaultSettingsValidator.ILLEGAL_REPO_ID_CHARS.indexOf(string.charAt(i)) >= 0) {
+                    addViolation(problems, Severity.WARNING, fieldName, null,
+                            "must not contain any of these characters " + DefaultSettingsValidator.ILLEGAL_REPO_ID_CHARS
+                                    + " but found "
                                     + string.charAt(i));
-                    return false;
+                    return;
                 }
             }
         }
 
-        return true;
     }
 
     private static void addViolation(ProblemCollector problems, Severity severity, String fieldName,

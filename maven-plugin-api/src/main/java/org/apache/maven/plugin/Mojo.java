@@ -61,16 +61,8 @@ public interface Mojo {
      * <code>Maven</code> system, and allows the <code>Mojo</code> to communicate
      * errors.
      *
-     * @throws MojoExecutionException if an unexpected problem occurs. Throwing this
-     *                                exception causes a "BUILD ERROR" message to be
-     *                                displayed.
-     * @throws MojoFailureException   if an expected problem (such as a compilation
-     *                                failure) occurs. Throwing this exception
-     *                                causes a "BUILD FAILURE" message to be
-     *                                displayed.
      */
-    void execute()
-            throws MojoExecutionException, MojoFailureException;
+    void execute();
 
     /**
      * Inject a standard <code>Maven</code> logging mechanism to allow this

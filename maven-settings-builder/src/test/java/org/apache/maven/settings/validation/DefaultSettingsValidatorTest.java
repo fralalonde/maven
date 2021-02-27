@@ -1,5 +1,8 @@
 package org.apache.maven.settings.validation;
 
+import static java.util.stream.Collectors.toList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,9 +21,7 @@ package org.apache.maven.settings.validation;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.util.List;
-
 import org.apache.maven.building.Problem;
 import org.apache.maven.building.ProblemCollector;
 import org.apache.maven.settings.Mirror;
@@ -33,10 +34,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static java.util.stream.Collectors.toList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 /**
  * @author mkleint
  */
@@ -45,14 +42,12 @@ public class DefaultSettingsValidatorTest {
     private DefaultSettingsValidator validator;
 
     @BeforeEach
-    public void setUp()
-            throws Exception {
+    public void setUp() {
         validator = new DefaultSettingsValidator();
     }
 
     @AfterEach
-    public void tearDown()
-            throws Exception {
+    public void tearDown() {
         validator = null;
     }
 
@@ -88,8 +83,7 @@ public class DefaultSettingsValidatorTest {
     }
 
     @Test
-    public void testValidateMirror()
-            throws Exception {
+    public void testValidateMirror() {
         Settings settings = new Settings();
         Mirror mirror = new Mirror();
         mirror.setId("local");
@@ -110,8 +104,7 @@ public class DefaultSettingsValidatorTest {
     }
 
     @Test
-    public void testValidateRepository()
-            throws Exception {
+    public void testValidateRepository() {
         Profile profile = new Profile();
         Repository repo = new Repository();
         repo.setId("local");
@@ -135,8 +128,7 @@ public class DefaultSettingsValidatorTest {
     }
 
     @Test
-    public void testValidateUniqueServerId()
-            throws Exception {
+    public void testValidateUniqueServerId() {
         Settings settings = new Settings();
         Server server1 = new Server();
         server1.setId("test");
@@ -153,8 +145,7 @@ public class DefaultSettingsValidatorTest {
     }
 
     @Test
-    public void testValidateUniqueProfileId()
-            throws Exception {
+    public void testValidateUniqueProfileId() {
         Settings settings = new Settings();
         Profile profile1 = new Profile();
         profile1.setId("test");
@@ -171,8 +162,7 @@ public class DefaultSettingsValidatorTest {
     }
 
     @Test
-    public void testValidateUniqueRepositoryId()
-            throws Exception {
+    public void testValidateUniqueRepositoryId() {
         Settings settings = new Settings();
         Profile profile = new Profile();
         profile.setId("pro");
@@ -195,11 +185,10 @@ public class DefaultSettingsValidatorTest {
 
     static List<String> getMessages(ProblemCollector c) {
         return c.getProblems().stream().map(Problem::getMessage).collect(toList());
-    } 
-    
+    }
+
     @Test
-    public void testValidateUniqueProxyId()
-            throws Exception {
+    public void testValidateUniqueProxyId() {
         Settings settings = new Settings();
         Proxy proxy = new Proxy();
         String id = null;
@@ -217,8 +206,7 @@ public class DefaultSettingsValidatorTest {
     }
 
     @Test
-    public void testValidateProxy()
-            throws Exception {
+    public void testValidateProxy() {
         Settings settings = new Settings();
         Proxy proxy1 = new Proxy();
         settings.addProxy(proxy1);
@@ -228,5 +216,5 @@ public class DefaultSettingsValidatorTest {
         assertEquals(1, getMessages(problems).size());
         assertContains(getMessages(problems).get(0), "'proxies.proxy.host' for default is missing");
     }
-    
+
 }

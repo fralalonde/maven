@@ -1,5 +1,8 @@
 package org.apache.maven.lifecycle.internal;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
  * agreements. See the NOTICE file distributed with this work for additional information regarding
@@ -14,9 +17,7 @@ package org.apache.maven.lifecycle.internal;
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 import java.util.HashSet;
-
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.lifecycle.MavenExecutionPlan;
 import org.apache.maven.lifecycle.internal.builder.BuilderCommon;
@@ -25,15 +26,11 @@ import org.apache.maven.lifecycle.internal.stub.ProjectDependencyGraphStub;
 import org.codehaus.plexus.logging.Logger;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-
 /**
  * @author Kristian Rosenvold
  */
 public class BuilderCommonTest {
-    private Logger logger = mock(Logger.class);
+    private final Logger logger = mock(Logger.class);
 
     @Test
     public void testResolveBuildPlan()
@@ -75,18 +72,15 @@ public class BuilderCommonTest {
     }
 
     @Test
-    public void testHandleBuildError()
-            throws Exception {
+    public void testHandleBuildError() {
     }
 
     @Test
-    public void testAttachToThread()
-            throws Exception {
+    public void testAttachToThread() {
     }
 
     @Test
-    public void testGetKey()
-            throws Exception {
+    public void testGetKey() {
     }
 
     public BuilderCommon getBuilderCommon() {

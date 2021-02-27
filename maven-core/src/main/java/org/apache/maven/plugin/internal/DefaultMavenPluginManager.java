@@ -1,5 +1,25 @@
 package org.apache.maven.plugin.internal;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,7 +38,6 @@ package org.apache.maven.plugin.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.RepositoryUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.classrealm.ClassRealmManager;
@@ -86,28 +105,6 @@ import org.eclipse.aether.repository.RemoteRepository;
 import org.eclipse.aether.util.filter.AndDependencyFilter;
 import org.eclipse.aether.util.graph.visitor.PreorderNodeListGenerator;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.jar.JarFile;
-import java.util.zip.ZipEntry;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 /**
  * Provides basic services to manage Maven plugins and their mojos. This
  * component is kept general in its design such that the plugins/mojos can be
@@ -168,9 +165,9 @@ public class DefaultMavenPluginManager
     @Inject
     private PluginArtifactsCache pluginArtifactsCache;
 
-    private ExtensionDescriptorBuilder extensionDescriptorBuilder = new ExtensionDescriptorBuilder();
+    private final ExtensionDescriptorBuilder extensionDescriptorBuilder = new ExtensionDescriptorBuilder();
 
-    private PluginDescriptorBuilder builder = new PluginDescriptorBuilder();
+    private final PluginDescriptorBuilder builder = new PluginDescriptorBuilder();
 
     public synchronized PluginDescriptor getPluginDescriptor(Plugin plugin, List<RemoteRepository> repositories,
             RepositorySystemSession session)
@@ -254,9 +251,7 @@ public class DefaultMavenPluginManager
         try {
             Reader reader = ReaderFactory.newXmlReader(is);
 
-            PluginDescriptor pluginDescriptor = builder.build(reader, descriptorLocation);
-
-            return pluginDescriptor;
+            return builder.build(reader, descriptorLocation);
         } catch (IOException | PlexusConfigurationException e) {
             throw new PluginDescriptorParsingException(plugin, descriptorLocation, e);
         }
@@ -407,7 +402,7 @@ public class DefaultMavenPluginManager
 
     private List<Artifact> toMavenArtifacts(DependencyNode root, PreorderNodeListGenerator nlg) {
         List<Artifact> artifacts = new ArrayList<>(nlg.getNodes().size());
-        RepositoryUtils.toArtifacts(artifacts, Collections.singleton(root), Collections.<String>emptyList(), null);
+        RepositoryUtils.toArtifacts(artifacts, Collections.singleton(root), Collections.emptyList(), null);
         artifacts.removeIf(artifact -> artifact.getFile() == null);
         return Collections.unmodifiableList(artifacts);
     }

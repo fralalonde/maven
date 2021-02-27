@@ -1,5 +1,8 @@
 package org.apache.maven.project.artifact;
 
+import java.io.File;
+import java.util.Collection;
+import java.util.List;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,7 +21,6 @@ package org.apache.maven.project.artifact;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.handler.ArtifactHandler;
 import org.apache.maven.artifact.metadata.ArtifactMetadata;
@@ -28,10 +30,6 @@ import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.artifact.versioning.OverConstrainedVersionException;
 import org.apache.maven.artifact.versioning.VersionRange;
 import org.apache.maven.project.MavenProject;
-
-import java.io.File;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Wraps an active project instance to be able to receive updates from its
@@ -43,8 +41,8 @@ import java.util.List;
  *         depend on the context of use, whereas everything else is immutable.
  */
 @Deprecated
-public class ActiveProjectArtifact
-        implements Artifact {
+public class ActiveProjectArtifact implements Artifact {
+
     private final Artifact artifact;
 
     private final MavenProject project;
@@ -332,11 +330,8 @@ public class ActiveProjectArtifact
             return false;
         } else if (!a.getType().equals(getType())) {
             return false;
-        } else if (a.getClassifier() == null ? getClassifier() != null : !a.getClassifier().equals(getClassifier())) {
-            return false;
-        }
-
-        return true;
+        } else
+            return a.getClassifier() == null ? getClassifier() == null : a.getClassifier().equals(getClassifier());
     }
 
 }

@@ -1,5 +1,8 @@
 package org.apache.maven.project.artifact;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,7 +21,6 @@ package org.apache.maven.project.artifact;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DefaultArtifact;
 import org.apache.maven.artifact.InvalidArtifactRTException;
@@ -27,10 +29,6 @@ import org.apache.maven.artifact.metadata.ArtifactMetadata;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.artifact.versioning.VersionRange;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * <strong>Warning:</strong> This is an internal utility class that is only

@@ -1,5 +1,6 @@
 package org.apache.maven.building;
 
+import java.util.List;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,10 +19,7 @@ package org.apache.maven.building;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import lombok.*;
-
-import java.util.List;
 
 /**
  * Collects problems that are encountered during settings building.
@@ -41,7 +39,7 @@ public class ProblemCollector {
     private String source;
 
     public void add(Problem.Severity severity, String message, int line, int column, Exception cause) {
-        Problem problem = new Problem(source,  line, column, message, cause, severity);
+        Problem problem = new Problem(source, line, column, message, cause, severity);
         problems.add(problem);
     }
 

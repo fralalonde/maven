@@ -18,11 +18,12 @@
  */
 package org.apache.maven;
 
+import static java.util.Arrays.asList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.File;
 import java.nio.file.Files;
-
+import java.util.Collections;
 import javax.inject.Inject;
-
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DefaultArtifact;
 import org.apache.maven.execution.MavenExecutionRequest;
@@ -30,9 +31,6 @@ import org.apache.maven.execution.MavenExecutionResult;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
 import org.junit.jupiter.api.Test;
-
-import static java.util.Arrays.asList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DefaultMavenTest
         extends AbstractCoreMavenComponentTestCase {
@@ -49,7 +47,7 @@ public class DefaultMavenTest
     public void testThatErrorDuringProjectDependencyGraphCreationAreStored()
             throws Exception {
         MavenExecutionRequest request = createMavenExecutionRequest(getProject("cyclic-reference"))
-                .setGoals(asList("validate"));
+                .setGoals(Collections.singletonList("validate"));
 
         MavenExecutionResult result = maven.execute(request);
 

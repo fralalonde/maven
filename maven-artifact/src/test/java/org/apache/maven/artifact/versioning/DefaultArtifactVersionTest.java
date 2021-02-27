@@ -1,9 +1,42 @@
 package org.apache.maven.artifact.versioning;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+import static org.junit.jupiter.api.Assertions.*;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -178,18 +211,18 @@ public class DefaultArtifactVersionTest {
     public void testHashCode() {
         ArtifactVersion v1 = newArtifactVersion("1");
         ArtifactVersion v2 = newArtifactVersion("1.0");
-        assertEquals(true, v1.equals(v2));
+        assertTrue(v1.equals(v2));
         assertEquals(v1.hashCode(), v2.hashCode());
     }
 
     @Test
     public void testEqualsNullSafe() {
-        assertFalse(newArtifactVersion("1").equals(null));
+        assertNotEquals(newArtifactVersion("1"), null);
     }
 
     @Test
     public void testEqualsTypeSafe() {
-        assertFalse(newArtifactVersion("1").equals("non-an-artifact-version-instance"));
+        assertNotEquals(newArtifactVersion("1"), "non-an-artifact-version-instance");
     }
 
     @Test
@@ -211,11 +244,9 @@ public class DefaultArtifactVersionTest {
     }
 
     private void assertVersionEqual(String left, String right) {
-        assertTrue(
-                newArtifactVersion(left).compareTo(newArtifactVersion(right)) == 0,
+        assertEquals(newArtifactVersion(left).compareTo(newArtifactVersion(right)), 0,
                 left + " should be equal to " + right);
-        assertTrue(
-                newArtifactVersion(right).compareTo(newArtifactVersion(left)) == 0,
+        assertEquals(newArtifactVersion(right).compareTo(newArtifactVersion(left)), 0,
                 right + " should be equal to " + left);
     }
 }

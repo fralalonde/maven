@@ -18,7 +18,24 @@ package org.apache.maven.wrapper;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -83,7 +100,7 @@ public class Installer {
         List<Path> dirs = listDirs(distDir);
 
         if (downloaded || alwaysUnpack || dirs.isEmpty()) {
-            Files.walkFileTree(distDir.toAbsolutePath(), new SimpleFileVisitor<Path>() {
+            Files.walkFileTree(distDir.toAbsolutePath(), new SimpleFileVisitor<>() {
                 @Override
                 public FileVisitResult postVisitDirectory(Path dir, IOException exc)
                         throws IOException {
@@ -100,7 +117,7 @@ public class Installer {
                         Files.delete(file);
                     }
                     return FileVisitResult.CONTINUE;
-                };
+                }
             });
 
             Logger.info("Unzipping " + localZipFile.toAbsolutePath() + " to " + distDir.toAbsolutePath());
@@ -163,7 +180,7 @@ public class Installer {
     private boolean isWindows() {
         String osName = System.getProperty("os.name").toLowerCase(Locale.US);
 
-        return (osName.indexOf("windows") > -1);
+        return (osName.contains("windows"));
     }
 
     private void unzip(Path zip, Path dest)

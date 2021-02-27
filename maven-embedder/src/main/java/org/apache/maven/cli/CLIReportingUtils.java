@@ -18,16 +18,31 @@ package org.apache.maven.cli;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import static org.apache.maven.shared.utils.logging.MessageUtils.buffer;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
-
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.plexus.util.Os;
 import org.slf4j.Logger;
@@ -56,24 +71,24 @@ public final class CLIReportingUtils {
     public static String showVersion() {
         final String ls = System.lineSeparator();
         Properties properties = getBuildProperties();
-        StringBuilder version = new StringBuilder(256);
-        version.append(buffer().strong(createMavenVersionString(properties))).append(ls);
-        version.append(reduce(
-                properties.getProperty("distributionShortName") + " home: " + System.getProperty("maven.home",
-                        "<unknown Maven "
-                                + "home>")))
-                .append(ls);
-        version.append("Java version: ").append(
-                System.getProperty("java.version", "<unknown Java version>")).append(", vendor: ").append(
-                        System.getProperty("java.vendor", "<unknown vendor>"))
-                .append(", runtime: ").append(
-                        System.getProperty("java.home", "<unknown runtime>"))
-                .append(ls);
-        version.append("Default locale: ").append(Locale.getDefault()).append(", platform encoding: ").append(
-                System.getProperty("file.encoding", "<unknown encoding>")).append(ls);
-        version.append("OS name: \"").append(Os.OS_NAME).append("\", version: \"").append(Os.OS_VERSION).append(
-                "\", arch: \"").append(Os.OS_ARCH).append("\", family: \"").append(Os.OS_FAMILY).append('\"');
-        return version.toString();
+        String version = buffer().strong(createMavenVersionString(properties)) + ls +
+                reduce(
+                        properties.getProperty("distributionShortName") + " home: " + System.getProperty("maven.home",
+                                "<unknown Maven "
+                                        + "home>"))
+                +
+                ls +
+                "Java version: " +
+                System.getProperty("java.version", "<unknown Java version>") + ", vendor: " +
+                System.getProperty("java.vendor", "<unknown vendor>") +
+                ", runtime: " +
+                System.getProperty("java.home", "<unknown runtime>") +
+                ls +
+                "Default locale: " + Locale.getDefault() + ", platform encoding: " +
+                System.getProperty("file.encoding", "<unknown encoding>") + ls +
+                "OS name: \"" + Os.OS_NAME + "\", version: \"" + Os.OS_VERSION +
+                "\", arch: \"" + Os.OS_ARCH + "\", family: \"" + Os.OS_FAMILY + '\"';
+        return version;
     }
 
     /**

@@ -113,8 +113,7 @@ public class ComparableVersion
      * Represents a numeric item in the version item list that can be represented
      * with an int.
      */
-    private static class IntItem
-            implements Item {
+    private static class IntItem implements Item {
         private final int value;
 
         public static final IntItem ZERO = new IntItem();

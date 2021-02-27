@@ -1,5 +1,6 @@
 package org.apache.maven.graph;
 
+import static java.util.Comparator.comparing;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,7 +19,6 @@ package org.apache.maven.graph;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,11 +30,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-
 import org.apache.maven.MavenExecutionException;
 import org.apache.maven.ProjectCycleException;
 import org.apache.maven.artifact.ArtifactUtils;
@@ -55,8 +53,6 @@ import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.dag.CycleDetectedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static java.util.Comparator.comparing;
 
 /**
  * Builds the {@link ProjectDependencyGraph inter-dependencies graph} between
@@ -331,9 +327,7 @@ public class DefaultGraphBuilder
 
             id = project.getGroupId() + id;
 
-            if (id.equals(selector)) {
-                return true;
-            }
+            return id.equals(selector);
         }
 
         // relative path, e.g. "sub", "../sub" or "."

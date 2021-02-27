@@ -1,5 +1,8 @@
 package org.apache.maven.cli;
 
+import static java.util.Comparator.comparing;
+import static org.apache.maven.cli.ResolveFile.resolveFile;
+import static org.apache.maven.shared.utils.logging.MessageUtils.buffer;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,12 +21,33 @@ package org.apache.maven.cli;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import com.google.inject.AbstractModule;
+import java.io.BufferedInputStream;
+import java.io.Console;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.Set;
+import java.util.StringTokenizer;
+import java.util.function.Consumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.UnrecognizedOptionException;
 import org.apache.maven.BuildAbort;
 import org.apache.maven.InternalErrorException;
 import org.apache.maven.Maven;
@@ -94,34 +118,6 @@ import org.sonatype.plexus.components.sec.dispatcher.SecDispatcher;
 import org.sonatype.plexus.components.sec.dispatcher.SecUtil;
 import org.sonatype.plexus.components.sec.dispatcher.model.SettingsSecurity;
 
-import java.io.BufferedInputStream;
-import java.io.Console;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.function.Consumer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static java.util.Comparator.comparing;
-import static org.apache.maven.cli.ResolveFile.resolveFile;
-import static org.apache.maven.shared.utils.logging.MessageUtils.buffer;
-
 // TODO push all common bits back to plexus cli and prepare for transition to Guice. We don't need 50 ways to make CLIs
 
 /**
@@ -149,7 +145,7 @@ public class MavenCli {
 
     public static final String STYLE_COLOR_PROPERTY = "style.color";
 
-    private ClassWorld classWorld;
+    private final ClassWorld classWorld;
 
     private LoggerManager plexusLoggerManager;
 
@@ -273,10 +269,8 @@ public class MavenCli {
             return execute(cliRequest);
         } catch (ExitException e) {
             return e.exitCode;
-        } catch (UnrecognizedOptionException e) {
-            // pure user error, suppress stack trace
-            return 1;
-        } catch (BuildAbort e) {
+        } // pure user error, suppress stack trace
+        catch (BuildAbort e) {
             CLIReportingUtils.showError(slf4jLogger, "ABORTED", e, cliRequest.showErrors);
 
             return 2;
@@ -826,8 +820,7 @@ public class MavenCli {
         }
     }
 
-    private void repository(CliRequest cliRequest)
-            throws Exception {
+    private void repository(CliRequest cliRequest) {
         if (cliRequest.commandLine.hasOption(CLIManager.LEGACY_LOCAL_REPOSITORY) || Boolean.getBoolean(
                 "maven.legacyLocalRepo")) {
             cliRequest.request.setUseLegacyLocalRepository(true);

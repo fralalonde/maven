@@ -1,5 +1,6 @@
 package org.apache.maven.logwrapper;
 
+import java.util.Optional;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,10 +19,7 @@ package org.apache.maven.logwrapper;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.slf4j.ILoggerFactory;
-
-import java.util.Optional;
 
 /**
  * Wrapper for creating loggers which can have a log level threshold.

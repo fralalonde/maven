@@ -1,5 +1,15 @@
 package org.apache.maven.extension.internal;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,21 +28,9 @@ package org.apache.maven.extension.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.project.ExtensionDescriptor;
 import org.apache.maven.project.ExtensionDescriptorBuilder;
 import org.codehaus.plexus.classworlds.realm.ClassRealm;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 /**
  * Provides information about artifacts (identified by groupId:artifactId string
@@ -50,8 +48,8 @@ public class CoreExtensionEntry {
 
     public CoreExtensionEntry(ClassRealm realm, Collection<String> artifacts, Collection<String> packages) {
         this.realm = realm;
-        this.artifacts = Collections.unmodifiableSet(new HashSet<>(artifacts));
-        this.packages = Collections.unmodifiableSet(new HashSet<>(packages));
+        this.artifacts = Set.copyOf(artifacts);
+        this.packages = Set.copyOf(packages);
     }
 
     /**

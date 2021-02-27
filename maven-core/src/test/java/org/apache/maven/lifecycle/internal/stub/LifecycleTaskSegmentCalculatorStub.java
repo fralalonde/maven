@@ -15,10 +15,12 @@
 
 package org.apache.maven.lifecycle.internal.stub;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.maven.execution.MavenSession;
+import org.apache.maven.lifecycle.internal.DefaultLifecycleTaskSegmentCalculator;
 import org.apache.maven.lifecycle.internal.GoalTask;
 import org.apache.maven.lifecycle.internal.LifecycleTask;
-import org.apache.maven.lifecycle.internal.DefaultLifecycleTaskSegmentCalculator;
 import org.apache.maven.lifecycle.internal.TaskSegment;
 import org.apache.maven.plugin.InvalidPluginDescriptorException;
 import org.apache.maven.plugin.MojoNotFoundException;
@@ -27,9 +29,6 @@ import org.apache.maven.plugin.PluginNotFoundException;
 import org.apache.maven.plugin.PluginResolutionException;
 import org.apache.maven.plugin.prefix.NoPluginFoundForPrefixException;
 import org.apache.maven.plugin.version.PluginVersionResolutionException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Kristian Rosenvold
@@ -42,10 +41,7 @@ public class LifecycleTaskSegmentCalculatorStub
 
     public static final String install = "install";
 
-    public List<TaskSegment> calculateTaskSegments(MavenSession session, List<String> tasks)
-            throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
-            MojoNotFoundException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
-            PluginVersionResolutionException {
+    public List<TaskSegment> calculateTaskSegments(MavenSession session, List<String> tasks) {
         List<TaskSegment> taskSegments = new ArrayList<>(tasks.size());
 
         TaskSegment currentSegment = null;

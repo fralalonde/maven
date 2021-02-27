@@ -1,5 +1,6 @@
 package org.apache.maven.session.scope.internal;
 
+import com.google.inject.AbstractModule;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,16 +19,12 @@ package org.apache.maven.session.scope.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import org.apache.maven.SessionScoped;
 import org.apache.maven.execution.MavenSession;
 import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
-
-import com.google.inject.AbstractModule;
 
 /**
  * SessionScopeModule
@@ -56,6 +53,6 @@ public class SessionScopeModule
         bindScope(SessionScoped.class, scope);
         bind(SessionScope.class).toInstance(scope);
 
-        bind(MavenSession.class).toProvider(SessionScope.<MavenSession>seededKeyProvider()).in(scope);
+        bind(MavenSession.class).toProvider(SessionScope.seededKeyProvider()).in(scope);
     }
 }

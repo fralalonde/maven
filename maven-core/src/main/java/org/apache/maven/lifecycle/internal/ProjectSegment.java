@@ -1,5 +1,6 @@
 package org.apache.maven.lifecycle.internal;
 
+import java.util.List;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,12 +19,9 @@ package org.apache.maven.lifecycle.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.execution.ProjectDependencyGraph;
 import org.apache.maven.project.MavenProject;
-
-import java.util.List;
 
 /**
  * A build context that matches a mavenproject to a given tasksegment, and the

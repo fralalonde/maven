@@ -45,8 +45,7 @@ import org.apache.maven.artifact.repository.ArtifactRepository;
  * Exception caused when one or more artifacts can not be resolved because they
  * are not found in the local or remote repositories.
  */
-public class MultipleArtifactsNotFoundException
-        extends ArtifactResolutionException {
+public class MultipleArtifactsNotFoundException extends ArtifactResolutionException {
     private static final String LS = System.lineSeparator();
 
     private final List<Artifact> resolvedArtifacts;

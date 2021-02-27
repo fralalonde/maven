@@ -7,261 +7,234 @@ package org.apache.maven.settings;
 
 /**
  * 
- *         
- *         The <code>&lt;server&gt;</code> element contains
- * informations required to a server settings.
- *         
+ * 
+ * The <code>&lt;server&gt;</code> element contains informations required to a
+ * server settings.
+ * 
  * 
  * @version $Revision$ $Date$
  */
-@SuppressWarnings( "all" )
+@SuppressWarnings("all")
 public class Server
-    extends IdentifiableBase
-    implements java.io.Serializable, java.lang.Cloneable
-{
+        extends IdentifiableBase
+        implements java.io.Serializable, java.lang.Cloneable {
 
-      //--------------------------/
-     //- Class/Member Variables -/
-    //--------------------------/
+    // --------------------------/
+    // - Class/Member Variables -/
+    // --------------------------/
 
     /**
      * 
-     *             
-     *             The username used to authenticate.
-     *             
-     *           
+     * 
+     * The username used to authenticate.
+     * 
+     * 
      */
     private String username;
 
     /**
      * 
-     *             
-     *             The password used in conjunction with the
-     * username to authenticate.
-     *             
-     *           
+     * 
+     * The password used in conjunction with the username to authenticate.
+     * 
+     * 
      */
     private String password;
 
     /**
      * 
-     *             
-     *             The private key location used to authenticate.
-     *             
-     *           
+     * 
+     * The private key location used to authenticate.
+     * 
+     * 
      */
     private String privateKey;
 
     /**
      * 
-     *             
-     *             The passphrase used in conjunction with the
-     * privateKey to authenticate.
-     *             
-     *           
+     * 
+     * The passphrase used in conjunction with the privateKey to authenticate.
+     * 
+     * 
      */
     private String passphrase;
 
     /**
      * 
-     *             
-     *             The permissions for files when they are created.
-     *             
-     *           
+     * 
+     * The permissions for files when they are created.
+     * 
+     * 
      */
     private String filePermissions;
 
     /**
      * 
-     *             
-     *             The permissions for directories when they are
-     * created.
-     *             
-     *           
+     * 
+     * The permissions for directories when they are created.
+     * 
+     * 
      */
     private String directoryPermissions;
 
     /**
      * 
-     *             
-     *             Extra configuration for the transport layer.
-     *             
-     *           
+     * 
+     * Extra configuration for the transport layer.
+     * 
+     * 
      */
     private Object configuration;
 
-
-      //-----------/
-     //- Methods -/
-    //-----------/
+    // -----------/
+    // - Methods -/
+    // -----------/
 
     /**
      * Method clone.
      * 
      * @return Server
      */
-    public Server clone()
-    {
-        try
-        {
+    public Server clone() {
+        try {
             Server copy = (Server) super.clone();
 
-            if ( this.configuration != null )
-            {
-                copy.configuration = new org.codehaus.plexus.util.xml.Xpp3Dom( (org.codehaus.plexus.util.xml.Xpp3Dom) this.configuration );
+            if (this.configuration != null) {
+                copy.configuration = new org.codehaus.plexus.util.xml.Xpp3Dom(
+                        (org.codehaus.plexus.util.xml.Xpp3Dom) this.configuration);
             }
 
             return copy;
+        } catch (java.lang.Exception ex) {
+            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException(getClass().getName()
+                    + " does not support clone()").initCause(ex);
         }
-        catch ( java.lang.Exception ex )
-        {
-            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException( getClass().getName()
-                + " does not support clone()" ).initCause( ex );
-        }
-    } //-- Server clone()
+    } // -- Server clone()
 
     /**
      * Get extra configuration for the transport layer.
      * 
      * @return Object
      */
-    public Object getConfiguration()
-    {
+    public Object getConfiguration() {
         return this.configuration;
-    } //-- Object getConfiguration()
+    } // -- Object getConfiguration()
 
     /**
      * Get the permissions for directories when they are created.
      * 
      * @return String
      */
-    public String getDirectoryPermissions()
-    {
+    public String getDirectoryPermissions() {
         return this.directoryPermissions;
-    } //-- String getDirectoryPermissions()
+    } // -- String getDirectoryPermissions()
 
     /**
      * Get the permissions for files when they are created.
      * 
      * @return String
      */
-    public String getFilePermissions()
-    {
+    public String getFilePermissions() {
         return this.filePermissions;
-    } //-- String getFilePermissions()
+    } // -- String getFilePermissions()
 
     /**
-     * Get the passphrase used in conjunction with the privateKey
-     * to authenticate.
+     * Get the passphrase used in conjunction with the privateKey to authenticate.
      * 
      * @return String
      */
-    public String getPassphrase()
-    {
+    public String getPassphrase() {
         return this.passphrase;
-    } //-- String getPassphrase()
+    } // -- String getPassphrase()
 
     /**
-     * Get the password used in conjunction with the username to
-     * authenticate.
+     * Get the password used in conjunction with the username to authenticate.
      * 
      * @return String
      */
-    public String getPassword()
-    {
+    public String getPassword() {
         return this.password;
-    } //-- String getPassword()
+    } // -- String getPassword()
 
     /**
      * Get the private key location used to authenticate.
      * 
      * @return String
      */
-    public String getPrivateKey()
-    {
+    public String getPrivateKey() {
         return this.privateKey;
-    } //-- String getPrivateKey()
+    } // -- String getPrivateKey()
 
     /**
      * Get the username used to authenticate.
      * 
      * @return String
      */
-    public String getUsername()
-    {
+    public String getUsername() {
         return this.username;
-    } //-- String getUsername()
+    } // -- String getUsername()
 
     /**
      * Set extra configuration for the transport layer.
      * 
      * @param configuration
      */
-    public void setConfiguration( Object configuration )
-    {
+    public void setConfiguration(Object configuration) {
         this.configuration = configuration;
-    } //-- void setConfiguration( Object )
+    } // -- void setConfiguration( Object )
 
     /**
      * Set the permissions for directories when they are created.
      * 
      * @param directoryPermissions
      */
-    public void setDirectoryPermissions( String directoryPermissions )
-    {
+    public void setDirectoryPermissions(String directoryPermissions) {
         this.directoryPermissions = directoryPermissions;
-    } //-- void setDirectoryPermissions( String )
+    } // -- void setDirectoryPermissions( String )
 
     /**
      * Set the permissions for files when they are created.
      * 
      * @param filePermissions
      */
-    public void setFilePermissions( String filePermissions )
-    {
+    public void setFilePermissions(String filePermissions) {
         this.filePermissions = filePermissions;
-    } //-- void setFilePermissions( String )
+    } // -- void setFilePermissions( String )
 
     /**
-     * Set the passphrase used in conjunction with the privateKey
-     * to authenticate.
+     * Set the passphrase used in conjunction with the privateKey to authenticate.
      * 
      * @param passphrase
      */
-    public void setPassphrase( String passphrase )
-    {
+    public void setPassphrase(String passphrase) {
         this.passphrase = passphrase;
-    } //-- void setPassphrase( String )
+    } // -- void setPassphrase( String )
 
     /**
-     * Set the password used in conjunction with the username to
-     * authenticate.
+     * Set the password used in conjunction with the username to authenticate.
      * 
      * @param password
      */
-    public void setPassword( String password )
-    {
+    public void setPassword(String password) {
         this.password = password;
-    } //-- void setPassword( String )
+    } // -- void setPassword( String )
 
     /**
      * Set the private key location used to authenticate.
      * 
      * @param privateKey
      */
-    public void setPrivateKey( String privateKey )
-    {
+    public void setPrivateKey(String privateKey) {
         this.privateKey = privateKey;
-    } //-- void setPrivateKey( String )
+    } // -- void setPrivateKey( String )
 
     /**
      * Set the username used to authenticate.
      * 
      * @param username
      */
-    public void setUsername( String username )
-    {
+    public void setUsername(String username) {
         this.username = username;
-    } //-- void setUsername( String )
+    } // -- void setUsername( String )
 
 }

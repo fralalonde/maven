@@ -275,7 +275,7 @@ public class PluginDescriptor
     public Set<Artifact> getIntroducedDependencyArtifacts() {
         return (introducedDependencyArtifacts != null)
                 ? introducedDependencyArtifacts
-                : Collections.<Artifact>emptySet();
+                : Collections.emptySet();
     }
 
     public void setName(String name) {
@@ -323,7 +323,7 @@ public class PluginDescriptor
         if (lifecycleMappings == null) {
             LifecycleConfiguration lifecycleConfiguration;
 
-            try (Reader reader = ReaderFactory.newXmlReader(getDescriptorStream(LIFECYCLE_DESCRIPTOR))) {
+            try (Reader reader = ReaderFactory.newXmlReader(getDescriptorStream())) {
                 lifecycleConfiguration = new LifecycleMappingsXpp3Reader().read(reader);
             }
 
@@ -337,7 +337,7 @@ public class PluginDescriptor
         return lifecycleMappings.get(lifecycleId);
     }
 
-    private InputStream getDescriptorStream(String descriptor)
+    private InputStream getDescriptorStream()
             throws IOException {
         File pluginFile = (pluginArtifact != null) ? pluginArtifact.getFile() : null;
         if (pluginFile == null) {
@@ -346,12 +346,12 @@ public class PluginDescriptor
 
         if (pluginFile.isFile()) {
             try {
-                return new URL("jar:" + pluginFile.toURI() + "!/" + descriptor).openStream();
+                return new URL("jar:" + pluginFile.toURI() + "!/" + PluginDescriptor.LIFECYCLE_DESCRIPTOR).openStream();
             } catch (MalformedURLException e) {
                 throw new IllegalStateException(e);
             }
         } else {
-            return new FileInputStream(new File(pluginFile, descriptor));
+            return new FileInputStream(new File(pluginFile, PluginDescriptor.LIFECYCLE_DESCRIPTOR));
         }
     }
 

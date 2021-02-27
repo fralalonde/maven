@@ -1,5 +1,11 @@
 package org.apache.maven.lifecycle;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
  * agreements. See the NOTICE file distributed with this work for additional information regarding
@@ -14,14 +20,13 @@ package org.apache.maven.lifecycle;
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-
+import javax.inject.Inject;
 import org.apache.maven.AbstractCoreMavenComponentTestCase;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.execution.MojoExecutionEvent;
@@ -42,18 +47,7 @@ import org.apache.maven.plugin.MojoNotFoundException;
 import org.apache.maven.plugin.descriptor.MojoDescriptor;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import javax.inject.Inject;
 
 public class LifecycleExecutorTest
         extends AbstractCoreMavenComponentTestCase {
@@ -272,8 +266,7 @@ public class LifecycleExecutorTest
     }
 
     @Test
-    public void testLifecyclePluginsRetrievalForDefaultLifecycle()
-            throws Exception {
+    public void testLifecyclePluginsRetrievalForDefaultLifecycle() {
         List<Plugin> plugins = new ArrayList<>(lifecycleExecutor.getPluginsBoundByDefaultToAllLifecycles("jar"));
 
         assertThat(plugins.toString(), plugins, hasSize(9));
@@ -356,7 +349,7 @@ public class LifecycleExecutorTest
         LifecycleTask task = new LifecycleTask("generate-sources");
         MavenExecutionPlan executionPlan = lifeCycleExecutionPlanCalculator.calculateExecutionPlan(session,
                 session.getCurrentProject(),
-                Arrays.asList((Object) task), false);
+                Collections.singletonList(task), false);
 
         MojoExecution execution = executionPlan.getMojoExecutions().get(0);
         assertEquals("maven-it-plugin", execution.getArtifactId(), execution.toString());
@@ -398,8 +391,7 @@ public class LifecycleExecutorTest
         final List<String> log = new ArrayList<>();
 
         MojoExecutionListener mojoListener = new MojoExecutionListener() {
-            public void beforeMojoExecution(MojoExecutionEvent event)
-                    throws MojoExecutionException {
+            public void beforeMojoExecution(MojoExecutionEvent event) {
                 assertNotNull(event.getSession());
                 assertNotNull(event.getProject());
                 assertNotNull(event.getExecution());
@@ -410,8 +402,7 @@ public class LifecycleExecutorTest
                         + event.getExecution().getExecutionId());
             }
 
-            public void afterMojoExecutionSuccess(MojoExecutionEvent event)
-                    throws MojoExecutionException {
+            public void afterMojoExecutionSuccess(MojoExecutionEvent event) {
                 assertNotNull(event.getSession());
                 assertNotNull(event.getProject());
                 assertNotNull(event.getExecution());
@@ -434,8 +425,7 @@ public class LifecycleExecutorTest
             }
         };
         ProjectExecutionListener projectListener = new ProjectExecutionListener() {
-            public void beforeProjectExecution(ProjectExecutionEvent event)
-                    throws LifecycleExecutionException {
+            public void beforeProjectExecution(ProjectExecutionEvent event) {
                 assertNotNull(event.getSession());
                 assertNotNull(event.getProject());
                 assertNull(event.getExecutionPlan());
@@ -444,8 +434,7 @@ public class LifecycleExecutorTest
                 log.add("beforeProjectExecution " + event.getProject().getArtifactId());
             }
 
-            public void beforeProjectLifecycleExecution(ProjectExecutionEvent event)
-                    throws LifecycleExecutionException {
+            public void beforeProjectLifecycleExecution(ProjectExecutionEvent event) {
                 assertNotNull(event.getSession());
                 assertNotNull(event.getProject());
                 assertNotNull(event.getExecutionPlan());
@@ -454,8 +443,7 @@ public class LifecycleExecutorTest
                 log.add("beforeProjectLifecycleExecution " + event.getProject().getArtifactId());
             }
 
-            public void afterProjectExecutionSuccess(ProjectExecutionEvent event)
-                    throws LifecycleExecutionException {
+            public void afterProjectExecutionSuccess(ProjectExecutionEvent event) {
                 assertNotNull(event.getSession());
                 assertNotNull(event.getProject());
                 assertNotNull(event.getExecutionPlan());

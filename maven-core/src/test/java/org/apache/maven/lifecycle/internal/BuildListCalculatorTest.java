@@ -1,5 +1,7 @@
 package org.apache.maven.lifecycle.internal;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
  * agreements. See the NOTICE file distributed with this work for additional information regarding
@@ -14,16 +16,11 @@ package org.apache.maven.lifecycle.internal;
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 import java.util.List;
-
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.lifecycle.internal.stub.LifecycleTaskSegmentCalculatorStub;
 import org.apache.maven.lifecycle.internal.stub.ProjectDependencyGraphStub;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class BuildListCalculatorTest {
 

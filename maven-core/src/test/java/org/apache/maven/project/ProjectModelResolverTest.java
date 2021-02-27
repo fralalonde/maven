@@ -1,5 +1,11 @@
 package org.apache.maven.project;
 
+import static org.apache.maven.test.PlexusExtension.getBasedir;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.startsWith;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,11 +24,9 @@ package org.apache.maven.project;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
-
 import org.apache.maven.artifact.InvalidRepositoryException;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Parent;
@@ -34,13 +38,6 @@ import org.eclipse.aether.RepositorySystem;
 import org.eclipse.aether.impl.RemoteRepositoryManager;
 import org.eclipse.aether.repository.RemoteRepository;
 import org.junit.jupiter.api.Test;
-
-import static org.apache.maven.test.PlexusExtension.getBasedir;
-import static org.hamcrest.Matchers.startsWith;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Test cases for the project {@code ModelResolver} implementation.
@@ -58,7 +55,7 @@ public class ProjectModelResolverTest extends AbstractMavenProjectTestCase {
     }
 
     @Test
-    public void testResolveParentThrowsUnresolvableModelExceptionWhenNotFound() throws Exception {
+    public void testResolveParentThrowsUnresolvableModelExceptionWhenNotFound() {
         final Parent parent = new Parent();
         parent.setGroupId("org.apache");
         parent.setArtifactId("apache");
@@ -73,7 +70,7 @@ public class ProjectModelResolverTest extends AbstractMavenProjectTestCase {
     }
 
     @Test
-    public void testResolveParentThrowsUnresolvableModelExceptionWhenNoMatchingVersionFound() throws Exception {
+    public void testResolveParentThrowsUnresolvableModelExceptionWhenNoMatchingVersionFound() {
         final Parent parent = new Parent();
         parent.setGroupId("org.apache");
         parent.setArtifactId("apache");
@@ -88,7 +85,7 @@ public class ProjectModelResolverTest extends AbstractMavenProjectTestCase {
     }
 
     @Test
-    public void testResolveParentThrowsUnresolvableModelExceptionWhenUsingRangesWithoutUpperBound() throws Exception {
+    public void testResolveParentThrowsUnresolvableModelExceptionWhenUsingRangesWithoutUpperBound() {
         final Parent parent = new Parent();
         parent.setGroupId("org.apache");
         parent.setArtifactId("apache");
@@ -125,7 +122,7 @@ public class ProjectModelResolverTest extends AbstractMavenProjectTestCase {
     }
 
     @Test
-    public void testResolveDependencyThrowsUnresolvableModelExceptionWhenNotFound() throws Exception {
+    public void testResolveDependencyThrowsUnresolvableModelExceptionWhenNotFound() {
         final Dependency dependency = new Dependency();
         dependency.setGroupId("org.apache");
         dependency.setArtifactId("apache");
@@ -140,7 +137,7 @@ public class ProjectModelResolverTest extends AbstractMavenProjectTestCase {
     }
 
     @Test
-    public void testResolveDependencyThrowsUnresolvableModelExceptionWhenNoMatchingVersionFound() throws Exception {
+    public void testResolveDependencyThrowsUnresolvableModelExceptionWhenNoMatchingVersionFound() {
         final Dependency dependency = new Dependency();
         dependency.setGroupId("org.apache");
         dependency.setArtifactId("apache");
@@ -155,8 +152,7 @@ public class ProjectModelResolverTest extends AbstractMavenProjectTestCase {
     }
 
     @Test
-    public void testResolveDependencyThrowsUnresolvableModelExceptionWhenUsingRangesWithoutUpperBound()
-            throws Exception {
+    public void testResolveDependencyThrowsUnresolvableModelExceptionWhenUsingRangesWithoutUpperBound() {
         final Dependency dependency = new Dependency();
         dependency.setGroupId("org.apache");
         dependency.setArtifactId("apache");
@@ -204,8 +200,7 @@ public class ProjectModelResolverTest extends AbstractMavenProjectTestCase {
 
     }
 
-    private List<RemoteRepository> getRemoteRepositories()
-            throws InvalidRepositoryException {
+    private List<RemoteRepository> getRemoteRepositories() {
         final File repoDir = new File(getBasedir(), "src/test/remote-repo").getAbsoluteFile();
         final RemoteRepository remoteRepository = new RemoteRepository.Builder(
                 org.apache.maven.repository.RepositorySystem.DEFAULT_REMOTE_REPO_ID,

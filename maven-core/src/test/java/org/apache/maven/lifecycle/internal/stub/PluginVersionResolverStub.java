@@ -28,8 +28,7 @@ import org.eclipse.aether.repository.ArtifactRepository;
 public class PluginVersionResolverStub
         implements PluginVersionResolver {
 
-    public PluginVersionResult resolve(PluginVersionRequest request)
-            throws PluginVersionResolutionException {
+    public PluginVersionResult resolve(PluginVersionRequest request) {
         return new PluginVersionResult() {
             public String getVersion() {
                 return "0.42";

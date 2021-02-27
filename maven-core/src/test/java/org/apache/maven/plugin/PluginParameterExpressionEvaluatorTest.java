@@ -1,5 +1,10 @@
 package org.apache.maven.plugin;
 
+import static org.apache.maven.test.PlexusExtension.getTestFile;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,14 +23,13 @@ package org.apache.maven.plugin;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
+import javax.inject.Inject;
 import org.apache.maven.AbstractCoreMavenComponentTestCase;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.ArtifactUtils;
@@ -46,17 +50,7 @@ import org.codehaus.plexus.MutablePlexusContainer;
 import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.component.configurator.expression.ExpressionEvaluator;
 import org.codehaus.plexus.util.dag.CycleDetectedException;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.apache.maven.test.PlexusExtension.getTestFile;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import javax.inject.Inject;
 
 /**
  * @author Jason van Zyl
@@ -309,16 +303,16 @@ public class PluginParameterExpressionEvaluatorTest
     }
 
     @SuppressWarnings("deprecation")
-    private static MavenSession createSession(PlexusContainer container, ArtifactRepository repo, Properties properties)
-            throws CycleDetectedException, DuplicateProjectException {
+    private static MavenSession createSession(PlexusContainer container, ArtifactRepository repo,
+            Properties properties) {
         MavenExecutionRequest request = new DefaultMavenExecutionRequest()
                 .setSystemProperties(properties)
-                .setGoals(Collections.<String>emptyList())
+                .setGoals(Collections.emptyList())
                 .setBaseDirectory(new File(""))
                 .setLocalRepository(repo);
 
         return new MavenSession(container, request, new DefaultMavenExecutionResult(),
-                Collections.<MavenProject>emptyList());
+                Collections.emptyList());
     }
 
     @Test
@@ -396,8 +390,7 @@ public class PluginParameterExpressionEvaluatorTest
         return new PluginParameterExpressionEvaluator(session, mojoExecution);
     }
 
-    protected Artifact createArtifact(String groupId, String artifactId, String version)
-            throws Exception {
+    protected Artifact createArtifact(String groupId, String artifactId, String version) {
         Dependency dependency = new Dependency();
         dependency.setGroupId(groupId);
         dependency.setArtifactId(artifactId);

@@ -42,6 +42,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
+import lombok.NonNull;
 import org.apache.maven.artifact.handler.ArtifactHandler;
 import org.apache.maven.artifact.metadata.ArtifactMetadata;
 import org.apache.maven.artifact.repository.ArtifactRepository;
@@ -55,14 +57,17 @@ import org.codehaus.plexus.util.StringUtils;
 /**
  * @author Jason van Zyl
  */
-public class DefaultArtifact
-        implements Artifact {
+public class DefaultArtifact implements Artifact {
+
+    @NonNull
     private String groupId;
 
+    @NonNull
     private String artifactId;
 
     private String baseVersion;
 
+    @NonNull
     private final String type;
 
     private final String classifier;
@@ -312,14 +317,11 @@ public class DefaultArtifact
             return false;
         } else if (!a.getType().equals(type)) {
             return false;
-        } else if (a.getClassifier() == null ? classifier != null : !a.getClassifier().equals(classifier)) {
-            return false;
-        }
+        } else
+            return a.getClassifier() == null ? classifier == null : a.getClassifier().equals(classifier);
 
         // We don't consider the version range in the comparison, just the resolved
         // version
-
-        return true;
     }
 
     public String getBaseVersion() {

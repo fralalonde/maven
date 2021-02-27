@@ -46,9 +46,9 @@ import org.apache.maven.plugin.descriptor.PluginDescriptor;
  */
 public class MojoNotFoundException
         extends Exception {
-    private String goal;
+    private final String goal;
 
-    private PluginDescriptor pluginDescriptor;
+    private final PluginDescriptor pluginDescriptor;
 
     public MojoNotFoundException(String goal, PluginDescriptor pluginDescriptor) {
         super(toMessage(goal, pluginDescriptor));

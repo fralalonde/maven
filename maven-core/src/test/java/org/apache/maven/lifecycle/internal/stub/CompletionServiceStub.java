@@ -15,8 +15,6 @@
 
 package org.apache.maven.lifecycle.internal.stub;
 
-import org.apache.maven.lifecycle.internal.ProjectSegment;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,6 +23,7 @@ import java.util.concurrent.CompletionService;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
+import org.apache.maven.lifecycle.internal.ProjectSegment;
 
 /**
  * @author Kristian Rosenvold
@@ -61,8 +60,7 @@ public class CompletionServiceStub
         return projectBuildFutureTask;
     }
 
-    public Future<ProjectSegment> take()
-            throws InterruptedException {
+    public Future<ProjectSegment> take() {
         return null;
     }
 
@@ -70,8 +68,7 @@ public class CompletionServiceStub
         return null;
     }
 
-    public Future<ProjectSegment> poll(long timeout, TimeUnit unit)
-            throws InterruptedException {
+    public Future<ProjectSegment> poll(long timeout, TimeUnit unit) {
         return null;
     }
 }

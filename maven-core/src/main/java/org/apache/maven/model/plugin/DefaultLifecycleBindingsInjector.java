@@ -18,18 +18,33 @@ package org.apache.maven.model.plugin;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-
 import org.apache.maven.lifecycle.LifeCyclePluginAnalyzer;
 import org.apache.maven.model.Build;
 import org.apache.maven.model.Model;
@@ -38,9 +53,9 @@ import org.apache.maven.model.PluginContainer;
 import org.apache.maven.model.PluginExecution;
 import org.apache.maven.model.PluginManagement;
 import org.apache.maven.model.building.ModelBuildingRequest;
-import org.apache.maven.model.building.ModelProblemCollector;
 import org.apache.maven.model.building.ModelProblem.Severity;
 import org.apache.maven.model.building.ModelProblem.Version;
+import org.apache.maven.model.building.ModelProblemCollector;
 import org.apache.maven.model.building.ModelProblemCollectorRequest;
 import org.apache.maven.model.merge.MavenModelMerger;
 
@@ -55,7 +70,7 @@ import org.apache.maven.model.merge.MavenModelMerger;
 public class DefaultLifecycleBindingsInjector
         implements LifecycleBindingsInjector {
 
-    private LifecycleBindingsMerger merger = new LifecycleBindingsMerger();
+    private final LifecycleBindingsMerger merger = new LifecycleBindingsMerger();
 
     @Inject
     private LifeCyclePluginAnalyzer lifecycle;
@@ -91,7 +106,7 @@ public class DefaultLifecycleBindingsInjector
                 target.setBuild(new Build());
             }
 
-            Map<Object, Object> context = Collections.<Object, Object>singletonMap(PLUGIN_MANAGEMENT,
+            Map<Object, Object> context = Collections.singletonMap(PLUGIN_MANAGEMENT,
                     target.getBuild().getPluginManagement());
 
             mergePluginContainer_Plugins(target.getBuild(), source.getBuild(), false, context);

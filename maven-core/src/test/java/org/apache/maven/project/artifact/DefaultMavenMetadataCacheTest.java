@@ -1,5 +1,7 @@
 package org.apache.maven.project.artifact;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,10 +20,8 @@ package org.apache.maven.project.artifact;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.util.Arrays;
 import java.util.Collections;
-
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.filter.ExcludesArtifactFilter;
@@ -30,11 +30,8 @@ import org.apache.maven.repository.DelegatingLocalArtifactRepository;
 import org.apache.maven.repository.RepositorySystem;
 import org.apache.maven.repository.TestRepositorySystem;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Igor Fedorenko
@@ -43,14 +40,12 @@ public class DefaultMavenMetadataCacheTest {
     private RepositorySystem repositorySystem;
 
     @BeforeEach
-    public void setUp()
-            throws Exception {
+    public void setUp() {
         repositorySystem = new TestRepositorySystem(null, null);
     }
 
     @AfterEach
-    public void tearDown()
-            throws Exception {
+    public void tearDown() {
         repositorySystem = null;
     }
 
@@ -61,13 +56,13 @@ public class DefaultMavenMetadataCacheTest {
         @SuppressWarnings("deprecation")
         ArtifactRepository lr1 = new DelegatingLocalArtifactRepository(repositorySystem.createDefaultLocalRepository());
         ArtifactRepository rr1 = repositorySystem.createDefaultRemoteRepository();
-        a1.setDependencyFilter(new ExcludesArtifactFilter(Arrays.asList("foo")));
+        a1.setDependencyFilter(new ExcludesArtifactFilter(Collections.singletonList("foo")));
 
         Artifact a2 = repositorySystem.createArtifact("testGroup", "testArtifact", "1.2.3", "jar");
         @SuppressWarnings("deprecation")
         ArtifactRepository lr2 = new DelegatingLocalArtifactRepository(repositorySystem.createDefaultLocalRepository());
         ArtifactRepository rr2 = repositorySystem.createDefaultRemoteRepository();
-        a2.setDependencyFilter(new ExcludesArtifactFilter(Arrays.asList("foo")));
+        a2.setDependencyFilter(new ExcludesArtifactFilter(Collections.singletonList("foo")));
 
         // sanity checks
         assertNotSame(a1, a2);

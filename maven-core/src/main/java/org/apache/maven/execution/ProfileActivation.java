@@ -1,5 +1,6 @@
 package org.apache.maven.execution;
 
+import static java.util.stream.Collectors.toSet;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,15 +19,12 @@ package org.apache.maven.execution;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
-
-import static java.util.stream.Collectors.toSet;
 
 /**
  * Container for storing the request from the user to activate or de-activate

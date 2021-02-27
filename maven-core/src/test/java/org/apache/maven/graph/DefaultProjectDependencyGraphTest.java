@@ -14,17 +14,16 @@
  */
 package org.apache.maven.graph;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-
 import org.apache.maven.execution.ProjectDependencyGraph;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.project.DuplicateProjectException;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.dag.CycleDetectedException;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Kristian Rosenvold
@@ -33,16 +32,20 @@ public class DefaultProjectDependencyGraphTest {
 
     private final MavenProject aProject = createA();
 
-    private final MavenProject depender1 = createProject(Arrays.asList(toDependency(aProject)), "depender1");
+    private final MavenProject depender1 = createProject(Collections.singletonList(toDependency(aProject)),
+            "depender1");
 
-    private final MavenProject depender2 = createProject(Arrays.asList(toDependency(aProject)), "depender2");
+    private final MavenProject depender2 = createProject(Collections.singletonList(toDependency(aProject)),
+            "depender2");
 
-    private final MavenProject depender3 = createProject(Arrays.asList(toDependency(aProject)), "depender3");
+    private final MavenProject depender3 = createProject(Collections.singletonList(toDependency(aProject)),
+            "depender3");
 
     private final MavenProject depender4 = createProject(Arrays.asList(toDependency(aProject), toDependency(depender3)),
             "depender4");
 
-    private final MavenProject transitiveOnly = createProject(Arrays.asList(toDependency(depender3)), "depender5");
+    private final MavenProject transitiveOnly = createProject(Collections.singletonList(toDependency(depender3)),
+            "depender5");
 
     @Test
     public void testGetSortedProjects()

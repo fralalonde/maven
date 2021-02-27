@@ -1,5 +1,9 @@
 package org.apache.maven.repository.internal;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,10 +22,9 @@ package org.apache.maven.repository.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.net.MalformedURLException;
 import java.util.Arrays;
-
+import java.util.Collections;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Parent;
 import org.apache.maven.model.resolution.ModelResolver;
@@ -31,11 +34,6 @@ import org.eclipse.aether.impl.ArtifactResolver;
 import org.eclipse.aether.impl.RemoteRepositoryManager;
 import org.eclipse.aether.impl.VersionRangeResolver;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test cases for the default {@code ModelResolver} implementation.
@@ -53,7 +51,7 @@ public final class DefaultModelResolverTest extends AbstractRepositoryTestCase {
     }
 
     @Test
-    public void testResolveParentThrowsUnresolvableModelExceptionWhenNotFound() throws Exception {
+    public void testResolveParentThrowsUnresolvableModelExceptionWhenNotFound() {
         final Parent parent = new Parent();
         parent.setGroupId("ut.simple");
         parent.setArtifactId("artifact");
@@ -68,7 +66,7 @@ public final class DefaultModelResolverTest extends AbstractRepositoryTestCase {
     }
 
     @Test
-    public void testResolveParentThrowsUnresolvableModelExceptionWhenNoMatchingVersionFound() throws Exception {
+    public void testResolveParentThrowsUnresolvableModelExceptionWhenNoMatchingVersionFound() {
         final Parent parent = new Parent();
         parent.setGroupId("ut.simple");
         parent.setArtifactId("artifact");
@@ -84,7 +82,7 @@ public final class DefaultModelResolverTest extends AbstractRepositoryTestCase {
     }
 
     @Test
-    public void testResolveParentThrowsUnresolvableModelExceptionWhenUsingRangesWithoutUpperBound() throws Exception {
+    public void testResolveParentThrowsUnresolvableModelExceptionWhenUsingRangesWithoutUpperBound() {
         final Parent parent = new Parent();
         parent.setGroupId("ut.simple");
         parent.setArtifactId("artifact");
@@ -121,7 +119,7 @@ public final class DefaultModelResolverTest extends AbstractRepositoryTestCase {
     }
 
     @Test
-    public void testResolveDependencyThrowsUnresolvableModelExceptionWhenNotFound() throws Exception {
+    public void testResolveDependencyThrowsUnresolvableModelExceptionWhenNotFound() {
         final Dependency dependency = new Dependency();
         dependency.setGroupId("ut.simple");
         dependency.setArtifactId("artifact");
@@ -136,7 +134,7 @@ public final class DefaultModelResolverTest extends AbstractRepositoryTestCase {
     }
 
     @Test
-    public void testResolveDependencyThrowsUnresolvableModelExceptionWhenNoMatchingVersionFound() throws Exception {
+    public void testResolveDependencyThrowsUnresolvableModelExceptionWhenNoMatchingVersionFound() {
         final Dependency dependency = new Dependency();
         dependency.setGroupId("ut.simple");
         dependency.setArtifactId("artifact");
@@ -151,8 +149,7 @@ public final class DefaultModelResolverTest extends AbstractRepositoryTestCase {
     }
 
     @Test
-    public void testResolveDependencyThrowsUnresolvableModelExceptionWhenUsingRangesWithoutUpperBound()
-            throws Exception {
+    public void testResolveDependencyThrowsUnresolvableModelExceptionWhenUsingRangesWithoutUpperBound() {
         final Dependency dependency = new Dependency();
         dependency.setGroupId("ut.simple");
         dependency.setArtifactId("artifact");
@@ -192,7 +189,7 @@ public final class DefaultModelResolverTest extends AbstractRepositoryTestCase {
         return new DefaultModelResolver(this.session, null, this.getClass().getName(),
                 getContainer().lookup(ArtifactResolver.class), getContainer().lookup(VersionRangeResolver.class),
                 getContainer().lookup(RemoteRepositoryManager.class),
-                Arrays.asList(newTestRepository()));
+                Collections.singletonList(newTestRepository()));
 
     }
 

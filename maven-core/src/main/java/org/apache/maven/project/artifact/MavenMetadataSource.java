@@ -18,7 +18,24 @@ package org.apache.maven.project.artifact;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,11 +48,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-
 import org.apache.maven.RepositoryUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.factory.ArtifactFactory;
@@ -322,9 +337,7 @@ public class MavenMetadataSource
                 dependency.getType(), dependency.getClassifier(), effectiveScope,
                 dependency.isOptional());
 
-        ArtifactFilter dependencyFilter = inheritedFilter;
-
-        if (dependencyFilter != null && !dependencyFilter.include(dependencyArtifact)) {
+        if (inheritedFilter != null && !inheritedFilter.include(dependencyArtifact)) {
             return null;
         }
 
@@ -332,7 +345,7 @@ public class MavenMetadataSource
             dependencyArtifact.setFile(new File(dependency.getSystemPath()));
         }
 
-        dependencyArtifact.setDependencyFilter(createDependencyFilter(dependency, dependencyFilter));
+        dependencyArtifact.setDependencyFilter(createDependencyFilter(dependency, inheritedFilter));
 
         return dependencyArtifact;
     }
@@ -395,11 +408,7 @@ public class MavenMetadataSource
             throws ArtifactMetadataRetrievalException {
         RepositoryMetadata metadata = new ArtifactRepositoryMetadata(request.getArtifact());
 
-        try {
-            repositoryMetadataManager.resolve(metadata, request);
-        } catch (RepositoryMetadataResolutionException e) {
-            throw new ArtifactMetadataRetrievalException(e.getMessage(), e, request.getArtifact());
-        }
+        repositoryMetadataManager.resolve(metadata, request);
 
         List<String> availableVersions = request.getLocalRepository().findVersions(request.getArtifact());
 
@@ -412,11 +421,7 @@ public class MavenMetadataSource
             throws ArtifactMetadataRetrievalException {
         RepositoryMetadata metadata = new ArtifactRepositoryMetadata(artifact);
 
-        try {
-            repositoryMetadataManager.resolveAlways(metadata, localRepository, deploymentRepository);
-        } catch (RepositoryMetadataResolutionException e) {
-            throw new ArtifactMetadataRetrievalException(e.getMessage(), e, artifact);
-        }
+        repositoryMetadataManager.resolveAlways(metadata, localRepository, deploymentRepository);
 
         List<String> availableVersions = localRepository.findVersions(artifact);
 

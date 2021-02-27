@@ -1,7 +1,42 @@
 package org.apache.maven.artifact;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+import static org.junit.jupiter.api.Assertions.*;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -31,26 +66,26 @@ public class DefaultArtifactTest {
 
     private DefaultArtifact snapshotArtifact;
 
-    private String groupId = "groupid", artifactId = "artifactId", version = "1.0", scope = "artifactScope",
-            type = "type",
-            classifier = "classifier";
+    private final String groupId = "groupid";
+    private final String artifactId = "artifactId";
+    private final String version = "1.0";
+    private final String scope = "artifactScope";
+    private final String type = "type";
+    private final String classifier = "classifier";
 
-    private String snapshotSpecVersion = "1.0-SNAPSHOT";
-    private String snapshotResolvedVersion = "1.0-20070606.010101-1";
+    private final String snapshotResolvedVersion = "1.0-20070606.010101-1";
 
     private VersionRange versionRange;
-    private VersionRange snapshotVersionRange;
 
     private ArtifactHandlerMock artifactHandler;
 
     @BeforeEach
-    public void setUp()
-            throws Exception {
+    public void setUp() {
         artifactHandler = new ArtifactHandlerMock();
         versionRange = VersionRange.createFromVersion(version);
         artifact = new DefaultArtifact(groupId, artifactId, versionRange, scope, type, classifier, artifactHandler);
 
-        snapshotVersionRange = VersionRange.createFromVersion(snapshotResolvedVersion);
+        VersionRange snapshotVersionRange = VersionRange.createFromVersion(snapshotResolvedVersion);
         snapshotArtifact = new DefaultArtifact(groupId, artifactId, snapshotVersionRange, scope, type, classifier,
                 artifactHandler);
     }
@@ -62,6 +97,7 @@ public class DefaultArtifactTest {
         // this is FOUL!
 //        snapshotArtifact.isSnapshot();
 
+        String snapshotSpecVersion = "1.0-SNAPSHOT";
         assertEquals(snapshotSpecVersion, snapshotArtifact.getBaseVersion());
     }
 
@@ -124,8 +160,8 @@ public class DefaultArtifactTest {
 
         Artifact artifact = new DefaultArtifact(groupId, artifactId, VersionRange.createFromVersion("5.0"), scope,
                 type, classifier, artifactHandler);
-        assertTrue(artifact.compareTo(artifact1) == 0);
-        assertTrue(artifact1.compareTo(artifact) == 0);
+        assertEquals(artifact.compareTo(artifact1), 0);
+        assertEquals(artifact1.compareTo(artifact), 0);
     }
 
     @Test
@@ -133,8 +169,8 @@ public class DefaultArtifactTest {
             throws Exception {
         VersionRange vr = VersionRange.createFromVersionSpec("[1.0,2.0)");
         artifact = new DefaultArtifact(groupId, artifactId, vr, scope, type, null, artifactHandler);
-        assertEquals(null, artifact.getVersion());
-        assertEquals(null, artifact.getBaseVersion());
+        assertNull(artifact.getVersion());
+        assertNull(artifact.getBaseVersion());
     }
 
 }

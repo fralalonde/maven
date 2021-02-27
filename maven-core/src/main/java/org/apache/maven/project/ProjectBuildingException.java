@@ -1,5 +1,9 @@
 package org.apache.maven.project;
 
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.List;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,14 +22,8 @@ package org.apache.maven.project;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.model.building.ModelProblem;
 import org.apache.maven.model.building.ModelProblemUtils;
-
-import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.List;
 
 /**
  * @author Jason van Zyl
@@ -108,8 +106,8 @@ public class ProjectBuildingException
     private static String createMessage(List<ProjectBuildingResult> results) {
         StringWriter buffer = new StringWriter(1024);
         PrintWriter writer = new PrintWriter(buffer);
-        writer.println("Some problems were encountered while processing the POMs:");
-        try {
+        try (writer) {
+            writer.println("Some problems were encountered while processing the POMs:");
 
             for (ProjectBuildingResult result : results) {
                 for (ModelProblem problem : result.getProblems()) {
@@ -124,8 +122,6 @@ public class ProjectBuildingException
                     }
                 }
             }
-        } finally {
-            writer.close();
         }
         return buffer.toString();
     }

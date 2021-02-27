@@ -27,8 +27,7 @@ import org.eclipse.aether.repository.ArtifactRepository;
 
 public class PluginPrefixResolverStub
         implements PluginPrefixResolver {
-    public PluginPrefixResult resolve(PluginPrefixRequest request)
-            throws NoPluginFoundForPrefixException {
+    public PluginPrefixResult resolve(PluginPrefixRequest request) {
         return new PluginPrefixResult() {
             public String getGroupId() {
                 return "com.foobar";

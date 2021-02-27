@@ -15,6 +15,7 @@
 
 package org.apache.maven.lifecycle.internal.stub;
 
+import java.util.*;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.lifecycle.LifecycleNotFoundException;
 import org.apache.maven.lifecycle.LifecyclePhaseNotFoundException;
@@ -39,12 +40,6 @@ import org.apache.maven.plugin.prefix.NoPluginFoundForPrefixException;
 import org.apache.maven.plugin.version.PluginVersionResolutionException;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author Kristian Rosenvold
@@ -117,10 +112,7 @@ public class LifecycleExecutionPlanCalculatorStub
         return getNumberOfExceutions(projectBuildList);
     }
 
-    public void calculateForkedExecutions(MojoExecution mojoExecution, MavenSession session)
-            throws MojoNotFoundException, PluginNotFoundException, PluginResolutionException,
-            PluginDescriptorParsingException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
-            LifecyclePhaseNotFoundException, LifecycleNotFoundException, PluginVersionResolutionException {
+    public void calculateForkedExecutions(MojoExecution mojoExecution, MavenSession session) {
         // Maybe do something ?
     }
 
@@ -150,10 +142,7 @@ public class LifecycleExecutionPlanCalculatorStub
     }
 
     public void setupMojoExecution(MavenSession session, MavenProject project, MojoExecution mojoExecution,
-            Set<MojoDescriptor> alreadyForkedExecutions)
-            throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
-            MojoNotFoundException, InvalidPluginDescriptorException, NoPluginFoundForPrefixException,
-            LifecyclePhaseNotFoundException, LifecycleNotFoundException, PluginVersionResolutionException {
+            Set<MojoDescriptor> alreadyForkedExecutions) {
     }
 
     public static MavenExecutionPlan getProjectAExceutionPlan()
@@ -186,10 +175,7 @@ public class LifecycleExecutionPlanCalculatorStub
         return createExecutionPlan(ProjectDependencyGraphStub.B.getExecutionProject(), me);
     }
 
-    private static MavenExecutionPlan createExecutionPlan(MavenProject project, List<MojoExecution> mojoExecutions)
-            throws InvalidPluginDescriptorException, PluginVersionResolutionException, PluginDescriptorParsingException,
-            NoPluginFoundForPrefixException, MojoNotFoundException, PluginNotFoundException, PluginResolutionException,
-            LifecyclePhaseNotFoundException, LifecycleNotFoundException {
+    private static MavenExecutionPlan createExecutionPlan(MavenProject project, List<MojoExecution> mojoExecutions) {
         final List<ExecutionPlanItem> planItemList = ExecutionPlanItem.createExecutionPlanItems(project,
                 mojoExecutions);
         return new MavenExecutionPlan(planItemList, DefaultLifecyclesStub.createDefaultLifecycles());
@@ -229,7 +215,7 @@ public class LifecycleExecutionPlanCalculatorStub
     }
 
     public static Set<String> getScopes() {
-        return new HashSet<>(Arrays.asList("compile"));
+        return new HashSet<>(Collections.singletonList("compile"));
     }
 
 }

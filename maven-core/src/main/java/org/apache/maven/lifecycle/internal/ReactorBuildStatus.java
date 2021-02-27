@@ -1,5 +1,8 @@
 package org.apache.maven.lifecycle.internal;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,14 +21,9 @@ package org.apache.maven.lifecycle.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.execution.ProjectDependencyGraph;
 import org.apache.maven.lifecycle.internal.builder.BuilderCommon;
 import org.apache.maven.project.MavenProject;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 
 /**
  * Contains status information that is global to an entire reactor build.

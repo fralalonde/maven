@@ -49,19 +49,19 @@ import org.apache.maven.artifact.repository.ArtifactRepositoryPolicy;
  */
 public class AbstractArtifactResolutionException
         extends Exception {
-    private String groupId;
+    private final String groupId;
 
-    private String artifactId;
+    private final String artifactId;
 
-    private String version;
+    private final String version;
 
-    private String type;
+    private final String type;
 
-    private String classifier;
+    private final String classifier;
 
     private Artifact artifact;
 
-    private List<ArtifactRepository> remoteRepositories;
+    private final List<ArtifactRepository> remoteRepositories;
 
     private final String originalMessage;
 
@@ -76,9 +76,8 @@ public class AbstractArtifactResolutionException
             String version,
             String type,
             String classifier,
-            List<ArtifactRepository> remoteRepositories,
-            List<String> path) {
-        this(message, groupId, artifactId, version, type, classifier, remoteRepositories, path, null);
+            List<ArtifactRepository> remoteRepositories) {
+        this(message, groupId, artifactId, version, type, classifier, remoteRepositories, null, null);
     }
 
     @SuppressWarnings("checkstyle:parameternumber")

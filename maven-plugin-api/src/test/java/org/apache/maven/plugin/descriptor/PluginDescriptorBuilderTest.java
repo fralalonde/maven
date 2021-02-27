@@ -1,7 +1,42 @@
 package org.apache.maven.plugin.descriptor;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+import static org.junit.jupiter.api.Assertions.*;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -36,9 +71,9 @@ import org.junit.jupiter.api.Test;
  */
 public class PluginDescriptorBuilderTest {
 
-    private PluginDescriptor build(String resource)
+    private PluginDescriptor build()
             throws IOException, PlexusConfigurationException {
-        Reader reader = ReaderFactory.newXmlReader(getClass().getResourceAsStream(resource));
+        Reader reader = ReaderFactory.newXmlReader(getClass().getResourceAsStream("/plugin.xml"));
 
         return new PluginDescriptorBuilder().build(reader);
     }
@@ -46,15 +81,15 @@ public class PluginDescriptorBuilderTest {
     @Test
     public void testBuildReader()
             throws Exception {
-        PluginDescriptor pd = build("/plugin.xml");
+        PluginDescriptor pd = build();
 
         assertEquals("org.apache.maven.plugins", pd.getGroupId());
         assertEquals("maven-jar-plugin", pd.getArtifactId());
         assertEquals("2.3-SNAPSHOT", pd.getVersion());
         assertEquals("jar", pd.getGoalPrefix());
         assertEquals("plugin-description", pd.getDescription());
-        assertEquals(false, pd.isIsolatedRealm());
-        assertEquals(true, pd.isInheritedByDefault());
+        assertFalse(pd.isIsolatedRealm());
+        assertTrue(pd.isInheritedByDefault());
         assertEquals(2, pd.getMojos().size());
         assertEquals(1, pd.getDependencies().size());
 
@@ -64,12 +99,12 @@ public class PluginDescriptorBuilderTest {
         assertEquals("mojo-description", md.getDescription());
         assertEquals("runtime", md.getDependencyResolutionRequired());
         assertEquals("test", md.getDependencyCollectionRequired());
-        assertEquals(false, md.isAggregator());
-        assertEquals(false, md.isDirectInvocationOnly());
-        assertEquals(true, md.isInheritedByDefault());
-        assertEquals(false, md.isOnlineRequired());
-        assertEquals(true, md.isProjectRequired());
-        assertEquals(false, md.isThreadSafe());
+        assertFalse(md.isAggregator());
+        assertFalse(md.isDirectInvocationOnly());
+        assertTrue(md.isInheritedByDefault());
+        assertFalse(md.isOnlineRequired());
+        assertTrue(md.isProjectRequired());
+        assertFalse(md.isThreadSafe());
         assertEquals("package", md.getPhase());
         assertEquals("org.apache.maven.plugin.jar.JarMojo", md.getImplementation());
         assertEquals("antrun", md.getComponentConfigurator());
@@ -98,8 +133,8 @@ public class PluginDescriptorBuilderTest {
         assertEquals("jarName", mp.getAlias());
         assertEquals("java.lang.String", mp.getType());
         assertEquals("java.lang.String", mp.getImplementation());
-        assertEquals(true, mp.isEditable());
-        assertEquals(false, mp.isRequired());
+        assertTrue(mp.isEditable());
+        assertFalse(mp.isRequired());
         assertEquals("parameter-description", mp.getDescription());
         assertEquals("deprecated-parameter", mp.getDeprecated());
         assertEquals("${jar.finalName}", mp.getExpression());
@@ -122,9 +157,9 @@ public class PluginDescriptorBuilderTest {
         md = pd.getMojos().get(1);
 
         assertEquals("war", md.getGoal());
-        assertEquals(null, md.getDependencyResolutionRequired());
-        assertEquals(null, md.getDependencyCollectionRequired());
-        assertEquals(true, md.isThreadSafe());
+        assertNull(md.getDependencyResolutionRequired());
+        assertNull(md.getDependencyCollectionRequired());
+        assertTrue(md.isThreadSafe());
     }
 
 }

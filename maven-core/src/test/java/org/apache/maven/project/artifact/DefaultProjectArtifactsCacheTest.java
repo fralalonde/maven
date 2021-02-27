@@ -1,5 +1,6 @@
 package org.apache.maven.project.artifact;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,24 +19,19 @@ package org.apache.maven.project.artifact;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.util.LinkedHashSet;
 import java.util.Set;
-
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DefaultArtifact;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class DefaultProjectArtifactsCacheTest {
 
     private ProjectArtifactsCache cache;
 
     @BeforeEach
-    public void setUp()
-            throws Exception {
+    public void setUp() {
         cache = new DefaultProjectArtifactsCache();
     }
 

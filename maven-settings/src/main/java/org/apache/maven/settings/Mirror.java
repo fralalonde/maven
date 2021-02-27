@@ -7,34 +7,32 @@ package org.apache.maven.settings;
 
 /**
  * 
- *         A download mirror for a given repository.
- *       
+ * A download mirror for a given repository.
+ * 
  * 
  * @version $Revision$ $Date$
  */
-@SuppressWarnings( "all" )
+@SuppressWarnings("all")
 public class Mirror
-    extends IdentifiableBase
-    implements java.io.Serializable, java.lang.Cloneable
-{
+        extends IdentifiableBase
+        implements java.io.Serializable, java.lang.Cloneable {
 
-      //--------------------------/
-     //- Class/Member Variables -/
-    //--------------------------/
+    // --------------------------/
+    // - Class/Member Variables -/
+    // --------------------------/
 
     /**
      * 
-     *             The server ID of the repository being mirrored,
-     * e.g.,
-     *             "central". This MUST NOT match the mirror id.
-     *           
+     * The server ID of the repository being mirrored, e.g., "central". This MUST
+     * NOT match the mirror id.
+     * 
      */
     private String mirrorOf;
 
     /**
      * 
-     *             The optional name that describes the mirror.
-     *           
+     * The optional name that describes the mirror.
+     * 
      */
     private String name;
 
@@ -50,161 +48,138 @@ public class Mirror
 
     /**
      * 
-     *             The layouts of repositories being mirrored. This
-     * value can be used to restrict the usage
-     *             of the mirror to repositories with a matching
-     * layout (apart from a matching id). Since Maven 3.
-     *           
+     * The layouts of repositories being mirrored. This value can be used to
+     * restrict the usage of the mirror to repositories with a matching layout
+     * (apart from a matching id). Since Maven 3.
+     * 
      */
     private String mirrorOfLayouts = "default,legacy";
 
-
-      //-----------/
-     //- Methods -/
-    //-----------/
+    // -----------/
+    // - Methods -/
+    // -----------/
 
     /**
      * Method clone.
      * 
      * @return Mirror
      */
-    public Mirror clone()
-    {
-        try
-        {
+    public Mirror clone() {
+        try {
             Mirror copy = (Mirror) super.clone();
 
             return copy;
+        } catch (java.lang.Exception ex) {
+            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException(getClass().getName()
+                    + " does not support clone()").initCause(ex);
         }
-        catch ( java.lang.Exception ex )
-        {
-            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException( getClass().getName()
-                + " does not support clone()" ).initCause( ex );
-        }
-    } //-- Mirror clone()
+    } // -- Mirror clone()
 
     /**
      * Get the layout of the mirror repository. Since Maven 3.
      * 
      * @return String
      */
-    public String getLayout()
-    {
+    public String getLayout() {
         return this.layout;
-    } //-- String getLayout()
+    } // -- String getLayout()
 
     /**
-     * Get the server ID of the repository being mirrored, e.g.,
-     *             "central". This MUST NOT match the mirror id.
+     * Get the server ID of the repository being mirrored, e.g., "central". This
+     * MUST NOT match the mirror id.
      * 
      * @return String
      */
-    public String getMirrorOf()
-    {
+    public String getMirrorOf() {
         return this.mirrorOf;
-    } //-- String getMirrorOf()
+    } // -- String getMirrorOf()
 
     /**
-     * Get the layouts of repositories being mirrored. This value
-     * can be used to restrict the usage
-     *             of the mirror to repositories with a matching
-     * layout (apart from a matching id). Since Maven 3.
+     * Get the layouts of repositories being mirrored. This value can be used to
+     * restrict the usage of the mirror to repositories with a matching layout
+     * (apart from a matching id). Since Maven 3.
      * 
      * @return String
      */
-    public String getMirrorOfLayouts()
-    {
+    public String getMirrorOfLayouts() {
         return this.mirrorOfLayouts;
-    } //-- String getMirrorOfLayouts()
+    } // -- String getMirrorOfLayouts()
 
     /**
      * Get the optional name that describes the mirror.
      * 
      * @return String
      */
-    public String getName()
-    {
+    public String getName() {
         return this.name;
-    } //-- String getName()
+    } // -- String getName()
 
     /**
      * Get the URL of the mirror repository.
      * 
      * @return String
      */
-    public String getUrl()
-    {
+    public String getUrl() {
         return this.url;
-    } //-- String getUrl()
+    } // -- String getUrl()
 
     /**
      * Set the layout of the mirror repository. Since Maven 3.
      * 
      * @param layout
      */
-    public void setLayout( String layout )
-    {
+    public void setLayout(String layout) {
         this.layout = layout;
-    } //-- void setLayout( String )
+    } // -- void setLayout( String )
 
     /**
-     * Set the server ID of the repository being mirrored, e.g.,
-     *             "central". This MUST NOT match the mirror id.
+     * Set the server ID of the repository being mirrored, e.g., "central". This
+     * MUST NOT match the mirror id.
      * 
      * @param mirrorOf
      */
-    public void setMirrorOf( String mirrorOf )
-    {
+    public void setMirrorOf(String mirrorOf) {
         this.mirrorOf = mirrorOf;
-    } //-- void setMirrorOf( String )
+    } // -- void setMirrorOf( String )
 
     /**
-     * Set the layouts of repositories being mirrored. This value
-     * can be used to restrict the usage
-     *             of the mirror to repositories with a matching
-     * layout (apart from a matching id). Since Maven 3.
+     * Set the layouts of repositories being mirrored. This value can be used to
+     * restrict the usage of the mirror to repositories with a matching layout
+     * (apart from a matching id). Since Maven 3.
      * 
      * @param mirrorOfLayouts
      */
-    public void setMirrorOfLayouts( String mirrorOfLayouts )
-    {
+    public void setMirrorOfLayouts(String mirrorOfLayouts) {
         this.mirrorOfLayouts = mirrorOfLayouts;
-    } //-- void setMirrorOfLayouts( String )
+    } // -- void setMirrorOfLayouts( String )
 
     /**
      * Set the optional name that describes the mirror.
      * 
      * @param name
      */
-    public void setName( String name )
-    {
+    public void setName(String name) {
         this.name = name;
-    } //-- void setName( String )
+    } // -- void setName( String )
 
     /**
      * Set the URL of the mirror repository.
      * 
      * @param url
      */
-    public void setUrl( String url )
-    {
+    public void setUrl(String url) {
         this.url = url;
-    } //-- void setUrl( String )
+    } // -- void setUrl( String )
 
-    
-            
-
-    public String toString()
-    {
-        StringBuilder sb = new StringBuilder( 128 );
-        sb.append( "Mirror[" );
-        sb.append( "id=" ).append( this.getId() );
-        sb.append( ",mirrorOf=" ).append( mirrorOf );
-        sb.append( ",url=" ).append( this.url );
-        sb.append( ",name=" ).append( this.name );
-        sb.append( "]" );
+    public String toString() {
+        StringBuilder sb = new StringBuilder(128);
+        sb.append("Mirror[");
+        sb.append("id=").append(this.getId());
+        sb.append(",mirrorOf=").append(mirrorOf);
+        sb.append(",url=").append(this.url);
+        sb.append(",name=").append(this.name);
+        sb.append("]");
         return sb.toString();
     }
-            
-          
+
 }

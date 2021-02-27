@@ -1,5 +1,7 @@
 package org.apache.maven.lifecycle.internal;
 
+import java.util.ArrayList;
+import java.util.List;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,15 +20,11 @@ package org.apache.maven.lifecycle.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.lifecycle.internal.builder.BuilderCommon;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.descriptor.MojoDescriptor;
 import org.apache.maven.project.MavenProject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <p>

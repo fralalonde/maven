@@ -7,32 +7,30 @@ package org.apache.maven.settings;
 
 /**
  * 
- *         
- *         Modifications to the build process which is keyed on
- * some
- *         sort of environmental parameter.
- *         
- *       
+ * 
+ * Modifications to the build process which is keyed on some sort of
+ * environmental parameter.
+ * 
+ * 
  * 
  * @version $Revision$ $Date$
  */
-@SuppressWarnings( "all" )
+@SuppressWarnings("all")
 public class Profile
-    extends IdentifiableBase
-    implements java.io.Serializable, java.lang.Cloneable
-{
+        extends IdentifiableBase
+        implements java.io.Serializable, java.lang.Cloneable {
 
-      //--------------------------/
-     //- Class/Member Variables -/
-    //--------------------------/
+    // --------------------------/
+    // - Class/Member Variables -/
+    // --------------------------/
 
     /**
      * 
-     *             
-     *             The conditional logic which will automatically
-     *             trigger the inclusion of this profile.
-     *             
-     *           
+     * 
+     * The conditional logic which will automatically trigger the inclusion of this
+     * profile.
+     * 
+     * 
      */
     private Activation activation;
 
@@ -48,30 +46,26 @@ public class Profile
 
     /**
      * 
-     *             
-     *             This may be removed or relocated in the near
-     *             future. It is undecided whether plugins really
-     * need a remote
-     *             repository set of their own.
-     *             
-     *           
+     * 
+     * This may be removed or relocated in the near future. It is undecided whether
+     * plugins really need a remote repository set of their own.
+     * 
+     * 
      */
     private java.util.List<Repository> pluginRepositories;
 
-
-      //-----------/
-     //- Methods -/
-    //-----------/
+    // -----------/
+    // - Methods -/
+    // -----------/
 
     /**
      * Method addPluginRepository.
      * 
      * @param repository
      */
-    public void addPluginRepository( Repository repository )
-    {
-        getPluginRepositories().add( repository );
-    } //-- void addPluginRepository( Repository )
+    public void addPluginRepository(Repository repository) {
+        getPluginRepositories().add(repository);
+    } // -- void addPluginRepository( Repository )
 
     /**
      * Method addProperty.
@@ -79,189 +73,162 @@ public class Profile
      * @param key
      * @param value
      */
-    public void addProperty( String key, String value )
-    {
-        getProperties().put( key, value );
-    } //-- void addProperty( String, String )
+    public void addProperty(String key, String value) {
+        getProperties().put(key, value);
+    } // -- void addProperty( String, String )
 
     /**
      * Method addRepository.
      * 
      * @param repository
      */
-    public void addRepository( Repository repository )
-    {
-        getRepositories().add( repository );
-    } //-- void addRepository( Repository )
+    public void addRepository(Repository repository) {
+        getRepositories().add(repository);
+    } // -- void addRepository( Repository )
 
     /**
      * Method clone.
      * 
      * @return Profile
      */
-    public Profile clone()
-    {
-        try
-        {
+    public Profile clone() {
+        try {
             Profile copy = (Profile) super.clone();
 
-            if ( this.activation != null )
-            {
+            if (this.activation != null) {
                 copy.activation = (Activation) this.activation.clone();
             }
 
-            if ( this.properties != null )
-            {
+            if (this.properties != null) {
                 copy.properties = (java.util.Properties) this.properties.clone();
             }
 
-            if ( this.repositories != null )
-            {
+            if (this.repositories != null) {
                 copy.repositories = new java.util.ArrayList<Repository>();
-                for ( Repository item : this.repositories )
-                {
-                    copy.repositories.add( ( (Repository) item).clone() );
+                for (Repository item : this.repositories) {
+                    copy.repositories.add(((Repository) item).clone());
                 }
             }
 
-            if ( this.pluginRepositories != null )
-            {
+            if (this.pluginRepositories != null) {
                 copy.pluginRepositories = new java.util.ArrayList<Repository>();
-                for ( Repository item : this.pluginRepositories )
-                {
-                    copy.pluginRepositories.add( ( (Repository) item).clone() );
+                for (Repository item : this.pluginRepositories) {
+                    copy.pluginRepositories.add(((Repository) item).clone());
                 }
             }
 
             return copy;
+        } catch (java.lang.Exception ex) {
+            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException(getClass().getName()
+                    + " does not support clone()").initCause(ex);
         }
-        catch ( java.lang.Exception ex )
-        {
-            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException( getClass().getName()
-                + " does not support clone()" ).initCause( ex );
-        }
-    } //-- Profile clone()
+    } // -- Profile clone()
 
     /**
-     * Get the conditional logic which will automatically
-     *             trigger the inclusion of this profile.
+     * Get the conditional logic which will automatically trigger the inclusion of
+     * this profile.
      * 
      * @return Activation
      */
-    public Activation getActivation()
-    {
+    public Activation getActivation() {
         return this.activation;
-    } //-- Activation getActivation()
+    } // -- Activation getActivation()
 
     /**
      * Method getPluginRepositories.
      * 
      * @return List
      */
-    public java.util.List<Repository> getPluginRepositories()
-    {
-        if ( this.pluginRepositories == null )
-        {
+    public java.util.List<Repository> getPluginRepositories() {
+        if (this.pluginRepositories == null) {
             this.pluginRepositories = new java.util.ArrayList<Repository>();
         }
 
         return this.pluginRepositories;
-    } //-- java.util.List<Repository> getPluginRepositories()
+    } // -- java.util.List<Repository> getPluginRepositories()
 
     /**
      * Method getProperties.
      * 
      * @return Properties
      */
-    public java.util.Properties getProperties()
-    {
-        if ( this.properties == null )
-        {
+    public java.util.Properties getProperties() {
+        if (this.properties == null) {
             this.properties = new java.util.Properties();
         }
 
         return this.properties;
-    } //-- java.util.Properties getProperties()
+    } // -- java.util.Properties getProperties()
 
     /**
      * Method getRepositories.
      * 
      * @return List
      */
-    public java.util.List<Repository> getRepositories()
-    {
-        if ( this.repositories == null )
-        {
+    public java.util.List<Repository> getRepositories() {
+        if (this.repositories == null) {
             this.repositories = new java.util.ArrayList<Repository>();
         }
 
         return this.repositories;
-    } //-- java.util.List<Repository> getRepositories()
+    } // -- java.util.List<Repository> getRepositories()
 
     /**
      * Method removePluginRepository.
      * 
      * @param repository
      */
-    public void removePluginRepository( Repository repository )
-    {
-        getPluginRepositories().remove( repository );
-    } //-- void removePluginRepository( Repository )
+    public void removePluginRepository(Repository repository) {
+        getPluginRepositories().remove(repository);
+    } // -- void removePluginRepository( Repository )
 
     /**
      * Method removeRepository.
      * 
      * @param repository
      */
-    public void removeRepository( Repository repository )
-    {
-        getRepositories().remove( repository );
-    } //-- void removeRepository( Repository )
+    public void removeRepository(Repository repository) {
+        getRepositories().remove(repository);
+    } // -- void removeRepository( Repository )
 
     /**
-     * Set the conditional logic which will automatically
-     *             trigger the inclusion of this profile.
+     * Set the conditional logic which will automatically trigger the inclusion of
+     * this profile.
      * 
      * @param activation
      */
-    public void setActivation( Activation activation )
-    {
+    public void setActivation(Activation activation) {
         this.activation = activation;
-    } //-- void setActivation( Activation )
+    } // -- void setActivation( Activation )
 
     /**
-     * Set the lists of the remote repositories for discovering
-     * plugins.
+     * Set the lists of the remote repositories for discovering plugins.
      * 
      * @param pluginRepositories
      */
-    public void setPluginRepositories( java.util.List<Repository> pluginRepositories )
-    {
+    public void setPluginRepositories(java.util.List<Repository> pluginRepositories) {
         this.pluginRepositories = pluginRepositories;
-    } //-- void setPluginRepositories( java.util.List )
+    } // -- void setPluginRepositories( java.util.List )
 
     /**
-     * Set extended configuration specific to this profile goes
-     * here.
-     *             Contents take the form of
-     *            
+     * Set extended configuration specific to this profile goes here. Contents take
+     * the form of
+     * 
      * <code>&lt;property.name&gt;property.value&lt;/property.name&gt;</code>
      * 
      * @param properties
      */
-    public void setProperties( java.util.Properties properties )
-    {
+    public void setProperties(java.util.Properties properties) {
         this.properties = properties;
-    } //-- void setProperties( java.util.Properties )
+    } // -- void setProperties( java.util.Properties )
 
     /**
      * Set the lists of the remote repositories.
      * 
      * @param repositories
      */
-    public void setRepositories( java.util.List<Repository> repositories )
-    {
+    public void setRepositories(java.util.List<Repository> repositories) {
         this.repositories = repositories;
-    } //-- void setRepositories( java.util.List )
+    } // -- void setRepositories( java.util.List )
 
 }

@@ -15,16 +15,10 @@
 
 package org.apache.maven.lifecycle.internal.stub;
 
+import static org.apache.maven.lifecycle.internal.stub.LifecycleExecutionPlanCalculatorStub.*;
+import java.util.*;
 import org.apache.maven.lifecycle.DefaultLifecycles;
 import org.apache.maven.lifecycle.Lifecycle;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import static org.apache.maven.lifecycle.internal.stub.LifecycleExecutionPlanCalculatorStub.*;
 
 /**
  * @author Kristian Rosenvold
@@ -46,7 +40,7 @@ public class DefaultLifecyclesStub {
         List<String> stubSiteCycle = Arrays.asList(PRE_SITE.getPhase(), SITE.getPhase(), POST_SITE.getPhase(),
                 SITE_DEPLOY.getPhase());
 
-        List<String> stubWrapperCycle = Arrays.asList(WRAPPER.getPhase());
+        List<String> stubWrapperCycle = Collections.singletonList(WRAPPER.getPhase());
 
         Iterator<List<String>> lcs = Arrays.asList(stubDefaultCycle, stubCleanCycle, stubSiteCycle, stubWrapperCycle)
                 .iterator();

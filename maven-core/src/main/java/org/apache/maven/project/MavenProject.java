@@ -18,7 +18,24 @@ package org.apache.maven.project;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
@@ -29,10 +46,9 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
-import java.util.Objects;
-
 import org.apache.maven.RepositoryUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.ArtifactUtils;
@@ -149,7 +165,7 @@ public class MavenProject
 
     private List<Profile> activeProfiles = new ArrayList<>();
 
-    private Map<String, List<String>> injectedProfileIds = new LinkedHashMap<>();
+    private final Map<String, List<String>> injectedProfileIds = new LinkedHashMap<>();
 
     private Set<Artifact> dependencyArtifacts;
 
@@ -172,7 +188,7 @@ public class MavenProject
 
     private Map<String, Artifact> managedVersionMap;
 
-    private Map<String, MavenProject> projectReferences = new HashMap<>();
+    private final Map<String, MavenProject> projectReferences = new HashMap<>();
 
     private boolean executionRoot;
 
@@ -321,8 +337,7 @@ public class MavenProject
         return testCompileSourceRoots;
     }
 
-    public List<String> getCompileClasspathElements()
-            throws DependencyResolutionRequiredException {
+    public List<String> getCompileClasspathElements() {
         List<String> list = new ArrayList<>(getArtifacts().size() + 1);
 
         String d = getBuild().getOutputDirectory();
@@ -346,8 +361,7 @@ public class MavenProject
     // TODO this checking for file == null happens because the resolver has been
     // confused about the root
     // artifact or not. things like the stupid dummy artifact coming from surefire.
-    public List<String> getTestClasspathElements()
-            throws DependencyResolutionRequiredException {
+    public List<String> getTestClasspathElements() {
         List<String> list = new ArrayList<>(getArtifacts().size() + 2);
 
         String d = getBuild().getTestOutputDirectory();
@@ -369,8 +383,7 @@ public class MavenProject
         return list;
     }
 
-    public List<String> getRuntimeClasspathElements()
-            throws DependencyResolutionRequiredException {
+    public List<String> getRuntimeClasspathElements() {
         List<String> list = new ArrayList<>(getArtifacts().size() + 1);
 
         String d = getBuild().getOutputDirectory();
@@ -1128,9 +1141,7 @@ public class MavenProject
     }
 
     private static String getProjectReferenceId(String groupId, String artifactId, String version) {
-        StringBuilder buffer = new StringBuilder(128);
-        buffer.append(groupId).append(':').append(artifactId).append(':').append(version);
-        return buffer.toString();
+        return groupId + ':' + artifactId + ':' + version;
     }
 
     /**
@@ -1224,7 +1235,7 @@ public class MavenProject
      * @param artifacts The set of artifacts, may be {@code null}.
      */
     public void setResolvedArtifacts(Set<Artifact> artifacts) {
-        this.resolvedArtifacts = (artifacts != null) ? artifacts : Collections.<Artifact>emptySet();
+        this.resolvedArtifacts = (artifacts != null) ? artifacts : Collections.emptySet();
         this.artifacts = null;
         this.artifactMap = null;
     }
@@ -1492,8 +1503,7 @@ public class MavenProject
     }
 
     @Deprecated
-    public List<String> getSystemClasspathElements()
-            throws DependencyResolutionRequiredException {
+    public List<String> getSystemClasspathElements() {
         List<String> list = new ArrayList<>(getArtifacts().size());
 
         String d = getBuild().getOutputDirectory();

@@ -1,5 +1,11 @@
 package org.apache.maven.project.collector;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,7 +24,6 @@ package org.apache.maven.project.collector;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.apache.maven.model.building.ModelProblem;
 import org.apache.maven.model.building.ModelProblemUtils;
@@ -30,13 +35,6 @@ import org.apache.maven.project.ProjectBuildingResult;
 import org.codehaus.plexus.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Utility to select projects for a given set of pom.xml files.

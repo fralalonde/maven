@@ -55,7 +55,6 @@ under the License.
         <groupId>org.codehaus.modello</groupId>
         <artifactId>modello-maven-plugin</artifactId>
         <configuration>
-          <useJava5>true</useJava5>
           <version>4.0.0</version>
           <models>
             <model>src/main/mdo/maven.mdo</model>

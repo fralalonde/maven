@@ -1,5 +1,14 @@
 package org.apache.maven.execution;
 
+import static java.util.Arrays.asList;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.is;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,20 +27,9 @@ package org.apache.maven.execution;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.model.Build;
 import org.apache.maven.project.MavenProject;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-
-import static java.util.Arrays.asList;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.is;
 
 public class DefaultBuildResumptionDataRepositoryTest {
     private final DefaultBuildResumptionDataRepository repository = new DefaultBuildResumptionDataRepository();
@@ -44,7 +42,7 @@ public class DefaultBuildResumptionDataRepositoryTest {
 
         repository.applyResumptionProperties(request, properties);
 
-        assertThat(request.getSelectedProjects(), is(asList(":module-a")));
+        assertThat(request.getSelectedProjects(), is(Collections.singletonList(":module-a")));
     }
 
     @Test

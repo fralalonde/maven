@@ -15,6 +15,9 @@
 
 package org.apache.maven.lifecycle.internal.stub;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.apache.maven.execution.AbstractExecutionListener;
 import org.apache.maven.execution.DefaultMavenExecutionRequest;
 import org.apache.maven.execution.DefaultMavenExecutionResult;
@@ -35,10 +38,6 @@ import org.apache.maven.plugin.PluginResolutionException;
 import org.apache.maven.plugin.prefix.NoPluginFoundForPrefixException;
 import org.apache.maven.plugin.version.PluginVersionResolutionException;
 import org.apache.maven.project.MavenProject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * A stub dependency graph that is custom made for testing concurrent build
@@ -103,10 +102,7 @@ public class ProjectDependencyGraphStub
     }
 
     private static ProjectSegment createProjectBuild(MavenProject project, MavenSession session,
-            TaskSegment taskSegment)
-            throws InvalidPluginDescriptorException, PluginVersionResolutionException, PluginDescriptorParsingException,
-            NoPluginFoundForPrefixException, MojoNotFoundException, PluginNotFoundException, PluginResolutionException,
-            LifecyclePhaseNotFoundException, LifecycleNotFoundException {
+            TaskSegment taskSegment) {
         final MavenSession session1 = session.clone();
         return new ProjectSegment(project, taskSegment, session1);
     }
@@ -118,7 +114,7 @@ public class ProjectDependencyGraphStub
         return result;
     }
 
-    class Dependency {
+    static class Dependency {
         MavenProject dependant;
 
         MavenProject dependency;

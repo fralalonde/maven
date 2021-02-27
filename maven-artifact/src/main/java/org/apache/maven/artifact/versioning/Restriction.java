@@ -76,9 +76,7 @@ public class Restriction {
             if ((comparison == 0) && !upperBoundInclusive) {
                 return false;
             }
-            if (comparison < 0) {
-                return false;
-            }
+            return comparison >= 0;
         }
 
         return true;

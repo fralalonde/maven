@@ -1,5 +1,6 @@
 package org.apache.maven.xml.sax;
 
+import static org.hamcrest.CoreMatchers.is;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,10 +19,7 @@ package org.apache.maven.xml.sax;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.is;
-
 import org.junit.jupiter.api.Test;
 
 public class SAXEventUtilsTest {

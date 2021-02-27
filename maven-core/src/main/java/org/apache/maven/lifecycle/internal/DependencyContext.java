@@ -1,5 +1,9 @@
 package org.apache.maven.lifecycle.internal;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.TreeSet;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,13 +22,7 @@ package org.apache.maven.lifecycle.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.project.MavenProject;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.TreeSet;
 
 /**
  * <p>
@@ -40,7 +38,7 @@ import java.util.TreeSet;
 // TODO From a concurrency perspective, this class is not good. The combination of mutable/immutable state is not nice
 public class DependencyContext {
 
-    private static final Collection<?> UNRESOLVED = Arrays.asList();
+    private static final Collection<?> UNRESOLVED = Collections.emptyList();
 
     private final MavenProject project;
 
@@ -86,19 +84,18 @@ public class DependencyContext {
     }
 
     public boolean isResolutionRequiredForCurrentProject() {
-        return lastDependencyArtifacts != project.getDependencyArtifacts() || (lastDependencyArtifacts != null
+        return lastDependencyArtifacts != project.getArtifacts() || (lastDependencyArtifacts != null
                 && lastDependencyArtifactCount != lastDependencyArtifacts.size());
     }
 
     public boolean isResolutionRequiredForAggregatedProjects(Collection<String> scopesToCollect,
             Collection<String> scopesToResolve) {
-        boolean required = scopesToCollectForAggregatedProjects.addAll(scopesToCollect)
+        return scopesToCollectForAggregatedProjects.addAll(scopesToCollect)
                 || scopesToResolveForAggregatedProjects.addAll(scopesToResolve);
-        return required;
     }
 
     public void synchronizeWithProjectState() {
-        lastDependencyArtifacts = project.getDependencyArtifacts();
+        lastDependencyArtifacts = project.getArtifacts();
         lastDependencyArtifactCount = (lastDependencyArtifacts != null) ? lastDependencyArtifacts.size() : 0;
     }
 

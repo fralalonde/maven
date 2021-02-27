@@ -18,7 +18,24 @@ package org.apache.maven.execution;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,7 +44,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
-
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.eventspy.internal.EventSpyDispatcher;
 import org.apache.maven.model.Profile;
@@ -417,10 +433,9 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest setStartTime(Date startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
 
-        return this;
     }
 
     @Override
@@ -453,17 +468,15 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest setLocalRepositoryPath(File localRepository) {
+    public void setLocalRepositoryPath(File localRepository) {
         localRepositoryPath = localRepository;
 
-        return this;
     }
 
     @Override
-    public MavenExecutionRequest setLocalRepositoryPath(String localRepository) {
+    public void setLocalRepositoryPath(String localRepository) {
         localRepositoryPath = (localRepository != null) ? new File(localRepository) : null;
 
-        return this;
     }
 
     @Override
@@ -478,7 +491,7 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest setUserProperties(Properties userProperties) {
+    public void setUserProperties(Properties userProperties) {
         if (userProperties != null) {
             this.userProperties = new Properties();
             this.userProperties.putAll(userProperties);
@@ -486,57 +499,50 @@ public class DefaultMavenExecutionRequest
             this.userProperties = null;
         }
 
-        return this;
     }
 
     @Override
-    public MavenExecutionRequest setReactorFailureBehavior(String failureBehavior) {
+    public void setReactorFailureBehavior(String failureBehavior) {
         reactorFailureBehavior = failureBehavior;
 
-        return this;
     }
 
     @Override
-    public MavenExecutionRequest setSelectedProjects(List<String> selectedProjects) {
+    public void setSelectedProjects(List<String> selectedProjects) {
         if (selectedProjects != null) {
             this.selectedProjects = new ArrayList<>(selectedProjects);
         } else {
             this.selectedProjects = null;
         }
 
-        return this;
     }
 
     @Override
-    public MavenExecutionRequest setExcludedProjects(List<String> excludedProjects) {
+    public void setExcludedProjects(List<String> excludedProjects) {
         if (excludedProjects != null) {
             this.excludedProjects = new ArrayList<>(excludedProjects);
         } else {
             this.excludedProjects = null;
         }
 
-        return this;
     }
 
     @Override
-    public MavenExecutionRequest setResume(boolean resume) {
+    public void setResume(boolean resume) {
         this.resume = resume;
 
-        return this;
     }
 
     @Override
-    public MavenExecutionRequest setResumeFrom(String project) {
+    public void setResumeFrom(String project) {
         this.resumeFrom = project;
 
-        return this;
     }
 
     @Override
-    public MavenExecutionRequest setMakeBehavior(String makeBehavior) {
+    public void setMakeBehavior(String makeBehavior) {
         this.makeBehavior = makeBehavior;
 
-        return this;
     }
 
     @Override
@@ -603,52 +609,45 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest setInteractiveMode(boolean interactive) {
+    public void setInteractiveMode(boolean interactive) {
         interactiveMode = interactive;
 
-        return this;
     }
 
     @Override
-    public MavenExecutionRequest setTransferListener(TransferListener transferListener) {
+    public void setTransferListener(TransferListener transferListener) {
         this.transferListener = transferListener;
 
-        return this;
     }
 
     @Override
-    public MavenExecutionRequest setLoggingLevel(int loggingLevel) {
+    public void setLoggingLevel(int loggingLevel) {
         this.loggingLevel = loggingLevel;
 
-        return this;
     }
 
     @Override
-    public MavenExecutionRequest setOffline(boolean offline) {
+    public void setOffline(boolean offline) {
         this.offline = offline;
 
-        return this;
     }
 
     @Override
-    public MavenExecutionRequest setUpdateSnapshots(boolean updateSnapshots) {
+    public void setUpdateSnapshots(boolean updateSnapshots) {
         this.updateSnapshots = updateSnapshots;
 
-        return this;
     }
 
     @Override
-    public MavenExecutionRequest setNoSnapshotUpdates(boolean noSnapshotUpdates) {
+    public void setNoSnapshotUpdates(boolean noSnapshotUpdates) {
         this.noSnapshotUpdates = noSnapshotUpdates;
 
-        return this;
     }
 
     @Override
-    public MavenExecutionRequest setGlobalChecksumPolicy(String globalChecksumPolicy) {
+    public void setGlobalChecksumPolicy(String globalChecksumPolicy) {
         this.globalChecksumPolicy = globalChecksumPolicy;
 
-        return this;
     }
 
     // ----------------------------------------------------------------------------
@@ -675,18 +674,17 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest addProxy(Proxy proxy) {
+    public void addProxy(Proxy proxy) {
         Objects.requireNonNull(proxy, "proxy cannot be null");
 
         for (Proxy p : getProxies()) {
             if (p.getId() != null && p.getId().equals(proxy.getId())) {
-                return this;
+                return;
             }
         }
 
         getProxies().add(proxy);
 
-        return this;
     }
 
     @Override
@@ -709,18 +707,17 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest addServer(Server server) {
+    public void addServer(Server server) {
         Objects.requireNonNull(server, "server cannot be null");
 
         for (Server p : getServers()) {
             if (p.getId() != null && p.getId().equals(server.getId())) {
-                return this;
+                return;
             }
         }
 
         getServers().add(server);
 
-        return this;
     }
 
     @Override
@@ -743,18 +740,17 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest addMirror(Mirror mirror) {
+    public void addMirror(Mirror mirror) {
         Objects.requireNonNull(mirror, "mirror cannot be null");
 
         for (Mirror p : getMirrors()) {
             if (p.getId() != null && p.getId().equals(mirror.getId())) {
-                return this;
+                return;
             }
         }
 
         getMirrors().add(mirror);
 
-        return this;
     }
 
     @Override
@@ -797,12 +793,11 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest addPluginGroup(String pluginGroup) {
+    public void addPluginGroup(String pluginGroup) {
         if (!getPluginGroups().contains(pluginGroup)) {
             getPluginGroups().add(pluginGroup);
         }
 
-        return this;
     }
 
     @Override
@@ -815,10 +810,9 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest setRecursive(boolean recursive) {
+    public void setRecursive(boolean recursive) {
         this.recursive = recursive;
 
-        return this;
     }
 
     // calculated from request attributes.
@@ -844,10 +838,9 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest setUserSettingsFile(File userSettingsFile) {
+    public void setUserSettingsFile(File userSettingsFile) {
         this.userSettingsFile = userSettingsFile;
 
-        return this;
     }
 
     @Override
@@ -856,10 +849,9 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest setGlobalSettingsFile(File globalSettingsFile) {
+    public void setGlobalSettingsFile(File globalSettingsFile) {
         this.globalSettingsFile = globalSettingsFile;
 
-        return this;
     }
 
     @Override
@@ -868,10 +860,9 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest setUserToolchainsFile(File userToolchainsFile) {
+    public void setUserToolchainsFile(File userToolchainsFile) {
         this.userToolchainsFile = userToolchainsFile;
 
-        return this;
     }
 
     @Override
@@ -880,22 +871,20 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest setGlobalToolchainsFile(File globalToolchainsFile) {
+    public void setGlobalToolchainsFile(File globalToolchainsFile) {
         this.globalToolchainsFile = globalToolchainsFile;
-        return this;
     }
 
     @Override
-    public MavenExecutionRequest addRemoteRepository(ArtifactRepository repository) {
+    public void addRemoteRepository(ArtifactRepository repository) {
         for (ArtifactRepository repo : getRemoteRepositories()) {
             if (repo.getId() != null && repo.getId().equals(repository.getId())) {
-                return this;
+                return;
             }
         }
 
         getRemoteRepositories().add(repository);
 
-        return this;
     }
 
     @Override
@@ -907,16 +896,15 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest addPluginArtifactRepository(ArtifactRepository repository) {
+    public void addPluginArtifactRepository(ArtifactRepository repository) {
         for (ArtifactRepository repo : getPluginArtifactRepositories()) {
             if (repo.getId() != null && repo.getId().equals(repository.getId())) {
-                return this;
+                return;
             }
         }
 
         getPluginArtifactRepositories().add(repository);
 
-        return this;
     }
 
     @Override
@@ -948,18 +936,17 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest addProfile(Profile profile) {
+    public void addProfile(Profile profile) {
         Objects.requireNonNull(profile, "profile cannot be null");
 
         for (Profile p : getProfiles()) {
             if (p.getId() != null && p.getId().equals(profile.getId())) {
-                return this;
+                return;
             }
         }
 
         getProfiles().add(profile);
 
-        return this;
     }
 
     @Override
@@ -968,10 +955,9 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest setRepositoryCache(RepositoryCache repositoryCache) {
+    public void setRepositoryCache(RepositoryCache repositoryCache) {
         this.repositoryCache = repositoryCache;
 
-        return this;
     }
 
     @Override
@@ -980,10 +966,9 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest setExecutionListener(ExecutionListener executionListener) {
+    public void setExecutionListener(ExecutionListener executionListener) {
         this.executionListener = executionListener;
 
-        return this;
     }
 
     @Override
@@ -1013,9 +998,8 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest setCacheTransferError(boolean cacheTransferError) {
+    public void setCacheTransferError(boolean cacheTransferError) {
         this.cacheTransferError = cacheTransferError;
-        return this;
     }
 
     @Override
@@ -1024,9 +1008,8 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest setCacheNotFound(boolean cacheNotFound) {
+    public void setCacheNotFound(boolean cacheNotFound) {
         this.cacheNotFound = cacheNotFound;
-        return this;
     }
 
     @Override
@@ -1035,15 +1018,13 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest setUseLegacyLocalRepository(boolean useLegacyLocalRepositoryManager) {
+    public void setUseLegacyLocalRepository(boolean useLegacyLocalRepositoryManager) {
         this.useLegacyLocalRepositoryManager = useLegacyLocalRepositoryManager;
-        return this;
     }
 
     @Override
-    public MavenExecutionRequest setBuilderId(String builderId) {
+    public void setBuilderId(String builderId) {
         this.builderId = builderId;
-        return this;
     }
 
     @Override
@@ -1060,9 +1041,8 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest setToolchains(Map<String, List<ToolchainModel>> toolchains) {
+    public void setToolchains(Map<String, List<ToolchainModel>> toolchains) {
         this.toolchains = toolchains;
-        return this;
     }
 
     @Override
@@ -1076,9 +1056,8 @@ public class DefaultMavenExecutionRequest
     }
 
     @Override
-    public MavenExecutionRequest setEventSpyDispatcher(EventSpyDispatcher eventSpyDispatcher) {
+    public void setEventSpyDispatcher(EventSpyDispatcher eventSpyDispatcher) {
         this.eventSpyDispatcher = eventSpyDispatcher;
-        return this;
     }
 
     @Override

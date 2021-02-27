@@ -7,109 +7,92 @@ package org.apache.maven.settings;
 
 /**
  * 
- *         
- *         This is the property specification used to activate a
- * profile. If the value field is empty,
- *         then the existence of the named property will activate
- * the profile, otherwise it does a case-sensitive
- *         match against the property value as well.
- *         
- *       
+ * 
+ * This is the property specification used to activate a profile. If the value
+ * field is empty, then the existence of the named property will activate the
+ * profile, otherwise it does a case-sensitive match against the property value
+ * as well.
+ * 
+ * 
  * 
  * @version $Revision$ $Date$
  */
-@SuppressWarnings( "all" )
+@SuppressWarnings("all")
 public class ActivationProperty
-    implements java.io.Serializable, java.lang.Cloneable
-{
+        implements java.io.Serializable, java.lang.Cloneable {
 
-      //--------------------------/
-     //- Class/Member Variables -/
-    //--------------------------/
+    // --------------------------/
+    // - Class/Member Variables -/
+    // --------------------------/
 
     /**
      * 
-     *             The name of the property to be used to activate
-     * a profile.
-     *           
+     * The name of the property to be used to activate a profile.
+     * 
      */
     private String name;
 
     /**
      * 
-     *             The value of the property to be used to activate
-     * a profile.
-     *           
+     * The value of the property to be used to activate a profile.
+     * 
      */
     private String value;
 
-
-      //-----------/
-     //- Methods -/
-    //-----------/
+    // -----------/
+    // - Methods -/
+    // -----------/
 
     /**
      * Method clone.
      * 
      * @return ActivationProperty
      */
-    public ActivationProperty clone()
-    {
-        try
-        {
+    public ActivationProperty clone() {
+        try {
             ActivationProperty copy = (ActivationProperty) super.clone();
 
             return copy;
+        } catch (java.lang.Exception ex) {
+            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException(getClass().getName()
+                    + " does not support clone()").initCause(ex);
         }
-        catch ( java.lang.Exception ex )
-        {
-            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException( getClass().getName()
-                + " does not support clone()" ).initCause( ex );
-        }
-    } //-- ActivationProperty clone()
+    } // -- ActivationProperty clone()
 
     /**
-     * Get the name of the property to be used to activate a
-     * profile.
+     * Get the name of the property to be used to activate a profile.
      * 
      * @return String
      */
-    public String getName()
-    {
+    public String getName() {
         return this.name;
-    } //-- String getName()
+    } // -- String getName()
 
     /**
-     * Get the value of the property to be used to activate a
-     * profile.
+     * Get the value of the property to be used to activate a profile.
      * 
      * @return String
      */
-    public String getValue()
-    {
+    public String getValue() {
         return this.value;
-    } //-- String getValue()
+    } // -- String getValue()
 
     /**
-     * Set the name of the property to be used to activate a
-     * profile.
+     * Set the name of the property to be used to activate a profile.
      * 
      * @param name
      */
-    public void setName( String name )
-    {
+    public void setName(String name) {
         this.name = name;
-    } //-- void setName( String )
+    } // -- void setName( String )
 
     /**
-     * Set the value of the property to be used to activate a
-     * profile.
+     * Set the value of the property to be used to activate a profile.
      * 
      * @param value
      */
-    public void setValue( String value )
-    {
+    public void setValue(String value) {
         this.value = value;
-    } //-- void setValue( String )
+    } // -- void setValue( String )
 
 }

@@ -10,144 +10,115 @@ package org.apache.maven.settings;
  * 
  * @version $Revision$ $Date$
  */
-@SuppressWarnings( "all" )
+@SuppressWarnings("all")
 public class RepositoryPolicy
-    implements java.io.Serializable, java.lang.Cloneable
-{
+        implements java.io.Serializable, java.lang.Cloneable {
 
-      //--------------------------/
-     //- Class/Member Variables -/
-    //--------------------------/
+    // --------------------------/
+    // - Class/Member Variables -/
+    // --------------------------/
 
     /**
      * 
-     *             Whether to use this repository for downloading
-     * this type of
-     *             artifact.
-     *           
+     * Whether to use this repository for downloading this type of artifact.
+     * 
      */
     private boolean enabled = true;
 
     /**
      * 
-     *             The frequency for downloading updates - can be
-     * "always",
-     *             "daily" (default), "interval:XXX" (in minutes)
-     * or "never"
-     *             (only if it doesn't exist locally).
-     *           
+     * The frequency for downloading updates - can be "always", "daily" (default),
+     * "interval:XXX" (in minutes) or "never" (only if it doesn't exist locally).
+     * 
      */
     private String updatePolicy;
 
     /**
      * 
-     *             What to do when verification of an artifact
-     * checksum fails -
-     *             warn, fail, etc. Valid values are "fail" or
-     * "warn".
-     *           
+     * What to do when verification of an artifact checksum fails - warn, fail, etc.
+     * Valid values are "fail" or "warn".
+     * 
      */
     private String checksumPolicy;
 
-
-      //-----------/
-     //- Methods -/
-    //-----------/
+    // -----------/
+    // - Methods -/
+    // -----------/
 
     /**
      * Method clone.
      * 
      * @return RepositoryPolicy
      */
-    public RepositoryPolicy clone()
-    {
-        try
-        {
+    public RepositoryPolicy clone() {
+        try {
             RepositoryPolicy copy = (RepositoryPolicy) super.clone();
 
             return copy;
+        } catch (java.lang.Exception ex) {
+            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException(getClass().getName()
+                    + " does not support clone()").initCause(ex);
         }
-        catch ( java.lang.Exception ex )
-        {
-            throw (java.lang.RuntimeException) new java.lang.UnsupportedOperationException( getClass().getName()
-                + " does not support clone()" ).initCause( ex );
-        }
-    } //-- RepositoryPolicy clone()
+    } // -- RepositoryPolicy clone()
 
     /**
-     * Get what to do when verification of an artifact checksum
-     * fails -
-     *             warn, fail, etc. Valid values are "fail" or
-     * "warn".
+     * Get what to do when verification of an artifact checksum fails - warn, fail,
+     * etc. Valid values are "fail" or "warn".
      * 
      * @return String
      */
-    public String getChecksumPolicy()
-    {
+    public String getChecksumPolicy() {
         return this.checksumPolicy;
-    } //-- String getChecksumPolicy()
+    } // -- String getChecksumPolicy()
 
     /**
-     * Get the frequency for downloading updates - can be "always",
-     *             "daily" (default), "interval:XXX" (in minutes)
-     * or "never"
-     *             (only if it doesn't exist locally).
+     * Get the frequency for downloading updates - can be "always", "daily"
+     * (default), "interval:XXX" (in minutes) or "never" (only if it doesn't exist
+     * locally).
      * 
      * @return String
      */
-    public String getUpdatePolicy()
-    {
+    public String getUpdatePolicy() {
         return this.updatePolicy;
-    } //-- String getUpdatePolicy()
+    } // -- String getUpdatePolicy()
 
     /**
-     * Get whether to use this repository for downloading this type
-     * of
-     *             artifact.
+     * Get whether to use this repository for downloading this type of artifact.
      * 
      * @return boolean
      */
-    public boolean isEnabled()
-    {
+    public boolean isEnabled() {
         return this.enabled;
-    } //-- boolean isEnabled()
+    } // -- boolean isEnabled()
 
     /**
-     * Set what to do when verification of an artifact checksum
-     * fails -
-     *             warn, fail, etc. Valid values are "fail" or
-     * "warn".
+     * Set what to do when verification of an artifact checksum fails - warn, fail,
+     * etc. Valid values are "fail" or "warn".
      * 
      * @param checksumPolicy
      */
-    public void setChecksumPolicy( String checksumPolicy )
-    {
+    public void setChecksumPolicy(String checksumPolicy) {
         this.checksumPolicy = checksumPolicy;
-    } //-- void setChecksumPolicy( String )
+    } // -- void setChecksumPolicy( String )
 
     /**
-     * Set whether to use this repository for downloading this type
-     * of
-     *             artifact.
+     * Set whether to use this repository for downloading this type of artifact.
      * 
      * @param enabled
      */
-    public void setEnabled( boolean enabled )
-    {
+    public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    } //-- void setEnabled( boolean )
+    } // -- void setEnabled( boolean )
 
     /**
-     * Set the frequency for downloading updates - can be "always",
-     *             "daily" (default), "interval:XXX" (in minutes)
-     * or "never"
-     *             (only if it doesn't exist locally).
+     * Set the frequency for downloading updates - can be "always", "daily"
+     * (default), "interval:XXX" (in minutes) or "never" (only if it doesn't exist
+     * locally).
      * 
      * @param updatePolicy
      */
-    public void setUpdatePolicy( String updatePolicy )
-    {
+    public void setUpdatePolicy(String updatePolicy) {
         this.updatePolicy = updatePolicy;
-    } //-- void setUpdatePolicy( String )
+    } // -- void setUpdatePolicy( String )
 
 }

@@ -1186,13 +1186,12 @@ public class ModelMerger {
         }
     }
 
-    protected void mergeMailingList(MailingList target, MailingList source, boolean sourceDominant,
-            Map<Object, Object> context) {
-        mergeMailingList_Name(target, source, sourceDominant, context);
-        mergeMailingList_Subscribe(target, source, sourceDominant, context);
-        mergeMailingList_Unsubscribe(target, source, sourceDominant, context);
-        mergeMailingList_Post(target, source, sourceDominant, context);
-        mergeMailingList_OtherArchives(target, source, sourceDominant, context);
+    protected void mergeMailingList(MailingList target, MailingList source) {
+        mergeMailingList_Name(target, source, true, null);
+        mergeMailingList_Subscribe(target, source, true, null);
+        mergeMailingList_Unsubscribe(target, source, true, null);
+        mergeMailingList_Post(target, source, true, null);
+        mergeMailingList_OtherArchives(target, source, true, null);
     }
 
     protected void mergeMailingList_Name(MailingList target, MailingList source, boolean sourceDominant,

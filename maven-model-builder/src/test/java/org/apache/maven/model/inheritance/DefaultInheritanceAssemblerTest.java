@@ -1,5 +1,8 @@
 package org.apache.maven.model.inheritance;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,18 +21,12 @@ package org.apache.maven.model.inheritance;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.function.Consumer;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
-
-import org.xml.sax.SAXException;
-import org.xml.sax.ext.LexicalHandler;
-
 import org.apache.maven.model.Model;
 import org.apache.maven.model.building.AbstractModelSourceTransformer;
 import org.apache.maven.model.building.SimpleProblemCollector;
@@ -40,11 +37,9 @@ import org.apache.maven.model.io.ModelWriter;
 import org.apache.maven.xml.sax.filter.AbstractSAXFilter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.xml.sax.SAXException;
+import org.xml.sax.ext.LexicalHandler;
 import org.xmlunit.matchers.CompareMatcher;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Hervé Boutemy

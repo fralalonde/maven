@@ -18,7 +18,24 @@ package org.apache.maven.lifecycle.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -27,11 +44,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.resolver.filter.ArtifactFilter;
 import org.apache.maven.artifact.resolver.filter.CumulativeScopeArtifactFilter;
@@ -106,18 +121,24 @@ public class MojoExecutor {
         Collection<String> scopes = Collections.emptyList();
 
         if (StringUtils.isNotEmpty(classpath)) {
-            if (Artifact.SCOPE_COMPILE.equals(classpath)) {
+            switch (classpath) {
+            case Artifact.SCOPE_COMPILE:
                 scopes = Arrays.asList(Artifact.SCOPE_COMPILE, Artifact.SCOPE_SYSTEM, Artifact.SCOPE_PROVIDED);
-            } else if (Artifact.SCOPE_RUNTIME.equals(classpath)) {
+                break;
+            case Artifact.SCOPE_RUNTIME:
                 scopes = Arrays.asList(Artifact.SCOPE_COMPILE, Artifact.SCOPE_RUNTIME);
-            } else if (Artifact.SCOPE_COMPILE_PLUS_RUNTIME.equals(classpath)) {
+                break;
+            case Artifact.SCOPE_COMPILE_PLUS_RUNTIME:
                 scopes = Arrays.asList(Artifact.SCOPE_COMPILE, Artifact.SCOPE_SYSTEM, Artifact.SCOPE_PROVIDED,
                         Artifact.SCOPE_RUNTIME);
-            } else if (Artifact.SCOPE_RUNTIME_PLUS_SYSTEM.equals(classpath)) {
+                break;
+            case Artifact.SCOPE_RUNTIME_PLUS_SYSTEM:
                 scopes = Arrays.asList(Artifact.SCOPE_COMPILE, Artifact.SCOPE_SYSTEM, Artifact.SCOPE_RUNTIME);
-            } else if (Artifact.SCOPE_TEST.equals(classpath)) {
+                break;
+            case Artifact.SCOPE_TEST:
                 scopes = Arrays.asList(Artifact.SCOPE_COMPILE, Artifact.SCOPE_SYSTEM, Artifact.SCOPE_PROVIDED,
                         Artifact.SCOPE_RUNTIME, Artifact.SCOPE_TEST);
+                break;
             }
         }
         return Collections.unmodifiableCollection(scopes);
@@ -213,7 +234,7 @@ public class MojoExecutor {
             Collection<String> scopesToResolve = dependencyContext.getScopesToResolveForCurrentProject();
 
             lifeCycleDependencyResolver.resolveProjectDependencies(project, scopesToCollect, scopesToResolve, session,
-                    aggregating, Collections.<Artifact>emptySet());
+                    aggregating, Collections.emptySet());
 
             dependencyContext.synchronizeWithProjectState();
         }
@@ -227,7 +248,7 @@ public class MojoExecutor {
                     if (aggregatedProject != project) {
                         lifeCycleDependencyResolver.resolveProjectDependencies(aggregatedProject, scopesToCollect,
                                 scopesToResolve, session, aggregating,
-                                Collections.<Artifact>emptySet());
+                                Collections.emptySet());
                     }
                 }
             }

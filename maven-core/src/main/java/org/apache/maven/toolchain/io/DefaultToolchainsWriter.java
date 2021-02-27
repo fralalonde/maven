@@ -1,5 +1,11 @@
 package org.apache.maven.toolchain.io;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Map;
+import java.util.Objects;
+import javax.inject.Named;
+import javax.inject.Singleton;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,16 +24,8 @@ package org.apache.maven.toolchain.io;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.toolchain.model.PersistedToolchains;
 import org.apache.maven.toolchain.model.io.xpp3.MavenToolchainsXpp3Writer;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * Handles serialization of toolchains into the default textual format.

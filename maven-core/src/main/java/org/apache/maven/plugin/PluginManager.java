@@ -1,5 +1,6 @@
 package org.apache.maven.plugin;
 
+import java.util.Map;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,7 +19,6 @@ package org.apache.maven.plugin;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
 import org.apache.maven.artifact.resolver.ArtifactResolutionException;
@@ -33,8 +33,6 @@ import org.apache.maven.project.artifact.InvalidDependencyVersionException;
 import org.apache.maven.settings.Settings;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
 
-import java.util.Map;
-
 /**
  * @author <a href="mailto:jason@maven.org">Jason van Zyl </a>
  */
@@ -42,9 +40,7 @@ import java.util.Map;
 public interface PluginManager {
     String ROLE = PluginManager.class.getName();
 
-    void executeMojo(MavenProject project, MojoExecution execution, MavenSession session)
-            throws MojoExecutionException, ArtifactResolutionException, MojoFailureException, ArtifactNotFoundException,
-            InvalidDependencyVersionException, PluginManagerException, PluginConfigurationException;
+    void executeMojo(MavenProject project, MojoExecution execution, MavenSession session);
 
     PluginDescriptor getPluginDescriptorForPrefix(String prefix);
 
@@ -52,10 +48,9 @@ public interface PluginManager {
 
     PluginDescriptor verifyPlugin(Plugin plugin, MavenProject project, Settings settings,
             ArtifactRepository localRepository)
-            throws ArtifactResolutionException, PluginVersionResolutionException, ArtifactNotFoundException,
-            InvalidVersionSpecificationException, InvalidPluginException, PluginManagerException,
-            PluginNotFoundException,
-            PluginVersionNotFoundException;
+            throws PluginVersionResolutionException,
+            PluginManagerException,
+            PluginNotFoundException;
 
     Object getPluginComponent(Plugin plugin, String role, String roleHint)
             throws PluginManagerException, ComponentLookupException;

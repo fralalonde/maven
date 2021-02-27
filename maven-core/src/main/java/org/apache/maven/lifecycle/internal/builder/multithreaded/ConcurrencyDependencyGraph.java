@@ -1,5 +1,10 @@
 package org.apache.maven.lifecycle.internal.builder.multithreaded;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,17 +23,10 @@ package org.apache.maven.lifecycle.internal.builder.multithreaded;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.execution.ProjectDependencyGraph;
 import org.apache.maven.lifecycle.internal.ProjectBuildList;
 import org.apache.maven.lifecycle.internal.ProjectSegment;
 import org.apache.maven.project.MavenProject;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * <p>

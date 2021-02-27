@@ -18,7 +18,24 @@ package org.apache.maven.lifecycle.internal.builder.multithreaded;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -28,7 +45,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.maven.lifecycle.internal.ProjectBuildList;
 import org.apache.maven.lifecycle.internal.ProjectSegment;
 
@@ -303,7 +319,7 @@ public class ThreadOutputMuxer {
         }
 
         @Override
-        public void print(char s[]) {
+        public void print(char[] s) {
             final PrintStream currentStream = getOutputStreamForCurrentThread();
             synchronized (currentStream) {
                 currentStream.print(s);
@@ -312,7 +328,7 @@ public class ThreadOutputMuxer {
         }
 
         @Override
-        public void println(char x[]) {
+        public void println(char[] x) {
             final PrintStream currentStream = getOutputStreamForCurrentThread();
             synchronized (currentStream) {
                 currentStream.print(x);
@@ -357,7 +373,7 @@ public class ThreadOutputMuxer {
         }
 
         @Override
-        public void write(byte b[], int off, int len) {
+        public void write(byte[] b, int off, int len) {
             final PrintStream currentStream = getOutputStreamForCurrentThread();
             synchronized (currentStream) {
                 currentStream.write(b, off, len);
@@ -385,7 +401,7 @@ public class ThreadOutputMuxer {
         }
 
         @Override
-        public void write(byte b[])
+        public void write(byte[] b)
                 throws IOException {
             final PrintStream currentStream = getOutputStreamForCurrentThread();
             synchronized (currentStream) {

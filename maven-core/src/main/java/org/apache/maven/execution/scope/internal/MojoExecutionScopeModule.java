@@ -1,5 +1,6 @@
 package org.apache.maven.execution.scope.internal;
 
+import com.google.inject.AbstractModule;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,14 +19,11 @@ package org.apache.maven.execution.scope.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.execution.scope.MojoExecutionScoped;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
-
-import com.google.inject.AbstractModule;
 
 /**
  * MojoExecutionScopeModule
@@ -48,8 +46,8 @@ public class MojoExecutionScopeModule
         bindScope(MojoExecutionScoped.class, scope);
         bind(MojoExecutionScope.class).toInstance(scope);
 
-        bind(MavenProject.class).toProvider(MojoExecutionScope.<MavenProject>seededKeyProvider()).in(scope);
-        bind(MojoExecution.class).toProvider(MojoExecutionScope.<MojoExecution>seededKeyProvider()).in(scope);
+        bind(MavenProject.class).toProvider(MojoExecutionScope.seededKeyProvider()).in(scope);
+        bind(MojoExecution.class).toProvider(MojoExecutionScope.seededKeyProvider()).in(scope);
     }
 
 }

@@ -1,5 +1,8 @@
 package org.apache.maven.toolchain.io;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Map;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,12 +21,7 @@ package org.apache.maven.toolchain.io;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.toolchain.model.PersistedToolchains;
-
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Map;
 
 /**
  * Handles serialization of toolchains into some kind of textual format like

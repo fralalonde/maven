@@ -15,6 +15,8 @@
 
 package org.apache.maven.lifecycle;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import javax.inject.Inject;
 import org.apache.maven.AbstractCoreMavenComponentTestCase;
 import org.apache.maven.exception.ExceptionHandler;
 import org.apache.maven.lifecycle.internal.LifecycleDependencyResolver;
@@ -22,13 +24,7 @@ import org.apache.maven.lifecycle.internal.LifecycleExecutionPlanCalculator;
 import org.apache.maven.lifecycle.internal.LifecycleModuleBuilder;
 import org.apache.maven.lifecycle.internal.LifecycleTaskSegmentCalculator;
 import org.apache.maven.lifecycle.internal.MojoExecutor;
-
-import javax.inject.Inject;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Just asserts that it's able to create those components. Handy when CDI
@@ -68,8 +64,7 @@ public class LifecycleExecutorSubModulesTest
     }
 
     @Test
-    public void testCreation()
-            throws Exception {
+    public void testCreation() {
         assertNotNull(defaultLifeCycles);
         assertNotNull(mojoExecutor);
         assertNotNull(lifeCycleBuilder);

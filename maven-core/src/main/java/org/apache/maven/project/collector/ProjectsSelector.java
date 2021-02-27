@@ -1,5 +1,7 @@
 package org.apache.maven.project.collector;
 
+import java.io.File;
+import java.util.List;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,13 +20,9 @@ package org.apache.maven.project.collector;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.ProjectBuildingException;
-
-import java.io.File;
-import java.util.List;
 
 /**
  * Facade to select projects for a given set of pom.xml files.

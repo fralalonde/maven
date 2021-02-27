@@ -18,10 +18,27 @@ package org.apache.maven.plugin;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import java.io.File;
+import java.util.Objects;
 import java.util.Properties;
-
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.plugin.descriptor.MojoDescriptor;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
@@ -149,15 +166,15 @@ import org.codehaus.plexus.util.introspection.ReflectionValueExtractor;
  */
 public class PluginParameterExpressionEvaluator
         implements TypeAwareExpressionEvaluator {
-    private MavenSession session;
+    private final MavenSession session;
 
-    private MojoExecution mojoExecution;
+    private final MojoExecution mojoExecution;
 
-    private MavenProject project;
+    private final MavenProject project;
 
-    private String basedir;
+    private final String basedir;
 
-    private Properties properties;
+    private final Properties properties;
 
     @Deprecated // TODO used by the Enforcer plugin
     public PluginParameterExpressionEvaluator(MavenSession session, MojoExecution mojoExecution,
@@ -235,11 +252,8 @@ public class PluginParameterExpressionEvaluator
                     } else {
                         Object subResult = evaluate(expr.substring(index, lastIndex + 1));
 
-                        if (subResult != null) {
-                            retVal += subResult;
-                        } else {
-                            retVal += "$" + expr.substring(index + 1, lastIndex + 1);
-                        }
+                        retVal += Objects.requireNonNullElseGet(subResult,
+                                () -> "$" + expr.substring(index + 1, lastIndex + 1));
                     }
 
                     retVal += evaluate(expr.substring(lastIndex + 1));

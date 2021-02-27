@@ -1,5 +1,10 @@
 package org.apache.maven.session.scope.internal;
 
+import com.google.inject.Key;
+import com.google.inject.OutOfScopeException;
+import com.google.inject.Provider;
+import com.google.inject.Scope;
+import com.google.inject.util.Providers;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,17 +23,10 @@ package org.apache.maven.session.scope.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-
-import com.google.inject.Key;
-import com.google.inject.OutOfScopeException;
-import com.google.inject.Provider;
-import com.google.inject.Scope;
-import com.google.inject.util.Providers;
 
 /**
  * SessionScope
@@ -42,7 +40,7 @@ public class SessionScope
         final Map<Key<?>, Provider<?>> seeded;
 
         Memento(final Map<Key<?>, Provider<?>> seeded) {
-            this.seeded = Collections.unmodifiableMap(new HashMap<>(seeded));
+            this.seeded = Map.copyOf(seeded);
         }
     }
 
@@ -102,7 +100,7 @@ public class SessionScope
      */
     public Memento memento() {
         LinkedList<ScopeState> stack = values.get();
-        return new Memento(stack != null ? stack.getFirst().seeded : Collections.<Key<?>, Provider<?>>emptyMap());
+        return new Memento(stack != null ? stack.getFirst().seeded : Collections.emptyMap());
     }
 
     public <T> void seed(Class<T> clazz, Provider<T> value) {

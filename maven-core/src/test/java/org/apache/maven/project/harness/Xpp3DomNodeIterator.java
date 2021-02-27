@@ -18,10 +18,26 @@ package org.apache.maven.project.harness;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.jxpath.ri.Compiler;
 import org.apache.commons.jxpath.ri.compiler.NodeNameTest;
 import org.apache.commons.jxpath.ri.compiler.NodeTest;
@@ -39,15 +55,13 @@ import org.codehaus.plexus.util.xml.Xpp3Dom;
 class Xpp3DomNodeIterator
         implements NodeIterator {
 
-    private NodePointer parent;
+    private final NodePointer parent;
 
-    private NodeTest test;
+    private final NodeTest test;
 
-    private Xpp3Dom node;
+    private final Xpp3Dom[] children;
 
-    private Xpp3Dom[] children;
-
-    private List<Xpp3Dom> filteredChildren = new ArrayList<>();
+    private final List<Xpp3Dom> filteredChildren = new ArrayList<>();
 
     private int filteredIndex;
 
@@ -57,8 +71,8 @@ class Xpp3DomNodeIterator
 
     public Xpp3DomNodeIterator(NodePointer parent, NodeTest test, boolean reverse, NodePointer startWith) {
         this.parent = parent;
-        this.node = (Xpp3Dom) parent.getNode();
-        this.children = this.node.getChildren();
+        Xpp3Dom node = (Xpp3Dom) parent.getNode();
+        this.children = node.getChildren();
         if (startWith != null) {
             Xpp3Dom startWithNode = (Xpp3Dom) startWith.getNode();
             for (; filteredIndex < children.length; filteredIndex++) {

@@ -1,5 +1,7 @@
 package org.apache.maven;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
  * agreements. See the NOTICE file distributed with this work for additional information regarding
@@ -14,13 +16,12 @@ package org.apache.maven;
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.apache.maven.execution.MavenExecutionResult;
@@ -30,9 +31,6 @@ import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.component.repository.ComponentDescriptor;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class MavenLifecycleParticipantTest
         extends AbstractCoreMavenComponentTestCase {
@@ -73,14 +71,14 @@ public class MavenLifecycleParticipantTest
             extends AbstractMavenLifecycleParticipant {
         @Override
         public void afterProjectsRead(MavenSession session) {
-            injectReactorDependency(session.getProjects(), "module-a", "module-b");
+            injectReactorDependency(session.getProjects());
         }
 
-        private void injectReactorDependency(List<MavenProject> projects, String moduleFrom, String moduleTo) {
+        private void injectReactorDependency(List<MavenProject> projects) {
             for (MavenProject project : projects) {
-                if (moduleFrom.equals(project.getArtifactId())) {
+                if ("module-a".equals(project.getArtifactId())) {
                     Dependency dependency = new Dependency();
-                    dependency.setArtifactId(moduleTo);
+                    dependency.setArtifactId("module-b");
                     dependency.setGroupId(project.getGroupId());
                     dependency.setVersion(project.getVersion());
 
@@ -109,7 +107,7 @@ public class MavenLifecycleParticipantTest
         Maven maven = container.lookup(Maven.class);
         File pom = getProject("lifecycle-listener-dependency-injection");
         MavenExecutionRequest request = createMavenExecutionRequest(pom);
-        request.setGoals(Arrays.asList("validate"));
+        request.setGoals(Collections.singletonList("validate"));
         MavenExecutionResult result = maven.execute(request);
 
         assertFalse(result.hasExceptions(), result.getExceptions().toString());
@@ -127,23 +125,23 @@ public class MavenLifecycleParticipantTest
     @Test
     public void testReactorDependencyInjection()
             throws Exception {
-        List<String> reactorOrder = getReactorOrder("lifecycle-participant-reactor-dependency-injection",
-                InjectReactorDependency.class);
+        List<String> reactorOrder = getReactorOrder();
         assertEquals(Arrays.asList("parent", "module-b", "module-a"), reactorOrder);
     }
 
-    private <T> List<String> getReactorOrder(String testProject, Class<T> participant)
+    private <T> List<String> getReactorOrder()
             throws Exception {
         PlexusContainer container = getContainer();
 
-        ComponentDescriptor<T> cd = new ComponentDescriptor<>(participant, container.getContainerRealm());
+        ComponentDescriptor<T> cd = new ComponentDescriptor<>((Class<T>) InjectReactorDependency.class,
+                container.getContainerRealm());
         cd.setRoleClass(AbstractMavenLifecycleParticipant.class);
         container.addComponentDescriptor(cd);
 
         Maven maven = container.lookup(Maven.class);
-        File pom = getProject(testProject);
+        File pom = getProject("lifecycle-participant-reactor-dependency-injection");
         MavenExecutionRequest request = createMavenExecutionRequest(pom);
-        request.setGoals(Arrays.asList("validate"));
+        request.setGoals(Collections.singletonList("validate"));
         MavenExecutionResult result = maven.execute(request);
 
         assertFalse(result.hasExceptions(), result.getExceptions().toString());

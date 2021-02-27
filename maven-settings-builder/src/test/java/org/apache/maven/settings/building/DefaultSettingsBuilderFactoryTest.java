@@ -1,5 +1,6 @@
 package org.apache.maven.settings.building;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,20 +19,16 @@ package org.apache.maven.settings.building;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.io.File;
-
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author Benjamin Bentmann
  */
 public class DefaultSettingsBuilderFactoryTest {
 
-    private File getSettings(String name) {
-        return new File("src/test/resources/settings/factory/" + name + ".xml").getAbsoluteFile();
+    private File getSettings() {
+        return new File("src/test/resources/settings/factory/" + "simple" + ".xml").getAbsoluteFile();
     }
 
     @Test
@@ -42,7 +39,7 @@ public class DefaultSettingsBuilderFactoryTest {
 
         DefaultSettingsBuildingRequest request = new DefaultSettingsBuildingRequest();
         request.setSystemProperties(System.getProperties());
-        request.setUserSettingsFile(getSettings("simple"));
+        request.setUserSettingsFile(getSettings());
 
         SettingsBuildingResult result = builder.build(request);
         assertNotNull(result);

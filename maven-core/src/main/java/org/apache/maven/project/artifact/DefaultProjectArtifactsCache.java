@@ -18,7 +18,24 @@ package org.apache.maven.project.artifact;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -29,10 +46,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
 import javax.inject.Named;
 import javax.inject.Singleton;
-
 import org.apache.maven.RepositoryUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.lifecycle.LifecycleExecutionException;
@@ -75,7 +90,7 @@ public class DefaultProjectArtifactsCache
 
         private final Set<String> resolve;
 
-        private boolean aggregating;
+        private final boolean aggregating;
 
         private final int hashCode;
 
@@ -88,8 +103,8 @@ public class DefaultProjectArtifactsCache
             version = project.getVersion();
 
             Set<String> deps = new LinkedHashSet<>();
-            if (project.getDependencyArtifacts() != null) {
-                for (Artifact dep : project.getDependencyArtifacts()) {
+            if (project.getArtifacts() != null) {
+                for (Artifact dep : project.getArtifacts()) {
                     deps.add(dep.toString());
                 }
             }
@@ -106,11 +121,11 @@ public class DefaultProjectArtifactsCache
                 }
             }
             collect = scopesToCollect == null
-                    ? Collections.<String>emptySet()
-                    : Collections.unmodifiableSet(new HashSet<>(scopesToCollect));
+                    ? Collections.emptySet()
+                    : Set.copyOf(scopesToCollect);
             resolve = scopesToResolve == null
-                    ? Collections.<String>emptySet()
-                    : Collections.unmodifiableSet(new HashSet<>(scopesToResolve));
+                    ? Collections.emptySet()
+                    : Set.copyOf(scopesToResolve);
             this.aggregating = aggregating;
 
             int hash = 17;
@@ -202,7 +217,7 @@ public class DefaultProjectArtifactsCache
     }
 
     @Override
-    public CacheRecord put(Key key, LifecycleExecutionException exception) {
+    public void put(Key key, LifecycleExecutionException exception) {
         Objects.requireNonNull(exception, "exception cannot be null");
 
         assertUniqueKey(key);
@@ -211,7 +226,6 @@ public class DefaultProjectArtifactsCache
 
         cache.put(key, record);
 
-        return record;
     }
 
     @Override

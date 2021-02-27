@@ -5,10 +5,9 @@
 
 package org.apache.maven.settings.io.xpp3;
 
-  //---------------------------------/
- //- Imported classes and packages -/
-//---------------------------------/
-
+// ---------------------------------/
+// - Imported classes and packages -/
+// ---------------------------------/
 import java.io.OutputStream;
 import java.io.Writer;
 import java.util.Iterator;
@@ -35,13 +34,12 @@ import org.codehaus.plexus.util.xml.pull.XmlSerializer;
  * 
  * @version $Revision$ $Date$
  */
-@SuppressWarnings( "all" )
-public class SettingsXpp3Writer
-{
+@SuppressWarnings("all")
+public class SettingsXpp3Writer {
 
-      //--------------------------/
-     //- Class/Member Variables -/
-    //--------------------------/
+    // --------------------------/
+    // - Class/Member Variables -/
+    // --------------------------/
 
     /**
      * Field NAMESPACE.
@@ -53,20 +51,18 @@ public class SettingsXpp3Writer
      */
     private String fileComment = null;
 
-
-      //-----------/
-     //- Methods -/
-    //-----------/
+    // -----------/
+    // - Methods -/
+    // -----------/
 
     /**
      * Method setFileComment.
      * 
      * @param fileComment
      */
-    public void setFileComment( String fileComment )
-    {
+    public void setFileComment(String fileComment) {
         this.fileComment = fileComment;
-    } //-- void setFileComment( String )
+    } // -- void setFileComment( String )
 
     /**
      * Method write.
@@ -75,17 +71,16 @@ public class SettingsXpp3Writer
      * @param settings
      * @throws java.io.IOException
      */
-    public void write( Writer writer, Settings settings )
-        throws java.io.IOException
-    {
+    public void write(Writer writer, Settings settings)
+            throws java.io.IOException {
         XmlSerializer serializer = new MXSerializer();
-        serializer.setProperty( "http://xmlpull.org/v1/doc/properties.html#serializer-indentation", "  " );
-        serializer.setProperty( "http://xmlpull.org/v1/doc/properties.html#serializer-line-separator", "\n" );
-        serializer.setOutput( writer );
-        serializer.startDocument( settings.getModelEncoding(), null );
-        writeSettings( settings, "settings", serializer );
+        serializer.setProperty("http://xmlpull.org/v1/doc/properties.html#serializer-indentation", "  ");
+        serializer.setProperty("http://xmlpull.org/v1/doc/properties.html#serializer-line-separator", "\n");
+        serializer.setOutput(writer);
+        serializer.startDocument(settings.getModelEncoding(), null);
+        writeSettings(settings, "settings", serializer);
         serializer.endDocument();
-    } //-- void write( Writer, Settings )
+    } // -- void write( Writer, Settings )
 
     /**
      * Method write.
@@ -94,17 +89,16 @@ public class SettingsXpp3Writer
      * @param settings
      * @throws java.io.IOException
      */
-    public void write( OutputStream stream, Settings settings )
-        throws java.io.IOException
-    {
+    public void write(OutputStream stream, Settings settings)
+            throws java.io.IOException {
         XmlSerializer serializer = new MXSerializer();
-        serializer.setProperty( "http://xmlpull.org/v1/doc/properties.html#serializer-indentation", "  " );
-        serializer.setProperty( "http://xmlpull.org/v1/doc/properties.html#serializer-line-separator", "\n" );
-        serializer.setOutput( stream, settings.getModelEncoding() );
-        serializer.startDocument( settings.getModelEncoding(), null );
-        writeSettings( settings, "settings", serializer );
+        serializer.setProperty("http://xmlpull.org/v1/doc/properties.html#serializer-indentation", "  ");
+        serializer.setProperty("http://xmlpull.org/v1/doc/properties.html#serializer-line-separator", "\n");
+        serializer.setOutput(stream, settings.getModelEncoding());
+        serializer.startDocument(settings.getModelEncoding(), null);
+        writeSettings(settings, "settings", serializer);
         serializer.endDocument();
-    } //-- void write( OutputStream, Settings )
+    } // -- void write( OutputStream, Settings )
 
     /**
      * Method writeActivation.
@@ -114,32 +108,27 @@ public class SettingsXpp3Writer
      * @param tagName
      * @throws java.io.IOException
      */
-    private void writeActivation( Activation activation, String tagName, XmlSerializer serializer )
-        throws java.io.IOException
-    {
-        serializer.startTag( NAMESPACE, tagName );
-        if ( activation.isActiveByDefault() != false )
-        {
-            serializer.startTag( NAMESPACE, "activeByDefault" ).text( String.valueOf( activation.isActiveByDefault() ) ).endTag( NAMESPACE, "activeByDefault" );
+    private void writeActivation(Activation activation, String tagName, XmlSerializer serializer)
+            throws java.io.IOException {
+        serializer.startTag(NAMESPACE, tagName);
+        if (activation.isActiveByDefault() != false) {
+            serializer.startTag(NAMESPACE, "activeByDefault").text(String.valueOf(activation.isActiveByDefault()))
+                    .endTag(NAMESPACE, "activeByDefault");
         }
-        if ( activation.getJdk() != null )
-        {
-            serializer.startTag( NAMESPACE, "jdk" ).text( activation.getJdk() ).endTag( NAMESPACE, "jdk" );
+        if (activation.getJdk() != null) {
+            serializer.startTag(NAMESPACE, "jdk").text(activation.getJdk()).endTag(NAMESPACE, "jdk");
         }
-        if ( activation.getOs() != null )
-        {
-            writeActivationOS( (ActivationOS) activation.getOs(), "os", serializer );
+        if (activation.getOs() != null) {
+            writeActivationOS((ActivationOS) activation.getOs(), "os", serializer);
         }
-        if ( activation.getProperty() != null )
-        {
-            writeActivationProperty( (ActivationProperty) activation.getProperty(), "property", serializer );
+        if (activation.getProperty() != null) {
+            writeActivationProperty((ActivationProperty) activation.getProperty(), "property", serializer);
         }
-        if ( activation.getFile() != null )
-        {
-            writeActivationFile( (ActivationFile) activation.getFile(), "file", serializer );
+        if (activation.getFile() != null) {
+            writeActivationFile((ActivationFile) activation.getFile(), "file", serializer);
         }
-        serializer.endTag( NAMESPACE, tagName );
-    } //-- void writeActivation( Activation, String, XmlSerializer )
+        serializer.endTag(NAMESPACE, tagName);
+    } // -- void writeActivation( Activation, String, XmlSerializer )
 
     /**
      * Method writeActivationFile.
@@ -149,20 +138,17 @@ public class SettingsXpp3Writer
      * @param tagName
      * @throws java.io.IOException
      */
-    private void writeActivationFile( ActivationFile activationFile, String tagName, XmlSerializer serializer )
-        throws java.io.IOException
-    {
-        serializer.startTag( NAMESPACE, tagName );
-        if ( activationFile.getMissing() != null )
-        {
-            serializer.startTag( NAMESPACE, "missing" ).text( activationFile.getMissing() ).endTag( NAMESPACE, "missing" );
+    private void writeActivationFile(ActivationFile activationFile, String tagName, XmlSerializer serializer)
+            throws java.io.IOException {
+        serializer.startTag(NAMESPACE, tagName);
+        if (activationFile.getMissing() != null) {
+            serializer.startTag(NAMESPACE, "missing").text(activationFile.getMissing()).endTag(NAMESPACE, "missing");
         }
-        if ( activationFile.getExists() != null )
-        {
-            serializer.startTag( NAMESPACE, "exists" ).text( activationFile.getExists() ).endTag( NAMESPACE, "exists" );
+        if (activationFile.getExists() != null) {
+            serializer.startTag(NAMESPACE, "exists").text(activationFile.getExists()).endTag(NAMESPACE, "exists");
         }
-        serializer.endTag( NAMESPACE, tagName );
-    } //-- void writeActivationFile( ActivationFile, String, XmlSerializer )
+        serializer.endTag(NAMESPACE, tagName);
+    } // -- void writeActivationFile( ActivationFile, String, XmlSerializer )
 
     /**
      * Method writeActivationOS.
@@ -172,28 +158,23 @@ public class SettingsXpp3Writer
      * @param tagName
      * @throws java.io.IOException
      */
-    private void writeActivationOS( ActivationOS activationOS, String tagName, XmlSerializer serializer )
-        throws java.io.IOException
-    {
-        serializer.startTag( NAMESPACE, tagName );
-        if ( activationOS.getName() != null )
-        {
-            serializer.startTag( NAMESPACE, "name" ).text( activationOS.getName() ).endTag( NAMESPACE, "name" );
+    private void writeActivationOS(ActivationOS activationOS, String tagName, XmlSerializer serializer)
+            throws java.io.IOException {
+        serializer.startTag(NAMESPACE, tagName);
+        if (activationOS.getName() != null) {
+            serializer.startTag(NAMESPACE, "name").text(activationOS.getName()).endTag(NAMESPACE, "name");
         }
-        if ( activationOS.getFamily() != null )
-        {
-            serializer.startTag( NAMESPACE, "family" ).text( activationOS.getFamily() ).endTag( NAMESPACE, "family" );
+        if (activationOS.getFamily() != null) {
+            serializer.startTag(NAMESPACE, "family").text(activationOS.getFamily()).endTag(NAMESPACE, "family");
         }
-        if ( activationOS.getArch() != null )
-        {
-            serializer.startTag( NAMESPACE, "arch" ).text( activationOS.getArch() ).endTag( NAMESPACE, "arch" );
+        if (activationOS.getArch() != null) {
+            serializer.startTag(NAMESPACE, "arch").text(activationOS.getArch()).endTag(NAMESPACE, "arch");
         }
-        if ( activationOS.getVersion() != null )
-        {
-            serializer.startTag( NAMESPACE, "version" ).text( activationOS.getVersion() ).endTag( NAMESPACE, "version" );
+        if (activationOS.getVersion() != null) {
+            serializer.startTag(NAMESPACE, "version").text(activationOS.getVersion()).endTag(NAMESPACE, "version");
         }
-        serializer.endTag( NAMESPACE, tagName );
-    } //-- void writeActivationOS( ActivationOS, String, XmlSerializer )
+        serializer.endTag(NAMESPACE, tagName);
+    } // -- void writeActivationOS( ActivationOS, String, XmlSerializer )
 
     /**
      * Method writeActivationProperty.
@@ -203,20 +184,18 @@ public class SettingsXpp3Writer
      * @param tagName
      * @throws java.io.IOException
      */
-    private void writeActivationProperty( ActivationProperty activationProperty, String tagName, XmlSerializer serializer )
-        throws java.io.IOException
-    {
-        serializer.startTag( NAMESPACE, tagName );
-        if ( activationProperty.getName() != null )
-        {
-            serializer.startTag( NAMESPACE, "name" ).text( activationProperty.getName() ).endTag( NAMESPACE, "name" );
+    private void writeActivationProperty(ActivationProperty activationProperty, String tagName,
+            XmlSerializer serializer)
+            throws java.io.IOException {
+        serializer.startTag(NAMESPACE, tagName);
+        if (activationProperty.getName() != null) {
+            serializer.startTag(NAMESPACE, "name").text(activationProperty.getName()).endTag(NAMESPACE, "name");
         }
-        if ( activationProperty.getValue() != null )
-        {
-            serializer.startTag( NAMESPACE, "value" ).text( activationProperty.getValue() ).endTag( NAMESPACE, "value" );
+        if (activationProperty.getValue() != null) {
+            serializer.startTag(NAMESPACE, "value").text(activationProperty.getValue()).endTag(NAMESPACE, "value");
         }
-        serializer.endTag( NAMESPACE, tagName );
-    } //-- void writeActivationProperty( ActivationProperty, String, XmlSerializer )
+        serializer.endTag(NAMESPACE, tagName);
+    } // -- void writeActivationProperty( ActivationProperty, String, XmlSerializer )
 
     /**
      * Method writeIdentifiableBase.
@@ -226,16 +205,14 @@ public class SettingsXpp3Writer
      * @param tagName
      * @throws java.io.IOException
      */
-    private void writeIdentifiableBase( IdentifiableBase identifiableBase, String tagName, XmlSerializer serializer )
-        throws java.io.IOException
-    {
-        serializer.startTag( NAMESPACE, tagName );
-        if ( ( identifiableBase.getId() != null ) && !identifiableBase.getId().equals( "default" ) )
-        {
-            serializer.startTag( NAMESPACE, "id" ).text( identifiableBase.getId() ).endTag( NAMESPACE, "id" );
+    private void writeIdentifiableBase(IdentifiableBase identifiableBase, String tagName, XmlSerializer serializer)
+            throws java.io.IOException {
+        serializer.startTag(NAMESPACE, tagName);
+        if ((identifiableBase.getId() != null) && !identifiableBase.getId().equals("default")) {
+            serializer.startTag(NAMESPACE, "id").text(identifiableBase.getId()).endTag(NAMESPACE, "id");
         }
-        serializer.endTag( NAMESPACE, tagName );
-    } //-- void writeIdentifiableBase( IdentifiableBase, String, XmlSerializer )
+        serializer.endTag(NAMESPACE, tagName);
+    } // -- void writeIdentifiableBase( IdentifiableBase, String, XmlSerializer )
 
     /**
      * Method writeMirror.
@@ -245,36 +222,30 @@ public class SettingsXpp3Writer
      * @param tagName
      * @throws java.io.IOException
      */
-    private void writeMirror( Mirror mirror, String tagName, XmlSerializer serializer )
-        throws java.io.IOException
-    {
-        serializer.startTag( NAMESPACE, tagName );
-        if ( mirror.getMirrorOf() != null )
-        {
-            serializer.startTag( NAMESPACE, "mirrorOf" ).text( mirror.getMirrorOf() ).endTag( NAMESPACE, "mirrorOf" );
+    private void writeMirror(Mirror mirror, String tagName, XmlSerializer serializer)
+            throws java.io.IOException {
+        serializer.startTag(NAMESPACE, tagName);
+        if (mirror.getMirrorOf() != null) {
+            serializer.startTag(NAMESPACE, "mirrorOf").text(mirror.getMirrorOf()).endTag(NAMESPACE, "mirrorOf");
         }
-        if ( mirror.getName() != null )
-        {
-            serializer.startTag( NAMESPACE, "name" ).text( mirror.getName() ).endTag( NAMESPACE, "name" );
+        if (mirror.getName() != null) {
+            serializer.startTag(NAMESPACE, "name").text(mirror.getName()).endTag(NAMESPACE, "name");
         }
-        if ( mirror.getUrl() != null )
-        {
-            serializer.startTag( NAMESPACE, "url" ).text( mirror.getUrl() ).endTag( NAMESPACE, "url" );
+        if (mirror.getUrl() != null) {
+            serializer.startTag(NAMESPACE, "url").text(mirror.getUrl()).endTag(NAMESPACE, "url");
         }
-        if ( ( mirror.getLayout() != null ) && !mirror.getLayout().equals( "default" ) )
-        {
-            serializer.startTag( NAMESPACE, "layout" ).text( mirror.getLayout() ).endTag( NAMESPACE, "layout" );
+        if ((mirror.getLayout() != null) && !mirror.getLayout().equals("default")) {
+            serializer.startTag(NAMESPACE, "layout").text(mirror.getLayout()).endTag(NAMESPACE, "layout");
         }
-        if ( ( mirror.getMirrorOfLayouts() != null ) && !mirror.getMirrorOfLayouts().equals( "default,legacy" ) )
-        {
-            serializer.startTag( NAMESPACE, "mirrorOfLayouts" ).text( mirror.getMirrorOfLayouts() ).endTag( NAMESPACE, "mirrorOfLayouts" );
+        if ((mirror.getMirrorOfLayouts() != null) && !mirror.getMirrorOfLayouts().equals("default,legacy")) {
+            serializer.startTag(NAMESPACE, "mirrorOfLayouts").text(mirror.getMirrorOfLayouts()).endTag(NAMESPACE,
+                    "mirrorOfLayouts");
         }
-        if ( ( mirror.getId() != null ) && !mirror.getId().equals( "default" ) )
-        {
-            serializer.startTag( NAMESPACE, "id" ).text( mirror.getId() ).endTag( NAMESPACE, "id" );
+        if ((mirror.getId() != null) && !mirror.getId().equals("default")) {
+            serializer.startTag(NAMESPACE, "id").text(mirror.getId()).endTag(NAMESPACE, "id");
         }
-        serializer.endTag( NAMESPACE, tagName );
-    } //-- void writeMirror( Mirror, String, XmlSerializer )
+        serializer.endTag(NAMESPACE, tagName);
+    } // -- void writeMirror( Mirror, String, XmlSerializer )
 
     /**
      * Method writeProfile.
@@ -284,51 +255,42 @@ public class SettingsXpp3Writer
      * @param tagName
      * @throws java.io.IOException
      */
-    private void writeProfile( Profile profile, String tagName, XmlSerializer serializer )
-        throws java.io.IOException
-    {
-        serializer.startTag( NAMESPACE, tagName );
-        if ( profile.getActivation() != null )
-        {
-            writeActivation( (Activation) profile.getActivation(), "activation", serializer );
+    private void writeProfile(Profile profile, String tagName, XmlSerializer serializer)
+            throws java.io.IOException {
+        serializer.startTag(NAMESPACE, tagName);
+        if (profile.getActivation() != null) {
+            writeActivation((Activation) profile.getActivation(), "activation", serializer);
         }
-        if ( ( profile.getProperties() != null ) && ( profile.getProperties().size() > 0 ) )
-        {
-            serializer.startTag( NAMESPACE, "properties" );
-            for ( Iterator iter = profile.getProperties().keySet().iterator(); iter.hasNext(); )
-            {
+        if ((profile.getProperties() != null) && (profile.getProperties().size() > 0)) {
+            serializer.startTag(NAMESPACE, "properties");
+            for (Iterator iter = profile.getProperties().keySet().iterator(); iter.hasNext();) {
                 String key = (String) iter.next();
-                String value = (String) profile.getProperties().get( key );
-                serializer.startTag( NAMESPACE, key ).text( value ).endTag( NAMESPACE, key );
+                String value = (String) profile.getProperties().get(key);
+                serializer.startTag(NAMESPACE, key).text(value).endTag(NAMESPACE, key);
             }
-            serializer.endTag( NAMESPACE, "properties" );
+            serializer.endTag(NAMESPACE, "properties");
         }
-        if ( ( profile.getRepositories() != null ) && ( profile.getRepositories().size() > 0 ) )
-        {
-            serializer.startTag( NAMESPACE, "repositories" );
-            for ( Iterator iter = profile.getRepositories().iterator(); iter.hasNext(); )
-            {
+        if ((profile.getRepositories() != null) && (profile.getRepositories().size() > 0)) {
+            serializer.startTag(NAMESPACE, "repositories");
+            for (Iterator iter = profile.getRepositories().iterator(); iter.hasNext();) {
                 Repository o = (Repository) iter.next();
-                writeRepository( o, "repository", serializer );
+                writeRepository(o, "repository", serializer);
             }
-            serializer.endTag( NAMESPACE, "repositories" );
+            serializer.endTag(NAMESPACE, "repositories");
         }
-        if ( ( profile.getPluginRepositories() != null ) && ( profile.getPluginRepositories().size() > 0 ) )
-        {
-            serializer.startTag( NAMESPACE, "pluginRepositories" );
-            for ( Iterator iter = profile.getPluginRepositories().iterator(); iter.hasNext(); )
-            {
+        if ((profile.getPluginRepositories() != null) && (profile.getPluginRepositories().size() > 0)) {
+            serializer.startTag(NAMESPACE, "pluginRepositories");
+            for (Iterator iter = profile.getPluginRepositories().iterator(); iter.hasNext();) {
                 Repository o = (Repository) iter.next();
-                writeRepository( o, "pluginRepository", serializer );
+                writeRepository(o, "pluginRepository", serializer);
             }
-            serializer.endTag( NAMESPACE, "pluginRepositories" );
+            serializer.endTag(NAMESPACE, "pluginRepositories");
         }
-        if ( ( profile.getId() != null ) && !profile.getId().equals( "default" ) )
-        {
-            serializer.startTag( NAMESPACE, "id" ).text( profile.getId() ).endTag( NAMESPACE, "id" );
+        if ((profile.getId() != null) && !profile.getId().equals("default")) {
+            serializer.startTag(NAMESPACE, "id").text(profile.getId()).endTag(NAMESPACE, "id");
         }
-        serializer.endTag( NAMESPACE, tagName );
-    } //-- void writeProfile( Profile, String, XmlSerializer )
+        serializer.endTag(NAMESPACE, tagName);
+    } // -- void writeProfile( Profile, String, XmlSerializer )
 
     /**
      * Method writeProxy.
@@ -338,44 +300,36 @@ public class SettingsXpp3Writer
      * @param tagName
      * @throws java.io.IOException
      */
-    private void writeProxy( Proxy proxy, String tagName, XmlSerializer serializer )
-        throws java.io.IOException
-    {
-        serializer.startTag( NAMESPACE, tagName );
-        if ( proxy.isActive() != true )
-        {
-            serializer.startTag( NAMESPACE, "active" ).text( String.valueOf( proxy.isActive() ) ).endTag( NAMESPACE, "active" );
+    private void writeProxy(Proxy proxy, String tagName, XmlSerializer serializer)
+            throws java.io.IOException {
+        serializer.startTag(NAMESPACE, tagName);
+        if (proxy.isActive() != true) {
+            serializer.startTag(NAMESPACE, "active").text(String.valueOf(proxy.isActive())).endTag(NAMESPACE, "active");
         }
-        if ( ( proxy.getProtocol() != null ) && !proxy.getProtocol().equals( "http" ) )
-        {
-            serializer.startTag( NAMESPACE, "protocol" ).text( proxy.getProtocol() ).endTag( NAMESPACE, "protocol" );
+        if ((proxy.getProtocol() != null) && !proxy.getProtocol().equals("http")) {
+            serializer.startTag(NAMESPACE, "protocol").text(proxy.getProtocol()).endTag(NAMESPACE, "protocol");
         }
-        if ( proxy.getUsername() != null )
-        {
-            serializer.startTag( NAMESPACE, "username" ).text( proxy.getUsername() ).endTag( NAMESPACE, "username" );
+        if (proxy.getUsername() != null) {
+            serializer.startTag(NAMESPACE, "username").text(proxy.getUsername()).endTag(NAMESPACE, "username");
         }
-        if ( proxy.getPassword() != null )
-        {
-            serializer.startTag( NAMESPACE, "password" ).text( proxy.getPassword() ).endTag( NAMESPACE, "password" );
+        if (proxy.getPassword() != null) {
+            serializer.startTag(NAMESPACE, "password").text(proxy.getPassword()).endTag(NAMESPACE, "password");
         }
-        if ( proxy.getPort() != 8080 )
-        {
-            serializer.startTag( NAMESPACE, "port" ).text( String.valueOf( proxy.getPort() ) ).endTag( NAMESPACE, "port" );
+        if (proxy.getPort() != 8080) {
+            serializer.startTag(NAMESPACE, "port").text(String.valueOf(proxy.getPort())).endTag(NAMESPACE, "port");
         }
-        if ( proxy.getHost() != null )
-        {
-            serializer.startTag( NAMESPACE, "host" ).text( proxy.getHost() ).endTag( NAMESPACE, "host" );
+        if (proxy.getHost() != null) {
+            serializer.startTag(NAMESPACE, "host").text(proxy.getHost()).endTag(NAMESPACE, "host");
         }
-        if ( proxy.getNonProxyHosts() != null )
-        {
-            serializer.startTag( NAMESPACE, "nonProxyHosts" ).text( proxy.getNonProxyHosts() ).endTag( NAMESPACE, "nonProxyHosts" );
+        if (proxy.getNonProxyHosts() != null) {
+            serializer.startTag(NAMESPACE, "nonProxyHosts").text(proxy.getNonProxyHosts()).endTag(NAMESPACE,
+                    "nonProxyHosts");
         }
-        if ( ( proxy.getId() != null ) && !proxy.getId().equals( "default" ) )
-        {
-            serializer.startTag( NAMESPACE, "id" ).text( proxy.getId() ).endTag( NAMESPACE, "id" );
+        if ((proxy.getId() != null) && !proxy.getId().equals("default")) {
+            serializer.startTag(NAMESPACE, "id").text(proxy.getId()).endTag(NAMESPACE, "id");
         }
-        serializer.endTag( NAMESPACE, tagName );
-    } //-- void writeProxy( Proxy, String, XmlSerializer )
+        serializer.endTag(NAMESPACE, tagName);
+    } // -- void writeProxy( Proxy, String, XmlSerializer )
 
     /**
      * Method writeRepository.
@@ -385,36 +339,29 @@ public class SettingsXpp3Writer
      * @param tagName
      * @throws java.io.IOException
      */
-    private void writeRepository( Repository repository, String tagName, XmlSerializer serializer )
-        throws java.io.IOException
-    {
-        serializer.startTag( NAMESPACE, tagName );
-        if ( repository.getReleases() != null )
-        {
-            writeRepositoryPolicy( (RepositoryPolicy) repository.getReleases(), "releases", serializer );
+    private void writeRepository(Repository repository, String tagName, XmlSerializer serializer)
+            throws java.io.IOException {
+        serializer.startTag(NAMESPACE, tagName);
+        if (repository.getReleases() != null) {
+            writeRepositoryPolicy((RepositoryPolicy) repository.getReleases(), "releases", serializer);
         }
-        if ( repository.getSnapshots() != null )
-        {
-            writeRepositoryPolicy( (RepositoryPolicy) repository.getSnapshots(), "snapshots", serializer );
+        if (repository.getSnapshots() != null) {
+            writeRepositoryPolicy((RepositoryPolicy) repository.getSnapshots(), "snapshots", serializer);
         }
-        if ( repository.getId() != null )
-        {
-            serializer.startTag( NAMESPACE, "id" ).text( repository.getId() ).endTag( NAMESPACE, "id" );
+        if (repository.getId() != null) {
+            serializer.startTag(NAMESPACE, "id").text(repository.getId()).endTag(NAMESPACE, "id");
         }
-        if ( repository.getName() != null )
-        {
-            serializer.startTag( NAMESPACE, "name" ).text( repository.getName() ).endTag( NAMESPACE, "name" );
+        if (repository.getName() != null) {
+            serializer.startTag(NAMESPACE, "name").text(repository.getName()).endTag(NAMESPACE, "name");
         }
-        if ( repository.getUrl() != null )
-        {
-            serializer.startTag( NAMESPACE, "url" ).text( repository.getUrl() ).endTag( NAMESPACE, "url" );
+        if (repository.getUrl() != null) {
+            serializer.startTag(NAMESPACE, "url").text(repository.getUrl()).endTag(NAMESPACE, "url");
         }
-        if ( ( repository.getLayout() != null ) && !repository.getLayout().equals( "default" ) )
-        {
-            serializer.startTag( NAMESPACE, "layout" ).text( repository.getLayout() ).endTag( NAMESPACE, "layout" );
+        if ((repository.getLayout() != null) && !repository.getLayout().equals("default")) {
+            serializer.startTag(NAMESPACE, "layout").text(repository.getLayout()).endTag(NAMESPACE, "layout");
         }
-        serializer.endTag( NAMESPACE, tagName );
-    } //-- void writeRepository( Repository, String, XmlSerializer )
+        serializer.endTag(NAMESPACE, tagName);
+    } // -- void writeRepository( Repository, String, XmlSerializer )
 
     /**
      * Method writeRepositoryBase.
@@ -424,28 +371,23 @@ public class SettingsXpp3Writer
      * @param tagName
      * @throws java.io.IOException
      */
-    private void writeRepositoryBase( RepositoryBase repositoryBase, String tagName, XmlSerializer serializer )
-        throws java.io.IOException
-    {
-        serializer.startTag( NAMESPACE, tagName );
-        if ( repositoryBase.getId() != null )
-        {
-            serializer.startTag( NAMESPACE, "id" ).text( repositoryBase.getId() ).endTag( NAMESPACE, "id" );
+    private void writeRepositoryBase(RepositoryBase repositoryBase, String tagName, XmlSerializer serializer)
+            throws java.io.IOException {
+        serializer.startTag(NAMESPACE, tagName);
+        if (repositoryBase.getId() != null) {
+            serializer.startTag(NAMESPACE, "id").text(repositoryBase.getId()).endTag(NAMESPACE, "id");
         }
-        if ( repositoryBase.getName() != null )
-        {
-            serializer.startTag( NAMESPACE, "name" ).text( repositoryBase.getName() ).endTag( NAMESPACE, "name" );
+        if (repositoryBase.getName() != null) {
+            serializer.startTag(NAMESPACE, "name").text(repositoryBase.getName()).endTag(NAMESPACE, "name");
         }
-        if ( repositoryBase.getUrl() != null )
-        {
-            serializer.startTag( NAMESPACE, "url" ).text( repositoryBase.getUrl() ).endTag( NAMESPACE, "url" );
+        if (repositoryBase.getUrl() != null) {
+            serializer.startTag(NAMESPACE, "url").text(repositoryBase.getUrl()).endTag(NAMESPACE, "url");
         }
-        if ( ( repositoryBase.getLayout() != null ) && !repositoryBase.getLayout().equals( "default" ) )
-        {
-            serializer.startTag( NAMESPACE, "layout" ).text( repositoryBase.getLayout() ).endTag( NAMESPACE, "layout" );
+        if ((repositoryBase.getLayout() != null) && !repositoryBase.getLayout().equals("default")) {
+            serializer.startTag(NAMESPACE, "layout").text(repositoryBase.getLayout()).endTag(NAMESPACE, "layout");
         }
-        serializer.endTag( NAMESPACE, tagName );
-    } //-- void writeRepositoryBase( RepositoryBase, String, XmlSerializer )
+        serializer.endTag(NAMESPACE, tagName);
+    } // -- void writeRepositoryBase( RepositoryBase, String, XmlSerializer )
 
     /**
      * Method writeRepositoryPolicy.
@@ -455,24 +397,23 @@ public class SettingsXpp3Writer
      * @param tagName
      * @throws java.io.IOException
      */
-    private void writeRepositoryPolicy( RepositoryPolicy repositoryPolicy, String tagName, XmlSerializer serializer )
-        throws java.io.IOException
-    {
-        serializer.startTag( NAMESPACE, tagName );
-        if ( repositoryPolicy.isEnabled() != true )
-        {
-            serializer.startTag( NAMESPACE, "enabled" ).text( String.valueOf( repositoryPolicy.isEnabled() ) ).endTag( NAMESPACE, "enabled" );
+    private void writeRepositoryPolicy(RepositoryPolicy repositoryPolicy, String tagName, XmlSerializer serializer)
+            throws java.io.IOException {
+        serializer.startTag(NAMESPACE, tagName);
+        if (repositoryPolicy.isEnabled() != true) {
+            serializer.startTag(NAMESPACE, "enabled").text(String.valueOf(repositoryPolicy.isEnabled()))
+                    .endTag(NAMESPACE, "enabled");
         }
-        if ( repositoryPolicy.getUpdatePolicy() != null )
-        {
-            serializer.startTag( NAMESPACE, "updatePolicy" ).text( repositoryPolicy.getUpdatePolicy() ).endTag( NAMESPACE, "updatePolicy" );
+        if (repositoryPolicy.getUpdatePolicy() != null) {
+            serializer.startTag(NAMESPACE, "updatePolicy").text(repositoryPolicy.getUpdatePolicy()).endTag(NAMESPACE,
+                    "updatePolicy");
         }
-        if ( repositoryPolicy.getChecksumPolicy() != null )
-        {
-            serializer.startTag( NAMESPACE, "checksumPolicy" ).text( repositoryPolicy.getChecksumPolicy() ).endTag( NAMESPACE, "checksumPolicy" );
+        if (repositoryPolicy.getChecksumPolicy() != null) {
+            serializer.startTag(NAMESPACE, "checksumPolicy").text(repositoryPolicy.getChecksumPolicy())
+                    .endTag(NAMESPACE, "checksumPolicy");
         }
-        serializer.endTag( NAMESPACE, tagName );
-    } //-- void writeRepositoryPolicy( RepositoryPolicy, String, XmlSerializer )
+        serializer.endTag(NAMESPACE, tagName);
+    } // -- void writeRepositoryPolicy( RepositoryPolicy, String, XmlSerializer )
 
     /**
      * Method writeServer.
@@ -482,44 +423,37 @@ public class SettingsXpp3Writer
      * @param tagName
      * @throws java.io.IOException
      */
-    private void writeServer( Server server, String tagName, XmlSerializer serializer )
-        throws java.io.IOException
-    {
-        serializer.startTag( NAMESPACE, tagName );
-        if ( server.getUsername() != null )
-        {
-            serializer.startTag( NAMESPACE, "username" ).text( server.getUsername() ).endTag( NAMESPACE, "username" );
+    private void writeServer(Server server, String tagName, XmlSerializer serializer)
+            throws java.io.IOException {
+        serializer.startTag(NAMESPACE, tagName);
+        if (server.getUsername() != null) {
+            serializer.startTag(NAMESPACE, "username").text(server.getUsername()).endTag(NAMESPACE, "username");
         }
-        if ( server.getPassword() != null )
-        {
-            serializer.startTag( NAMESPACE, "password" ).text( server.getPassword() ).endTag( NAMESPACE, "password" );
+        if (server.getPassword() != null) {
+            serializer.startTag(NAMESPACE, "password").text(server.getPassword()).endTag(NAMESPACE, "password");
         }
-        if ( server.getPrivateKey() != null )
-        {
-            serializer.startTag( NAMESPACE, "privateKey" ).text( server.getPrivateKey() ).endTag( NAMESPACE, "privateKey" );
+        if (server.getPrivateKey() != null) {
+            serializer.startTag(NAMESPACE, "privateKey").text(server.getPrivateKey()).endTag(NAMESPACE, "privateKey");
         }
-        if ( server.getPassphrase() != null )
-        {
-            serializer.startTag( NAMESPACE, "passphrase" ).text( server.getPassphrase() ).endTag( NAMESPACE, "passphrase" );
+        if (server.getPassphrase() != null) {
+            serializer.startTag(NAMESPACE, "passphrase").text(server.getPassphrase()).endTag(NAMESPACE, "passphrase");
         }
-        if ( server.getFilePermissions() != null )
-        {
-            serializer.startTag( NAMESPACE, "filePermissions" ).text( server.getFilePermissions() ).endTag( NAMESPACE, "filePermissions" );
+        if (server.getFilePermissions() != null) {
+            serializer.startTag(NAMESPACE, "filePermissions").text(server.getFilePermissions()).endTag(NAMESPACE,
+                    "filePermissions");
         }
-        if ( server.getDirectoryPermissions() != null )
-        {
-            serializer.startTag( NAMESPACE, "directoryPermissions" ).text( server.getDirectoryPermissions() ).endTag( NAMESPACE, "directoryPermissions" );
+        if (server.getDirectoryPermissions() != null) {
+            serializer.startTag(NAMESPACE, "directoryPermissions").text(server.getDirectoryPermissions())
+                    .endTag(NAMESPACE, "directoryPermissions");
         }
-        if ( server.getConfiguration() != null )
-        {
-            ((Xpp3Dom) server.getConfiguration()).writeToSerializer( NAMESPACE, serializer );
+        if (server.getConfiguration() != null) {
+            ((Xpp3Dom) server.getConfiguration()).writeToSerializer(NAMESPACE, serializer);
         }
-        if ( ( server.getId() != null ) && !server.getId().equals( "default" ) )
-        {
-            serializer.startTag( NAMESPACE, "id" ).text( server.getId() ).endTag( NAMESPACE, "id" );
+        if ((server.getId() != null) && !server.getId().equals("default")) {
+            serializer.startTag(NAMESPACE, "id").text(server.getId()).endTag(NAMESPACE, "id");
         }
-        serializer.endTag( NAMESPACE, tagName );
-    } //-- void writeServer( Server, String, XmlSerializer )
+        serializer.endTag(NAMESPACE, tagName);
+    } // -- void writeServer( Server, String, XmlSerializer )
 
     /**
      * Method writeSettings.
@@ -529,95 +463,82 @@ public class SettingsXpp3Writer
      * @param tagName
      * @throws java.io.IOException
      */
-    private void writeSettings( Settings settings, String tagName, XmlSerializer serializer )
-        throws java.io.IOException
-    {
-        if ( this.fileComment != null )
-        {
-        serializer.comment(this.fileComment);
+    private void writeSettings(Settings settings, String tagName, XmlSerializer serializer)
+            throws java.io.IOException {
+        if (this.fileComment != null) {
+            serializer.comment(this.fileComment);
         }
-        serializer.setPrefix( "", "http://maven.apache.org/SETTINGS/1.1.0" );
-        serializer.setPrefix( "xsi", "http://www.w3.org/2001/XMLSchema-instance" );
-        serializer.startTag( NAMESPACE, tagName );
-        serializer.attribute( "", "xsi:schemaLocation", "http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd" );
-        if ( settings.getLocalRepository() != null )
-        {
-            serializer.startTag( NAMESPACE, "localRepository" ).text( settings.getLocalRepository() ).endTag( NAMESPACE, "localRepository" );
+        serializer.setPrefix("", "http://maven.apache.org/SETTINGS/1.1.0");
+        serializer.setPrefix("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+        serializer.startTag(NAMESPACE, tagName);
+        serializer.attribute("", "xsi:schemaLocation",
+                "http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd");
+        if (settings.getLocalRepository() != null) {
+            serializer.startTag(NAMESPACE, "localRepository").text(settings.getLocalRepository()).endTag(NAMESPACE,
+                    "localRepository");
         }
-        if ( settings.isInteractiveMode() != true )
-        {
-            serializer.startTag( NAMESPACE, "interactiveMode" ).text( String.valueOf( settings.isInteractiveMode() ) ).endTag( NAMESPACE, "interactiveMode" );
+        if (settings.isInteractiveMode() != true) {
+            serializer.startTag(NAMESPACE, "interactiveMode").text(String.valueOf(settings.isInteractiveMode()))
+                    .endTag(NAMESPACE, "interactiveMode");
         }
-        if ( settings.isUsePluginRegistry() != false )
-        {
-            serializer.startTag( NAMESPACE, "usePluginRegistry" ).text( String.valueOf( settings.isUsePluginRegistry() ) ).endTag( NAMESPACE, "usePluginRegistry" );
+        if (settings.isUsePluginRegistry() != false) {
+            serializer.startTag(NAMESPACE, "usePluginRegistry").text(String.valueOf(settings.isUsePluginRegistry()))
+                    .endTag(NAMESPACE, "usePluginRegistry");
         }
-        if ( settings.isOffline() != false )
-        {
-            serializer.startTag( NAMESPACE, "offline" ).text( String.valueOf( settings.isOffline() ) ).endTag( NAMESPACE, "offline" );
+        if (settings.isOffline() != false) {
+            serializer.startTag(NAMESPACE, "offline").text(String.valueOf(settings.isOffline())).endTag(NAMESPACE,
+                    "offline");
         }
-        if ( ( settings.getProxies() != null ) && ( settings.getProxies().size() > 0 ) )
-        {
-            serializer.startTag( NAMESPACE, "proxies" );
-            for ( Iterator iter = settings.getProxies().iterator(); iter.hasNext(); )
-            {
+        if ((settings.getProxies() != null) && (settings.getProxies().size() > 0)) {
+            serializer.startTag(NAMESPACE, "proxies");
+            for (Iterator iter = settings.getProxies().iterator(); iter.hasNext();) {
                 Proxy o = (Proxy) iter.next();
-                writeProxy( o, "proxy", serializer );
+                writeProxy(o, "proxy", serializer);
             }
-            serializer.endTag( NAMESPACE, "proxies" );
+            serializer.endTag(NAMESPACE, "proxies");
         }
-        if ( ( settings.getServers() != null ) && ( settings.getServers().size() > 0 ) )
-        {
-            serializer.startTag( NAMESPACE, "servers" );
-            for ( Iterator iter = settings.getServers().iterator(); iter.hasNext(); )
-            {
+        if ((settings.getServers() != null) && (settings.getServers().size() > 0)) {
+            serializer.startTag(NAMESPACE, "servers");
+            for (Iterator iter = settings.getServers().iterator(); iter.hasNext();) {
                 Server o = (Server) iter.next();
-                writeServer( o, "server", serializer );
+                writeServer(o, "server", serializer);
             }
-            serializer.endTag( NAMESPACE, "servers" );
+            serializer.endTag(NAMESPACE, "servers");
         }
-        if ( ( settings.getMirrors() != null ) && ( settings.getMirrors().size() > 0 ) )
-        {
-            serializer.startTag( NAMESPACE, "mirrors" );
-            for ( Iterator iter = settings.getMirrors().iterator(); iter.hasNext(); )
-            {
+        if ((settings.getMirrors() != null) && (settings.getMirrors().size() > 0)) {
+            serializer.startTag(NAMESPACE, "mirrors");
+            for (Iterator iter = settings.getMirrors().iterator(); iter.hasNext();) {
                 Mirror o = (Mirror) iter.next();
-                writeMirror( o, "mirror", serializer );
+                writeMirror(o, "mirror", serializer);
             }
-            serializer.endTag( NAMESPACE, "mirrors" );
+            serializer.endTag(NAMESPACE, "mirrors");
         }
-        if ( ( settings.getProfiles() != null ) && ( settings.getProfiles().size() > 0 ) )
-        {
-            serializer.startTag( NAMESPACE, "profiles" );
-            for ( Iterator iter = settings.getProfiles().iterator(); iter.hasNext(); )
-            {
+        if ((settings.getProfiles() != null) && (settings.getProfiles().size() > 0)) {
+            serializer.startTag(NAMESPACE, "profiles");
+            for (Iterator iter = settings.getProfiles().iterator(); iter.hasNext();) {
                 Profile o = (Profile) iter.next();
-                writeProfile( o, "profile", serializer );
+                writeProfile(o, "profile", serializer);
             }
-            serializer.endTag( NAMESPACE, "profiles" );
+            serializer.endTag(NAMESPACE, "profiles");
         }
-        if ( ( settings.getActiveProfiles() != null ) && ( settings.getActiveProfiles().size() > 0 ) )
-        {
-            serializer.startTag( NAMESPACE, "activeProfiles" );
-            for ( Iterator iter = settings.getActiveProfiles().iterator(); iter.hasNext(); )
-            {
+        if ((settings.getActiveProfiles() != null) && (settings.getActiveProfiles().size() > 0)) {
+            serializer.startTag(NAMESPACE, "activeProfiles");
+            for (Iterator iter = settings.getActiveProfiles().iterator(); iter.hasNext();) {
                 String activeProfile = (String) iter.next();
-                serializer.startTag( NAMESPACE, "activeProfile" ).text( activeProfile ).endTag( NAMESPACE, "activeProfile" );
+                serializer.startTag(NAMESPACE, "activeProfile").text(activeProfile).endTag(NAMESPACE, "activeProfile");
             }
-            serializer.endTag( NAMESPACE, "activeProfiles" );
+            serializer.endTag(NAMESPACE, "activeProfiles");
         }
-        if ( ( settings.getPluginGroups() != null ) && ( settings.getPluginGroups().size() > 0 ) )
-        {
-            serializer.startTag( NAMESPACE, "pluginGroups" );
-            for ( Iterator iter = settings.getPluginGroups().iterator(); iter.hasNext(); )
-            {
+        if ((settings.getPluginGroups() != null) && (settings.getPluginGroups().size() > 0)) {
+            serializer.startTag(NAMESPACE, "pluginGroups");
+            for (Iterator iter = settings.getPluginGroups().iterator(); iter.hasNext();) {
                 String pluginGroup = (String) iter.next();
-                serializer.startTag( NAMESPACE, "pluginGroup" ).text( pluginGroup ).endTag( NAMESPACE, "pluginGroup" );
+                serializer.startTag(NAMESPACE, "pluginGroup").text(pluginGroup).endTag(NAMESPACE, "pluginGroup");
             }
-            serializer.endTag( NAMESPACE, "pluginGroups" );
+            serializer.endTag(NAMESPACE, "pluginGroups");
         }
-        serializer.endTag( NAMESPACE, tagName );
-    } //-- void writeSettings( Settings, String, XmlSerializer )
+        serializer.endTag(NAMESPACE, tagName);
+    } // -- void writeSettings( Settings, String, XmlSerializer )
 
     /**
      * Method writeTrackableBase.
@@ -627,11 +548,10 @@ public class SettingsXpp3Writer
      * @param tagName
      * @throws java.io.IOException
      */
-    private void writeTrackableBase( TrackableBase trackableBase, String tagName, XmlSerializer serializer )
-        throws java.io.IOException
-    {
-        serializer.startTag( NAMESPACE, tagName );
-        serializer.endTag( NAMESPACE, tagName );
-    } //-- void writeTrackableBase( TrackableBase, String, XmlSerializer )
+    private void writeTrackableBase(TrackableBase trackableBase, String tagName, XmlSerializer serializer)
+            throws java.io.IOException {
+        serializer.startTag(NAMESPACE, tagName);
+        serializer.endTag(NAMESPACE, tagName);
+    } // -- void writeTrackableBase( TrackableBase, String, XmlSerializer )
 
 }

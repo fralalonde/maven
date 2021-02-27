@@ -1,5 +1,7 @@
 package org.slf4j.impl;
 
+import static org.apache.maven.shared.utils.logging.MessageUtils.buffer;
+import static org.apache.maven.shared.utils.logging.MessageUtils.level;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,11 +20,7 @@ package org.slf4j.impl;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.io.PrintStream;
-
-import static org.apache.maven.shared.utils.logging.MessageUtils.buffer;
-import static org.apache.maven.shared.utils.logging.MessageUtils.level;
 
 /**
  * Logger for Maven, that support colorization of levels and stacktraces. This

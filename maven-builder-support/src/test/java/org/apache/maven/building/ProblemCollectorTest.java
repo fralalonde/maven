@@ -1,5 +1,7 @@
 package org.apache.maven.building;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,12 +20,8 @@ package org.apache.maven.building;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.building.Problem.Severity;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ProblemCollectorTest {
 

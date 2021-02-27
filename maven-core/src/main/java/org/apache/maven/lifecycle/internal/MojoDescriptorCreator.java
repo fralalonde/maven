@@ -18,15 +18,30 @@ package org.apache.maven.lifecycle.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringTokenizer;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.plugin.BuildPluginManager;
@@ -135,7 +150,7 @@ public class MojoDescriptorCreator {
             throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
             MojoNotFoundException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
             PluginVersionResolutionException {
-        String goal = null;
+        StringBuilder goal = null;
 
         Plugin plugin = null;
 
@@ -157,12 +172,12 @@ public class MojoDescriptorCreator {
             plugin.setGroupId(tok.nextToken());
             plugin.setArtifactId(tok.nextToken());
             plugin.setVersion(tok.nextToken());
-            goal = tok.nextToken();
+            goal = new StringBuilder(tok.nextToken());
 
             // This won't be valid, but it constructs something easy to read in the error
             // message
             while (tok.hasMoreTokens()) {
-                goal += ":" + tok.nextToken();
+                goal.append(":").append(tok.nextToken());
             }
         } else if (numTokens == 3) {
             // We have everything that we need except the version
@@ -177,7 +192,7 @@ public class MojoDescriptorCreator {
             plugin = new Plugin();
             plugin.setGroupId(tok.nextToken());
             plugin.setArtifactId(tok.nextToken());
-            goal = tok.nextToken();
+            goal = new StringBuilder(tok.nextToken());
         } else {
             // We have a prefix and goal
             //
@@ -186,10 +201,10 @@ public class MojoDescriptorCreator {
             String prefix = tok.nextToken();
 
             if (numTokens == 2) {
-                goal = tok.nextToken();
+                goal = new StringBuilder(tok.nextToken());
             } else {
                 // goal was missing - pass through to MojoNotFoundException
-                goal = "";
+                goal = new StringBuilder();
             }
 
             // This is the case where someone has executed a single goal from the command
@@ -207,9 +222,9 @@ public class MojoDescriptorCreator {
             plugin = findPluginForPrefix(prefix, session);
         }
 
-        int executionIdx = goal.indexOf('@');
+        int executionIdx = goal.toString().indexOf('@');
         if (executionIdx > 0) {
-            goal = goal.substring(0, executionIdx);
+            goal = new StringBuilder(goal.substring(0, executionIdx));
         }
 
         injectPluginDeclarationFromProject(plugin, project);
@@ -222,7 +237,7 @@ public class MojoDescriptorCreator {
             resolvePluginVersion(plugin, session, project);
         }
 
-        return pluginManager.getMojoDescriptor(plugin, goal, project.getRemotePluginRepositories(),
+        return pluginManager.getMojoDescriptor(plugin, goal.toString(), project.getRemotePluginRepositories(),
                 session.getRepositorySession());
     }
 

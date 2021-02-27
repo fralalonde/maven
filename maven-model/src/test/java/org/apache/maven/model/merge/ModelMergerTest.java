@@ -22,6 +22,7 @@ import static org.hamcrest.Matchers.is;
  * under the License.
  */
 import java.util.Arrays;
+import java.util.Collections;
 import org.apache.maven.model.Build;
 import org.apache.maven.model.Contributor;
 import org.apache.maven.model.Dependency;
@@ -43,7 +44,7 @@ import org.junit.jupiter.api.Test;
  *
  */
 public class ModelMergerTest {
-    private ModelMerger modelMerger = new ModelMerger();
+    private final ModelMerger modelMerger = new ModelMerger();
 
     @Test
     public void mergeArtifactId() {
@@ -57,7 +58,6 @@ public class ModelMergerTest {
         assertThat(target.getArtifactId(), is("SOURCE"));
 
         target.setArtifactId("TARGET");
-        ;
         modelMerger.merge(target, source, false, null);
         assertThat(target.getArtifactId(), is("TARGET"));
     }
@@ -68,10 +68,10 @@ public class ModelMergerTest {
         contributor.setEmail("contributor@maven.apache.org");
 
         Model target = new Model();
-        target.setContributors(Arrays.asList(contributor));
+        target.setContributors(Collections.singletonList(contributor));
 
         Model source = new Model();
-        source.setContributors(Arrays.asList(contributor));
+        source.setContributors(Collections.singletonList(contributor));
 
         modelMerger.merge(target, source, true, null);
 
@@ -86,10 +86,10 @@ public class ModelMergerTest {
         dependency.setType("type");
 
         Model target = new Model();
-        target.setDependencies(Arrays.asList(dependency));
+        target.setDependencies(Collections.singletonList(dependency));
 
         Model source = new Model();
-        source.setDependencies(Arrays.asList(dependency));
+        source.setDependencies(Collections.singletonList(dependency));
 
         modelMerger.merge(target, source, true, null);
 
@@ -118,10 +118,10 @@ public class ModelMergerTest {
         developer.setId("devid");
 
         Model target = new Model();
-        target.setDevelopers(Arrays.asList(developer));
+        target.setDevelopers(Collections.singletonList(developer));
 
         Model source = new Model();
-        source.setDevelopers(Arrays.asList(developer));
+        source.setDevelopers(Collections.singletonList(developer));
 
         modelMerger.merge(target, source, true, null);
 
@@ -214,10 +214,10 @@ public class ModelMergerTest {
         mailingList.setName("name");
 
         Model target = new Model();
-        target.setMailingLists(Arrays.asList(mailingList));
+        target.setMailingLists(Collections.singletonList(mailingList));
 
         Model source = new Model();
-        source.setMailingLists(Arrays.asList(mailingList));
+        source.setMailingLists(Collections.singletonList(mailingList));
 
         modelMerger.merge(target, source, true, null);
 
@@ -236,7 +236,6 @@ public class ModelMergerTest {
         assertThat(target.getModelVersion(), is("SOURCE"));
 
         target.setModelVersion("TARGET");
-        ;
         modelMerger.merge(target, source, false, null);
         assertThat(target.getModelVersion(), is("TARGET"));
     }
@@ -265,7 +264,6 @@ public class ModelMergerTest {
         assertThat(target.getName(), is("SOURCE"));
 
         target.setName("TARGET");
-        ;
         modelMerger.merge(target, source, false, null);
         assertThat(target.getName(), is("TARGET"));
     }
@@ -277,7 +275,7 @@ public class ModelMergerTest {
         MailingList source = new MailingList();
         source.setOtherArchives(Arrays.asList("first", "second", "third"));
 
-        modelMerger.mergeMailingList(target, source, true, null);
+        modelMerger.mergeMailingList(target, source);
 
         assertThat(target.getOtherArchives(), contains("first", "second", "third"));
     }
@@ -294,7 +292,6 @@ public class ModelMergerTest {
         assertThat(target.getPackaging(), is("SOURCE"));
 
         target.setPackaging("TARGET");
-        ;
         modelMerger.merge(target, source, false, null);
         assertThat(target.getPackaging(), is("TARGET"));
     }
@@ -305,10 +302,10 @@ public class ModelMergerTest {
         repository.setId("repository");
 
         Model target = new Model();
-        target.setPluginRepositories(Arrays.asList(repository));
+        target.setPluginRepositories(Collections.singletonList(repository));
 
         Model source = new Model();
-        source.setPluginRepositories(Arrays.asList(repository));
+        source.setPluginRepositories(Collections.singletonList(repository));
 
         modelMerger.merge(target, source, true, null);
 
@@ -321,10 +318,10 @@ public class ModelMergerTest {
         profile.setId("profile");
 
         Model target = new Model();
-        target.setProfiles(Arrays.asList(profile));
+        target.setProfiles(Collections.singletonList(profile));
 
         Model source = new Model();
-        source.setProfiles(Arrays.asList(profile));
+        source.setProfiles(Collections.singletonList(profile));
 
         modelMerger.merge(target, source, true, null);
 
@@ -349,10 +346,10 @@ public class ModelMergerTest {
         repository.setId("repository");
 
         Model target = new Model();
-        target.setRepositories(Arrays.asList(repository));
+        target.setRepositories(Collections.singletonList(repository));
 
         Model source = new Model();
-        source.setRepositories(Arrays.asList(repository));
+        source.setRepositories(Collections.singletonList(repository));
 
         modelMerger.merge(target, source, true, null);
 
@@ -375,7 +372,6 @@ public class ModelMergerTest {
     public void mergeUrl() {
         Model target = new Model();
         target.setUrl("TARGET");
-        ;
 
         Model source = new Model();
         source.setUrl("SOURCE");
@@ -384,7 +380,6 @@ public class ModelMergerTest {
         assertThat(target.getUrl(), is("SOURCE"));
 
         target.setUrl("TARGET");
-        ;
         modelMerger.merge(target, source, false, null);
         assertThat(target.getUrl(), is("TARGET"));
     }
@@ -393,7 +388,6 @@ public class ModelMergerTest {
     public void mergeVersion() {
         Model target = new Model();
         target.setVersion("TARGET");
-        ;
 
         Model source = new Model();
         source.setVersion("SOURCE");
@@ -402,7 +396,6 @@ public class ModelMergerTest {
         assertThat(target.getVersion(), is("SOURCE"));
 
         target.setVersion("TARGET");
-        ;
         modelMerger.merge(target, source, false, null);
         assertThat(target.getVersion(), is("TARGET"));
     }

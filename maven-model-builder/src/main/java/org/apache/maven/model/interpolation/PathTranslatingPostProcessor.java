@@ -1,5 +1,8 @@
 package org.apache.maven.model.interpolation;
 
+import java.io.File;
+import java.util.Collection;
+import java.util.List;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,14 +21,9 @@ package org.apache.maven.model.interpolation;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.model.path.PathTranslator;
 import org.codehaus.plexus.interpolation.InterpolationPostProcessor;
 import org.codehaus.plexus.interpolation.util.ValueSourceUtils;
-
-import java.io.File;
-import java.util.Collection;
-import java.util.List;
 
 /**
  *

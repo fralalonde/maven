@@ -54,7 +54,7 @@ public class ArtifactNotFoundException
 
     public ArtifactNotFoundException(String message, Artifact artifact) {
         this(message, artifact.getGroupId(), artifact.getArtifactId(), artifact.getVersion(), artifact.getType(),
-                artifact.getClassifier(), null, artifact.getDownloadUrl(), artifact.getDependencyTrail());
+                artifact.getClassifier(), artifact.getDownloadUrl(), artifact.getDependencyTrail());
     }
 
     protected ArtifactNotFoundException(String message, Artifact artifact,
@@ -77,11 +77,11 @@ public class ArtifactNotFoundException
 
     @SuppressWarnings("checkstyle:parameternumber")
     private ArtifactNotFoundException(String message, String groupId, String artifactId, String version, String type,
-            String classifier, List<ArtifactRepository> remoteRepositories,
+            String classifier,
             String downloadUrl, List<String> path) {
         super(constructMissingArtifactMessage(message, "", groupId, artifactId, version, type, classifier,
                 downloadUrl, path), groupId, artifactId, version, type, classifier,
-                remoteRepositories, null);
+                null);
 
         this.downloadUrl = downloadUrl;
     }

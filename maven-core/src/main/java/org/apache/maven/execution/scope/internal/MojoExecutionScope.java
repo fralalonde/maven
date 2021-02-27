@@ -1,5 +1,10 @@
 package org.apache.maven.execution.scope.internal;
 
+import com.google.inject.Key;
+import com.google.inject.OutOfScopeException;
+import com.google.inject.Provider;
+import com.google.inject.Scope;
+import com.google.inject.util.Providers;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,23 +23,15 @@ package org.apache.maven.execution.scope.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.LinkedList;
 import java.util.Map;
-
 import org.apache.maven.execution.MojoExecutionEvent;
 import org.apache.maven.execution.MojoExecutionListener;
 import org.apache.maven.execution.scope.WeakMojoExecutionListener;
 import org.apache.maven.plugin.MojoExecutionException;
-
-import com.google.inject.Key;
-import com.google.inject.OutOfScopeException;
-import com.google.inject.Provider;
-import com.google.inject.Scope;
-import com.google.inject.util.Providers;
 
 /**
  * MojoExecutionScope
@@ -73,8 +70,7 @@ public class MojoExecutionScope
         return stack.getFirst();
     }
 
-    public void exit()
-            throws MojoExecutionException {
+    public void exit() {
         final LinkedList<ScopeState> stack = values.get();
         if (stack == null || stack.isEmpty()) {
             throw new IllegalStateException();

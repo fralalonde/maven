@@ -1,5 +1,6 @@
 package org.apache.maven.lifecycle.internal;
 
+import java.util.List;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,7 +19,6 @@ package org.apache.maven.lifecycle.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.lifecycle.LifecycleNotFoundException;
 import org.apache.maven.lifecycle.LifecyclePhaseNotFoundException;
@@ -29,8 +29,6 @@ import org.apache.maven.plugin.PluginNotFoundException;
 import org.apache.maven.plugin.PluginResolutionException;
 import org.apache.maven.plugin.prefix.NoPluginFoundForPrefixException;
 import org.apache.maven.plugin.version.PluginVersionResolutionException;
-
-import java.util.List;
 
 /**
  * <p>
@@ -49,7 +47,7 @@ public interface LifecycleTaskSegmentCalculator {
     List<TaskSegment> calculateTaskSegments(MavenSession session)
             throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,
             MojoNotFoundException, NoPluginFoundForPrefixException, InvalidPluginDescriptorException,
-            PluginVersionResolutionException, LifecyclePhaseNotFoundException, LifecycleNotFoundException;
+            PluginVersionResolutionException;
 
     List<TaskSegment> calculateTaskSegments(MavenSession session, List<String> tasks)
             throws PluginNotFoundException, PluginResolutionException, PluginDescriptorParsingException,

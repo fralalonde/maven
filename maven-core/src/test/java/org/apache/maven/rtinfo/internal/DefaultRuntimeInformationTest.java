@@ -1,5 +1,10 @@
 package org.apache.maven.rtinfo.internal;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import javax.inject.Inject;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,20 +23,9 @@ package org.apache.maven.rtinfo.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.rtinfo.RuntimeInformation;
 import org.apache.maven.test.PlexusTest;
-import org.codehaus.plexus.ContainerConfiguration;
-import org.codehaus.plexus.PlexusConstants;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import javax.inject.Inject;
 
 @PlexusTest
 public class DefaultRuntimeInformationTest {

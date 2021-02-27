@@ -1,5 +1,6 @@
 package org.apache.maven.settings;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,17 +19,13 @@ package org.apache.maven.settings;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
-
 import org.apache.maven.settings.io.xpp3.SettingsXpp3Reader;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests that the global settings.xml shipped with the distribution is in good

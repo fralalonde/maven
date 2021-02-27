@@ -1,5 +1,7 @@
 package org.apache.maven.logwrapper;
 
+import java.util.HashMap;
+import java.util.Map;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,11 +20,7 @@ package org.apache.maven.logwrapper;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.slf4j.event.Level;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Responsible for keeping state of whether the threshold of the

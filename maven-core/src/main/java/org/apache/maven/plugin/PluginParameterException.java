@@ -18,13 +18,29 @@ package org.apache.maven.plugin;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
 import org.apache.maven.plugin.descriptor.MojoDescriptor;
 import org.apache.maven.plugin.descriptor.Parameter;
 import org.codehaus.plexus.util.StringUtils;
@@ -91,9 +107,9 @@ public class PluginParameterException
                 }
             }
 
-            messageBuffer.append("Inside the definition for plugin \'");
+            messageBuffer.append("Inside the definition for plugin '");
             messageBuffer.append(mojo.getPluginDescriptor().getArtifactId());
-            messageBuffer.append("\', specify the following:").append(LS).append(LS);
+            messageBuffer.append("', specify the following:").append(LS).append(LS);
             messageBuffer.append("<configuration>").append(LS).append("  ...").append(LS);
             messageBuffer.append("  <").append(param.getName()).append('>');
             if (isArray || isCollection) {
@@ -149,9 +165,9 @@ public class PluginParameterException
         List<Parameter> params = getParameters();
         MojoDescriptor mojo = getMojoDescriptor();
 
-        messageBuffer.append("One or more required plugin parameters are invalid/missing for \'")
+        messageBuffer.append("One or more required plugin parameters are invalid/missing for '")
                 .append(mojo.getPluginDescriptor().getGoalPrefix()).append(':').append(mojo.getGoal())
-                .append("\'").append(LS);
+                .append("'").append(LS);
 
         int idx = 0;
         for (Iterator<Parameter> it = params.iterator(); it.hasNext(); idx++) {

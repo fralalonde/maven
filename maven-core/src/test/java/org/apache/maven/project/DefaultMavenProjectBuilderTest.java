@@ -18,7 +18,24 @@ package org.apache.maven.project;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import static org.apache.maven.test.PlexusExtension.getTestFile;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -28,14 +45,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,13 +73,13 @@ public class DefaultMavenProjectBuilderTest
         projectBuilder = getContainer().lookup(ProjectBuilder.class);
     }
 
-    protected MavenProject getProject(Artifact pom, boolean allowStub)
+    protected MavenProject getProject(Artifact pom)
             throws Exception {
         ProjectBuildingRequest configuration = new DefaultProjectBuildingRequest();
         configuration.setLocalRepository(getLocalRepository());
         initRepoSession(configuration);
 
-        return projectBuilder.build(pom, allowStub, configuration).getProject();
+        return projectBuilder.build(pom, true, configuration).getProject();
     }
 
     /**
@@ -98,8 +113,7 @@ public class DefaultMavenProjectBuilderTest
     }
 
     @Test
-    public void testFutureModelVersion()
-            throws Exception {
+    public void testFutureModelVersion() {
         File f1 = getTestFile("src/test/resources/projects/future-model-version-pom.xml");
 
         ProjectBuildingException e = assertThrows(
@@ -110,8 +124,7 @@ public class DefaultMavenProjectBuilderTest
     }
 
     @Test
-    public void testPastModelVersion()
-            throws Exception {
+    public void testPastModelVersion() {
         // a Maven 1.x pom will not even
         // update the resource if we stop supporting modelVersion 4.0.0
         File f1 = getTestFile("src/test/resources/projects/past-model-version-pom.xml");
@@ -124,8 +137,7 @@ public class DefaultMavenProjectBuilderTest
     }
 
     @Test
-    public void testFutureSchemaModelVersion()
-            throws Exception {
+    public void testFutureSchemaModelVersion() {
         File f1 = getTestFile("src/test/resources/projects/future-schema-model-version-pom.xml");
 
         ProjectBuildingException e = assertThrows(
@@ -139,7 +151,7 @@ public class DefaultMavenProjectBuilderTest
     public void testBuildStubModelForMissingRemotePom()
             throws Exception {
         Artifact pom = repositorySystem.createProjectArtifact("org.apache.maven.its", "missing", "0.1");
-        MavenProject project = getProject(pom, true);
+        MavenProject project = getProject(pom);
 
         assertNotNull(project.getArtifactId());
 
@@ -206,10 +218,9 @@ public class DefaultMavenProjectBuilderTest
     /**
      * Tests whether local version range parent references are build correctly.
      *
-     * @throws Exception
      */
     @Test
-    public void testBuildParentVersionRangeLocallyWithoutChildVersion() throws Exception {
+    public void testBuildParentVersionRangeLocallyWithoutChildVersion() {
         File f1 = getTestFile(
                 "src/test/resources/projects/parent-version-range-local-child-without-version/child/pom.xml");
 
@@ -223,10 +234,9 @@ public class DefaultMavenProjectBuilderTest
     /**
      * Tests whether local version range parent references are build correctly.
      *
-     * @throws Exception
      */
     @Test
-    public void testBuildParentVersionRangeLocallyWithChildVersionExpression() throws Exception {
+    public void testBuildParentVersionRangeLocallyWithChildVersionExpression() {
         File f1 = getTestFile(
                 "src/test/resources/projects/parent-version-range-local-child-version-expression/child/pom.xml");
 
@@ -259,10 +269,9 @@ public class DefaultMavenProjectBuilderTest
     /**
      * Tests whether external version range parent references are build correctly.
      *
-     * @throws Exception
      */
     @Test
-    public void testBuildParentVersionRangeExternallyWithoutChildVersion() throws Exception {
+    public void testBuildParentVersionRangeExternallyWithoutChildVersion() {
         File f1 = getTestFile(
                 "src/test/resources/projects/parent-version-range-external-child-without-version/pom.xml");
 
@@ -276,10 +285,9 @@ public class DefaultMavenProjectBuilderTest
     /**
      * Tests whether external version range parent references are build correctly.
      *
-     * @throws Exception
      */
     @Test
-    public void testBuildParentVersionRangeExternallyWithChildVersionExpression() throws Exception {
+    public void testBuildParentVersionRangeExternallyWithChildVersionExpression() {
         File f1 = getTestFile(
                 "src/test/resources/projects/parent-version-range-external-child-version-expression/pom.xml");
 

@@ -1,5 +1,10 @@
 package org.apache.maven.project;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,21 +23,13 @@ package org.apache.maven.project;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Tests {@link ExtensionDescriptorBuilder}.
@@ -44,14 +41,12 @@ public class ExtensionDescriptorBuilderTest {
     private ExtensionDescriptorBuilder builder;
 
     @BeforeEach
-    public void setUp()
-            throws Exception {
+    public void setUp() {
         builder = new ExtensionDescriptorBuilder();
     }
 
     @AfterEach
-    public void tearDown()
-            throws Exception {
+    public void tearDown() {
         builder = null;
     }
 

@@ -5,10 +5,9 @@
 
 package org.apache.maven.settings.io.xpp3;
 
-  //---------------------------------/
- //- Imported classes and packages -/
-//---------------------------------/
-
+// ---------------------------------/
+// - Imported classes and packages -/
+// ---------------------------------/
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -38,18 +37,16 @@ import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
  * 
  * @version $Revision$ $Date$
  */
-@SuppressWarnings( "all" )
-public class SettingsXpp3Reader
-{
+@SuppressWarnings("all")
+public class SettingsXpp3Reader {
 
-      //--------------------------/
-     //- Class/Member Variables -/
-    //--------------------------/
+    // --------------------------/
+    // - Class/Member Variables -/
+    // --------------------------/
 
     /**
-     * If set the parser will be loaded with all single characters
-     * from the XHTML specification.
-     * The entities used:
+     * If set the parser will be loaded with all single characters from the XHTML
+     * specification. The entities used:
      * <ul>
      * <li>http://www.w3.org/TR/xhtml1/DTD/xhtml-lat1.ent</li>
      * <li>http://www.w3.org/TR/xhtml1/DTD/xhtml-special.ent</li>
@@ -63,31 +60,25 @@ public class SettingsXpp3Reader
      */
     public final ContentTransformer contentTransformer;
 
+    // ----------------/
+    // - Constructors -/
+    // ----------------/
 
-      //----------------/
-     //- Constructors -/
-    //----------------/
-
-    public SettingsXpp3Reader()
-    {
-        this( new ContentTransformer()
-        {
-            public String transform( String source, String fieldName )
-            {
+    public SettingsXpp3Reader() {
+        this(new ContentTransformer() {
+            public String transform(String source, String fieldName) {
                 return source;
             }
-        } );
-    } //-- org.apache.maven.settings.io.xpp3.SettingsXpp3Reader()
+        });
+    } // -- org.apache.maven.settings.io.xpp3.SettingsXpp3Reader()
 
-    public SettingsXpp3Reader(ContentTransformer contentTransformer)
-    {
+    public SettingsXpp3Reader(ContentTransformer contentTransformer) {
         this.contentTransformer = contentTransformer;
-    } //-- org.apache.maven.settings.io.xpp3.SettingsXpp3Reader(ContentTransformer)
+    } // -- org.apache.maven.settings.io.xpp3.SettingsXpp3Reader(ContentTransformer)
 
-
-      //-----------/
-     //- Methods -/
-    //-----------/
+    // -----------/
+    // - Methods -/
+    // -----------/
 
     /**
      * Method checkFieldWithDuplicate.
@@ -99,19 +90,17 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return boolean
      */
-    private boolean checkFieldWithDuplicate( XmlPullParser parser, String tagName, String alias, java.util.Set parsed )
-        throws XmlPullParserException
-    {
-        if ( !( parser.getName().equals( tagName ) || parser.getName().equals( alias ) ) )
-        {
+    private boolean checkFieldWithDuplicate(XmlPullParser parser, String tagName, String alias, java.util.Set parsed)
+            throws XmlPullParserException {
+        if (!(parser.getName().equals(tagName) || parser.getName().equals(alias))) {
             return false;
         }
-        if ( !parsed.add( tagName ) )
-        {
-            throw new XmlPullParserException( "Duplicated tag: '" + tagName + "'", parser, null );
+        if (!parsed.add(tagName)) {
+            throw new XmlPullParserException("Duplicated tag: '" + tagName + "'", parser, null);
         }
         return true;
-    } //-- boolean checkFieldWithDuplicate( XmlPullParser, String, String, java.util.Set )
+    } // -- boolean checkFieldWithDuplicate( XmlPullParser, String, String,
+      // java.util.Set )
 
     /**
      * Method checkUnknownAttribute.
@@ -123,15 +112,15 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @throws IOException
      */
-    private void checkUnknownAttribute( XmlPullParser parser, String attribute, String tagName, boolean strict )
-        throws XmlPullParserException, IOException
-    {
-        // strictXmlAttributes = true for model: if strict == true, not only elements are checked but attributes too
-        if ( strict )
-        {
-            throw new XmlPullParserException( "Unknown attribute '" + attribute + "' for tag '" + tagName + "'", parser, null );
+    private void checkUnknownAttribute(XmlPullParser parser, String attribute, String tagName, boolean strict)
+            throws XmlPullParserException, IOException {
+        // strictXmlAttributes = true for model: if strict == true, not only elements
+        // are checked but attributes too
+        if (strict) {
+            throw new XmlPullParserException("Unknown attribute '" + attribute + "' for tag '" + tagName + "'", parser,
+                    null);
         }
-    } //-- void checkUnknownAttribute( XmlPullParser, String, String, boolean )
+    } // -- void checkUnknownAttribute( XmlPullParser, String, String, boolean )
 
     /**
      * Method checkUnknownElement.
@@ -141,37 +130,30 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @throws IOException
      */
-    private void checkUnknownElement( XmlPullParser parser, boolean strict )
-        throws XmlPullParserException, IOException
-    {
-        if ( strict )
-        {
-            throw new XmlPullParserException( "Unrecognised tag: '" + parser.getName() + "'", parser, null );
+    private void checkUnknownElement(XmlPullParser parser, boolean strict)
+            throws XmlPullParserException, IOException {
+        if (strict) {
+            throw new XmlPullParserException("Unrecognised tag: '" + parser.getName() + "'", parser, null);
         }
 
-        for ( int unrecognizedTagCount = 1; unrecognizedTagCount > 0; )
-        {
+        for (int unrecognizedTagCount = 1; unrecognizedTagCount > 0;) {
             int eventType = parser.next();
-            if ( eventType == XmlPullParser.START_TAG )
-            {
+            if (eventType == XmlPullParser.START_TAG) {
                 unrecognizedTagCount++;
-            }
-            else if ( eventType == XmlPullParser.END_TAG )
-            {
+            } else if (eventType == XmlPullParser.END_TAG) {
                 unrecognizedTagCount--;
             }
         }
-    } //-- void checkUnknownElement( XmlPullParser, boolean )
+    } // -- void checkUnknownElement( XmlPullParser, boolean )
 
     /**
      * Returns the state of the "add default entities" flag.
      * 
      * @return boolean
      */
-    public boolean getAddDefaultEntities()
-    {
+    public boolean getAddDefaultEntities() {
         return addDefaultEntities;
-    } //-- boolean getAddDefaultEntities()
+    } // -- boolean getAddDefaultEntities()
 
     /**
      * Method getBooleanValue.
@@ -182,11 +164,10 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return boolean
      */
-    private boolean getBooleanValue( String s, String attribute, XmlPullParser parser )
-        throws XmlPullParserException
-    {
-        return getBooleanValue( s, attribute, parser, null );
-    } //-- boolean getBooleanValue( String, String, XmlPullParser )
+    private boolean getBooleanValue(String s, String attribute, XmlPullParser parser)
+            throws XmlPullParserException {
+        return getBooleanValue(s, attribute, parser, null);
+    } // -- boolean getBooleanValue( String, String, XmlPullParser )
 
     /**
      * Method getBooleanValue.
@@ -198,19 +179,16 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return boolean
      */
-    private boolean getBooleanValue( String s, String attribute, XmlPullParser parser, String defaultValue )
-        throws XmlPullParserException
-    {
-        if ( s != null && s.length() != 0 )
-        {
-            return Boolean.valueOf( s ).booleanValue();
+    private boolean getBooleanValue(String s, String attribute, XmlPullParser parser, String defaultValue)
+            throws XmlPullParserException {
+        if (s != null && s.length() != 0) {
+            return Boolean.valueOf(s).booleanValue();
         }
-        if ( defaultValue != null )
-        {
-            return Boolean.valueOf( defaultValue ).booleanValue();
+        if (defaultValue != null) {
+            return Boolean.valueOf(defaultValue).booleanValue();
         }
         return false;
-    } //-- boolean getBooleanValue( String, String, XmlPullParser, String )
+    } // -- boolean getBooleanValue( String, String, XmlPullParser, String )
 
     /**
      * Method getByteValue.
@@ -222,25 +200,20 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return byte
      */
-    private byte getByteValue( String s, String attribute, XmlPullParser parser, boolean strict )
-        throws XmlPullParserException
-    {
-        if ( s != null )
-        {
-            try
-            {
-                return Byte.valueOf( s ).byteValue();
-            }
-            catch ( NumberFormatException nfe )
-            {
-                if ( strict )
-                {
-                    throw new XmlPullParserException( "Unable to parse element '" + attribute + "', must be a byte", parser, nfe );
+    private byte getByteValue(String s, String attribute, XmlPullParser parser, boolean strict)
+            throws XmlPullParserException {
+        if (s != null) {
+            try {
+                return Byte.valueOf(s).byteValue();
+            } catch (NumberFormatException nfe) {
+                if (strict) {
+                    throw new XmlPullParserException("Unable to parse element '" + attribute + "', must be a byte",
+                            parser, nfe);
                 }
             }
         }
         return 0;
-    } //-- byte getByteValue( String, String, XmlPullParser, boolean )
+    } // -- byte getByteValue( String, String, XmlPullParser, boolean )
 
     /**
      * Method getCharacterValue.
@@ -251,15 +224,13 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return char
      */
-    private char getCharacterValue( String s, String attribute, XmlPullParser parser )
-        throws XmlPullParserException
-    {
-        if ( s != null )
-        {
-            return s.charAt( 0 );
+    private char getCharacterValue(String s, String attribute, XmlPullParser parser)
+            throws XmlPullParserException {
+        if (s != null) {
+            return s.charAt(0);
         }
         return 0;
-    } //-- char getCharacterValue( String, String, XmlPullParser )
+    } // -- char getCharacterValue( String, String, XmlPullParser )
 
     /**
      * Method getDateValue.
@@ -270,11 +241,10 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return Date
      */
-    private java.util.Date getDateValue( String s, String attribute, XmlPullParser parser )
-        throws XmlPullParserException
-    {
-        return getDateValue( s, attribute, null, parser );
-    } //-- java.util.Date getDateValue( String, String, XmlPullParser )
+    private java.util.Date getDateValue(String s, String attribute, XmlPullParser parser)
+            throws XmlPullParserException {
+        return getDateValue(s, attribute, null, parser);
+    } // -- java.util.Date getDateValue( String, String, XmlPullParser )
 
     /**
      * Method getDateValue.
@@ -286,42 +256,30 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return Date
      */
-    private java.util.Date getDateValue( String s, String attribute, String dateFormat, XmlPullParser parser )
-        throws XmlPullParserException
-    {
-        if ( s != null )
-        {
+    private java.util.Date getDateValue(String s, String attribute, String dateFormat, XmlPullParser parser)
+            throws XmlPullParserException {
+        if (s != null) {
             String effectiveDateFormat = dateFormat;
-            if ( dateFormat == null )
-            {
+            if (dateFormat == null) {
                 effectiveDateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
             }
-            if ( "long".equals( effectiveDateFormat ) )
-            {
-                try
-                {
-                    return new java.util.Date( Long.parseLong( s ) );
+            if ("long".equals(effectiveDateFormat)) {
+                try {
+                    return new java.util.Date(Long.parseLong(s));
+                } catch (NumberFormatException e) {
+                    throw new XmlPullParserException(e.getMessage(), parser, e);
                 }
-                catch ( NumberFormatException e )
-                {
-                    throw new XmlPullParserException( e.getMessage(), parser, e );
-                }
-            }
-            else
-            {
-                try
-                {
-                    DateFormat dateParser = new java.text.SimpleDateFormat( effectiveDateFormat, java.util.Locale.US );
-                    return dateParser.parse( s );
-                }
-                catch ( java.text.ParseException e )
-                {
-                    throw new XmlPullParserException( e.getMessage(), parser, e );
+            } else {
+                try {
+                    DateFormat dateParser = new java.text.SimpleDateFormat(effectiveDateFormat, java.util.Locale.US);
+                    return dateParser.parse(s);
+                } catch (java.text.ParseException e) {
+                    throw new XmlPullParserException(e.getMessage(), parser, e);
                 }
             }
         }
         return null;
-    } //-- java.util.Date getDateValue( String, String, String, XmlPullParser )
+    } // -- java.util.Date getDateValue( String, String, String, XmlPullParser )
 
     /**
      * Method getDoubleValue.
@@ -333,25 +291,21 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return double
      */
-    private double getDoubleValue( String s, String attribute, XmlPullParser parser, boolean strict )
-        throws XmlPullParserException
-    {
-        if ( s != null )
-        {
-            try
-            {
-                return Double.valueOf( s ).doubleValue();
-            }
-            catch ( NumberFormatException nfe )
-            {
-                if ( strict )
-                {
-                    throw new XmlPullParserException( "Unable to parse element '" + attribute + "', must be a floating point number", parser, nfe );
+    private double getDoubleValue(String s, String attribute, XmlPullParser parser, boolean strict)
+            throws XmlPullParserException {
+        if (s != null) {
+            try {
+                return Double.valueOf(s).doubleValue();
+            } catch (NumberFormatException nfe) {
+                if (strict) {
+                    throw new XmlPullParserException(
+                            "Unable to parse element '" + attribute + "', must be a floating point number", parser,
+                            nfe);
                 }
             }
         }
         return 0;
-    } //-- double getDoubleValue( String, String, XmlPullParser, boolean )
+    } // -- double getDoubleValue( String, String, XmlPullParser, boolean )
 
     /**
      * Method getFloatValue.
@@ -363,25 +317,21 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return float
      */
-    private float getFloatValue( String s, String attribute, XmlPullParser parser, boolean strict )
-        throws XmlPullParserException
-    {
-        if ( s != null )
-        {
-            try
-            {
-                return Float.valueOf( s ).floatValue();
-            }
-            catch ( NumberFormatException nfe )
-            {
-                if ( strict )
-                {
-                    throw new XmlPullParserException( "Unable to parse element '" + attribute + "', must be a floating point number", parser, nfe );
+    private float getFloatValue(String s, String attribute, XmlPullParser parser, boolean strict)
+            throws XmlPullParserException {
+        if (s != null) {
+            try {
+                return Float.valueOf(s).floatValue();
+            } catch (NumberFormatException nfe) {
+                if (strict) {
+                    throw new XmlPullParserException(
+                            "Unable to parse element '" + attribute + "', must be a floating point number", parser,
+                            nfe);
                 }
             }
         }
         return 0;
-    } //-- float getFloatValue( String, String, XmlPullParser, boolean )
+    } // -- float getFloatValue( String, String, XmlPullParser, boolean )
 
     /**
      * Method getIntegerValue.
@@ -393,25 +343,20 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return int
      */
-    private int getIntegerValue( String s, String attribute, XmlPullParser parser, boolean strict )
-        throws XmlPullParserException
-    {
-        if ( s != null )
-        {
-            try
-            {
-                return Integer.valueOf( s ).intValue();
-            }
-            catch ( NumberFormatException nfe )
-            {
-                if ( strict )
-                {
-                    throw new XmlPullParserException( "Unable to parse element '" + attribute + "', must be an integer", parser, nfe );
+    private int getIntegerValue(String s, String attribute, XmlPullParser parser, boolean strict)
+            throws XmlPullParserException {
+        if (s != null) {
+            try {
+                return Integer.valueOf(s).intValue();
+            } catch (NumberFormatException nfe) {
+                if (strict) {
+                    throw new XmlPullParserException("Unable to parse element '" + attribute + "', must be an integer",
+                            parser, nfe);
                 }
             }
         }
         return 0;
-    } //-- int getIntegerValue( String, String, XmlPullParser, boolean )
+    } // -- int getIntegerValue( String, String, XmlPullParser, boolean )
 
     /**
      * Method getLongValue.
@@ -423,25 +368,20 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return long
      */
-    private long getLongValue( String s, String attribute, XmlPullParser parser, boolean strict )
-        throws XmlPullParserException
-    {
-        if ( s != null )
-        {
-            try
-            {
-                return Long.valueOf( s ).longValue();
-            }
-            catch ( NumberFormatException nfe )
-            {
-                if ( strict )
-                {
-                    throw new XmlPullParserException( "Unable to parse element '" + attribute + "', must be a long integer", parser, nfe );
+    private long getLongValue(String s, String attribute, XmlPullParser parser, boolean strict)
+            throws XmlPullParserException {
+        if (s != null) {
+            try {
+                return Long.valueOf(s).longValue();
+            } catch (NumberFormatException nfe) {
+                if (strict) {
+                    throw new XmlPullParserException(
+                            "Unable to parse element '" + attribute + "', must be a long integer", parser, nfe);
                 }
             }
         }
         return 0;
-    } //-- long getLongValue( String, String, XmlPullParser, boolean )
+    } // -- long getLongValue( String, String, XmlPullParser, boolean )
 
     /**
      * Method getRequiredAttributeValue.
@@ -453,18 +393,16 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return String
      */
-    private String getRequiredAttributeValue( String s, String attribute, XmlPullParser parser, boolean strict )
-        throws XmlPullParserException
-    {
-        if ( s == null )
-        {
-            if ( strict )
-            {
-                throw new XmlPullParserException( "Missing required value for attribute '" + attribute + "'", parser, null );
+    private String getRequiredAttributeValue(String s, String attribute, XmlPullParser parser, boolean strict)
+            throws XmlPullParserException {
+        if (s == null) {
+            if (strict) {
+                throw new XmlPullParserException("Missing required value for attribute '" + attribute + "'", parser,
+                        null);
             }
         }
         return s;
-    } //-- String getRequiredAttributeValue( String, String, XmlPullParser, boolean )
+    } // -- String getRequiredAttributeValue( String, String, XmlPullParser, boolean )
 
     /**
      * Method getShortValue.
@@ -476,25 +414,20 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return short
      */
-    private short getShortValue( String s, String attribute, XmlPullParser parser, boolean strict )
-        throws XmlPullParserException
-    {
-        if ( s != null )
-        {
-            try
-            {
-                return Short.valueOf( s ).shortValue();
-            }
-            catch ( NumberFormatException nfe )
-            {
-                if ( strict )
-                {
-                    throw new XmlPullParserException( "Unable to parse element '" + attribute + "', must be a short integer", parser, nfe );
+    private short getShortValue(String s, String attribute, XmlPullParser parser, boolean strict)
+            throws XmlPullParserException {
+        if (s != null) {
+            try {
+                return Short.valueOf(s).shortValue();
+            } catch (NumberFormatException nfe) {
+                if (strict) {
+                    throw new XmlPullParserException(
+                            "Unable to parse element '" + attribute + "', must be a short integer", parser, nfe);
                 }
             }
         }
         return 0;
-    } //-- short getShortValue( String, String, XmlPullParser, boolean )
+    } // -- short getShortValue( String, String, XmlPullParser, boolean )
 
     /**
      * Method getTrimmedValue.
@@ -502,14 +435,12 @@ public class SettingsXpp3Reader
      * @param s
      * @return String
      */
-    private String getTrimmedValue( String s )
-    {
-        if ( s != null )
-        {
+    private String getTrimmedValue(String s) {
+        if (s != null) {
             s = s.trim();
         }
         return s;
-    } //-- String getTrimmedValue( String )
+    } // -- String getTrimmedValue( String )
 
     /**
      * Method interpolatedTrimmed.
@@ -518,10 +449,9 @@ public class SettingsXpp3Reader
      * @param context
      * @return String
      */
-    private String interpolatedTrimmed( String value, String context )
-    {
-        return getTrimmedValue( contentTransformer.transform( value, context ) );
-    } //-- String interpolatedTrimmed( String, String )
+    private String interpolatedTrimmed(String value, String context) {
+        return getTrimmedValue(contentTransformer.transform(value, context));
+    } // -- String interpolatedTrimmed( String, String )
 
     /**
      * Method nextTag.
@@ -531,20 +461,18 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return int
      */
-    private int nextTag( XmlPullParser parser )
-        throws IOException, XmlPullParserException
-    {
+    private int nextTag(XmlPullParser parser)
+            throws IOException, XmlPullParserException {
         int eventType = parser.next();
-        if ( eventType == XmlPullParser.TEXT )
-        {
+        if (eventType == XmlPullParser.TEXT) {
             eventType = parser.next();
         }
-        if ( eventType != XmlPullParser.START_TAG && eventType != XmlPullParser.END_TAG )
-        {
-            throw new XmlPullParserException( "expected START_TAG or END_TAG not " + XmlPullParser.TYPES[eventType], parser, null );
+        if (eventType != XmlPullParser.START_TAG && eventType != XmlPullParser.END_TAG) {
+            throw new XmlPullParserException("expected START_TAG or END_TAG not " + XmlPullParser.TYPES[eventType],
+                    parser, null);
         }
         return eventType;
-    } //-- int nextTag( XmlPullParser )
+    } // -- int nextTag( XmlPullParser )
 
     /**
      * @see ReaderFactory#newXmlReader
@@ -555,16 +483,15 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return Settings
      */
-    public Settings read( Reader reader, boolean strict )
-        throws IOException, XmlPullParserException
-    {
-        XmlPullParser parser = addDefaultEntities ? new MXParser(EntityReplacementMap.defaultEntityReplacementMap) : new MXParser( );
+    public Settings read(Reader reader, boolean strict)
+            throws IOException, XmlPullParserException {
+        XmlPullParser parser = addDefaultEntities ? new MXParser(EntityReplacementMap.defaultEntityReplacementMap)
+                : new MXParser();
 
-        parser.setInput( reader );
+        parser.setInput(reader);
 
-
-        return read( parser, strict );
-    } //-- Settings read( Reader, boolean )
+        return read(parser, strict);
+    } // -- Settings read( Reader, boolean )
 
     /**
      * @see ReaderFactory#newXmlReader
@@ -574,11 +501,10 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return Settings
      */
-    public Settings read( Reader reader )
-        throws IOException, XmlPullParserException
-    {
-        return read( reader, true );
-    } //-- Settings read( Reader )
+    public Settings read(Reader reader)
+            throws IOException, XmlPullParserException {
+        return read(reader, true);
+    } // -- Settings read( Reader )
 
     /**
      * Method read.
@@ -589,11 +515,10 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return Settings
      */
-    public Settings read( InputStream in, boolean strict )
-        throws IOException, XmlPullParserException
-    {
-        return read( ReaderFactory.newXmlReader( in ), strict );
-    } //-- Settings read( InputStream, boolean )
+    public Settings read(InputStream in, boolean strict)
+            throws IOException, XmlPullParserException {
+        return read(ReaderFactory.newXmlReader(in), strict);
+    } // -- Settings read( InputStream, boolean )
 
     /**
      * Method read.
@@ -603,11 +528,10 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return Settings
      */
-    public Settings read( InputStream in )
-        throws IOException, XmlPullParserException
-    {
-        return read( ReaderFactory.newXmlReader( in ) );
-    } //-- Settings read( InputStream )
+    public Settings read(InputStream in)
+            throws IOException, XmlPullParserException {
+        return read(ReaderFactory.newXmlReader(in));
+    } // -- Settings read( InputStream )
 
     /**
      * Method parseActivation.
@@ -618,55 +542,39 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return Activation
      */
-    private Activation parseActivation( XmlPullParser parser, boolean strict )
-        throws IOException, XmlPullParserException
-    {
+    private Activation parseActivation(XmlPullParser parser, boolean strict)
+            throws IOException, XmlPullParserException {
         String tagName = parser.getName();
         Activation activation = new Activation();
-        for ( int i = parser.getAttributeCount() - 1; i >= 0; i-- )
-        {
-            String name = parser.getAttributeName( i );
-            String value = parser.getAttributeValue( i );
+        for (int i = parser.getAttributeCount() - 1; i >= 0; i--) {
+            String name = parser.getAttributeName(i);
+            String value = parser.getAttributeValue(i);
 
-            if ( name.indexOf( ':' ) >= 0 )
-            {
+            if (name.indexOf(':') >= 0) {
                 // just ignore attributes with non-default namespace (for example: xmlns:xsi)
-            }
-            else
-            {
-                checkUnknownAttribute( parser, name, tagName, strict );
+            } else {
+                checkUnknownAttribute(parser, name, tagName, strict);
             }
         }
         java.util.Set parsed = new java.util.HashSet();
-        while ( ( strict ? parser.nextTag() : nextTag( parser ) ) == XmlPullParser.START_TAG )
-        {
-            if ( checkFieldWithDuplicate( parser, "activeByDefault", null, parsed ) )
-            {
-                activation.setActiveByDefault( getBooleanValue( interpolatedTrimmed( parser.nextText(), "activeByDefault" ), "activeByDefault", parser, "false" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "jdk", null, parsed ) )
-            {
-                activation.setJdk( interpolatedTrimmed( parser.nextText(), "jdk" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "os", null, parsed ) )
-            {
-                activation.setOs( parseActivationOS( parser, strict ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "property", null, parsed ) )
-            {
-                activation.setProperty( parseActivationProperty( parser, strict ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "file", null, parsed ) )
-            {
-                activation.setFile( parseActivationFile( parser, strict ) );
-            }
-            else
-            {
-                checkUnknownElement( parser, strict );
+        while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
+            if (checkFieldWithDuplicate(parser, "activeByDefault", null, parsed)) {
+                activation.setActiveByDefault(getBooleanValue(interpolatedTrimmed(parser.nextText(), "activeByDefault"),
+                        "activeByDefault", parser, "false"));
+            } else if (checkFieldWithDuplicate(parser, "jdk", null, parsed)) {
+                activation.setJdk(interpolatedTrimmed(parser.nextText(), "jdk"));
+            } else if (checkFieldWithDuplicate(parser, "os", null, parsed)) {
+                activation.setOs(parseActivationOS(parser, strict));
+            } else if (checkFieldWithDuplicate(parser, "property", null, parsed)) {
+                activation.setProperty(parseActivationProperty(parser, strict));
+            } else if (checkFieldWithDuplicate(parser, "file", null, parsed)) {
+                activation.setFile(parseActivationFile(parser, strict));
+            } else {
+                checkUnknownElement(parser, strict);
             }
         }
         return activation;
-    } //-- Activation parseActivation( XmlPullParser, boolean )
+    } // -- Activation parseActivation( XmlPullParser, boolean )
 
     /**
      * Method parseActivationFile.
@@ -677,43 +585,32 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return ActivationFile
      */
-    private ActivationFile parseActivationFile( XmlPullParser parser, boolean strict )
-        throws IOException, XmlPullParserException
-    {
+    private ActivationFile parseActivationFile(XmlPullParser parser, boolean strict)
+            throws IOException, XmlPullParserException {
         String tagName = parser.getName();
         ActivationFile activationFile = new ActivationFile();
-        for ( int i = parser.getAttributeCount() - 1; i >= 0; i-- )
-        {
-            String name = parser.getAttributeName( i );
-            String value = parser.getAttributeValue( i );
+        for (int i = parser.getAttributeCount() - 1; i >= 0; i--) {
+            String name = parser.getAttributeName(i);
+            String value = parser.getAttributeValue(i);
 
-            if ( name.indexOf( ':' ) >= 0 )
-            {
+            if (name.indexOf(':') >= 0) {
                 // just ignore attributes with non-default namespace (for example: xmlns:xsi)
-            }
-            else
-            {
-                checkUnknownAttribute( parser, name, tagName, strict );
+            } else {
+                checkUnknownAttribute(parser, name, tagName, strict);
             }
         }
         java.util.Set parsed = new java.util.HashSet();
-        while ( ( strict ? parser.nextTag() : nextTag( parser ) ) == XmlPullParser.START_TAG )
-        {
-            if ( checkFieldWithDuplicate( parser, "missing", null, parsed ) )
-            {
-                activationFile.setMissing( interpolatedTrimmed( parser.nextText(), "missing" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "exists", null, parsed ) )
-            {
-                activationFile.setExists( interpolatedTrimmed( parser.nextText(), "exists" ) );
-            }
-            else
-            {
-                checkUnknownElement( parser, strict );
+        while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
+            if (checkFieldWithDuplicate(parser, "missing", null, parsed)) {
+                activationFile.setMissing(interpolatedTrimmed(parser.nextText(), "missing"));
+            } else if (checkFieldWithDuplicate(parser, "exists", null, parsed)) {
+                activationFile.setExists(interpolatedTrimmed(parser.nextText(), "exists"));
+            } else {
+                checkUnknownElement(parser, strict);
             }
         }
         return activationFile;
-    } //-- ActivationFile parseActivationFile( XmlPullParser, boolean )
+    } // -- ActivationFile parseActivationFile( XmlPullParser, boolean )
 
     /**
      * Method parseActivationOS.
@@ -724,51 +621,36 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return ActivationOS
      */
-    private ActivationOS parseActivationOS( XmlPullParser parser, boolean strict )
-        throws IOException, XmlPullParserException
-    {
+    private ActivationOS parseActivationOS(XmlPullParser parser, boolean strict)
+            throws IOException, XmlPullParserException {
         String tagName = parser.getName();
         ActivationOS activationOS = new ActivationOS();
-        for ( int i = parser.getAttributeCount() - 1; i >= 0; i-- )
-        {
-            String name = parser.getAttributeName( i );
-            String value = parser.getAttributeValue( i );
+        for (int i = parser.getAttributeCount() - 1; i >= 0; i--) {
+            String name = parser.getAttributeName(i);
+            String value = parser.getAttributeValue(i);
 
-            if ( name.indexOf( ':' ) >= 0 )
-            {
+            if (name.indexOf(':') >= 0) {
                 // just ignore attributes with non-default namespace (for example: xmlns:xsi)
-            }
-            else
-            {
-                checkUnknownAttribute( parser, name, tagName, strict );
+            } else {
+                checkUnknownAttribute(parser, name, tagName, strict);
             }
         }
         java.util.Set parsed = new java.util.HashSet();
-        while ( ( strict ? parser.nextTag() : nextTag( parser ) ) == XmlPullParser.START_TAG )
-        {
-            if ( checkFieldWithDuplicate( parser, "name", null, parsed ) )
-            {
-                activationOS.setName( interpolatedTrimmed( parser.nextText(), "name" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "family", null, parsed ) )
-            {
-                activationOS.setFamily( interpolatedTrimmed( parser.nextText(), "family" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "arch", null, parsed ) )
-            {
-                activationOS.setArch( interpolatedTrimmed( parser.nextText(), "arch" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "version", null, parsed ) )
-            {
-                activationOS.setVersion( interpolatedTrimmed( parser.nextText(), "version" ) );
-            }
-            else
-            {
-                checkUnknownElement( parser, strict );
+        while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
+            if (checkFieldWithDuplicate(parser, "name", null, parsed)) {
+                activationOS.setName(interpolatedTrimmed(parser.nextText(), "name"));
+            } else if (checkFieldWithDuplicate(parser, "family", null, parsed)) {
+                activationOS.setFamily(interpolatedTrimmed(parser.nextText(), "family"));
+            } else if (checkFieldWithDuplicate(parser, "arch", null, parsed)) {
+                activationOS.setArch(interpolatedTrimmed(parser.nextText(), "arch"));
+            } else if (checkFieldWithDuplicate(parser, "version", null, parsed)) {
+                activationOS.setVersion(interpolatedTrimmed(parser.nextText(), "version"));
+            } else {
+                checkUnknownElement(parser, strict);
             }
         }
         return activationOS;
-    } //-- ActivationOS parseActivationOS( XmlPullParser, boolean )
+    } // -- ActivationOS parseActivationOS( XmlPullParser, boolean )
 
     /**
      * Method parseActivationProperty.
@@ -779,43 +661,32 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return ActivationProperty
      */
-    private ActivationProperty parseActivationProperty( XmlPullParser parser, boolean strict )
-        throws IOException, XmlPullParserException
-    {
+    private ActivationProperty parseActivationProperty(XmlPullParser parser, boolean strict)
+            throws IOException, XmlPullParserException {
         String tagName = parser.getName();
         ActivationProperty activationProperty = new ActivationProperty();
-        for ( int i = parser.getAttributeCount() - 1; i >= 0; i-- )
-        {
-            String name = parser.getAttributeName( i );
-            String value = parser.getAttributeValue( i );
+        for (int i = parser.getAttributeCount() - 1; i >= 0; i--) {
+            String name = parser.getAttributeName(i);
+            String value = parser.getAttributeValue(i);
 
-            if ( name.indexOf( ':' ) >= 0 )
-            {
+            if (name.indexOf(':') >= 0) {
                 // just ignore attributes with non-default namespace (for example: xmlns:xsi)
-            }
-            else
-            {
-                checkUnknownAttribute( parser, name, tagName, strict );
+            } else {
+                checkUnknownAttribute(parser, name, tagName, strict);
             }
         }
         java.util.Set parsed = new java.util.HashSet();
-        while ( ( strict ? parser.nextTag() : nextTag( parser ) ) == XmlPullParser.START_TAG )
-        {
-            if ( checkFieldWithDuplicate( parser, "name", null, parsed ) )
-            {
-                activationProperty.setName( interpolatedTrimmed( parser.nextText(), "name" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "value", null, parsed ) )
-            {
-                activationProperty.setValue( interpolatedTrimmed( parser.nextText(), "value" ) );
-            }
-            else
-            {
-                checkUnknownElement( parser, strict );
+        while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
+            if (checkFieldWithDuplicate(parser, "name", null, parsed)) {
+                activationProperty.setName(interpolatedTrimmed(parser.nextText(), "name"));
+            } else if (checkFieldWithDuplicate(parser, "value", null, parsed)) {
+                activationProperty.setValue(interpolatedTrimmed(parser.nextText(), "value"));
+            } else {
+                checkUnknownElement(parser, strict);
             }
         }
         return activationProperty;
-    } //-- ActivationProperty parseActivationProperty( XmlPullParser, boolean )
+    } // -- ActivationProperty parseActivationProperty( XmlPullParser, boolean )
 
     /**
      * Method parseIdentifiableBase.
@@ -826,39 +697,30 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return IdentifiableBase
      */
-    private IdentifiableBase parseIdentifiableBase( XmlPullParser parser, boolean strict )
-        throws IOException, XmlPullParserException
-    {
+    private IdentifiableBase parseIdentifiableBase(XmlPullParser parser, boolean strict)
+            throws IOException, XmlPullParserException {
         String tagName = parser.getName();
         IdentifiableBase identifiableBase = new IdentifiableBase();
-        for ( int i = parser.getAttributeCount() - 1; i >= 0; i-- )
-        {
-            String name = parser.getAttributeName( i );
-            String value = parser.getAttributeValue( i );
+        for (int i = parser.getAttributeCount() - 1; i >= 0; i--) {
+            String name = parser.getAttributeName(i);
+            String value = parser.getAttributeValue(i);
 
-            if ( name.indexOf( ':' ) >= 0 )
-            {
+            if (name.indexOf(':') >= 0) {
                 // just ignore attributes with non-default namespace (for example: xmlns:xsi)
-            }
-            else
-            {
-                checkUnknownAttribute( parser, name, tagName, strict );
+            } else {
+                checkUnknownAttribute(parser, name, tagName, strict);
             }
         }
         java.util.Set parsed = new java.util.HashSet();
-        while ( ( strict ? parser.nextTag() : nextTag( parser ) ) == XmlPullParser.START_TAG )
-        {
-            if ( checkFieldWithDuplicate( parser, "id", null, parsed ) )
-            {
-                identifiableBase.setId( interpolatedTrimmed( parser.nextText(), "id" ) );
-            }
-            else
-            {
-                checkUnknownElement( parser, strict );
+        while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
+            if (checkFieldWithDuplicate(parser, "id", null, parsed)) {
+                identifiableBase.setId(interpolatedTrimmed(parser.nextText(), "id"));
+            } else {
+                checkUnknownElement(parser, strict);
             }
         }
         return identifiableBase;
-    } //-- IdentifiableBase parseIdentifiableBase( XmlPullParser, boolean )
+    } // -- IdentifiableBase parseIdentifiableBase( XmlPullParser, boolean )
 
     /**
      * Method parseMirror.
@@ -869,59 +731,40 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return Mirror
      */
-    private Mirror parseMirror( XmlPullParser parser, boolean strict )
-        throws IOException, XmlPullParserException
-    {
+    private Mirror parseMirror(XmlPullParser parser, boolean strict)
+            throws IOException, XmlPullParserException {
         String tagName = parser.getName();
         Mirror mirror = new Mirror();
-        for ( int i = parser.getAttributeCount() - 1; i >= 0; i-- )
-        {
-            String name = parser.getAttributeName( i );
-            String value = parser.getAttributeValue( i );
+        for (int i = parser.getAttributeCount() - 1; i >= 0; i--) {
+            String name = parser.getAttributeName(i);
+            String value = parser.getAttributeValue(i);
 
-            if ( name.indexOf( ':' ) >= 0 )
-            {
+            if (name.indexOf(':') >= 0) {
                 // just ignore attributes with non-default namespace (for example: xmlns:xsi)
-            }
-            else
-            {
-                checkUnknownAttribute( parser, name, tagName, strict );
+            } else {
+                checkUnknownAttribute(parser, name, tagName, strict);
             }
         }
         java.util.Set parsed = new java.util.HashSet();
-        while ( ( strict ? parser.nextTag() : nextTag( parser ) ) == XmlPullParser.START_TAG )
-        {
-            if ( checkFieldWithDuplicate( parser, "mirrorOf", null, parsed ) )
-            {
-                mirror.setMirrorOf( interpolatedTrimmed( parser.nextText(), "mirrorOf" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "name", null, parsed ) )
-            {
-                mirror.setName( interpolatedTrimmed( parser.nextText(), "name" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "url", null, parsed ) )
-            {
-                mirror.setUrl( interpolatedTrimmed( parser.nextText(), "url" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "layout", null, parsed ) )
-            {
-                mirror.setLayout( interpolatedTrimmed( parser.nextText(), "layout" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "mirrorOfLayouts", null, parsed ) )
-            {
-                mirror.setMirrorOfLayouts( interpolatedTrimmed( parser.nextText(), "mirrorOfLayouts" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "id", null, parsed ) )
-            {
-                mirror.setId( interpolatedTrimmed( parser.nextText(), "id" ) );
-            }
-            else
-            {
-                checkUnknownElement( parser, strict );
+        while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
+            if (checkFieldWithDuplicate(parser, "mirrorOf", null, parsed)) {
+                mirror.setMirrorOf(interpolatedTrimmed(parser.nextText(), "mirrorOf"));
+            } else if (checkFieldWithDuplicate(parser, "name", null, parsed)) {
+                mirror.setName(interpolatedTrimmed(parser.nextText(), "name"));
+            } else if (checkFieldWithDuplicate(parser, "url", null, parsed)) {
+                mirror.setUrl(interpolatedTrimmed(parser.nextText(), "url"));
+            } else if (checkFieldWithDuplicate(parser, "layout", null, parsed)) {
+                mirror.setLayout(interpolatedTrimmed(parser.nextText(), "layout"));
+            } else if (checkFieldWithDuplicate(parser, "mirrorOfLayouts", null, parsed)) {
+                mirror.setMirrorOfLayouts(interpolatedTrimmed(parser.nextText(), "mirrorOfLayouts"));
+            } else if (checkFieldWithDuplicate(parser, "id", null, parsed)) {
+                mirror.setId(interpolatedTrimmed(parser.nextText(), "id"));
+            } else {
+                checkUnknownElement(parser, strict);
             }
         }
         return mirror;
-    } //-- Mirror parseMirror( XmlPullParser, boolean )
+    } // -- Mirror parseMirror( XmlPullParser, boolean )
 
     /**
      * Method parseProfile.
@@ -932,84 +775,58 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return Profile
      */
-    private Profile parseProfile( XmlPullParser parser, boolean strict )
-        throws IOException, XmlPullParserException
-    {
+    private Profile parseProfile(XmlPullParser parser, boolean strict)
+            throws IOException, XmlPullParserException {
         String tagName = parser.getName();
         Profile profile = new Profile();
-        for ( int i = parser.getAttributeCount() - 1; i >= 0; i-- )
-        {
-            String name = parser.getAttributeName( i );
-            String value = parser.getAttributeValue( i );
+        for (int i = parser.getAttributeCount() - 1; i >= 0; i--) {
+            String name = parser.getAttributeName(i);
+            String value = parser.getAttributeValue(i);
 
-            if ( name.indexOf( ':' ) >= 0 )
-            {
+            if (name.indexOf(':') >= 0) {
                 // just ignore attributes with non-default namespace (for example: xmlns:xsi)
-            }
-            else
-            {
-                checkUnknownAttribute( parser, name, tagName, strict );
+            } else {
+                checkUnknownAttribute(parser, name, tagName, strict);
             }
         }
         java.util.Set parsed = new java.util.HashSet();
-        while ( ( strict ? parser.nextTag() : nextTag( parser ) ) == XmlPullParser.START_TAG )
-        {
-            if ( checkFieldWithDuplicate( parser, "activation", null, parsed ) )
-            {
-                profile.setActivation( parseActivation( parser, strict ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "properties", null, parsed ) )
-            {
-                while ( parser.nextTag() == XmlPullParser.START_TAG )
-                {
+        while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
+            if (checkFieldWithDuplicate(parser, "activation", null, parsed)) {
+                profile.setActivation(parseActivation(parser, strict));
+            } else if (checkFieldWithDuplicate(parser, "properties", null, parsed)) {
+                while (parser.nextTag() == XmlPullParser.START_TAG) {
                     String key = parser.getName();
                     String value = parser.nextText().trim();
-                    profile.addProperty( key, value );
+                    profile.addProperty(key, value);
                 }
-            }
-            else if ( checkFieldWithDuplicate( parser, "repositories", null, parsed ) )
-            {
+            } else if (checkFieldWithDuplicate(parser, "repositories", null, parsed)) {
                 java.util.List<Repository> repositories = new java.util.ArrayList<Repository>();
-                profile.setRepositories( repositories );
-                while ( parser.nextTag() == XmlPullParser.START_TAG )
-                {
-                    if ( "repository".equals( parser.getName() ) )
-                    {
-                        repositories.add( parseRepository( parser, strict ) );
-                    }
-                    else
-                    {
-                        checkUnknownElement( parser, strict );
+                profile.setRepositories(repositories);
+                while (parser.nextTag() == XmlPullParser.START_TAG) {
+                    if ("repository".equals(parser.getName())) {
+                        repositories.add(parseRepository(parser, strict));
+                    } else {
+                        checkUnknownElement(parser, strict);
                     }
                 }
-            }
-            else if ( checkFieldWithDuplicate( parser, "pluginRepositories", null, parsed ) )
-            {
+            } else if (checkFieldWithDuplicate(parser, "pluginRepositories", null, parsed)) {
                 java.util.List<Repository> pluginRepositories = new java.util.ArrayList<Repository>();
-                profile.setPluginRepositories( pluginRepositories );
-                while ( parser.nextTag() == XmlPullParser.START_TAG )
-                {
-                    if ( "pluginRepository".equals( parser.getName() ) )
-                    {
-                        pluginRepositories.add( parseRepository( parser, strict ) );
-                    }
-                    else
-                    {
-                        checkUnknownElement( parser, strict );
+                profile.setPluginRepositories(pluginRepositories);
+                while (parser.nextTag() == XmlPullParser.START_TAG) {
+                    if ("pluginRepository".equals(parser.getName())) {
+                        pluginRepositories.add(parseRepository(parser, strict));
+                    } else {
+                        checkUnknownElement(parser, strict);
                     }
                 }
-            }
-            else if ( checkFieldWithDuplicate( parser, "id", null, parsed ) )
-            {
-                profile.setId( interpolatedTrimmed( parser.nextText(), "id" ) );
-            }
-            else
-            {
-                checkUnknownElement( parser, strict );
+            } else if (checkFieldWithDuplicate(parser, "id", null, parsed)) {
+                profile.setId(interpolatedTrimmed(parser.nextText(), "id"));
+            } else {
+                checkUnknownElement(parser, strict);
             }
         }
         return profile;
-    } //-- Profile parseProfile( XmlPullParser, boolean )
+    } // -- Profile parseProfile( XmlPullParser, boolean )
 
     /**
      * Method parseProxy.
@@ -1020,67 +837,45 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return Proxy
      */
-    private Proxy parseProxy( XmlPullParser parser, boolean strict )
-        throws IOException, XmlPullParserException
-    {
+    private Proxy parseProxy(XmlPullParser parser, boolean strict)
+            throws IOException, XmlPullParserException {
         String tagName = parser.getName();
         Proxy proxy = new Proxy();
-        for ( int i = parser.getAttributeCount() - 1; i >= 0; i-- )
-        {
-            String name = parser.getAttributeName( i );
-            String value = parser.getAttributeValue( i );
+        for (int i = parser.getAttributeCount() - 1; i >= 0; i--) {
+            String name = parser.getAttributeName(i);
+            String value = parser.getAttributeValue(i);
 
-            if ( name.indexOf( ':' ) >= 0 )
-            {
+            if (name.indexOf(':') >= 0) {
                 // just ignore attributes with non-default namespace (for example: xmlns:xsi)
-            }
-            else
-            {
-                checkUnknownAttribute( parser, name, tagName, strict );
+            } else {
+                checkUnknownAttribute(parser, name, tagName, strict);
             }
         }
         java.util.Set parsed = new java.util.HashSet();
-        while ( ( strict ? parser.nextTag() : nextTag( parser ) ) == XmlPullParser.START_TAG )
-        {
-            if ( checkFieldWithDuplicate( parser, "active", null, parsed ) )
-            {
-                proxy.setActive( getBooleanValue( interpolatedTrimmed( parser.nextText(), "active" ), "active", parser, "true" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "protocol", null, parsed ) )
-            {
-                proxy.setProtocol( interpolatedTrimmed( parser.nextText(), "protocol" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "username", null, parsed ) )
-            {
-                proxy.setUsername( interpolatedTrimmed( parser.nextText(), "username" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "password", null, parsed ) )
-            {
-                proxy.setPassword( interpolatedTrimmed( parser.nextText(), "password" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "port", null, parsed ) )
-            {
-                proxy.setPort( getIntegerValue( interpolatedTrimmed( parser.nextText(), "port" ), "port", parser, strict ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "host", null, parsed ) )
-            {
-                proxy.setHost( interpolatedTrimmed( parser.nextText(), "host" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "nonProxyHosts", null, parsed ) )
-            {
-                proxy.setNonProxyHosts( interpolatedTrimmed( parser.nextText(), "nonProxyHosts" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "id", null, parsed ) )
-            {
-                proxy.setId( interpolatedTrimmed( parser.nextText(), "id" ) );
-            }
-            else
-            {
-                checkUnknownElement( parser, strict );
+        while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
+            if (checkFieldWithDuplicate(parser, "active", null, parsed)) {
+                proxy.setActive(
+                        getBooleanValue(interpolatedTrimmed(parser.nextText(), "active"), "active", parser, "true"));
+            } else if (checkFieldWithDuplicate(parser, "protocol", null, parsed)) {
+                proxy.setProtocol(interpolatedTrimmed(parser.nextText(), "protocol"));
+            } else if (checkFieldWithDuplicate(parser, "username", null, parsed)) {
+                proxy.setUsername(interpolatedTrimmed(parser.nextText(), "username"));
+            } else if (checkFieldWithDuplicate(parser, "password", null, parsed)) {
+                proxy.setPassword(interpolatedTrimmed(parser.nextText(), "password"));
+            } else if (checkFieldWithDuplicate(parser, "port", null, parsed)) {
+                proxy.setPort(getIntegerValue(interpolatedTrimmed(parser.nextText(), "port"), "port", parser, strict));
+            } else if (checkFieldWithDuplicate(parser, "host", null, parsed)) {
+                proxy.setHost(interpolatedTrimmed(parser.nextText(), "host"));
+            } else if (checkFieldWithDuplicate(parser, "nonProxyHosts", null, parsed)) {
+                proxy.setNonProxyHosts(interpolatedTrimmed(parser.nextText(), "nonProxyHosts"));
+            } else if (checkFieldWithDuplicate(parser, "id", null, parsed)) {
+                proxy.setId(interpolatedTrimmed(parser.nextText(), "id"));
+            } else {
+                checkUnknownElement(parser, strict);
             }
         }
         return proxy;
-    } //-- Proxy parseProxy( XmlPullParser, boolean )
+    } // -- Proxy parseProxy( XmlPullParser, boolean )
 
     /**
      * Method parseRepository.
@@ -1091,59 +886,40 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return Repository
      */
-    private Repository parseRepository( XmlPullParser parser, boolean strict )
-        throws IOException, XmlPullParserException
-    {
+    private Repository parseRepository(XmlPullParser parser, boolean strict)
+            throws IOException, XmlPullParserException {
         String tagName = parser.getName();
         Repository repository = new Repository();
-        for ( int i = parser.getAttributeCount() - 1; i >= 0; i-- )
-        {
-            String name = parser.getAttributeName( i );
-            String value = parser.getAttributeValue( i );
+        for (int i = parser.getAttributeCount() - 1; i >= 0; i--) {
+            String name = parser.getAttributeName(i);
+            String value = parser.getAttributeValue(i);
 
-            if ( name.indexOf( ':' ) >= 0 )
-            {
+            if (name.indexOf(':') >= 0) {
                 // just ignore attributes with non-default namespace (for example: xmlns:xsi)
-            }
-            else
-            {
-                checkUnknownAttribute( parser, name, tagName, strict );
+            } else {
+                checkUnknownAttribute(parser, name, tagName, strict);
             }
         }
         java.util.Set parsed = new java.util.HashSet();
-        while ( ( strict ? parser.nextTag() : nextTag( parser ) ) == XmlPullParser.START_TAG )
-        {
-            if ( checkFieldWithDuplicate( parser, "releases", null, parsed ) )
-            {
-                repository.setReleases( parseRepositoryPolicy( parser, strict ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "snapshots", null, parsed ) )
-            {
-                repository.setSnapshots( parseRepositoryPolicy( parser, strict ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "id", null, parsed ) )
-            {
-                repository.setId( interpolatedTrimmed( parser.nextText(), "id" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "name", null, parsed ) )
-            {
-                repository.setName( interpolatedTrimmed( parser.nextText(), "name" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "url", null, parsed ) )
-            {
-                repository.setUrl( interpolatedTrimmed( parser.nextText(), "url" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "layout", null, parsed ) )
-            {
-                repository.setLayout( interpolatedTrimmed( parser.nextText(), "layout" ) );
-            }
-            else
-            {
-                checkUnknownElement( parser, strict );
+        while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
+            if (checkFieldWithDuplicate(parser, "releases", null, parsed)) {
+                repository.setReleases(parseRepositoryPolicy(parser, strict));
+            } else if (checkFieldWithDuplicate(parser, "snapshots", null, parsed)) {
+                repository.setSnapshots(parseRepositoryPolicy(parser, strict));
+            } else if (checkFieldWithDuplicate(parser, "id", null, parsed)) {
+                repository.setId(interpolatedTrimmed(parser.nextText(), "id"));
+            } else if (checkFieldWithDuplicate(parser, "name", null, parsed)) {
+                repository.setName(interpolatedTrimmed(parser.nextText(), "name"));
+            } else if (checkFieldWithDuplicate(parser, "url", null, parsed)) {
+                repository.setUrl(interpolatedTrimmed(parser.nextText(), "url"));
+            } else if (checkFieldWithDuplicate(parser, "layout", null, parsed)) {
+                repository.setLayout(interpolatedTrimmed(parser.nextText(), "layout"));
+            } else {
+                checkUnknownElement(parser, strict);
             }
         }
         return repository;
-    } //-- Repository parseRepository( XmlPullParser, boolean )
+    } // -- Repository parseRepository( XmlPullParser, boolean )
 
     /**
      * Method parseRepositoryBase.
@@ -1154,51 +930,36 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return RepositoryBase
      */
-    private RepositoryBase parseRepositoryBase( XmlPullParser parser, boolean strict )
-        throws IOException, XmlPullParserException
-    {
+    private RepositoryBase parseRepositoryBase(XmlPullParser parser, boolean strict)
+            throws IOException, XmlPullParserException {
         String tagName = parser.getName();
         RepositoryBase repositoryBase = new RepositoryBase();
-        for ( int i = parser.getAttributeCount() - 1; i >= 0; i-- )
-        {
-            String name = parser.getAttributeName( i );
-            String value = parser.getAttributeValue( i );
+        for (int i = parser.getAttributeCount() - 1; i >= 0; i--) {
+            String name = parser.getAttributeName(i);
+            String value = parser.getAttributeValue(i);
 
-            if ( name.indexOf( ':' ) >= 0 )
-            {
+            if (name.indexOf(':') >= 0) {
                 // just ignore attributes with non-default namespace (for example: xmlns:xsi)
-            }
-            else
-            {
-                checkUnknownAttribute( parser, name, tagName, strict );
+            } else {
+                checkUnknownAttribute(parser, name, tagName, strict);
             }
         }
         java.util.Set parsed = new java.util.HashSet();
-        while ( ( strict ? parser.nextTag() : nextTag( parser ) ) == XmlPullParser.START_TAG )
-        {
-            if ( checkFieldWithDuplicate( parser, "id", null, parsed ) )
-            {
-                repositoryBase.setId( interpolatedTrimmed( parser.nextText(), "id" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "name", null, parsed ) )
-            {
-                repositoryBase.setName( interpolatedTrimmed( parser.nextText(), "name" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "url", null, parsed ) )
-            {
-                repositoryBase.setUrl( interpolatedTrimmed( parser.nextText(), "url" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "layout", null, parsed ) )
-            {
-                repositoryBase.setLayout( interpolatedTrimmed( parser.nextText(), "layout" ) );
-            }
-            else
-            {
-                checkUnknownElement( parser, strict );
+        while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
+            if (checkFieldWithDuplicate(parser, "id", null, parsed)) {
+                repositoryBase.setId(interpolatedTrimmed(parser.nextText(), "id"));
+            } else if (checkFieldWithDuplicate(parser, "name", null, parsed)) {
+                repositoryBase.setName(interpolatedTrimmed(parser.nextText(), "name"));
+            } else if (checkFieldWithDuplicate(parser, "url", null, parsed)) {
+                repositoryBase.setUrl(interpolatedTrimmed(parser.nextText(), "url"));
+            } else if (checkFieldWithDuplicate(parser, "layout", null, parsed)) {
+                repositoryBase.setLayout(interpolatedTrimmed(parser.nextText(), "layout"));
+            } else {
+                checkUnknownElement(parser, strict);
             }
         }
         return repositoryBase;
-    } //-- RepositoryBase parseRepositoryBase( XmlPullParser, boolean )
+    } // -- RepositoryBase parseRepositoryBase( XmlPullParser, boolean )
 
     /**
      * Method parseRepositoryPolicy.
@@ -1209,47 +970,35 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return RepositoryPolicy
      */
-    private RepositoryPolicy parseRepositoryPolicy( XmlPullParser parser, boolean strict )
-        throws IOException, XmlPullParserException
-    {
+    private RepositoryPolicy parseRepositoryPolicy(XmlPullParser parser, boolean strict)
+            throws IOException, XmlPullParserException {
         String tagName = parser.getName();
         RepositoryPolicy repositoryPolicy = new RepositoryPolicy();
-        for ( int i = parser.getAttributeCount() - 1; i >= 0; i-- )
-        {
-            String name = parser.getAttributeName( i );
-            String value = parser.getAttributeValue( i );
+        for (int i = parser.getAttributeCount() - 1; i >= 0; i--) {
+            String name = parser.getAttributeName(i);
+            String value = parser.getAttributeValue(i);
 
-            if ( name.indexOf( ':' ) >= 0 )
-            {
+            if (name.indexOf(':') >= 0) {
                 // just ignore attributes with non-default namespace (for example: xmlns:xsi)
-            }
-            else
-            {
-                checkUnknownAttribute( parser, name, tagName, strict );
+            } else {
+                checkUnknownAttribute(parser, name, tagName, strict);
             }
         }
         java.util.Set parsed = new java.util.HashSet();
-        while ( ( strict ? parser.nextTag() : nextTag( parser ) ) == XmlPullParser.START_TAG )
-        {
-            if ( checkFieldWithDuplicate( parser, "enabled", null, parsed ) )
-            {
-                repositoryPolicy.setEnabled( getBooleanValue( interpolatedTrimmed( parser.nextText(), "enabled" ), "enabled", parser, "true" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "updatePolicy", null, parsed ) )
-            {
-                repositoryPolicy.setUpdatePolicy( interpolatedTrimmed( parser.nextText(), "updatePolicy" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "checksumPolicy", null, parsed ) )
-            {
-                repositoryPolicy.setChecksumPolicy( interpolatedTrimmed( parser.nextText(), "checksumPolicy" ) );
-            }
-            else
-            {
-                checkUnknownElement( parser, strict );
+        while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
+            if (checkFieldWithDuplicate(parser, "enabled", null, parsed)) {
+                repositoryPolicy.setEnabled(
+                        getBooleanValue(interpolatedTrimmed(parser.nextText(), "enabled"), "enabled", parser, "true"));
+            } else if (checkFieldWithDuplicate(parser, "updatePolicy", null, parsed)) {
+                repositoryPolicy.setUpdatePolicy(interpolatedTrimmed(parser.nextText(), "updatePolicy"));
+            } else if (checkFieldWithDuplicate(parser, "checksumPolicy", null, parsed)) {
+                repositoryPolicy.setChecksumPolicy(interpolatedTrimmed(parser.nextText(), "checksumPolicy"));
+            } else {
+                checkUnknownElement(parser, strict);
             }
         }
         return repositoryPolicy;
-    } //-- RepositoryPolicy parseRepositoryPolicy( XmlPullParser, boolean )
+    } // -- RepositoryPolicy parseRepositoryPolicy( XmlPullParser, boolean )
 
     /**
      * Method parseServer.
@@ -1260,67 +1009,44 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return Server
      */
-    private Server parseServer( XmlPullParser parser, boolean strict )
-        throws IOException, XmlPullParserException
-    {
+    private Server parseServer(XmlPullParser parser, boolean strict)
+            throws IOException, XmlPullParserException {
         String tagName = parser.getName();
         Server server = new Server();
-        for ( int i = parser.getAttributeCount() - 1; i >= 0; i-- )
-        {
-            String name = parser.getAttributeName( i );
-            String value = parser.getAttributeValue( i );
+        for (int i = parser.getAttributeCount() - 1; i >= 0; i--) {
+            String name = parser.getAttributeName(i);
+            String value = parser.getAttributeValue(i);
 
-            if ( name.indexOf( ':' ) >= 0 )
-            {
+            if (name.indexOf(':') >= 0) {
                 // just ignore attributes with non-default namespace (for example: xmlns:xsi)
-            }
-            else
-            {
-                checkUnknownAttribute( parser, name, tagName, strict );
+            } else {
+                checkUnknownAttribute(parser, name, tagName, strict);
             }
         }
         java.util.Set parsed = new java.util.HashSet();
-        while ( ( strict ? parser.nextTag() : nextTag( parser ) ) == XmlPullParser.START_TAG )
-        {
-            if ( checkFieldWithDuplicate( parser, "username", null, parsed ) )
-            {
-                server.setUsername( interpolatedTrimmed( parser.nextText(), "username" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "password", null, parsed ) )
-            {
-                server.setPassword( interpolatedTrimmed( parser.nextText(), "password" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "privateKey", null, parsed ) )
-            {
-                server.setPrivateKey( interpolatedTrimmed( parser.nextText(), "privateKey" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "passphrase", null, parsed ) )
-            {
-                server.setPassphrase( interpolatedTrimmed( parser.nextText(), "passphrase" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "filePermissions", null, parsed ) )
-            {
-                server.setFilePermissions( interpolatedTrimmed( parser.nextText(), "filePermissions" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "directoryPermissions", null, parsed ) )
-            {
-                server.setDirectoryPermissions( interpolatedTrimmed( parser.nextText(), "directoryPermissions" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "configuration", null, parsed ) )
-            {
-                server.setConfiguration( org.codehaus.plexus.util.xml.Xpp3DomBuilder.build( parser, true ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "id", null, parsed ) )
-            {
-                server.setId( interpolatedTrimmed( parser.nextText(), "id" ) );
-            }
-            else
-            {
-                checkUnknownElement( parser, strict );
+        while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
+            if (checkFieldWithDuplicate(parser, "username", null, parsed)) {
+                server.setUsername(interpolatedTrimmed(parser.nextText(), "username"));
+            } else if (checkFieldWithDuplicate(parser, "password", null, parsed)) {
+                server.setPassword(interpolatedTrimmed(parser.nextText(), "password"));
+            } else if (checkFieldWithDuplicate(parser, "privateKey", null, parsed)) {
+                server.setPrivateKey(interpolatedTrimmed(parser.nextText(), "privateKey"));
+            } else if (checkFieldWithDuplicate(parser, "passphrase", null, parsed)) {
+                server.setPassphrase(interpolatedTrimmed(parser.nextText(), "passphrase"));
+            } else if (checkFieldWithDuplicate(parser, "filePermissions", null, parsed)) {
+                server.setFilePermissions(interpolatedTrimmed(parser.nextText(), "filePermissions"));
+            } else if (checkFieldWithDuplicate(parser, "directoryPermissions", null, parsed)) {
+                server.setDirectoryPermissions(interpolatedTrimmed(parser.nextText(), "directoryPermissions"));
+            } else if (checkFieldWithDuplicate(parser, "configuration", null, parsed)) {
+                server.setConfiguration(org.codehaus.plexus.util.xml.Xpp3DomBuilder.build(parser, true));
+            } else if (checkFieldWithDuplicate(parser, "id", null, parsed)) {
+                server.setId(interpolatedTrimmed(parser.nextText(), "id"));
+            } else {
+                checkUnknownElement(parser, strict);
             }
         }
         return server;
-    } //-- Server parseServer( XmlPullParser, boolean )
+    } // -- Server parseServer( XmlPullParser, boolean )
 
     /**
      * Method parseSettings.
@@ -1331,151 +1057,102 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return Settings
      */
-    private Settings parseSettings( XmlPullParser parser, boolean strict )
-        throws IOException, XmlPullParserException
-    {
+    private Settings parseSettings(XmlPullParser parser, boolean strict)
+            throws IOException, XmlPullParserException {
         String tagName = parser.getName();
         Settings settings = new Settings();
-        for ( int i = parser.getAttributeCount() - 1; i >= 0; i-- )
-        {
-            String name = parser.getAttributeName( i );
-            String value = parser.getAttributeValue( i );
+        for (int i = parser.getAttributeCount() - 1; i >= 0; i--) {
+            String name = parser.getAttributeName(i);
+            String value = parser.getAttributeValue(i);
 
-            if ( name.indexOf( ':' ) >= 0 )
-            {
+            if (name.indexOf(':') >= 0) {
                 // just ignore attributes with non-default namespace (for example: xmlns:xsi)
-            }
-            else if ( "xmlns".equals( name ) )
-            {
+            } else if ("xmlns".equals(name)) {
                 // ignore xmlns attribute in root class, which is a reserved attribute name
-            }
-            else
-            {
-                checkUnknownAttribute( parser, name, tagName, strict );
+            } else {
+                checkUnknownAttribute(parser, name, tagName, strict);
             }
         }
         java.util.Set parsed = new java.util.HashSet();
-        while ( ( strict ? parser.nextTag() : nextTag( parser ) ) == XmlPullParser.START_TAG )
-        {
-            if ( checkFieldWithDuplicate( parser, "localRepository", null, parsed ) )
-            {
-                settings.setLocalRepository( interpolatedTrimmed( parser.nextText(), "localRepository" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "interactiveMode", null, parsed ) )
-            {
-                settings.setInteractiveMode( getBooleanValue( interpolatedTrimmed( parser.nextText(), "interactiveMode" ), "interactiveMode", parser, "true" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "usePluginRegistry", null, parsed ) )
-            {
-                settings.setUsePluginRegistry( getBooleanValue( interpolatedTrimmed( parser.nextText(), "usePluginRegistry" ), "usePluginRegistry", parser, "false" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "offline", null, parsed ) )
-            {
-                settings.setOffline( getBooleanValue( interpolatedTrimmed( parser.nextText(), "offline" ), "offline", parser, "false" ) );
-            }
-            else if ( checkFieldWithDuplicate( parser, "proxies", null, parsed ) )
-            {
+        while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
+            if (checkFieldWithDuplicate(parser, "localRepository", null, parsed)) {
+                settings.setLocalRepository(interpolatedTrimmed(parser.nextText(), "localRepository"));
+            } else if (checkFieldWithDuplicate(parser, "interactiveMode", null, parsed)) {
+                settings.setInteractiveMode(getBooleanValue(interpolatedTrimmed(parser.nextText(), "interactiveMode"),
+                        "interactiveMode", parser, "true"));
+            } else if (checkFieldWithDuplicate(parser, "usePluginRegistry", null, parsed)) {
+                settings.setUsePluginRegistry(
+                        getBooleanValue(interpolatedTrimmed(parser.nextText(), "usePluginRegistry"),
+                                "usePluginRegistry", parser, "false"));
+            } else if (checkFieldWithDuplicate(parser, "offline", null, parsed)) {
+                settings.setOffline(
+                        getBooleanValue(interpolatedTrimmed(parser.nextText(), "offline"), "offline", parser, "false"));
+            } else if (checkFieldWithDuplicate(parser, "proxies", null, parsed)) {
                 java.util.List<Proxy> proxies = new java.util.ArrayList<Proxy>();
-                settings.setProxies( proxies );
-                while ( parser.nextTag() == XmlPullParser.START_TAG )
-                {
-                    if ( "proxy".equals( parser.getName() ) )
-                    {
-                        proxies.add( parseProxy( parser, strict ) );
-                    }
-                    else
-                    {
-                        checkUnknownElement( parser, strict );
+                settings.setProxies(proxies);
+                while (parser.nextTag() == XmlPullParser.START_TAG) {
+                    if ("proxy".equals(parser.getName())) {
+                        proxies.add(parseProxy(parser, strict));
+                    } else {
+                        checkUnknownElement(parser, strict);
                     }
                 }
-            }
-            else if ( checkFieldWithDuplicate( parser, "servers", null, parsed ) )
-            {
+            } else if (checkFieldWithDuplicate(parser, "servers", null, parsed)) {
                 java.util.List<Server> servers = new java.util.ArrayList<Server>();
-                settings.setServers( servers );
-                while ( parser.nextTag() == XmlPullParser.START_TAG )
-                {
-                    if ( "server".equals( parser.getName() ) )
-                    {
-                        servers.add( parseServer( parser, strict ) );
-                    }
-                    else
-                    {
-                        checkUnknownElement( parser, strict );
+                settings.setServers(servers);
+                while (parser.nextTag() == XmlPullParser.START_TAG) {
+                    if ("server".equals(parser.getName())) {
+                        servers.add(parseServer(parser, strict));
+                    } else {
+                        checkUnknownElement(parser, strict);
                     }
                 }
-            }
-            else if ( checkFieldWithDuplicate( parser, "mirrors", null, parsed ) )
-            {
+            } else if (checkFieldWithDuplicate(parser, "mirrors", null, parsed)) {
                 java.util.List<Mirror> mirrors = new java.util.ArrayList<Mirror>();
-                settings.setMirrors( mirrors );
-                while ( parser.nextTag() == XmlPullParser.START_TAG )
-                {
-                    if ( "mirror".equals( parser.getName() ) )
-                    {
-                        mirrors.add( parseMirror( parser, strict ) );
-                    }
-                    else
-                    {
-                        checkUnknownElement( parser, strict );
+                settings.setMirrors(mirrors);
+                while (parser.nextTag() == XmlPullParser.START_TAG) {
+                    if ("mirror".equals(parser.getName())) {
+                        mirrors.add(parseMirror(parser, strict));
+                    } else {
+                        checkUnknownElement(parser, strict);
                     }
                 }
-            }
-            else if ( checkFieldWithDuplicate( parser, "profiles", null, parsed ) )
-            {
+            } else if (checkFieldWithDuplicate(parser, "profiles", null, parsed)) {
                 java.util.List<Profile> profiles = new java.util.ArrayList<Profile>();
-                settings.setProfiles( profiles );
-                while ( parser.nextTag() == XmlPullParser.START_TAG )
-                {
-                    if ( "profile".equals( parser.getName() ) )
-                    {
-                        profiles.add( parseProfile( parser, strict ) );
-                    }
-                    else
-                    {
-                        checkUnknownElement( parser, strict );
+                settings.setProfiles(profiles);
+                while (parser.nextTag() == XmlPullParser.START_TAG) {
+                    if ("profile".equals(parser.getName())) {
+                        profiles.add(parseProfile(parser, strict));
+                    } else {
+                        checkUnknownElement(parser, strict);
                     }
                 }
-            }
-            else if ( checkFieldWithDuplicate( parser, "activeProfiles", null, parsed ) )
-            {
+            } else if (checkFieldWithDuplicate(parser, "activeProfiles", null, parsed)) {
                 java.util.List<String> activeProfiles = new java.util.ArrayList<String>();
-                settings.setActiveProfiles( activeProfiles );
-                while ( parser.nextTag() == XmlPullParser.START_TAG )
-                {
-                    if ( "activeProfile".equals( parser.getName() ) )
-                    {
-                        activeProfiles.add( interpolatedTrimmed( parser.nextText(), "activeProfiles" ) );
-                    }
-                    else
-                    {
-                        checkUnknownElement( parser, strict );
+                settings.setActiveProfiles(activeProfiles);
+                while (parser.nextTag() == XmlPullParser.START_TAG) {
+                    if ("activeProfile".equals(parser.getName())) {
+                        activeProfiles.add(interpolatedTrimmed(parser.nextText(), "activeProfiles"));
+                    } else {
+                        checkUnknownElement(parser, strict);
                     }
                 }
-            }
-            else if ( checkFieldWithDuplicate( parser, "pluginGroups", null, parsed ) )
-            {
+            } else if (checkFieldWithDuplicate(parser, "pluginGroups", null, parsed)) {
                 java.util.List<String> pluginGroups = new java.util.ArrayList<String>();
-                settings.setPluginGroups( pluginGroups );
-                while ( parser.nextTag() == XmlPullParser.START_TAG )
-                {
-                    if ( "pluginGroup".equals( parser.getName() ) )
-                    {
-                        pluginGroups.add( interpolatedTrimmed( parser.nextText(), "pluginGroups" ) );
-                    }
-                    else
-                    {
-                        checkUnknownElement( parser, strict );
+                settings.setPluginGroups(pluginGroups);
+                while (parser.nextTag() == XmlPullParser.START_TAG) {
+                    if ("pluginGroup".equals(parser.getName())) {
+                        pluginGroups.add(interpolatedTrimmed(parser.nextText(), "pluginGroups"));
+                    } else {
+                        checkUnknownElement(parser, strict);
                     }
                 }
-            }
-            else
-            {
-                checkUnknownElement( parser, strict );
+            } else {
+                checkUnknownElement(parser, strict);
             }
         }
         return settings;
-    } //-- Settings parseSettings( XmlPullParser, boolean )
+    } // -- Settings parseSettings( XmlPullParser, boolean )
 
     /**
      * Method parseTrackableBase.
@@ -1486,32 +1163,26 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return TrackableBase
      */
-    private TrackableBase parseTrackableBase( XmlPullParser parser, boolean strict )
-        throws IOException, XmlPullParserException
-    {
+    private TrackableBase parseTrackableBase(XmlPullParser parser, boolean strict)
+            throws IOException, XmlPullParserException {
         String tagName = parser.getName();
         TrackableBase trackableBase = new TrackableBase();
-        for ( int i = parser.getAttributeCount() - 1; i >= 0; i-- )
-        {
-            String name = parser.getAttributeName( i );
-            String value = parser.getAttributeValue( i );
+        for (int i = parser.getAttributeCount() - 1; i >= 0; i--) {
+            String name = parser.getAttributeName(i);
+            String value = parser.getAttributeValue(i);
 
-            if ( name.indexOf( ':' ) >= 0 )
-            {
+            if (name.indexOf(':') >= 0) {
                 // just ignore attributes with non-default namespace (for example: xmlns:xsi)
-            }
-            else
-            {
-                checkUnknownAttribute( parser, name, tagName, strict );
+            } else {
+                checkUnknownAttribute(parser, name, tagName, strict);
             }
         }
         java.util.Set parsed = new java.util.HashSet();
-        while ( ( strict ? parser.nextTag() : nextTag( parser ) ) == XmlPullParser.START_TAG )
-        {
-            checkUnknownElement( parser, strict );
+        while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
+            checkUnknownElement(parser, strict);
         }
         return trackableBase;
-    } //-- TrackableBase parseTrackableBase( XmlPullParser, boolean )
+    } // -- TrackableBase parseTrackableBase( XmlPullParser, boolean )
 
     /**
      * Method read.
@@ -1522,58 +1193,52 @@ public class SettingsXpp3Reader
      * @throws XmlPullParserException
      * @return Settings
      */
-    private Settings read( XmlPullParser parser, boolean strict )
-        throws IOException, XmlPullParserException
-    {
+    private Settings read(XmlPullParser parser, boolean strict)
+            throws IOException, XmlPullParserException {
         Settings settings = null;
         int eventType = parser.getEventType();
         boolean parsed = false;
-        while ( eventType != XmlPullParser.END_DOCUMENT )
-        {
-            if ( eventType == XmlPullParser.START_TAG )
-            {
-                if ( strict && ! "settings".equals( parser.getName() ) )
-                {
-                    throw new XmlPullParserException( "Expected root element 'settings' but found '" + parser.getName() + "'", parser, null );
-                }
-                else if ( parsed )
-                {
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            if (eventType == XmlPullParser.START_TAG) {
+                if (strict && !"settings".equals(parser.getName())) {
+                    throw new XmlPullParserException(
+                            "Expected root element 'settings' but found '" + parser.getName() + "'", parser, null);
+                } else if (parsed) {
                     // fallback, already expected a XmlPullParserException due to invalid XML
-                    throw new XmlPullParserException( "Duplicated tag: 'settings'", parser, null );
+                    throw new XmlPullParserException("Duplicated tag: 'settings'", parser, null);
                 }
-                settings = parseSettings( parser, strict );
-                settings.setModelEncoding( parser.getInputEncoding() );
+                settings = parseSettings(parser, strict);
+                settings.setModelEncoding(parser.getInputEncoding());
                 parsed = true;
             }
             eventType = parser.next();
         }
-        if ( parsed )
-        {
+        if (parsed) {
             return settings;
         }
-        throw new XmlPullParserException( "Expected root element 'settings' but found no element at all: invalid XML document", parser, null );
-    } //-- Settings read( XmlPullParser, boolean )
+        throw new XmlPullParserException(
+                "Expected root element 'settings' but found no element at all: invalid XML document", parser, null);
+    } // -- Settings read( XmlPullParser, boolean )
 
     /**
      * Sets the state of the "add default entities" flag.
      * 
      * @param addDefaultEntities
      */
-    public void setAddDefaultEntities( boolean addDefaultEntities )
-    {
+    public void setAddDefaultEntities(boolean addDefaultEntities) {
         this.addDefaultEntities = addDefaultEntities;
-    } //-- void setAddDefaultEntities( boolean )
+    } // -- void setAddDefaultEntities( boolean )
 
-    public static interface ContentTransformer
-{
-    /**
-     * Interpolate the value read from the xpp3 document
-     * @param source The source value
-     * @param fieldName A description of the field being interpolated. The implementation may use this to
-     *                           log stuff.
-     * @return The interpolated value.
-     */
-    String transform( String source, String fieldName );
-}
+    public static interface ContentTransformer {
+        /**
+         * Interpolate the value read from the xpp3 document
+         * 
+         * @param source    The source value
+         * @param fieldName A description of the field being interpolated. The
+         *                  implementation may use this to log stuff.
+         * @return The interpolated value.
+         */
+        String transform(String source, String fieldName);
+    }
 
 }

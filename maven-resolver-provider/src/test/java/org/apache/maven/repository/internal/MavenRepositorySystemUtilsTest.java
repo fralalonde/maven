@@ -1,5 +1,7 @@
 package org.apache.maven.repository.internal;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,14 +20,10 @@ package org.apache.maven.repository.internal;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.eclipse.aether.RepositorySystem;
 import org.eclipse.aether.impl.MetadataGeneratorFactory;
 import org.eclipse.aether.spi.locator.ServiceLocator;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class MavenRepositorySystemUtilsTest {
 

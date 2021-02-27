@@ -1,5 +1,11 @@
 package org.apache.maven.project.collector;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,7 +24,6 @@ package org.apache.maven.project.collector;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.DefaultMaven;
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.apache.maven.model.building.ModelSource;
@@ -27,12 +32,6 @@ import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.ProjectBuilder;
 import org.apache.maven.project.ProjectBuildingException;
 import org.apache.maven.project.ProjectBuildingRequest;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Strategy to collect projects for building when the Maven invocation is not in
@@ -58,6 +57,6 @@ public class PomlessCollectionStrategy
         project.setExecutionRoot(true);
         request.setProjectPresent(false);
 
-        return Arrays.asList(project);
+        return List.of(project);
     }
 }

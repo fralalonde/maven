@@ -1,5 +1,16 @@
 package org.apache.maven.project;
 
+import static org.apache.maven.test.PlexusExtension.getBasedir;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.endsWith;
+import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.startsWith;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,17 +29,13 @@ package org.apache.maven.project;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
 import javax.inject.Inject;
-
-import org.apache.maven.test.PlexusTest;
 import org.apache.maven.artifact.repository.layout.DefaultRepositoryLayout;
 import org.apache.maven.model.Plugin;
 import org.apache.maven.model.PluginExecution;
@@ -36,32 +43,20 @@ import org.apache.maven.model.building.ModelBuildingRequest;
 import org.apache.maven.project.harness.PomTestWrapper;
 import org.apache.maven.repository.RepositorySystem;
 import org.apache.maven.repository.internal.MavenRepositorySystemUtils;
+import org.apache.maven.test.PlexusTest;
 import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.internal.impl.SimpleLocalRepositoryManagerFactory;
 import org.eclipse.aether.repository.LocalRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.apache.maven.test.PlexusExtension.getBasedir;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.endsWith;
-import static org.hamcrest.Matchers.lessThan;
-import static org.hamcrest.Matchers.startsWith;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 @PlexusTest
 public class PomConstructionTest {
-    private static String BASE_DIR = "src/test";
+    private static final String BASE_DIR = "src/test";
 
-    private static String BASE_POM_DIR = BASE_DIR + "/resources-project-builder";
+    private static final String BASE_POM_DIR = BASE_DIR + "/resources-project-builder";
 
-    private static String BASE_MIXIN_DIR = BASE_DIR + "/resources-mixins";
+    private static final String BASE_MIXIN_DIR = BASE_DIR + "/resources-mixins";
 
     @Inject
     private DefaultProjectBuilder projectBuilder;
@@ -72,8 +67,7 @@ public class PomConstructionTest {
     private File testDirectory;
 
     @BeforeEach
-    public void setUp()
-            throws Exception {
+    public void setUp() {
         testDirectory = new File(getBasedir(), BASE_POM_DIR);
         new File(getBasedir(), BASE_MIXIN_DIR);
     }
@@ -159,7 +153,7 @@ public class PomConstructionTest {
     public void testThatExecutionsWithoutIdsAreMergedAndTheChildWins()
             throws Exception {
         PomTestWrapper tester = buildPom("micromailer");
-        assertModelEquals(tester, "child-descriptor", "build/plugins[1]/executions[1]/goals[1]");
+        assertModelEquals(tester);
     }
 
     /*
@@ -616,22 +610,22 @@ public class PomConstructionTest {
     public void testNonInheritedElementsInSubtreesOverriddenByChild()
             throws Exception {
         PomTestWrapper pom = buildPom("limited-inheritance/child");
-        assertEquals(null, pom.getValue("organization/url"));
-        assertEquals(null, pom.getValue("issueManagement/system"));
+        assertNull(pom.getValue("organization/url"));
+        assertNull(pom.getValue("issueManagement/system"));
         assertEquals(0, ((List<?>) pom.getValue("ciManagement/notifiers")).size());
         assertEquals("child-distros", pom.getValue("distributionManagement/repository/id"));
         assertEquals("ssh://child.url/distros", pom.getValue("distributionManagement/repository/url"));
-        assertEquals(null, pom.getValue("distributionManagement/repository/name"));
+        assertNull(pom.getValue("distributionManagement/repository/name"));
         assertEquals(true, pom.getValue("distributionManagement/repository/uniqueVersion"));
         assertEquals("default", pom.getValue("distributionManagement/repository/layout"));
         assertEquals("child-snaps", pom.getValue("distributionManagement/snapshotRepository/id"));
         assertEquals("ssh://child.url/snaps", pom.getValue("distributionManagement/snapshotRepository/url"));
-        assertEquals(null, pom.getValue("distributionManagement/snapshotRepository/name"));
+        assertNull(pom.getValue("distributionManagement/snapshotRepository/name"));
         assertEquals(true, pom.getValue("distributionManagement/snapshotRepository/uniqueVersion"));
         assertEquals("default", pom.getValue("distributionManagement/snapshotRepository/layout"));
         assertEquals("child-site", pom.getValue("distributionManagement/site/id"));
         assertEquals("scp://child.url/site", pom.getValue("distributionManagement/site/url"));
-        assertEquals(null, pom.getValue("distributionManagement/site/name"));
+        assertNull(pom.getValue("distributionManagement/site/name"));
     }
 
     @Test
@@ -818,7 +812,7 @@ public class PomConstructionTest {
         assertEquals("CHILD-3", pom.getValue(prefix + "stringParams/stringParam[6]"));
         assertEquals("CHILD-2", pom.getValue(prefix + "stringParams/stringParam[7]"));
         assertEquals("CHILD-4", pom.getValue(prefix + "stringParams/stringParam[8]"));
-        assertEquals(null, pom.getValue(prefix + "stringParams/stringParam[9]"));
+        assertNull(pom.getValue(prefix + "stringParams/stringParam[9]"));
         assertEquals("PARENT-1", pom.getValue(prefix + "listParam/listParam[1]"));
         assertEquals("PARENT-3", pom.getValue(prefix + "listParam/listParam[2]"));
         assertEquals("PARENT-2", pom.getValue(prefix + "listParam/listParam[3]"));
@@ -827,7 +821,7 @@ public class PomConstructionTest {
         assertEquals("CHILD-3", pom.getValue(prefix + "listParam/listParam[6]"));
         assertEquals("CHILD-2", pom.getValue(prefix + "listParam/listParam[7]"));
         assertEquals("CHILD-4", pom.getValue(prefix + "listParam/listParam[8]"));
-        assertEquals(null, pom.getValue(prefix + "listParam/listParam[9]"));
+        assertNull(pom.getValue(prefix + "listParam/listParam[9]"));
     }
 
     /* MNG-4000 */
@@ -995,8 +989,8 @@ public class PomConstructionTest {
         assertEquals("src", pom.getValue("build/plugins[1]/configuration/domParam/copy/@todir"));
         assertEquals("true", pom.getValue("build/plugins[1]/configuration/domParam/copy/@overwrite"));
         assertEquals("target", pom.getValue("build/plugins[1]/configuration/domParam/copy/fileset/@dir"));
-        assertEquals(null, pom.getValue("build/plugins[1]/configuration/domParam/copy/fileset/@todir"));
-        assertEquals(null, pom.getValue("build/plugins[1]/configuration/domParam/copy/fileset/@overwrite"));
+        assertNull(pom.getValue("build/plugins[1]/configuration/domParam/copy/fileset/@todir"));
+        assertNull(pom.getValue("build/plugins[1]/configuration/domParam/copy/fileset/@overwrite"));
     }
 
     /** MNG-4053 */
@@ -1007,8 +1001,8 @@ public class PomConstructionTest {
         assertEquals("src", pom.getValue("build/plugins[1]/configuration/domParam/copy/@todir"));
         assertEquals("true", pom.getValue("build/plugins[1]/configuration/domParam/copy/@overwrite"));
         assertEquals("target", pom.getValue("build/plugins[1]/configuration/domParam/copy/fileset/@dir"));
-        assertEquals(null, pom.getValue("build/plugins[1]/configuration/domParam/copy/fileset/@todir"));
-        assertEquals(null, pom.getValue("build/plugins[1]/configuration/domParam/copy/fileset/@overwrite"));
+        assertNull(pom.getValue("build/plugins[1]/configuration/domParam/copy/fileset/@todir"));
+        assertNull(pom.getValue("build/plugins[1]/configuration/domParam/copy/fileset/@overwrite"));
     }
 
     @Test
@@ -1018,8 +1012,8 @@ public class PomConstructionTest {
         assertEquals("src", pom.getValue("build/plugins[1]/configuration/domParam/copy/@todir"));
         assertEquals("true", pom.getValue("build/plugins[1]/configuration/domParam/copy/@overwrite"));
         assertEquals("target", pom.getValue("build/plugins[1]/configuration/domParam/copy/fileset/@dir"));
-        assertEquals(null, pom.getValue("build/plugins[1]/configuration/domParam/copy/fileset/@todir"));
-        assertEquals(null, pom.getValue("build/plugins[1]/configuration/domParam/copy/fileset/@overwrite"));
+        assertNull(pom.getValue("build/plugins[1]/configuration/domParam/copy/fileset/@todir"));
+        assertNull(pom.getValue("build/plugins[1]/configuration/domParam/copy/fileset/@overwrite"));
     }
 
     @Test
@@ -1103,8 +1097,7 @@ public class PomConstructionTest {
         testCompleteModel(pom);
     }
 
-    private void testCompleteModel(PomTestWrapper pom)
-            throws Exception {
+    private void testCompleteModel(PomTestWrapper pom) {
         assertEquals("4.0.0", pom.getValue("modelVersion"));
 
         assertEquals("org.apache.maven.its.mng", pom.getValue("groupId"));
@@ -1511,8 +1504,7 @@ public class PomConstructionTest {
 
     /* MNG-4193 */
     @Test
-    public void testValidationErrorUponNonUniqueArtifactRepositoryId()
-            throws Exception {
+    public void testValidationErrorUponNonUniqueArtifactRepositoryId() {
         assertThrows(
                 ProjectBuildingException.class,
                 () -> buildPom("unique-repo-id/artifact-repo"),
@@ -1521,8 +1513,7 @@ public class PomConstructionTest {
 
     /* MNG-4193 */
     @Test
-    public void testValidationErrorUponNonUniquePluginRepositoryId()
-            throws Exception {
+    public void testValidationErrorUponNonUniquePluginRepositoryId() {
         assertThrows(
                 ProjectBuildingException.class,
                 () -> buildPom("unique-repo-id/plugin-repo"),
@@ -1531,8 +1522,7 @@ public class PomConstructionTest {
 
     /* MNG-4193 */
     @Test
-    public void testValidationErrorUponNonUniqueArtifactRepositoryIdInProfile()
-            throws Exception {
+    public void testValidationErrorUponNonUniqueArtifactRepositoryIdInProfile() {
         assertThrows(
                 ProjectBuildingException.class,
                 () -> buildPom("unique-repo-id/artifact-repo-in-profile"),
@@ -1541,8 +1531,7 @@ public class PomConstructionTest {
 
     /* MNG-4193 */
     @Test
-    public void testValidationErrorUponNonUniquePluginRepositoryIdInProfile()
-            throws Exception {
+    public void testValidationErrorUponNonUniquePluginRepositoryIdInProfile() {
         assertThrows(
                 ProjectBuildingException.class,
                 () -> buildPom("unique-repo-id/plugin-repo-in-profile"),
@@ -1615,8 +1604,7 @@ public class PomConstructionTest {
     }
 
     @Test
-    public void testParentPomPackagingMustBePom()
-            throws Exception {
+    public void testParentPomPackagingMustBePom() {
         assertThrows(
                 ProjectBuildingException.class,
                 () -> buildPom("parent-pom-packaging/sub"),
@@ -1727,8 +1715,7 @@ public class PomConstructionTest {
     }
 
     @Test
-    public void testProjectArtifactIdIsNotInheritedButMandatory()
-            throws Exception {
+    public void testProjectArtifactIdIsNotInheritedButMandatory() {
         assertThrows(
                 ProjectBuildingException.class,
                 () -> buildPom("artifact-id-inheritance/child"),
@@ -1785,8 +1772,8 @@ public class PomConstructionTest {
         return new PomTestWrapper(pomFile, projectBuilder.build(pomFile, config).getProject());
     }
 
-    protected void assertModelEquals(PomTestWrapper pom, Object expected, String expression) {
-        assertEquals(expected, pom.getValue(expression));
+    protected void assertModelEquals(PomTestWrapper pom) {
+        assertEquals("child-descriptor", pom.getValue("build/plugins[1]/executions[1]/goals[1]"));
     }
 
     private static String createPath(List<String> elements) {
@@ -1794,6 +1781,6 @@ public class PomConstructionTest {
         for (String s : elements) {
             buffer.append(s).append(File.separator);
         }
-        return buffer.toString().substring(0, buffer.toString().length() - 1);
+        return buffer.substring(0, buffer.toString().length() - 1);
     }
 }

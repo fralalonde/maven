@@ -18,7 +18,24 @@ package org.apache.maven.settings.building;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import java.io.File;
 import java.util.Properties;
 
@@ -43,9 +60,8 @@ public interface SettingsBuildingRequest {
      *
      * @param globalSettingsFile The global settings file, may be {@code null} to
      *                           disable global settings.
-     * @return This request, never {@code null}.
      */
-    SettingsBuildingRequest setGlobalSettingsFile(File globalSettingsFile);
+    void setGlobalSettingsFile(File globalSettingsFile);
 
     /**
      * Gets the global settings source.
@@ -78,9 +94,8 @@ public interface SettingsBuildingRequest {
      *
      * @param userSettingsFile The user settings file, may be {@code null} to
      *                         disable user settings.
-     * @return This request, never {@code null}.
      */
-    SettingsBuildingRequest setUserSettingsFile(File userSettingsFile);
+    void setUserSettingsFile(File userSettingsFile);
 
     /**
      * Gets the user settings source.
@@ -114,9 +129,8 @@ public interface SettingsBuildingRequest {
      * {@link System#getProperties()} and environment variables.
      *
      * @param systemProperties The system properties, may be {@code null}.
-     * @return This request, never {@code null}.
      */
-    SettingsBuildingRequest setSystemProperties(Properties systemProperties);
+    void setSystemProperties(Properties systemProperties);
 
     /**
      * Gets the user properties to use for interpolation. The user properties have
@@ -133,8 +147,7 @@ public interface SettingsBuildingRequest {
      * {@code -Dkey=value} parameter on the command line.
      *
      * @param userProperties The user properties, may be {@code null}.
-     * @return This request, never {@code null}.
      */
-    SettingsBuildingRequest setUserProperties(Properties userProperties);
+    void setUserProperties(Properties userProperties);
 
 }

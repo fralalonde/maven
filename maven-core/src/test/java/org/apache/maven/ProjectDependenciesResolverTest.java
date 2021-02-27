@@ -1,5 +1,9 @@
 package org.apache.maven;
 
+import static org.apache.maven.test.PlexusExtension.getBasedir;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.endsWith;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more contributor license
  * agreements. See the NOTICE file distributed with this work for additional information regarding
@@ -14,24 +18,16 @@ package org.apache.maven;
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
-
+import javax.inject.Inject;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.execution.MavenSession;
 import org.apache.maven.project.MavenProject;
-
-import javax.inject.Inject;
 import org.junit.jupiter.api.Test;
-
-import static org.apache.maven.test.PlexusExtension.getBasedir;
-import static org.hamcrest.Matchers.endsWith;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ProjectDependenciesResolverTest
         extends AbstractCoreMavenComponentTestCase {

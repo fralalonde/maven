@@ -1,5 +1,14 @@
 package org.apache.maven.project;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,21 +27,10 @@ package org.apache.maven.project;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.codehaus.plexus.util.ReaderFactory;
 import org.codehaus.plexus.util.xml.Xpp3Dom;
 import org.codehaus.plexus.util.xml.Xpp3DomBuilder;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.jar.JarFile;
-import java.util.zip.ZipEntry;
 
 /**
  * Creates an extension descriptor from some XML stream.
@@ -94,7 +92,7 @@ public class ExtensionDescriptorBuilder {
         try {
             dom = Xpp3DomBuilder.build(ReaderFactory.newXmlReader(is));
         } catch (XmlPullParserException e) {
-            throw (IOException) new IOException(e.getMessage()).initCause(e);
+            throw (IOException) new IOException(e.getMessage(), e);
         }
 
         if (!"extension".equals(dom.getName())) {

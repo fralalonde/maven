@@ -1,5 +1,9 @@
 package org.apache.maven.logwrapper;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,14 +22,8 @@ package org.apache.maven.logwrapper;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.junit.jupiter.api.Test;
 import org.slf4j.event.Level;
-
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LogLevelRecorderTest {
     @Test

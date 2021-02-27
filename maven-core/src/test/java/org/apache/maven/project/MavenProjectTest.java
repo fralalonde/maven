@@ -1,5 +1,10 @@
 package org.apache.maven.project;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,23 +23,15 @@ package org.apache.maven.project;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.maven.model.DependencyManagement;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Parent;
 import org.apache.maven.model.Profile;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MavenProjectTest
         extends AbstractMavenProjectTestCase {
@@ -118,17 +115,17 @@ public class MavenProjectTest
         assertNotNull(dep, "No dependencyManagement");
         List<?> list = dep.getDependencies();
         assertNotNull(list, "No dependencies");
-        assertTrue(!list.isEmpty(), "Empty dependency list");
+        assertFalse(list.isEmpty(), "Empty dependency list");
 
         Map<?, ?> map = projectToClone.getManagedVersionMap();
         assertNotNull(map, "No ManagedVersionMap");
-        assertTrue(!map.isEmpty(), "ManagedVersionMap is empty");
+        assertFalse(map.isEmpty(), "ManagedVersionMap is empty");
 
         MavenProject clonedProject = projectToClone.clone();
         assertEquals("maven-core", clonedProject.getArtifactId());
         Map<?, ?> clonedMap = clonedProject.getManagedVersionMap();
         assertNotNull(clonedMap, "ManagedVersionMap not copied");
-        assertTrue(!clonedMap.isEmpty(), "ManagedVersionMap is empty");
+        assertFalse(clonedMap.isEmpty(), "ManagedVersionMap is empty");
         assertTrue(clonedMap.containsKey("maven-test:maven-test-b:jar"), "ManagedVersionMap does not contain test key");
     }
 

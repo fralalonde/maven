@@ -1,4 +1,4 @@
-package org.apache.maven;
+package org.apache.maven.model.building;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -36,43 +36,42 @@ package org.apache.maven;
  * specific language governing permissions and limitations
  * under the License.
  */
-import java.io.File;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.net.URI;
 
 /**
- * Signals a collision of two or more projects with the same g:a:v during a
- * reactor build.
- *
- * @author Benjamin Bentmann
+ * Provides access to the contents of a POM independently of the backing store
+ * (e.g. file system, database, memory).
+ * <p>
+ * Unlike {@link Source}, this interface supports loading of parent POM(s) from
+ * the same backing store and allows construction of MavenProject instances
+ * without the need to have parent POM(s) available from local or remote
+ * repositories.
+ * <p>
+ * ModelSource instances are cached in
+ * {@link ModelBuildingRequest#getModelCache()}. Implementations must guarantee
+ * that the connection to the backing store remains active until request's
+ * {@link ModelCache} is discarded or flushed.
  */
-public class DuplicateProjectException
-        extends MavenExecutionException {
-
-    private final Map<String, List<File>> collisions;
+public interface Source extends org.apache.maven.building.Source {
+    /**
+     * Returns model source identified by a path relative to this model source POM.
+     * Implementation <strong>MUST</strong> be able to accept <code>relPath</code>
+     * parameter values that
+     * <ul>
+     * <li>use either / or \ file path separator</li>
+     * <li>have .. parent directory references</li>
+     * <li>point either at file or directory, in the latter case POM file name
+     * 'pom.xml' needs to be used by the requested model source.</li>
+     * </ul>
+     *
+     * @param relPath is the path of the requested model source relative to this
+     *                model source POM.
+     * @return related model source or <code>null</code> if no such model source.
+     */
+    Source getRelatedSource(String relPath);
 
     /**
-     * Creates a new exception with specified details.
-     *
-     * @param message    The message text, may be {@code null}.
-     * @param collisions The POM files of the projects that collided, indexed by
-     *                   their g:a:v, may be {@code null}.
+     * Returns location of the POM, never <code>null</code>.
      */
-    public DuplicateProjectException(String message, Map<String, List<File>> collisions) {
-        super(message, (File) null);
-
-        this.collisions = (collisions != null) ? collisions : new LinkedHashMap<>();
-    }
-
-    /**
-     * Gets the POM files of the projects that collided.
-     *
-     * @return The POM files of the projects that collided, indexed by their g:a:v,
-     *         never {@code null}.
-     */
-    public Map<String, List<File>> getCollisions() {
-        return collisions;
-    }
-
+    URI getLocationURI();
 }

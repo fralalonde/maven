@@ -1,5 +1,10 @@
 package org.apache.maven.execution;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import java.util.Optional;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,19 +23,11 @@ package org.apache.maven.execution;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import org.apache.maven.lifecycle.LifecycleExecutionException;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.project.MavenProject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
-
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 
 public class DefaultBuildResumptionAnalyzerTest {
     private final DefaultBuildResumptionAnalyzer analyzer = new DefaultBuildResumptionAnalyzer();
@@ -51,7 +48,7 @@ public class DefaultBuildResumptionAnalyzerTest {
         Optional<BuildResumptionData> result = analyzer.determineBuildResumptionData(executionResult);
 
         assertThat(result.isPresent(), is(true));
-        assertThat(result.get().getRemainingProjects(), is(asList("test:B")));
+        assertThat(result.get().getRemainingProjects(), is(singletonList("test:B")));
     }
 
     @Test
@@ -75,14 +72,14 @@ public class DefaultBuildResumptionAnalyzerTest {
         Optional<BuildResumptionData> result = analyzer.determineBuildResumptionData(executionResult);
 
         assertThat(result.isPresent(), is(true));
-        assertThat(result.get().getRemainingProjects(), is(asList("test:B")));
+        assertThat(result.get().getRemainingProjects(), is(singletonList("test:B")));
     }
 
     @Test
     public void projectsDependingOnFailedProjectsAreNotExcluded() {
         MavenProject projectA = createSucceededMavenProject("A");
         MavenProject projectB = createFailedMavenProject("B");
-        MavenProject projectC = createSkippedMavenProject("C");
+        MavenProject projectC = createSkippedMavenProject();
         projectC.setDependencies(singletonList(toDependency(projectB)));
         executionResult.setTopologicallySortedProjects(asList(projectA, projectB, projectC));
 
@@ -121,8 +118,8 @@ public class DefaultBuildResumptionAnalyzerTest {
         return dependency;
     }
 
-    private MavenProject createSkippedMavenProject(String artifactId) {
-        return createMavenProject(artifactId);
+    private MavenProject createSkippedMavenProject() {
+        return createMavenProject("C");
     }
 
     private MavenProject createSucceededMavenProject(String artifactId) {

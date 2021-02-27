@@ -1,5 +1,6 @@
 package org.apache.maven;
 
+import static org.apache.maven.test.PlexusExtension.getBasedir;
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -18,13 +19,9 @@ package org.apache.maven;
  * specific language governing permissions and limitations
  * under the License.
  */
-
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
-
+import java.util.*;
+import javax.inject.Inject;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.InvalidRepositoryException;
 import org.apache.maven.artifact.repository.ArtifactRepository;
@@ -45,17 +42,11 @@ import org.apache.maven.project.ProjectBuildingRequest;
 import org.apache.maven.repository.RepositorySystem;
 import org.apache.maven.repository.internal.MavenRepositorySystemUtils;
 import org.apache.maven.test.PlexusTest;
-import org.codehaus.plexus.ContainerConfiguration;
-import org.codehaus.plexus.PlexusConstants;
 import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.util.FileUtils;
 import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.internal.impl.SimpleLocalRepositoryManagerFactory;
 import org.eclipse.aether.repository.LocalRepository;
-
-import javax.inject.Inject;
-
-import static org.apache.maven.test.PlexusExtension.getBasedir;
 
 @PlexusTest
 public abstract class AbstractCoreMavenComponentTestCase {
@@ -89,11 +80,11 @@ public abstract class AbstractCoreMavenComponentTestCase {
                 .setPom(pom)
                 .setProjectPresent(true)
                 .setShowErrors(true)
-                .setPluginGroups(Arrays.asList("org.apache.maven.plugins"))
+                .setPluginGroups(Collections.singletonList("org.apache.maven.plugins"))
                 .setLocalRepository(getLocalRepository())
                 .setRemoteRepositories(getRemoteRepositories())
                 .setPluginArtifactRepositories(getPluginArtifactRepositories())
-                .setGoals(Arrays.asList("package"));
+                .setGoals(Collections.singletonList("package"));
 
         if (pom != null) {
             request.setMultiModuleProjectDirectory(pom.getParentFile());
@@ -191,7 +182,7 @@ public abstract class AbstractCoreMavenComponentTestCase {
         repository.setReleases(policy);
         repository.setSnapshots(policy);
 
-        return Arrays.asList(repositorySystem.buildArtifactRepository(repository));
+        return Collections.singletonList(repositorySystem.buildArtifactRepository(repository));
     }
 
     protected List<ArtifactRepository> getPluginArtifactRepositories()
@@ -206,8 +197,8 @@ public abstract class AbstractCoreMavenComponentTestCase {
         return repositorySystem.createLocalRepository(repoDir);
     }
 
-    protected class ProjectBuilder {
-        private MavenProject project;
+    protected static class ProjectBuilder {
+        private final MavenProject project;
 
         public ProjectBuilder(MavenProject project) {
             this.project = project;
@@ -249,9 +240,9 @@ public abstract class AbstractCoreMavenComponentTestCase {
             return addDependency(groupId, artifactId, version, scope, null, exclusion);
         }
 
-        public ProjectBuilder addDependency(String groupId, String artifactId, String version, String scope,
+        public void addDependency(String groupId, String artifactId, String version, String scope,
                 String systemPath) {
-            return addDependency(groupId, artifactId, version, scope, systemPath, null);
+            addDependency(groupId, artifactId, version, scope, systemPath, null);
         }
 
         public ProjectBuilder addDependency(String groupId, String artifactId, String version, String scope,

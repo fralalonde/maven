@@ -99,7 +99,7 @@ under the License.
     <module>maven-builder-support</module>
     <module>maven-model</module>
     <module>maven-model-builder</module>
-    <module>maven-compat</module>
+    <!--<module>maven-compat</module>-->
     <module>maven-core</module>
     <module>maven-settings</module>
     <module>maven-settings-builder</module>
@@ -234,11 +234,6 @@ under the License.
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-model-builder</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-compat</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -606,6 +601,9 @@ under the License.
           <groupId>org.codehaus.modello</groupId>
           <artifactId>modello-maven-plugin</artifactId>
           <version>${modelloVersion}</version>
+          <configuration>
+            <useJava5>true</useJava5>
+          </configuration>
           <executions>
             <execution>
               <id>modello-site-docs</id>
